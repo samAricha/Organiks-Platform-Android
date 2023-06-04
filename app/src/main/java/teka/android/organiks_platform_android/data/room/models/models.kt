@@ -14,7 +14,7 @@ data class EggType(
 
 )
 
-@Entity(tableName = "egg_collection")
+@Entity(tableName = "egg_collections")
 data class EggCollection(
     @ColumnInfo(name = "egg_collection_id")
     @PrimaryKey(autoGenerate = true)
