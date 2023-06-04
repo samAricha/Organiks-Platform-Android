@@ -9,7 +9,6 @@ data class ProductionRecordingState(
     val eggTypesList: List<EggType> = emptyList(),
     val eggTypeName: String = "",
     val eggCollectionQty: String = "",
-
     val date: Date = Date(),
     val isScreenDialogDismissed: Boolean = true,
     val isUpdatingItem: Boolean = false,

@@ -1,6 +1,9 @@
 package teka.android.organiks_platform_android.presentation.records.production.productionRecording
 
+import android.app.DatePickerDialog
+import android.content.Context
 import android.graphics.drawable.shapes.Shape
+import android.widget.DatePicker
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
 import teka.android.organiks_platform_android.ui.theme.Shapes
+import java.util.*
 
 @Composable
 fun ProductionRecordingScreen(
@@ -43,8 +47,31 @@ fun ProductionRecordingScreen(
 
 }
 
+@Composable
+fun datePickerDialog(
+    context: Context,
+    onDateSelected: (Date) -> Unit
+): DatePickerDialog {
+    val calendar = Calendar.getInstance()
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+    calendar.time = Date()
 
 
+    val mDatePickerDialog = DatePickerDialog(
+        context,
+        { _: DatePicker,
+          mYear: Int, mMonth: Int,
+          mDayofMonth: Int ->
+            val calendar = Calendar.getInstance()
+            calendar.set(mYear, mMonth, mDayofMonth)
+            onDateSelected.invoke(calendar.time)
+
+        }, year, month, day
+    )
+    return mDatePickerDialog
+}
 
 
 @Composable
