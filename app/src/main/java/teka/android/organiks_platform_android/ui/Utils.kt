@@ -4,10 +4,13 @@ import androidx.annotation.DrawableRes
 import teka.android.organiks_platform_android.R
 
 object Utils {
-    val category = listOf(
+    val productionCategory = listOf(
+        Category(title = "Eggs", resId = R.drawable.ic_egg_collection, id = 0),
+        Category(title = "Milk", resId = R.drawable.ic_milk_can, id = 1),
+    )
+    val stockCategory = listOf(
         Category(title = "Chicken", resId = R.drawable.ic_chicken, id = 0),
-        Category(title = "Eggs", resId = R.drawable.ic_egg_collection, id = 1),
-
+        Category(title = "Sheep", resId = R.drawable.ic_sheep, id = 1),
     )
 }
 
