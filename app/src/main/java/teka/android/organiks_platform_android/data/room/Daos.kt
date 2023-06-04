@@ -7,7 +7,7 @@ import teka.android.organiks_platform_android.data.room.models.EggType
 
 
 @Dao
-interface ItemDao{
+interface EggCollectionDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(eggCollection: EggCollection)
 
