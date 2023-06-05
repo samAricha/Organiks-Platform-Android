@@ -14,6 +14,14 @@ class Repository(
     val eggTypes = eggTypeDao.getAllEggTypes()
     val getEggCollections = eggCollectionDao.getAllEggCollections()
 
+    //getting our data while filtering it
+
+    fun getEggCollectionById(id: Int) = eggCollectionDao
+        .getEggCollectionById(id)
+
+    fun getEggTypeById(id: Int) = eggTypeDao
+        .getEggType(id)
+
     //the following are functions that are going to help us insert/save our data
 
     suspend fun insertEggCollection(eggCollection: EggCollection){

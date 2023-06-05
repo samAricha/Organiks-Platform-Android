@@ -22,7 +22,7 @@ interface EggCollectionDao{
     fun getAllEggCollections(): Flow<List<EggCollection>>
 
     @Query("SELECT * FROM egg_collections WHERE collection_id=:collectionId")
-    fun getEggCollection(collectionId:Int): Flow<EggCollection>
+    fun getEggCollectionById(collectionId:Int): Flow<EggCollection>
 
 }
 

@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
 import teka.android.organiks_platform_android.ui.theme.Shapes
@@ -26,22 +27,27 @@ import java.util.*
 
 @Composable
 fun ProductionRecordingScreen(
-    state: ProductionRecordingState,
-    onCategoryChange:(Category) -> Unit,
+    id: Int,
+    navigateUp: () -> Unit
 ){
-//    Production Category Section
-    LazyRow{
-        items(Utils.productionCategory){ category: Category ->
-            CategoryItem(iconRes = category.resId,
-                title = category.title,
-                selected = category == state.category
-            ) {
-                onCategoryChange(category)
-            }
-            Spacer(modifier = Modifier.size(16.dp))
+    val viewModel =
+        viewModel<ProductionRecordingViewModel>(factory = ProductionRecordingViewModelFactory(id))
+    val state = viewModel.state
+//    val onCategoryChange = viewModel::on
 
-        }
-    }
+//    Production Category Section
+//    LazyRow{
+//        items(Utils.productionCategory){ category: Category ->
+//            CategoryItem(iconRes = category.resId,
+//                title = category.title,
+//                selected = category == state.category
+//            ) {
+//                onCategoryChange(category)
+//            }
+//            Spacer(modifier = Modifier.size(16.dp))
+//
+//        }
+//    }
 
 //    Production Entry component
 

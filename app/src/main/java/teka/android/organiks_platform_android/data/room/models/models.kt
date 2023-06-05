@@ -9,7 +9,7 @@ import java.util.*
 data class EggType(
     @ColumnInfo(name = "egg_type_id")
     @PrimaryKey
-    val id: Int,
+    val id: Int = 0,
     val name:String
 
 )
@@ -20,7 +20,7 @@ data class EggCollection(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val qty:String,
-    val cracked:String,
+    val cracked:Int,
     val eggTypeId: Int,
     val date: Date,
 )
