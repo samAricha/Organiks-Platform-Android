@@ -12,7 +12,8 @@ object OrganiksDI {
     val repository by lazy {
         Repository(
             eggTypeDao = db.eggTypeDao(),
-            eggCollectionDao = db.eggCollectionDao()
+            eggCollectionDao = db.eggCollectionDao(),
+            productionCategoryDao = db.productionCategoryDao()
         )
     }
 

@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
+import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 import teka.android.organiks_platform_android.di.OrganiksDI
 import teka.android.organiks_platform_android.repository.Repository
 import teka.android.organiks_platform_android.ui.Category
@@ -27,24 +28,28 @@ class ProductionRecordingViewModel
         private set
 
     init {
-
+        addProductionCategories()
+        getEggTypes()
 
         if(eggCollectionId != -1){
             viewModelScope.launch {
                 repository.getEggCollectionById(eggCollectionId)
                     .collectLatest {
-//                        val eggType: Flow<EggType> = repository.getEggTypeById(it.eggTypeId);
-//
-//                        var eggTypeName = ""
-//                        eggType.collect { eggType ->
-//                            // Access the properties of the EggType object here
-//                            eggTypeName = eggType.name
-//                        }
+                        val eggType: Flow<EggType> = repository.getEggTypeById(it.eggTypeId);
+
+                        var eggTypeName = ""
+                        eggType.collect { eggType ->
+                            // Access the properties of the EggType object here
+                            eggTypeName = eggType.name
+                        }
                         state = state.copy(
-                            eggTypeId = it.eggTypeId,
+                            eggTypeName = eggTypeName,
                             date = it.date,
                             eggCollectionQty = it.qty,
-                            eggsCracked = it.cracked
+                            eggsCracked = it.cracked,
+                            productionCategory = Utils.productionCategory.find { c ->
+                                c.id == 0
+                            } ?: Category(),
                         ) }
             }
         }
@@ -59,12 +64,19 @@ class ProductionRecordingViewModel
         }
     }
 
+    val isFieldNotEmpty: Boolean
+        get() = state.eggTypes.isNotEmpty() &&
+                state.eggCollectionQty.isNotEmpty()
+
 
     //methods for modifying state
-
-    fun onEggTypeId(newValue: Int){
-        state = state.copy(eggTypeId = newValue)
+    fun onCategoryChange(newValue: Category){
+        state = state.copy(productionCategory = newValue)
     }
+    fun onEggTypeChange(newValue: String){
+        state = state.copy(eggTypeName = newValue)
+    }
+
 
     fun onQtyChange(newValue: String){
         state = state.copy(eggCollectionQty = newValue)
@@ -77,6 +89,25 @@ class ProductionRecordingViewModel
     fun onScreenDialogDismissed(newValue: Boolean){
         state = state.copy(isScreenDialogDismissed = newValue)
     }
+
+    //THIS IS CURRENTLY EGG COLLECTION BUT SHOULD BE
+    //ADD CATEGORY ITEM
+    private fun addProductionCategories(){
+        viewModelScope.launch {
+            Utils.productionCategory.forEach{
+                repository.insertProductionCategory(
+                    ProductionCategory(
+                        id = it.id,
+                        name = it.title
+                    )
+                )
+
+            }
+        }
+    }
+
+
+
 
     fun addEggCollection(){
         viewModelScope.launch {
@@ -144,4 +175,5 @@ data class ProductionRecordingState(
     val date: Date = Date(),
     val isScreenDialogDismissed: Boolean = true,
     val isUpdatingItem: Boolean = false,
+    val productionCategory: Category = Category()
 )

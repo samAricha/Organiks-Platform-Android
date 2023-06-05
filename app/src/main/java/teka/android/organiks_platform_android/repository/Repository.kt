@@ -2,12 +2,15 @@ package teka.android.organiks_platform_android.repository
 
 import teka.android.organiks_platform_android.data.room.EggCollectionDao
 import teka.android.organiks_platform_android.data.room.EggTypeDao
+import teka.android.organiks_platform_android.data.room.ProductionCategoryDao
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
+import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 
 class Repository(
     private val eggTypeDao: EggTypeDao,
     private val eggCollectionDao: EggCollectionDao,
+    private val productionCategoryDao: ProductionCategoryDao
 ) {
     //the following are methods which are going to help us get our data.
 
@@ -23,6 +26,10 @@ class Repository(
         .getEggType(id)
 
     //the following are functions that are going to help us insert/save our data
+
+    suspend fun insertProductionCategory(productionCategory: ProductionCategory){
+        productionCategoryDao.insertProductionCategory(productionCategory = productionCategory)
+    }
 
     suspend fun insertEggCollection(eggCollection: EggCollection){
         eggCollectionDao.insert(eggCollection)

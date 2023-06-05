@@ -18,16 +18,19 @@ enum class Routes{
 fun OrganiksAndroidNavigation(
     navHostController: NavHostController = rememberNavController()
 ){
-    NavHost(navController = navHostController, startDestination = Routes.ProductionRecording.name){
+    NavHost(navController = navHostController, startDestination = Routes.ProductionHome.name ){
 
-        composable(route = "${ Routes.ProductionRecording.name }?id={id}",
-        arguments = listOf(navArgument("id"){type = NavType.IntType})
-        ){
-            val id = it.arguments?.getInt("id") ?: -1
-            ProductionRecordingScreen(id = id){
-                navHostController.navigateUp()
-            }
+        composable(route = Routes.ProductionHome.name){
+            ProductionRecordingScreen(id = id)
         }
+//        composable(route = "${ Routes.ProductionRecording.name }?id={id}",
+//        arguments = listOf(navArgument("id"){type = NavType.IntType})
+//        ){
+//            val id = it.arguments?.getInt("id") ?: -1
+//            ProductionRecordingScreen(id = id){
+//                navHostController.navigateUp()
+//            }
+//        }
     }
 
 }

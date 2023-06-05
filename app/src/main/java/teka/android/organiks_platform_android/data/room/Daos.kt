@@ -4,6 +4,7 @@ import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
+import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 
 
 @Dao
@@ -21,7 +22,7 @@ interface EggCollectionDao{
     @Query("SELECT * FROM egg_collections")
     fun getAllEggCollections(): Flow<List<EggCollection>>
 
-    @Query("SELECT * FROM egg_collections WHERE collection_id=:collectionId")
+    @Query("SELECT * FROM egg_collections WHERE egg_collection_id=:collectionId")
     fun getEggCollectionById(collectionId:Int): Flow<EggCollection>
 
 }
@@ -43,6 +44,14 @@ interface EggTypeDao{
 
     @Query("SELECT * FROM egg_types WHERE egg_type_id=:eggTypeId")
     fun getEggType(eggTypeId:Int): Flow<EggType>
+
+}
+
+@Entity
+@Dao
+interface ProductionCategoryDao{
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertProductionCategory(productionCategory: ProductionCategory)
 
 }
 
