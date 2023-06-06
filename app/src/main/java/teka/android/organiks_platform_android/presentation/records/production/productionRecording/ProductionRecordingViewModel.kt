@@ -85,7 +85,21 @@ class ProductionRecordingViewModel
         state = state.copy(isScreenDialogDismissed = newValue)
     }
 
-
+    fun onSaveEggCollection(){
+        viewModelScope.launch {
+            repository.insertEggCollection(
+                EggCollection(
+                    date = state.date,
+                    qty = state.eggCollectionQty,
+                    cracked = state.eggsCracked,
+                    eggTypeId = state.eggTypes.find {
+                        it.name == state.eggTypeName
+                    }?.id ?: 0,
+                    isChecked = false
+                )
+            )
+        }
+    }
 
 
     //THIS IS CURRENTLY EGG COLLECTION BUT SHOULD BE
@@ -114,7 +128,9 @@ class ProductionRecordingViewModel
                     date = state.date,
                     qty = state.eggCollectionQty,
                     cracked = state.eggsCracked,
-                    eggTypeId = state.eggTypeId
+                    eggTypeId = state.eggTypes.find {
+                        it.name == state.eggTypeName
+                    }?.id ?: 0
 
                 )
             )
@@ -128,7 +144,9 @@ class ProductionRecordingViewModel
                     date = state.date,
                     qty = state.eggCollectionQty,
                     cracked = state.eggsCracked,
-                    eggTypeId = state.eggTypeId,
+                    eggTypeId = state.eggTypes.find {
+                        it.name == state.eggTypeName
+                    }?.id ?: 0,
                     id = id
                 )
             )
@@ -165,7 +183,6 @@ class ProductionRecordingViewModelFactory(private val id: Int):ViewModelProvider
 
 data class ProductionRecordingState(
     val eggTypes: List<EggType> = emptyList(),
-    val eggTypeId: String = "",
     val eggCollectionQty: String = "",
     var eggTypeName : String = "",
     val eggsCracked: String = "",

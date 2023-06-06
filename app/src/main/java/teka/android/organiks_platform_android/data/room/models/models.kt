@@ -30,7 +30,7 @@ data class EggCollection(
     val id: Int = 0,
     val qty:String,
     val cracked:String,
-    val eggTypeId: String,
+    val eggTypeId: Int,
     val date: Date,
     val isChecked: Boolean = false
 

@@ -41,7 +41,8 @@ fun ProductionRecordingScreen(
         ProductionRecording(
             state = viewModel.state,
             onCategoryChange = viewModel::onCategoryChange,
-            viewModel = viewModel
+            viewModel = viewModel,
+            navigateUp = navigateUp
         )
     }
 }
@@ -51,7 +52,7 @@ fun ProductionRecordingScreen(
 fun ProductionRecording(
     state: ProductionRecordingState,
     onCategoryChange:(Category) -> Unit,
-    //navigateUp: () -> Unit,
+    navigateUp: () -> Unit,
     viewModel: ProductionRecordingViewModel
 ){
 
@@ -82,6 +83,8 @@ fun ProductionRecording(
             onDialogDismissed = viewModel::onScreenDialogDismissed,
             onSaveEggType = viewModel::addEggCollection,
             updateEggCollectionQty = { viewModel::updateEggCollection },
+            onSaveEggCollection= viewModel::onSaveEggCollection,
+            navigateUp = navigateUp
         )
     }
 }

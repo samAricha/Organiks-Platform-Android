@@ -1,6 +1,8 @@
 package teka.android.organiks_platform_android.presentation.records.production.productionHome
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -37,6 +39,10 @@ fun ProductionHomeScreen(
     val productionHomeViewModel = viewModel(modelClass = ProductionHomeViewModel::class.java)
     val productionHomeState = productionHomeViewModel.state
 
+    println("ALERT ALERT ${ productionHomeState.eggCollectionsWithTypesList.size }")
+    Log.d(TAG, "INSIDE GET EGG COLLECTION${productionHomeState.eggCollections}")
+
+
     Scaffold(floatingActionButton = {
 
         FloatingActionButton(onClick = { onNavigate.invoke(-1) }) {
@@ -62,15 +68,13 @@ fun ProductionHomeScreen(
                 }
             }
 
-            items(productionHomeState.eggCollectionsWithTypesList){
+            items(productionHomeState.eggCollections){
 
                 EggCollectionItems(
-                    eggCollectionWithTypeItem = it,
-                    isChecked = it.eggCollection.isChecked,
-                    viewModel = productionHomeViewModel,
+                    eggCollection = productionHomeState.eggCollections[0],
                     onCheckedChange = productionHomeViewModel::onEggCollectionCheckedChange
                 ) {
-                    onNavigate.invoke(it.eggCollection.id)
+                    onNavigate.invoke(it.id)
                 }
 
             }
@@ -87,12 +91,13 @@ fun ProductionHomeScreen(
 
 @Composable
 fun EggCollectionItems(
-    eggCollectionWithTypeItem: EggTypeEggCollectionItem,
-    viewModel: ProductionHomeViewModel,
-    isChecked: Boolean,
+    eggCollection: EggCollection,
     onCheckedChange: (EggCollection, Boolean) -> Unit,
     onItemClick: () -> Unit
 ){
+
+    println("ALERT3 ALERT3 ${ eggCollection.qty }")
+    Log.d(TAG, "INSIDE GET EGG COLLECTION$eggCollection")
 
 
     Card(
@@ -112,7 +117,7 @@ fun EggCollectionItems(
 
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
-                    text = eggCollectionWithTypeItem.eggType.name,
+                    text = "Kienyeji",
                     style = MaterialTheme.typography.h6,
                     fontWeight = FontWeight.Bold
                 )
@@ -120,15 +125,15 @@ fun EggCollectionItems(
 
             }
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(text = "Qty: ${eggCollectionWithTypeItem.eggCollection.qty}",
+                Text(text = "Qty: ${eggCollection.qty}",
                     style = MaterialTheme.typography.h6,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.size(4.dp))
                 Checkbox(
-                    checked = isChecked,
+                    checked = eggCollection.isChecked,
                     onCheckedChange = {
-                        onCheckedChange.invoke(eggCollectionWithTypeItem.eggCollection, it)
+                        onCheckedChange.invoke(eggCollection, it)
 
                     },
                 )

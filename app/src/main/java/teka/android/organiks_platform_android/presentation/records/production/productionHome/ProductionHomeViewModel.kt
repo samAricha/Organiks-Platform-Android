@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.presentation.records.production.productionHome
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,6 +14,8 @@ import teka.android.organiks_platform_android.di.OrganiksDI
 import teka.android.organiks_platform_android.repository.Repository
 import teka.android.organiks_platform_android.ui.Category
 
+private val TAG: String = ProductionHomeViewModel::class.java.simpleName
+
 
 class ProductionHomeViewModel(
     private val repository: Repository = OrganiksDI.repository
@@ -22,14 +25,15 @@ class ProductionHomeViewModel(
         private set
 
     init {
-        getEggCollections()
+        getEggCollectionsWithEggTypes()
     }
 
 
     private fun getEggCollectionsWithEggTypes(){
         viewModelScope.launch {
-            repository.getEggCollectionsWithEggTypes.collectLatest {
-                state = state.copy(eggCollectionsWithTypesList = it)
+            repository.getEggCollections.collectLatest {
+//                Log.d(TAG, "INSIDE GET EGG COLLECTION$it")
+                state = state.copy(eggCollections = it)
             }
         }
     }
@@ -37,7 +41,7 @@ class ProductionHomeViewModel(
     private fun getEggCollections(){
         viewModelScope.launch {
             repository.getEggCollections.collectLatest {
-                //state = state.copy(items = it)
+                state = state.copy(eggCollections = it)
             }
         }
     }
@@ -94,6 +98,7 @@ class ProductionHomeViewModel(
 
 data class ProductionHomeState(
     val eggCollectionsWithTypesList: List<EggTypeEggCollectionItem> = emptyList(),
+    val eggCollections: List<EggCollection> = emptyList(),
     val category: Category = Category(),
     val itemChecked: Boolean = false
 

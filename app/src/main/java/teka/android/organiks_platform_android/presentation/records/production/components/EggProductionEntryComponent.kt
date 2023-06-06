@@ -36,7 +36,9 @@ fun EggProductionEntryComponent(
     onCategoryChange:(Category) -> Unit,
     onDialogDismissed:(Boolean) -> Unit,
     onSaveEggType:() -> Unit,
+    onSaveEggCollection: () -> Unit,
     updateEggCollectionQty:() -> Unit,
+    navigateUp: () -> Unit
 ){
 
     val eggTypeItems = listOf(
@@ -102,15 +104,13 @@ fun EggProductionEntryComponent(
                 .clickable { expanded = true },
                 horizontalArrangement = Arrangement.SpaceBetween,
 
-
-
-
             ) {
                 Text(
                     text = selectedEggTypeItem.name,
                     modifier = Modifier
                         .padding(12.dp)
-                        .align(Alignment.CenterVertically)
+                        .align(Alignment.CenterVertically),
+
                 )
                 Icon(
                     imageVector = Icons.Default.ArrowDropDown,
@@ -127,6 +127,7 @@ fun EggProductionEntryComponent(
             ) {
                 eggTypeItems.forEach { item ->
                     DropdownMenuItem(onClick = {
+                        onEggTypeChange(item.name)
                         selectedEggTypeItem = item
                         expanded = false
                     }) {
@@ -200,33 +201,40 @@ fun EggProductionEntryComponent(
 //                Text(text = if (isNewEnabled) "Save" else "New")
 //            }
         }
+
+
+        Spacer(modifier = Modifier.height(48.dp))
+
+
+        val buttonTitle = if (state.isUpdatingItem) "Update item"
+        else "Add item"
+
+        Button(
+            onClick ={
+                when(state.isUpdatingItem){
+                    true -> {
+                        updateEggCollectionQty.invoke()
+                    }
+                    false -> {
+                        onSaveEggCollection.invoke()
+                    }
+                }
+                navigateUp.invoke()
+            },
+            modifier = Modifier.fillMaxWidth(),
+            enabled = state.eggCollectionQty.isNotEmpty()&&
+                    state.eggsCracked.isNotEmpty()&&
+                    state.eggTypeName.isNotEmpty(),
+            shape = Shapes.large
+        ) {
+            Text(text = buttonTitle)
+
+        }
+
+
     }
 
-    val buttonTitle = if (state.isUpdatingItem) "Update item"
-    else "Add item"
 
-
-    Button(
-        onClick ={
-            when(state.isUpdatingItem){
-                true -> {
-                    updateEggCollectionQty.invoke()
-                }
-                false -> {
-                    onSaveEggType.invoke()
-                }
-            }
-            //navigateUp.invoke()
-        },
-        modifier = Modifier.fillMaxWidth(),
-        enabled = state.eggCollectionQty.isNotEmpty()&&
-                state.eggsCracked.isNotEmpty()&&
-        state.eggTypes.isNotEmpty(),
-        shape = Shapes.large
-    ) {
-        Text(text = buttonTitle)
-
-    }
 }
 
 
@@ -241,7 +249,9 @@ fun EggProductionPreview() {
         onCrackedQuantityChange = {},
         onCategoryChange = {},
         onDialogDismissed = {},
-        onSaveEggType = { /*TODO*/ }
+        onSaveEggType = { /*TODO*/ },
+        updateEggCollectionQty = {},
+        onSaveEggCollection = {}
     ) {
 
     }
