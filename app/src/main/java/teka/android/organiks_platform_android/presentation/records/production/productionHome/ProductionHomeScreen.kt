@@ -71,7 +71,7 @@ fun ProductionHomeScreen(
             items(productionHomeState.eggCollections){
 
                 EggCollectionItems(
-                    eggCollection = productionHomeState.eggCollections[0],
+                    eggCollection = it,
                     onCheckedChange = productionHomeViewModel::onEggCollectionCheckedChange
                 ) {
                     onNavigate.invoke(it.id)
@@ -125,18 +125,22 @@ fun EggCollectionItems(
 
             }
             Column(modifier = Modifier.padding(8.dp)) {
-                Text(text = "Qty: ${eggCollection.qty}",
+                Text(text = "Total: ${eggCollection.qty}",
+                    style = MaterialTheme.typography.h6,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(text = "Cracked: ${eggCollection.cracked}",
                     style = MaterialTheme.typography.h6,
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.size(4.dp))
-                Checkbox(
-                    checked = eggCollection.isChecked,
-                    onCheckedChange = {
-                        onCheckedChange.invoke(eggCollection, it)
-
-                    },
-                )
+//                Checkbox(
+//                    checked = eggCollection.isChecked,
+//                    onCheckedChange = {
+//                        onCheckedChange.invoke(eggCollection, it)
+//
+//                    },
+//                )
             }
 
         }
