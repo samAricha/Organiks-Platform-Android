@@ -7,13 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import teka.android.organiks_platform_android.data.room.EggTypeEggCollectionItem
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.di.OrganiksDI
 import teka.android.organiks_platform_android.repository.Repository
 import teka.android.organiks_platform_android.ui.Category
 
 
-class HomeViewModel(
+class ProductionHomeViewModel(
     private val repository: Repository = OrganiksDI.repository
 ): ViewModel() {
 
@@ -25,6 +26,13 @@ class HomeViewModel(
     }
 
 
+    private fun getEggCollectionsWithEggTypes(){
+        viewModelScope.launch {
+            repository.getEggCollectionsWithEggTypes.collectLatest {
+                state = state.copy(eggCollectionsWithTypesList = it)
+            }
+        }
+    }
 
     private fun getEggCollections(){
         viewModelScope.launch {
@@ -32,6 +40,14 @@ class HomeViewModel(
                 //state = state.copy(items = it)
             }
         }
+    }
+
+    private fun getEggTypeById(id: Int){
+
+        viewModelScope.launch {
+            repository.getEggTypeById(id)
+        }
+
     }
 
     fun deleteEggCollections(eggCollection: EggCollection){
@@ -42,10 +58,10 @@ class HomeViewModel(
     }
 
 
-    fun onEggTypeChange(category: Category){
-        state = state.copy(category = category)
-        filterBy(category.id)
-    }
+//    fun onProductionCategoryChange(category: Category){
+//        state = state.copy(category = category)
+//        filterBy(category.id)
+//    }
 
     fun onEggCollectionCheckedChange(eggCollection: EggCollection, isChecked: Boolean){
         viewModelScope.launch {
@@ -57,11 +73,11 @@ class HomeViewModel(
 
 
 
-    private fun filterBy(collectionId:Int){
-        if(collectionId != 10001){
+    private fun filterBy(categoryId:Int){
+        if(categoryId != 10001){
             viewModelScope.launch {
                 repository.getEggCollectionById(
-                    collectionId
+                    categoryId
                 ).collectLatest {
                     //state = state.copy(eggCollections = it)
                 }
@@ -77,7 +93,7 @@ class HomeViewModel(
 }
 
 data class ProductionHomeState(
-    val eggCollections: List<EggCollection> = emptyList(),
+    val eggCollectionsWithTypesList: List<EggTypeEggCollectionItem> = emptyList(),
     val category: Category = Category(),
     val itemChecked: Boolean = false
 

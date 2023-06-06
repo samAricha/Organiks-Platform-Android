@@ -29,10 +29,10 @@ data class EggCollection(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val qty:String,
-    val cracked:Int,
-    val eggTypeId: Int,
+    val cracked:String,
+    val eggTypeId: String,
     val date: Date,
-    val isChecked: Boolean
+    val isChecked: Boolean = false
 
 )
 

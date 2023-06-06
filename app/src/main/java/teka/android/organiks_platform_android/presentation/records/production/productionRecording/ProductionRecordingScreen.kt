@@ -31,6 +31,8 @@ import java.util.*
 @Composable
 fun ProductionRecordingScreen(
     id: Int,
+    navigateUp: () -> Unit
+
 ){
     val viewModel =
         viewModel<ProductionRecordingViewModel>(factory = ProductionRecordingViewModelFactory(id))
@@ -75,7 +77,7 @@ fun ProductionRecording(
             onDateSelected = viewModel::onDateChange,
             onEggTypeChange = viewModel::onEggTypeChange,
             onCollectionQuantityChange = viewModel::onQtyChange,
-            onQtyChange = viewModel::onQtyChange,
+            onCrackedQuantityChange = viewModel::onCrackedQtyChange,
             onCategoryChange = viewModel::onCategoryChange,
             onDialogDismissed = viewModel::onScreenDialogDismissed,
             onSaveEggType = viewModel::addEggCollection,

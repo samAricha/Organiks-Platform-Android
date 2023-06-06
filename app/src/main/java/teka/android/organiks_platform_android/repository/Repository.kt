@@ -14,8 +14,13 @@ class Repository(
 ) {
     //the following are methods which are going to help us get our data.
 
+    val getProductionCategories = productionCategoryDao.getProductionCategories()
+
     val eggTypes = eggTypeDao.getAllEggTypes()
     val getEggCollections = eggCollectionDao.getAllEggCollections()
+    val getEggCollectionsWithEggTypes = eggCollectionDao.getEggCollectionsWithEggTypes()
+
+
 
     //getting our data while filtering it
 

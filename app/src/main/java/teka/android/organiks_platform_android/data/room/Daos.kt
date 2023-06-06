@@ -25,6 +25,13 @@ interface EggCollectionDao{
     @Query("SELECT * FROM egg_collections WHERE egg_collection_id=:collectionId")
     fun getEggCollectionById(collectionId:Int): Flow<EggCollection>
 
+
+    @Query("""
+        SELECT * FROM egg_collections AS EC INNER JOIN egg_types AS ET ON
+        EC.eggTypeId = ET.egg_type_id
+    """)
+    fun getEggCollectionsWithEggTypes():Flow<List<EggTypeEggCollectionItem>>
+
 }
 
 
@@ -53,11 +60,17 @@ interface ProductionCategoryDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProductionCategory(productionCategory: ProductionCategory)
 
+    @Query("SELECT * FROM production_categories")
+    fun getProductionCategories(): Flow<List<ProductionCategory>>
+
+    @Query("SELECT * FROM production_categories WHERE production_category_id=:categoryId")
+    fun getProductionCategoryById(categoryId:Int):Flow<ProductionCategory>
+
 }
 
 
 
-data class EggFarmProduction(
+data class EggTypeEggCollectionItem(
     @Embedded val eggType: EggType,
     @Embedded val eggCollection: EggCollection,
 )
