@@ -1,6 +1,7 @@
 package teka.android.organiks_platform_android
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.getValue
@@ -22,11 +23,16 @@ class MainActivity : ComponentActivity() {
 
         val startDestination by splashViewModel.startDestination
 
-        installSplashScreen().setKeepOnScreenCondition {
-            !splashViewModel.isLoading.value
+        Log.d("TAG1", "WORKIN")
 
+        installSplashScreen().setKeepOnScreenCondition {
+            Log.d("TAG1", splashViewModel.isLoading.value.toString())
+
+            !splashViewModel.isLoading.value
         }
+
         setContent {
+
             OrganiksPlatformAndroidTheme {
 
                 OrganiksAndroidNavigation(startDestination = startDestination)

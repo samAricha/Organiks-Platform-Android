@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.google.accompanist.pager.ExperimentalPagerApi
+import teka.android.organiks_platform_android.modules.auth.login_screen.LoginScreen
 import teka.android.organiks_platform_android.modules.splash_screen.presentation.SplashViewModel
 import teka.android.organiks_platform_android.modules.splash_screen.presentation.WelcomeScreen
 import teka.android.organiks_platform_android.presentation.records.production.productionHome.ProductionHomeScreen
@@ -20,6 +21,7 @@ import javax.inject.Inject
 enum class Routes{
     ProductionHome,
     ProductionRecording,
+    LoginScreen
 }
 
 
@@ -52,6 +54,11 @@ fun OrganiksAndroidNavigation(
         composable(route = Screen.Welcome.route) {
             WelcomeScreen(navController = navHostController)
         }
+
+        composable(route = Routes.LoginScreen.name) {
+            LoginScreen(navController = navHostController)
+        }
+
     }
 
 }
