@@ -10,20 +10,20 @@ sealed class OnBoardingPage(
     val description: String
 ) {
     object First : OnBoardingPage(
-        image = R.drawable.first,
-        title = "Meeting",
+        image = R.drawable.amazed100,
+        title = "Exhausted with Inconsistent Cash Flow?",
         description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod."
     )
 
     object Second : OnBoardingPage(
-        image = R.drawable.second,
-        title = "Coordination",
+        image = R.drawable.perfect100,
+        title = "Let us hold your hand to success!!",
         description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod."
     )
 
     object Third : OnBoardingPage(
-        image = R.drawable.third,
-        title = "Dialogue",
+        image = R.drawable.letsgo100,
+        title = "Let's Go !!",
         description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod."
     )
 }

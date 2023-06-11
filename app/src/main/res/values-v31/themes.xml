@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.CustomSplashScreenTheme" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/purple_200</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
+        <item name="windowSplashScreenAnimationDuration">600</item>
+        <item name="android:windowSplashScreenBrandingImage" >
+            @drawable/ic_chicken
+        </item>
+
+        <item name="postSplashScreenTheme">@style/Theme.OrganiksPlatformAndroid</item>
+    </style>
+</resources>

@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import teka.android.organiks_platform_android.R
+import teka.android.organiks_platform_android.navigation.Routes
 import teka.android.organiks_platform_android.ui.theme.*
 
 
@@ -181,6 +182,8 @@ fun LoginScreen(
                     ) {
 
                         Text(text = "Login", fontFamily = Poppins)
+                        navController.navigate(Routes.ProductionHome.name)
+
                     }
 
 
