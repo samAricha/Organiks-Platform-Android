@@ -5,27 +5,29 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
+import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.models.EggType
 import teka.android.organiks_platform_android.presentation.records.production.productionRecording.ProductionRecordingState
 import teka.android.organiks_platform_android.ui.Category
+import teka.android.organiks_platform_android.ui.theme.PlaceholderColor
+import teka.android.organiks_platform_android.ui.theme.Poppins
+import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import java.util.*
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EggProductionEntryComponent(
     state: ProductionRecordingState,
@@ -65,15 +67,16 @@ fun EggProductionEntryComponent(
             label = { Text(text = "Total Eggs Collected") },
             onValueChange = {onCollectionQuantityChange(it)},
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.colors(
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors(
                 unfocusedIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent
+                focusedIndicatorColor = Color.Transparent,
             ),
             shape = Shapes.large
         )
 
-        Spacer(modifier = Modifier.size(12.dp))
+        Spacer(modifier = Modifier.size(24.dp))
 
         TextField(
             value = state.eggsCracked,
@@ -81,18 +84,18 @@ fun EggProductionEntryComponent(
             onValueChange = {onCrackedQuantityChange(it)},
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth(),
-            colors = TextFieldDefaults.colors(
+            colors = TextFieldDefaults.textFieldColors(
                 unfocusedIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent
+                focusedIndicatorColor = Color.Transparent,
             ),
             shape = Shapes.large
         )
 
-        Spacer(modifier = Modifier.size(12.dp))
+        Spacer(modifier = Modifier.size(24.dp))
 
 
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.End
         ) {
 
             //Text("Selected Item: ${selectedEggTypeItem.name}")
@@ -203,11 +206,11 @@ fun EggProductionEntryComponent(
         }
 
 
-        Spacer(modifier = Modifier.height(48.dp))
+        Spacer(modifier = Modifier.height(84.dp))
 
 
-        val buttonTitle = if (state.isUpdatingItem) "Update item"
-        else "Add item"
+        val buttonTitle = if (state.isUpdatingItem) "Update"
+        else "Save"
 
         Button(
             onClick ={
@@ -221,13 +224,15 @@ fun EggProductionEntryComponent(
                 }
                 navigateUp.invoke()
             },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             enabled = state.eggCollectionQty.isNotEmpty()&&
                     state.eggsCracked.isNotEmpty()&&
                     state.eggTypeName.isNotEmpty(),
-            shape = Shapes.large
+            shape = Shapes.large,
+            contentPadding = PaddingValues(vertical = 14.dp)
         ) {
-            Text(text = buttonTitle)
+            Text(text = buttonTitle, fontFamily = Poppins)
 
         }
 

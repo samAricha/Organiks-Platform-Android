@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.modules.splash_screen.DataStoreRepository
-import teka.android.organiks_platform_android.navigation.Routes
 import teka.android.organiks_platform_android.navigation.Screen
 import javax.inject.Inject
 

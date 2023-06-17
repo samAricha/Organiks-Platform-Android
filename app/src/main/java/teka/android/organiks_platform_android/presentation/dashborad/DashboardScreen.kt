@@ -1,12 +1,12 @@
 package teka.android.organiks_platform_android.presentation.dashborad
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
-import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -67,6 +67,7 @@ fun DashboardCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
+        elevation = 4.dp
 
     ) {
         Column(

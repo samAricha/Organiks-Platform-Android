@@ -2,7 +2,9 @@ package teka.android.organiks_platform_android.modules.auth.login_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -32,6 +34,9 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordOpen by remember { mutableStateOf(false) }
+
+
+
     Box(modifier = Modifier
         .padding(bottom = 30.dp),
         contentAlignment = Alignment.TopCenter) {
@@ -40,10 +45,13 @@ fun LoginScreen(
             modifier = Modifier.fillMaxWidth()
         )
     }
-    Box(contentAlignment = Alignment.BottomCenter) {
+    Box(contentAlignment = Alignment.BottomCenter,
+        modifier = Modifier
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(top = 100.dp)) {
+            modifier = Modifier
+                .padding(top = 100.dp),) {
             Text(
                 text = "welcome to ORGANIKS",
                 fontSize = 28.sp,
@@ -62,7 +70,8 @@ fun LoginScreen(
                     backgroundColor = Color.White
                 ),
                 contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
-                modifier = Modifier.padding(top = 20.dp)
+                modifier = Modifier.padding(top = 20.dp),
+                shape = Shapes.large,
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
@@ -123,7 +132,8 @@ fun LoginScreen(
                                 tint = PrimaryColor,
                                 modifier = Modifier.size(24.dp)
                             )
-                        }
+                        },
+                        shape = Shapes.large,
                     )
 
                     OutlinedTextField(
@@ -170,7 +180,8 @@ fun LoginScreen(
                                     )
                                 }
                             }
-                        }
+                        },
+                        shape = Shapes.large,
                     )
 
                     Button(
@@ -183,7 +194,8 @@ fun LoginScreen(
                             backgroundColor = PrimaryColor,
                             contentColor = Color.White
                         ),
-                        contentPadding = PaddingValues(vertical = 14.dp)
+                        contentPadding = PaddingValues(vertical = 14.dp),
+                        shape = Shapes.large,
                     ) {
                         Text(text = "Login", fontFamily = Poppins)
 

@@ -2,7 +2,7 @@
 <resources>
 
     <style name="Theme.CustomSplashScreenTheme" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/purple_200</item>
+        <item name="windowSplashScreenBackground">@color/organiks_brown</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
         <item name="windowSplashScreenAnimationDuration">600</item>
         <item name="android:windowSplashScreenBrandingImage" >

@@ -4,7 +4,14 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.TextFieldColors
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.lightColors
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -23,8 +30,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-
-
         Log.d("TAG1", "WORKIN")
 
         installSplashScreen().setKeepOnScreenCondition {
@@ -34,16 +39,16 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
+
             Log.d("TAG3", splashViewModel.startDestination.value)
-            var navHostController: NavHostController = rememberNavController()
+            val navHostController: NavHostController = rememberNavController()
             val startDestination by splashViewModel.startDestination
             OrganiksPlatformAndroidTheme {
-
                 OrganiksAndroidNavigation(navHostController = navHostController, startDestination = startDestination)
-
             }
         }
     }
 }
+
 
 
