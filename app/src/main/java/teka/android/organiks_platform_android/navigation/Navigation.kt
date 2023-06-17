@@ -13,6 +13,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import teka.android.organiks_platform_android.modules.auth.login_screen.LoginScreen
 import teka.android.organiks_platform_android.modules.splash_screen.presentation.SplashViewModel
 import teka.android.organiks_platform_android.modules.splash_screen.presentation.WelcomeScreen
+import teka.android.organiks_platform_android.presentation.dashborad.DashboardScreen
 import teka.android.organiks_platform_android.presentation.records.production.productionHome.ProductionHomeScreen
 import teka.android.organiks_platform_android.presentation.records.production.productionRecording.ProductionRecording
 import teka.android.organiks_platform_android.presentation.records.production.productionRecording.ProductionRecordingScreen
@@ -21,7 +22,6 @@ import javax.inject.Inject
 enum class Routes{
     ProductionHome,
     ProductionRecording,
-    LoginScreen
 }
 
 
@@ -33,7 +33,7 @@ fun OrganiksAndroidNavigation(
 ){
     NavHost(navController = navHostController, startDestination = startDestination ){
 
-        composable(route = Routes.ProductionHome.name){
+        composable(route = Screen.ProductionHome.route){
             ProductionHomeScreen(onNavigate = { id ->
                 navHostController.navigate(route = "${Routes.ProductionRecording.name}?id=$id")
             })
@@ -55,8 +55,12 @@ fun OrganiksAndroidNavigation(
             WelcomeScreen(navController = navHostController)
         }
 
-        composable(route = Routes.LoginScreen.name) {
+        composable(route = Screen.Login.route) {
             LoginScreen(navController = navHostController)
+        }
+
+        composable(route = Screen.DashboardScreen.route){
+            DashboardScreen()
         }
 
     }

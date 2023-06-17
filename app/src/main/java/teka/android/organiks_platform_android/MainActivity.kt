@@ -6,6 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import teka.android.organiks_platform_android.modules.splash_screen.presentation.SplashViewModel
 import teka.android.organiks_platform_android.navigation.OrganiksAndroidNavigation
@@ -21,7 +23,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val startDestination by splashViewModel.startDestination
+
 
         Log.d("TAG1", "WORKIN")
 
@@ -32,10 +34,12 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-
+            Log.d("TAG3", splashViewModel.startDestination.value)
+            var navHostController: NavHostController = rememberNavController()
+            val startDestination by splashViewModel.startDestination
             OrganiksPlatformAndroidTheme {
 
-                OrganiksAndroidNavigation(startDestination = startDestination)
+                OrganiksAndroidNavigation(navHostController = navHostController, startDestination = startDestination)
 
             }
         }

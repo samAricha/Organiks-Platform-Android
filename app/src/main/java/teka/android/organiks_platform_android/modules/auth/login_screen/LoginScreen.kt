@@ -7,6 +7,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.navigation.Routes
+import teka.android.organiks_platform_android.navigation.Screen
 import teka.android.organiks_platform_android.ui.theme.*
 
 
@@ -30,22 +32,25 @@ fun LoginScreen(
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordOpen by remember { mutableStateOf(false) }
-    Box(contentAlignment = Alignment.TopCenter) {
+    Box(modifier = Modifier
+        .padding(bottom = 30.dp),
+        contentAlignment = Alignment.TopCenter) {
         Image(
-            painter = painterResource(id = R.drawable.login_illustration), contentDescription = "",
+            painter = painterResource(id = R.drawable.chicken_bg), contentDescription = "",
             modifier = Modifier.fillMaxWidth()
         )
     }
     Box(contentAlignment = Alignment.BottomCenter) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(top = 100.dp)) {
             Text(
-                text = "WELCOME TO MONUMENTAL HABITS",
+                text = "welcome to ORGANIKS",
                 fontSize = 28.sp,
                 color = Color.White,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 20.dp)
-                    .padding(top = 20.dp),
+                    .padding(horizontal = 30.dp),
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 fontFamily = ReemKufi
@@ -169,7 +174,7 @@ fun LoginScreen(
                     )
 
                     Button(
-                        onClick = {},
+                        onClick = { navController.navigate(Screen.ProductionHome.route) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp)
@@ -180,9 +185,7 @@ fun LoginScreen(
                         ),
                         contentPadding = PaddingValues(vertical = 14.dp)
                     ) {
-
                         Text(text = "Login", fontFamily = Poppins)
-                        navController.navigate(Routes.ProductionHome.name)
 
                     }
 

@@ -23,6 +23,7 @@ import androidx.navigation.NavHostController
 import com.google.accompanist.pager.*
 import teka.android.organiks_platform_android.modules.splash_screen.utils.OnBoardingPage
 import teka.android.organiks_platform_android.navigation.Routes
+import teka.android.organiks_platform_android.navigation.Screen
 
 
 @ExperimentalAnimationApi
@@ -60,7 +61,7 @@ fun WelcomeScreen(
         ) {
             welcomeViewModel.saveOnBoardingState(completed = true)
             navController.popBackStack()
-            navController.navigate(Routes.ProductionHome.name)
+            navController.navigate(Screen.Login.route)
         }
     }
 }
