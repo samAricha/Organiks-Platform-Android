@@ -69,7 +69,7 @@ fun ProductionRecording(
                 Spacer(modifier = Modifier.size(16.dp))
             }
         }
-        
+
         Spacer(modifier = Modifier.size(16.dp))
 
         //Production Entry component
@@ -129,6 +129,7 @@ fun CategoryItem(
     Card(
         modifier = Modifier
             .padding(top = 8.dp, bottom = 8.dp, start = 8.dp)
+            .width(200.dp)
             .selectable(
                 selected = selected,
                 interactionSource = MutableInteractionSource(),

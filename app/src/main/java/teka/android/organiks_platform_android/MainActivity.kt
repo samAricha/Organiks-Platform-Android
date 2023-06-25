@@ -1,23 +1,19 @@
 package teka.android.organiks_platform_android
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.TextFieldColors
-import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material.lightColors
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.*
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import teka.android.organiks_platform_android.modules.splash_screen.presentation.SplashViewModel
-import teka.android.organiks_platform_android.navigation.OrganiksAndroidNavigation
 import teka.android.organiks_platform_android.ui.theme.OrganiksPlatformAndroidTheme
 import javax.inject.Inject
 
@@ -27,6 +23,7 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var splashViewModel: SplashViewModel
 
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,15 +37,21 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
+
             Log.d("TAG3", splashViewModel.startDestination.value)
             val navHostController: NavHostController = rememberNavController()
             val startDestination by splashViewModel.startDestination
+
+
+
             OrganiksPlatformAndroidTheme {
-                OrganiksAndroidNavigation(navHostController = navHostController, startDestination = startDestination)
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colors.background
+                ) {
+                    MainAppScreen(navHostController = navHostController, startDestination = startDestination)
+                }
             }
         }
     }
 }
-
-
-

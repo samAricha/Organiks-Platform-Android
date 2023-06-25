@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,6 +17,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import teka.android.organiks_platform_android.ui.theme.SecondaryColor
 
 @Composable
 fun DashboardScreen() {
@@ -37,8 +39,8 @@ fun DashboardScreen() {
             DashboardCard(
                 title = "Sales",
                 value = "$1000",
-                icon = Icons.Filled.ShoppingCart,
-                color = Color.Blue
+                icon = Icons.Outlined.ShoppingCart,
+                color = SecondaryColor
             )
             DashboardCard(
                 title = "Orders",

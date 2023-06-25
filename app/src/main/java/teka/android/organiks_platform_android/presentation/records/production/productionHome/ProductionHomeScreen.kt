@@ -46,12 +46,12 @@ fun ProductionHomeScreen(
 
     Scaffold(floatingActionButton = {
 
-        FloatingActionButton(onClick = { onNavigate.invoke(-1) }) {
-            Icon(imageVector = Icons.Default.Add,
-                contentDescription = null,
-            tint = Color.White
-            )
-        }
+//        FloatingActionButton(onClick = { onNavigate.invoke(-1) }) {
+//            Icon(imageVector = Icons.Default.Add,
+//                contentDescription = null,
+//            tint = Color.White
+//            )
+//        }
 
     }) {
         LazyColumn {
@@ -165,6 +165,7 @@ fun CategoryItem(
     Card(
         modifier = Modifier
             .padding(top = 8.dp, bottom = 8.dp, start = 8.dp)
+            .width(200.dp)
             .selectable(
                 selected = selected,
                 interactionSource = MutableInteractionSource(),
