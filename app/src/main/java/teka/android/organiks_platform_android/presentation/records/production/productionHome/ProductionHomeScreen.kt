@@ -46,12 +46,12 @@ fun ProductionHomeScreen(
 
     Scaffold(floatingActionButton = {
 
-//        FloatingActionButton(onClick = { onNavigate.invoke(-1) }) {
-//            Icon(imageVector = Icons.Default.Add,
-//                contentDescription = null,
-//            tint = Color.White
-//            )
-//        }
+        FloatingActionButton(onClick = { onNavigate.invoke(-1) }) {
+            Icon(imageVector = Icons.Default.Add,
+                contentDescription = null,
+            tint = Color.White
+            )
+        }
 
     }) {
         LazyColumn {

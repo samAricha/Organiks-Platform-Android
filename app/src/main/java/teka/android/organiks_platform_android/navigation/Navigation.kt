@@ -55,7 +55,9 @@ fun OrganiksAndroidNavigation(
             WelcomeScreen(navController = navHostController)
         }
 
-
+        composable(route = Screen.Login.route){
+            DashboardScreen()
+        }
 
         composable(route = Screen.DashboardScreen.route){
             DashboardScreen()

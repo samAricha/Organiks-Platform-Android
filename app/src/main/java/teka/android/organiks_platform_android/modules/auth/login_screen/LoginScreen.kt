@@ -23,6 +23,7 @@ import androidx.navigation.NavHostController
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.navigation.Routes
 import teka.android.organiks_platform_android.navigation.Screen
+import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 import teka.android.organiks_platform_android.ui.theme.*
 
 
@@ -185,7 +186,7 @@ fun LoginScreen(
                     )
 
                     Button(
-                        onClick = { navController.navigate(Screen.ProductionHome.route) },
+                        onClick = { navController.navigate(To_MAIN_GRAPH_ROUTE) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 20.dp)

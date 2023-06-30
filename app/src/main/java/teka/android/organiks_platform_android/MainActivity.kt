@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import teka.android.organiks_platform_android.modules.splash_screen.presentation.SplashViewModel
+import teka.android.organiks_platform_android.navigation.*
 import teka.android.organiks_platform_android.ui.theme.OrganiksPlatformAndroidTheme
 import javax.inject.Inject
 
@@ -26,22 +27,19 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lateinit var navController: NavHostController
 
         Log.d("TAG1", "WORKIN")
 
-        installSplashScreen().setKeepOnScreenCondition {
-            Log.d("TAG1", splashViewModel.isLoading.value.toString())
-
-            !splashViewModel.isLoading.value
-        }
+//        installSplashScreen().setKeepOnScreenCondition {
+//            Log.d("TAG1", splashViewModel.isLoading.value.toString())
+//
+//            !splashViewModel.isLoading.value
+//        }
 
         setContent {
-
-
             Log.d("TAG3", splashViewModel.startDestination.value)
-            val navHostController: NavHostController = rememberNavController()
-            val startDestination by splashViewModel.startDestination
-
+//            val startDestination by splashViewModel.startDestination
 
 
             OrganiksPlatformAndroidTheme {
@@ -49,7 +47,11 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainAppScreen(navHostController = navHostController, startDestination = startDestination)
+//                    navController = rememberNavController()
+                    RootNavGraph()
+//                    SetupNavGraph(navController = navController, startDestination = To_HOME_GRAPH_ROUTE)
+//                    MainAppScreen(navHostController = navHostController, startDestination = startDestination)
+//                    MainAppScreen(navHostController = navHostController, startDestination = HOME_GRAPH_ROUTE)
                 }
             }
         }
