@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.modules.auth.login_screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -28,9 +29,9 @@ import teka.android.organiks_platform_android.ui.theme.*
 
 @Composable
 fun LoginScreen(
-    navController: NavHostController,
-
+    onClick: () -> Unit,
     ) {
+    Log.d("lscrn", "inside login screen")
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordOpen by remember { mutableStateOf(false) }
@@ -191,7 +192,12 @@ fun LoginScreen(
                         )
 
                         Button(
-                            onClick = { navController.navigate(To_MAIN_GRAPH_ROUTE) },
+//                            Log.d("TAG2", splashViewModel.isLoading.value.toString())
+                            onClick = onClick,
+//                            {
+//
+////                                navController.navigate(To_MAIN_GRAPH_ROUTE)
+//                                      },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 20.dp)

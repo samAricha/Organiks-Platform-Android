@@ -19,7 +19,6 @@ import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 @Composable
 fun MainAppScreen() {
     val navHostController: NavHostController = rememberNavController()
-
     Scaffold(
         topBar = {
             TopAppBar(backgroundColor = PrimaryColor,
@@ -35,14 +34,13 @@ fun MainAppScreen() {
 
         bottomBar = {
             BottomNavigation {
-                val navController = navHostController
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val navBackStackEntry by navHostController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
 
                 BottomNavigationItem(
                     selected = currentRoute == Screen.DashboardScreen.route,
                     onClick = {
-                        navController.navigate(Screen.DashboardScreen.route) {
+                        navHostController.navigate(Screen.DashboardScreen.route) {
                             launchSingleTop = true
                         }
                     },
@@ -60,7 +58,7 @@ fun MainAppScreen() {
                 BottomNavigationItem(
                     selected = currentRoute == Screen.ProductionHome.route,
                     onClick = {
-                        navController.navigate(Screen.ProductionHome.route) {
+                        navHostController.navigate(Screen.ProductionHome.route) {
                             launchSingleTop = true
                         }
                     },
@@ -78,7 +76,7 @@ fun MainAppScreen() {
                 BottomNavigationItem(
                     selected = currentRoute?.startsWith(Screen.ProductionRecording.route) == true,
                     onClick = {
-                        navController.navigate(route = "${Screen.ProductionRecording.route}?id=-1")
+                        navHostController.navigate(route = "${Screen.ProductionRecording.route}?id=-1")
                     },
                     icon = {
                         Icon(

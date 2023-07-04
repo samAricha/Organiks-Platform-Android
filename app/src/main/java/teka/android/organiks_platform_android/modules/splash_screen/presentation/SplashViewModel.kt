@@ -22,8 +22,8 @@ class SplashViewModel @Inject constructor(
     private val _isLoading: MutableState<Boolean> = mutableStateOf(true)
     val isLoading: State<Boolean> = _isLoading
 
-    private val _startDestination: MutableState<String> = mutableStateOf(To_MAIN_GRAPH_ROUTE)
-    val startDestination: State<String> = _startDestination
+    private val _startDestination = mutableStateOf<String?>(null)
+    val startDestination: MutableState<String?> = _startDestination
 
     init {
         viewModelScope.launch {
@@ -35,6 +35,7 @@ class SplashViewModel @Inject constructor(
                 }
             }
             _isLoading.value = false
+
         }
     }
 

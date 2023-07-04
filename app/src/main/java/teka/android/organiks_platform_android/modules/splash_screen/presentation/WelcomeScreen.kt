@@ -58,10 +58,13 @@ fun WelcomeScreen(
         )
         FinishButton(
             modifier = Modifier.weight(1f),
-            pagerState = pagerState,
-            welcomeViewModel = welcomeViewModel,
-            navController = navController
-        )
+            pagerState = pagerState
+        ) {
+//            welcomeViewModel.saveOnBoardingState(completed = true)
+            navController.popBackStack()
+            navController.navigate(Screen.Login.route)
+        }
+
     }
 }
 
@@ -107,9 +110,9 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
 fun FinishButton(
     modifier: Modifier,
     pagerState: PagerState,
-//    onClick: () -> Unit,
-navController: NavHostController,
-    welcomeViewModel: WelcomeViewModel,
+    onClick: () -> Unit,
+//navController: NavHostController,
+//    welcomeViewModel: WelcomeViewModel,
 ) {
     Row(
         modifier = modifier
@@ -122,10 +125,7 @@ navController: NavHostController,
             visible = pagerState.currentPage == 2
         ) {
             Button(
-                onClick = { welcomeViewModel.saveOnBoardingState(completed = true)
-                    navController.popBackStack()
-                    navController.navigate(Screen.Login.route)
-                          },
+                onClick = onClick,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 18.dp)
