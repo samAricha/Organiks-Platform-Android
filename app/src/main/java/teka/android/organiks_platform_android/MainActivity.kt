@@ -29,29 +29,26 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         lateinit var navController: NavHostController
 
-        Log.d("TAG1", "WORKIN")
+        Log.d("TAG1", "WORKINg")
 
-//        installSplashScreen().setKeepOnScreenCondition {
-//            Log.d("TAG1", splashViewModel.isLoading.value.toString())
-//
-//            !splashViewModel.isLoading.value
-//        }
+        installSplashScreen().setKeepOnScreenCondition {
+            Log.d("TAG2", splashViewModel.isLoading.value.toString())
+
+            !splashViewModel.isLoading.value
+        }
 
         setContent {
             Log.d("TAG3", splashViewModel.startDestination.value)
-//            val startDestination by splashViewModel.startDestination
 
+            val startDestination by splashViewModel.startDestination
+            navController = rememberNavController()
 
             OrganiksPlatformAndroidTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-//                    navController = rememberNavController()
-                    RootNavGraph()
-//                    SetupNavGraph(navController = navController, startDestination = To_HOME_GRAPH_ROUTE)
-//                    MainAppScreen(navHostController = navHostController, startDestination = startDestination)
-//                    MainAppScreen(navHostController = navHostController, startDestination = HOME_GRAPH_ROUTE)
+                    RootNavGraph(navController = navController, startDestination = startDestination)
                 }
             }
         }

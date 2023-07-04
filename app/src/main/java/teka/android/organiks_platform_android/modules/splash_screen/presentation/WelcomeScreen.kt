@@ -18,12 +18,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.*
 import teka.android.organiks_platform_android.modules.splash_screen.utils.OnBoardingPage
-import teka.android.organiks_platform_android.navigation.Routes
 import teka.android.organiks_platform_android.navigation.Screen
+import teka.android.organiks_platform_android.ui.theme.Poppins
+import teka.android.organiks_platform_android.ui.theme.PrimaryColor
+import teka.android.organiks_platform_android.ui.theme.Shapes
 
 
 @ExperimentalAnimationApi
@@ -31,7 +32,7 @@ import teka.android.organiks_platform_android.navigation.Screen
 @Composable
 fun WelcomeScreen(
     navController: NavHostController,
-    welcomeViewModel: WelcomeViewModel = hiltViewModel()
+    welcomeViewModel: WelcomeViewModel
 ) {
     val pages = listOf(
         OnBoardingPage.First,
@@ -57,12 +58,10 @@ fun WelcomeScreen(
         )
         FinishButton(
             modifier = Modifier.weight(1f),
-            pagerState = pagerState
-        ) {
-            welcomeViewModel.saveOnBoardingState(completed = true)
-            navController.popBackStack()
-            navController.navigate(Screen.Login.route)
-        }
+            pagerState = pagerState,
+            welcomeViewModel = welcomeViewModel,
+            navController = navController
+        )
     }
 }
 
@@ -108,7 +107,9 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
 fun FinishButton(
     modifier: Modifier,
     pagerState: PagerState,
-    onClick: () -> Unit
+//    onClick: () -> Unit,
+navController: NavHostController,
+    welcomeViewModel: WelcomeViewModel,
 ) {
     Row(
         modifier = modifier
@@ -121,12 +122,21 @@ fun FinishButton(
             visible = pagerState.currentPage == 2
         ) {
             Button(
-                onClick = onClick,
+                onClick = { welcomeViewModel.saveOnBoardingState(completed = true)
+                    navController.popBackStack()
+                    navController.navigate(Screen.Login.route)
+                          },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 18.dp)
+                    .padding(top = 18.dp),
                 colors = ButtonDefaults.buttonColors(
+                    backgroundColor = PrimaryColor,
                     contentColor = Color.White
-                )
+                ),
+                shape = Shapes.large
             ) {
-                Text(text = "Finish")
+                Text(text = "Finish", fontFamily = Poppins)
             }
         }
     }

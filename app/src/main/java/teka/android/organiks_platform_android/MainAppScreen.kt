@@ -17,8 +17,9 @@ import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainAppScreen(navHostController: NavHostController = rememberNavController(),
-                  startDestination: String) {
+fun MainAppScreen() {
+    val navHostController: NavHostController = rememberNavController()
+
     Scaffold(
         topBar = {
             TopAppBar(backgroundColor = PrimaryColor,
@@ -75,9 +76,9 @@ fun MainAppScreen(navHostController: NavHostController = rememberNavController()
                 )
 
                 BottomNavigationItem(
-                    selected = currentRoute?.startsWith(Routes.ProductionRecording.name) == true,
+                    selected = currentRoute?.startsWith(Screen.ProductionRecording.route) == true,
                     onClick = {
-                        navHostController.navigate(route = "${Routes.ProductionRecording.name}?id=-1")
+                        navController.navigate(route = "${Screen.ProductionRecording.route}?id=-1")
                     },
                     icon = {
                         Icon(
@@ -94,15 +95,21 @@ fun MainAppScreen(navHostController: NavHostController = rememberNavController()
 
     ) {
 
-//        ContentScreen(navHostController = navHostController,
-//            startDestination = startDestination)
-
-//        SetupNavGraph(navController = navHostController, startDestination = HOME_GRAPH_ROUTE)
-        MainNavGraph(navController = navHostController, Screen.ProductionHome.route)
-
+        MainNavGraph(navController = navHostController)
 
     }
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 //to be used in refactoring the code

@@ -6,9 +6,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.modules.splash_screen.DataStoreRepository
+import teka.android.organiks_platform_android.navigation.AUTH_GRAPH_ROUTE
 import teka.android.organiks_platform_android.navigation.Screen
+import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,18 +22,16 @@ class SplashViewModel @Inject constructor(
     private val _isLoading: MutableState<Boolean> = mutableStateOf(true)
     val isLoading: State<Boolean> = _isLoading
 
-    private val _startDestination: MutableState<String> = mutableStateOf(Screen.ProductionHome.route)
+    private val _startDestination: MutableState<String> = mutableStateOf(To_MAIN_GRAPH_ROUTE)
     val startDestination: State<String> = _startDestination
 
     init {
-
-
         viewModelScope.launch {
             repository.readOnBoardingState().collect { completed ->
                 if (completed) {
-                    _startDestination.value = Screen.ProductionHome.route
+                    _startDestination.value = To_MAIN_GRAPH_ROUTE
                 } else {
-                    _startDestination.value = Screen.Welcome.route
+                    _startDestination.value = AUTH_GRAPH_ROUTE
                 }
             }
             _isLoading.value = false
