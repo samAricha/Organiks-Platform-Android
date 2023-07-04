@@ -11,7 +11,7 @@ import teka.android.organiks_platform_android.MainAppScreen
 @Composable
 fun RootNavGraph(
     navController: NavHostController,
-    startDestination: String
+    startDestination: String = To_MAIN_GRAPH_ROUTE
 
 ) {
     NavHost(navController = navController,

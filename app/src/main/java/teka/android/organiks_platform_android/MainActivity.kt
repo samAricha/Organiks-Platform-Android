@@ -53,8 +53,6 @@ class MainActivity : ComponentActivity() {
 
                 startDestination?.let { RootNavGraph(navController = rememberNavController(), startDestination = it) }
 
-
-
             }
         }
     }
