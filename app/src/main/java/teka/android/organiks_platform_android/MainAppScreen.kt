@@ -98,9 +98,6 @@ fun MainAppScreen() {
             Box(modifier = Modifier.padding(bottom = 60.dp)) {
                 MainNavGraph(navController = navHostController)
             }
-
-//            MainNavGraph(navController = navHostController)
-
         }
 }
 

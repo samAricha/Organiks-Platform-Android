@@ -10,7 +10,7 @@ import teka.android.organiks_platform_android.repository.Repository
 class RemoteDataUpdater {
 
     suspend fun updateRemoteEggCollectionData(eggCollections: List<EggCollection>, repository: Repository) {
-        var updatedEggCollections: List<EggCollection>
+//        var updatedEggCollections: List<EggCollection>
         withContext(Dispatchers.IO) {
             try {
                 eggCollections.forEach { eggCollection ->

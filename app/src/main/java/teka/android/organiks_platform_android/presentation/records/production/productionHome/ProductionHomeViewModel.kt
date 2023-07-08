@@ -1,6 +1,5 @@
 package teka.android.organiks_platform_android.presentation.records.production.productionHome
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue

@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.EggTypeEggCollectionItem
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
@@ -46,8 +47,8 @@ fun ProductionHomeScreen(
 
     Scaffold(floatingActionButton = {
 
-        FloatingActionButton(onClick = { onNavigate.invoke(-1) }) {
-            Icon(imageVector = Icons.Default.Add,
+        FloatingActionButton(onClick = { productionHomeViewModel.syncRoomDbToRemote() }) {
+            Icon(painter = painterResource(R.drawable.cloud_upload),
                 contentDescription = null,
             tint = Color.White
             )
