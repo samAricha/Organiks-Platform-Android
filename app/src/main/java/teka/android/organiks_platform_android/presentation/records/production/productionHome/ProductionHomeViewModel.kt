@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.EggTypeEggCollectionItem
 import teka.android.organiks_platform_android.data.room.models.EggCollection
+import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
 import teka.android.organiks_platform_android.di.OrganiksDI
 import teka.android.organiks_platform_android.repository.Repository
 import teka.android.organiks_platform_android.ui.Category
@@ -89,8 +90,19 @@ class ProductionHomeViewModel(
         }else{
             getEggCollections()
         }
+    }
 
 
+    //code for synchronizing local room to remote db
+    fun syncRoomDbToRemote() {
+        val remoteDataUpdater = RemoteDataUpdater()
+        viewModelScope.launch {
+            //filter and get eggCollections with status backedUp == false
+            val notBackedUpEggCollections = state.eggCollections.filter { eggCollection ->
+                !eggCollection.isBackedUp
+            }
+            remoteDataUpdater.updateRemoteEggCollectionData(notBackedUpEggCollections)
+        }
     }
 
 
