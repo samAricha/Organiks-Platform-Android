@@ -26,15 +26,23 @@ data class EggType(
 @Entity(tableName = "egg_collections")
 data class EggCollection(
     @ColumnInfo(name = "egg_collection_id")
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     val id: Int = 0,
-    val qty:String,
-    val cracked:String,
+    val uuid: String = generateUniqueId(),
+    val qty: String,
+    val cracked: String,
     val eggTypeId: Int,
     val date: Date,
-    val isChecked: Boolean = false
-
-)
+    val isBackedUp: Boolean = false,
+    val createdAt: Long = System.currentTimeMillis()
+) {
+    companion object {
+        private fun generateUniqueId(): String {
+            // Use UUID for generating a unique ID
+            return UUID.randomUUID().toString()
+        }
+    }
+}
 
 @Entity(tableName = "milk_collections")
 data class MilkCollection(

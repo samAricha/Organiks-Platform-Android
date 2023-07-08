@@ -32,11 +32,6 @@ interface EggCollectionDao{
     """)
     fun getEggCollectionsWithEggTypes():Flow<List<EggTypeEggCollectionItem>>
 
-
-
-
-
-
 }
 
 

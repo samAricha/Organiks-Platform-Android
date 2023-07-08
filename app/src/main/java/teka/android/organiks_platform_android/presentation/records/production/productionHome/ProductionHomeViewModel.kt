@@ -70,7 +70,7 @@ class ProductionHomeViewModel(
     fun onEggCollectionCheckedChange(eggCollection: EggCollection, isChecked: Boolean){
         viewModelScope.launch {
             repository.updateEggCollection(
-                eggCollection = eggCollection.copy(isChecked = isChecked)
+                eggCollection = eggCollection.copy(isBackedUp = isChecked)
             )
         }
     }

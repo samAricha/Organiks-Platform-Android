@@ -95,7 +95,7 @@ class ProductionRecordingViewModel
                     eggTypeId = state.eggTypes.find {
                         it.name == state.eggTypeName
                     }?.id ?: 0,
-                    isChecked = false
+                    isBackedUp = false
                 )
             )
         }
