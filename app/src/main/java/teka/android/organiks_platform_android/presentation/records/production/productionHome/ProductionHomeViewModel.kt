@@ -101,7 +101,7 @@ class ProductionHomeViewModel(
             val notBackedUpEggCollections = state.eggCollections.filter { eggCollection ->
                 !eggCollection.isBackedUp
             }
-            remoteDataUpdater.updateRemoteEggCollectionData(notBackedUpEggCollections)
+            remoteDataUpdater.updateRemoteEggCollectionData(notBackedUpEggCollections, repository)
         }
     }
 

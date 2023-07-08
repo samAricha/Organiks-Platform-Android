@@ -32,7 +32,7 @@ interface ApiService {
 
     //Remember to adjust the response model class based on the actual JSON structure returned by your server's API.
     @POST("api/eggCollections/save")
-    suspend fun createEggCollection(@Body eggCollection: EggCollection): CreateEggCollectionResponse
+    suspend fun createRemoteEggCollection(@Body eggCollection: EggCollection): CreateEggCollectionResponse
 
 
 

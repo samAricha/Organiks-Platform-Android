@@ -33,7 +33,7 @@ data class EggCollection(
     val cracked: String,
     val eggTypeId: Int,
     val date: Date,
-    val isBackedUp: Boolean = false,
+    var isBackedUp: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
 ) {
     companion object {
