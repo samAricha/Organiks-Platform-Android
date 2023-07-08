@@ -92,7 +92,7 @@ class ProductionHomeViewModel(
     }
 
 
-    //code for synchronizing local room to remote db
+    //Synchronizing local Room to Remote db
     fun syncRoomDbToRemote() {
         val remoteDataUpdater = RemoteDataUpdater()
         viewModelScope.launch {

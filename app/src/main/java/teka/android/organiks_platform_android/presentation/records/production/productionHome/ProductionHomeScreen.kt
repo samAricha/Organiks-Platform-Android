@@ -5,6 +5,8 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -118,6 +120,19 @@ fun EggCollectionItems(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){
+            val icon = if (eggCollection.isBackedUp) {
+                painterResource(R.drawable.cloud_done) // "Backed Up" icon
+            } else {
+                painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
+            }
+
+            Column(modifier = Modifier.padding(0.dp)) {
+                Image(
+                    painter = icon,
+                    contentDescription = if (eggCollection.isBackedUp) "Backed Up" else "Not Backed Up"
+                )
+            }
+
 
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
@@ -137,14 +152,6 @@ fun EggCollectionItems(
                     style = MaterialTheme.typography.h6,
                     fontWeight = FontWeight.Bold
                 )
-                Spacer(modifier = Modifier.size(4.dp))
-//                Checkbox(
-//                    checked = eggCollection.isChecked,
-//                    onCheckedChange = {
-//                        onCheckedChange.invoke(eggCollection, it)
-//
-//                    },
-//                )
             }
 
         }
