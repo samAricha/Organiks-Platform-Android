@@ -13,18 +13,28 @@ import kotlinx.coroutines.flow.map
 import java.io.IOException
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "on_boarding_pref")
+val Context.loggedInDataStore: DataStore<Preferences> by preferencesDataStore(name = "logged_in_pref")
+
 
 class DataStoreRepository(context: Context) {
 
     private object PreferencesKey {
         val onBoardingKey = booleanPreferencesKey(name = "on_boarding_completed")
+        val isLoggedInKey = booleanPreferencesKey(name = "is_logged_in")
     }
 
     private val dataStore = context.dataStore
+    private val loggedInDataStore = context.loggedInDataStore
 
     suspend fun saveOnBoardingState(completed: Boolean) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.onBoardingKey] = completed
+        }
+    }
+
+    suspend fun saveLoggedInState(isLoggedIn: Boolean) {
+        loggedInDataStore.edit { preferences ->
+            preferences[PreferencesKey.isLoggedInKey] = isLoggedIn
         }
     }
 
@@ -42,4 +52,21 @@ class DataStoreRepository(context: Context) {
                 onBoardingState
             }
     }
+
+
+    fun readLoggedInState(): Flow<Boolean> {
+        return loggedInDataStore.data
+            .catch { exception ->
+                if (exception is IOException) {
+                    emit(emptyPreferences())
+                } else {
+                    throw exception
+                }
+            }
+            .map { preferences ->
+                val isLoggedIn = preferences[PreferencesKey.isLoggedInKey] ?: false
+                isLoggedIn
+            }
+    }
+
 }
