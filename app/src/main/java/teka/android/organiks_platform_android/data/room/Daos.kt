@@ -18,6 +18,9 @@ interface EggCollectionDao{
     @Delete
     suspend fun delete(eggCollection: EggCollection)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertEggCollections(eggCollections: List<EggCollection>)
+
 
     @Query("SELECT * FROM egg_collections")
     fun getAllEggCollections(): Flow<List<EggCollection>>

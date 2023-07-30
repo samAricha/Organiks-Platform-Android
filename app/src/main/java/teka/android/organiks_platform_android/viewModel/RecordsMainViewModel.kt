@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import teka.android.organiks_platform_android.data.network.ApiService
+import teka.android.organiks_platform_android.data.remote.retrofit.RetrofitProvider
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 
 class RecordsMainViewModel:ViewModel() {
@@ -16,10 +16,9 @@ class RecordsMainViewModel:ViewModel() {
 
     fun  getEggCollectionList(){
         viewModelScope.launch {
-            val apiService = ApiService.getInstance();
 
             try {
-                val eggCollectionList = apiService.getEggCollections()
+                val eggCollectionList = RetrofitProvider.createVisitorListService().getEggCollections()
                 eggCollectionsResponse = eggCollectionList
 
             }catch (e:Exception){

@@ -44,6 +44,8 @@ data class EggCollection(
     }
 }
 
+
+
 @Entity(tableName = "milk_collections")
 data class MilkCollection(
     @ColumnInfo(name = "milk_collection_id")

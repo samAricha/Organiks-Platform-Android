@@ -48,16 +48,16 @@ class Repository(
 
     //the following are functions that are going to help us update our data
     suspend fun updateEggCollection(eggCollection: EggCollection){
-
         eggCollectionDao.update(eggCollection = eggCollection)
-
     }
 
     //the following are functions that are going to help us delete/erase data
 
     suspend fun deleteCollection(eggCollection: EggCollection){
-
         eggCollectionDao.delete(eggCollection = eggCollection)
+    }
 
+    suspend fun saveRemoteEggCollections(eggCollections: List<EggCollection>){
+        eggCollectionDao.insertEggCollections(eggCollections)
     }
 }
