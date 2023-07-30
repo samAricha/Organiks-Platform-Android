@@ -17,7 +17,7 @@ data class ProductionCategory(
 @Entity(tableName = "egg_types")
 data class EggType(
     @ColumnInfo(name = "egg_type_id")
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name:String
 
@@ -26,7 +26,7 @@ data class EggType(
 @Entity(tableName = "egg_collections")
 data class EggCollection(
     @ColumnInfo(name = "egg_collection_id")
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val uuid: String = generateUniqueId(),
     val qty: String,
