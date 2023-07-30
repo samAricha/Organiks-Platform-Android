@@ -23,6 +23,14 @@ fun NavGraphBuilder.authNavGraph(
         route = AUTH_GRAPH_ROUTE
     ){
 
+        composable(route = Screen.Welcome.route) {
+            val welcomeViewModel: WelcomeViewModel = hiltViewModel()
+            WelcomeScreen(
+                navController = navController,
+                welcomeViewModel = welcomeViewModel,
+               )
+        }
+
 
         composable(
             route = Screen.Login.route
@@ -33,14 +41,6 @@ fun NavGraphBuilder.authNavGraph(
                     navController.navigate(To_MAIN_GRAPH_ROUTE)
                 }
             )
-        }
-
-        composable(route = Screen.Welcome.route) {
-            val welcomeViewModel: WelcomeViewModel = hiltViewModel()
-            WelcomeScreen(
-                navController = navController,
-                welcomeViewModel = welcomeViewModel,
-               )
         }
 
     }

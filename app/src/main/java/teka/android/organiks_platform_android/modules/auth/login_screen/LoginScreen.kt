@@ -20,6 +20,7 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import teka.android.organiks_platform_android.R
 
@@ -31,6 +32,7 @@ import teka.android.organiks_platform_android.ui.theme.*
 fun LoginScreen(
     onClick: () -> Unit,
     ) {
+    val loginViewModel:LoginViewModel = hiltViewModel()
     Log.d("lscrn", "inside login screen")
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -192,8 +194,10 @@ fun LoginScreen(
                         )
 
                         Button(
-//                            Log.d("TAG2", splashViewModel.isLoading.value.toString())
-                            onClick = onClick,
+                            onClick = {
+                                loginViewModel.saveOnBoardingState(completed = true)
+                                onClick
+                            },
 //                            {
 //
 ////                                navController.navigate(To_MAIN_GRAPH_ROUTE)
@@ -227,7 +231,8 @@ fun LoginScreen(
                             )
                         }
                         TextButton(
-                            onClick = {},
+                            onClick = {
+                            },
                             contentPadding = PaddingValues(vertical = 0.dp)
                         ) {
                             Text(
