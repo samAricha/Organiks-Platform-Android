@@ -34,4 +34,8 @@ object RetrofitProvider {
         return provide().create(EggCollectionService::class.java)
     }
 
+    fun createAuthService(): AuthService {
+        return provide().create(AuthService::class.java)
+    }
+
 }

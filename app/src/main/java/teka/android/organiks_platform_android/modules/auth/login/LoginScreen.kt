@@ -1,17 +1,15 @@
-package teka.android.organiks_platform_android.modules.auth.login_screen
+package teka.android.organiks_platform_android.modules.auth.login
 
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -21,10 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import teka.android.organiks_platform_android.R
 
-import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 import teka.android.organiks_platform_android.ui.theme.*
 
 
@@ -40,16 +36,6 @@ fun LoginScreen(
 
     Column() {
 
-//        Box(
-//            modifier = Modifier
-//                .padding(bottom = 30.dp),
-//            contentAlignment = Alignment.TopCenter
-//        ) {
-//            Image(
-//                painter = painterResource(id = R.drawable.chicken_bg), contentDescription = "",
-//            )
-//        }
-
         Box(
             contentAlignment = Alignment.BottomCenter,
             modifier = Modifier
@@ -59,6 +45,16 @@ fun LoginScreen(
                 modifier = Modifier
                     .padding(top = 100.dp),
             ) {
+
+                Image(
+                    painter = painterResource(id = R.drawable.access),
+                    contentDescription = "Access image",
+                    modifier = Modifier
+                        .size(150.dp)
+                        .padding(bottom = 16.dp),
+                    contentScale = ContentScale.Fit
+                )
+                Spacer(modifier = Modifier.height(20.dp))
                 Text(
                     text = "welcome to ORGANIKS",
                     fontSize = 28.sp,
@@ -198,10 +194,6 @@ fun LoginScreen(
                                 loginViewModel.saveOnBoardingState(completed = true)
                                 onClick
                             },
-//                            {
-//
-////                                navController.navigate(To_MAIN_GRAPH_ROUTE)
-//                                      },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 20.dp)
