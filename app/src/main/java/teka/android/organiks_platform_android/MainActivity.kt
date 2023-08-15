@@ -45,14 +45,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             splashViewModel.startDestination.value?.let { Log.d("TAG3", it) }
 
-
-
             OrganiksPlatformAndroidTheme {
                 val startDestination by splashViewModel.startDestination
-//                val navController = rememberNavController()
-
                 startDestination?.let { RootNavGraph(navController = rememberNavController(), startDestination = it) }
-
             }
         }
     }

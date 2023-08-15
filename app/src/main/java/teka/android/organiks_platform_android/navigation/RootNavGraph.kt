@@ -21,7 +21,6 @@ fun RootNavGraph(
 
         authNavGraph(navController = navController)
 
-
         composable(route = To_MAIN_GRAPH_ROUTE){
             MainAppScreen()
         }
