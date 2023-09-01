@@ -6,13 +6,12 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room_remote_sync.models.CreateEggCollectionResponse
-import teka.android.organiks_platform_android.domain.models.EggCollectionUpstream
 
 interface EggCollectionService {
 
 
     @POST("api/eventVisitors/update")
-    suspend fun updateEggCollection(@Body eggCollection: EggCollectionUpstream)
+    suspend fun updateEggCollection(@Body eggCollection: EggCollection)
 
 
     @GET("api/eggCollections/get")

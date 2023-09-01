@@ -25,7 +25,5 @@ fun MilkCollectionResult.toMilkCollection(): MilkCollection {
         uuid = this.uuid,
         qty = this.qty,
         date = this.date,
-
-
     )
 }
