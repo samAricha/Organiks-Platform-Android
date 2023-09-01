@@ -37,8 +37,7 @@ data class EggCollection(
     val createdAt: Long = System.currentTimeMillis()
 ) {
     companion object {
-        private fun generateUniqueId(): String {
-            // Use UUID for generating a unique ID
+        fun generateUniqueId(): String {
             return UUID.randomUUID().toString()
         }
     }
@@ -51,9 +50,18 @@ data class MilkCollection(
     @ColumnInfo(name = "milk_collection_id")
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
+    val uuid: String = generateUniqueId(),
     val qty:String,
-    val date: Date,
-)
+    val date: Long = System.currentTimeMillis(),
+    val createdAt: Long = System.currentTimeMillis()
+){
+    companion object {
+        private fun generateUniqueId(): String {
+            // Use UUID for generating a unique ID
+            return UUID.randomUUID().toString()
+        }
+    }
+}
 
 
 

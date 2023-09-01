@@ -17,7 +17,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import teka.android.organiks_platform_android.navigation.*
+import teka.android.organiks_platform_android.ui.theme.PlaceholderColor
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
+import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -25,15 +27,17 @@ fun MainAppScreen() {
     val navHostController: NavHostController = rememberNavController()
     Scaffold(
         topBar = {
-            TopAppBar(backgroundColor = PrimaryColor,
+            TopAppBar(backgroundColor = PlaceholderColor,
                 title = {
                     Text(
                         text = "Organiks",
+                        fontFamily = ReemKufiMedium,
                         modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        color = Color.White
+                        textAlign = TextAlign.Left,
+                        color = Color.Gray
                     )
-                })
+                },
+            )
         },
 
         bottomBar = {

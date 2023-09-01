@@ -4,6 +4,7 @@ import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
+import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 
 
@@ -77,3 +78,30 @@ data class EggTypeEggCollectionItem(
     @Embedded val eggType: EggType,
     @Embedded val eggCollection: EggCollection,
 )
+
+
+
+
+@Dao
+interface MilkCollectionDao{
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(milkCollection: MilkCollection)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(milkCollection: MilkCollection)
+
+    @Delete
+    suspend fun delete(milkCollection: MilkCollection)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMilkCollections(milkCollections: List<MilkCollection>)
+
+
+    @Query("SELECT * FROM milk_collections")
+    fun getAllMilkCollections(): Flow<List<MilkCollection>>
+
+    @Query("SELECT * FROM milk_collections WHERE milk_collection_id=:collectionId")
+    fun getMilkCollectionById(collectionId:Int): Flow<MilkCollection>
+
+
+}

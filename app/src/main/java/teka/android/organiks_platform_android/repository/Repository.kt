@@ -2,14 +2,17 @@ package teka.android.organiks_platform_android.repository
 
 import teka.android.organiks_platform_android.data.room.EggCollectionDao
 import teka.android.organiks_platform_android.data.room.EggTypeDao
+import teka.android.organiks_platform_android.data.room.MilkCollectionDao
 import teka.android.organiks_platform_android.data.room.ProductionCategoryDao
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
+import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 
 class Repository(
     private val eggTypeDao: EggTypeDao,
     private val eggCollectionDao: EggCollectionDao,
+    private val milkCollectionDao: MilkCollectionDao,
     private val productionCategoryDao: ProductionCategoryDao
 ) {
     //the following are methods which are going to help us get our data.
@@ -59,5 +62,10 @@ class Repository(
 
     suspend fun saveRemoteEggCollections(eggCollections: List<EggCollection>){
         eggCollectionDao.insertEggCollections(eggCollections)
+    }
+
+
+    suspend fun saveRemoteMilkCollections(milkCollections: List<MilkCollection>){
+        milkCollectionDao.insertMilkCollections(milkCollections)
     }
 }

@@ -1,5 +1,7 @@
 package teka.android.organiks_platform_android.domain.authentication
 
+import android.content.Context
+import android.widget.Toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -13,27 +15,43 @@ import javax.inject.Inject
 
 
 class AuthManager @Inject constructor(
-                  private val dataStoreRepository: DataStoreRepository
+                  private val dataStoreRepository: DataStoreRepository,
+                  private val context: Context // Inject the Context
+
 ) {
 
     private val authService: AuthService = RetrofitProvider.createAuthService()
 
     suspend fun login(email: String, password: String): Boolean {
-        val response = authService.login(LoginRequest(email, password))
-        if (response.isSuccessful) {
-            val token = response.data.accessToken
-            saveAuthToken(token)
-            return true
+        try {
+            val response = authService.login(LoginRequest(email, password))
+            if (response.isSuccessful) {
+                val token = response.data.accessToken
+                saveAuthToken(token)
+                return true
+            }
+        }catch (e: Exception) {
+            // Handle the exception here, e.g., log it or perform error handling.
+            e.printStackTrace()
+            Toast.makeText(context, "Login failed. Please try again.", Toast.LENGTH_SHORT).show()
+
         }
         return false
     }
 
     suspend fun register(name: String, email: String, password: String, passwordConfirmation: String): Boolean {
-        val response = authService.registration(RegisterRequest(name, email, password, passwordConfirmation))
-        if (response.isSuccessful) {
-            val token = response.data.accessToken
-            saveAuthToken(token)
-            return true
+        try {
+            val response = authService.registration(RegisterRequest(name, email, password, passwordConfirmation))
+            if (response.isSuccessful) {
+                val token = response.data.accessToken
+                saveAuthToken(token)
+                return true
+            }
+        }catch (e: Exception) {
+            // Handle the exception here, e.g., log it or perform error handling.
+            e.printStackTrace()
+            Toast.makeText(context, "Registration failed. Please try again.", Toast.LENGTH_SHORT).show()
+
         }
         return false
     }

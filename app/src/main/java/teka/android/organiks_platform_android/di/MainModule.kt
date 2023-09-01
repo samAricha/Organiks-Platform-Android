@@ -16,6 +16,12 @@ object MainModule {
 
     @Provides
     @Singleton
+    fun provideApplicationContext(@ApplicationContext appContext: Context): Context {
+        return appContext
+    }
+
+    @Provides
+    @Singleton
     fun provideDataStoreRepository(
         @ApplicationContext context: Context
     ) = DataStoreRepository(context = context)

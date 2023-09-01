@@ -10,7 +10,11 @@ import teka.android.organiks_platform_android.R
 
 // Set of Material typography styles to start with
 val ReemKufi = FontFamily(Font(R.font.reemkufi))
+val ReemKufiMedium = FontFamily(Font(R.font.reem_kufi_medium))
+val ReemKufiSemiBold = FontFamily(Font(R.font.reem_kufi_semi_bold))
+val ReemKufiBold = FontFamily(Font(R.font.reem_kufi_bold))
 val Poppins = FontFamily(Font(R.font.poppins))
+val PoppinsLight = FontFamily(Font(R.font.poppins_light))
 
 
 val Typography = Typography(

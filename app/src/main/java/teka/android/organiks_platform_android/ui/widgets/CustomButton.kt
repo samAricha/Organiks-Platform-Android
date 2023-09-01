@@ -1,18 +1,18 @@
-package teka.android.denitracker.ui.widgets
+package teka.android.organiks_platform_android.ui.widgets
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
-import teka.android.denitracker.ui.theme.ReemKufiMedium
-import teka.android.denitracker.ui.theme.ReemKufiSemiBold
-import teka.android.denitracker.ui.theme.buttonShapes
+import teka.android.organiks_platform_android.ui.theme.ReemKufiSemiBold
+import teka.android.organiks_platform_android.ui.theme.buttonShapes
 
 
 @Composable

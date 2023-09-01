@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -72,35 +73,48 @@ fun WelcomeScreen(
 fun PagerScreen(onBoardingPage: OnBoardingPage) {
     Column(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .fillMaxHeight(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top
+        verticalArrangement = Arrangement.Center,
+
     ) {
         Image(
             modifier = Modifier
                 .fillMaxWidth(0.5f)
-                .fillMaxHeight(0.7f),
+                .padding(bottom = 5.dp),
+
             painter = painterResource(id = onBoardingPage.image),
             contentDescription = "Pager Image"
         )
-        Text(
+        Column(
             modifier = Modifier
-                .fillMaxWidth(),
-            text = onBoardingPage.title,
-            fontSize = MaterialTheme.typography.h4.fontSize,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
-        )
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 40.dp)
-                .padding(top = 20.dp),
-            text = onBoardingPage.description,
-            fontSize = MaterialTheme.typography.subtitle1.fontSize,
-            fontWeight = FontWeight.Medium,
-            textAlign = TextAlign.Center
-        )
+                .padding(top = 65.dp),
+            verticalArrangement = Arrangement.Bottom
+
+        ){
+
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                text = onBoardingPage.title,
+                fontSize = MaterialTheme.typography.h5.fontSize,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 40.dp)
+                    .padding(top = 20.dp),
+                text = onBoardingPage.description,
+                fontSize = MaterialTheme.typography.subtitle1.fontSize,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Center
+            )
+
+        }
+
     }
 }
 

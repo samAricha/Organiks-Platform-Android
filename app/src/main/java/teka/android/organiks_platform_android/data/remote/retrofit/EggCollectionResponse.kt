@@ -3,6 +3,7 @@ package teka.android.organiks_platform_android.data.remote.retrofit
 import kotlinx.serialization.Serializable
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import java.util.Date
+import java.util.UUID
 
 @Serializable
 data class EggCollectionResponse(
@@ -14,6 +15,7 @@ data class EggCollectionResponse(
 
 @Serializable
 data class EggCollectionResult(
+    val uuid: String,
     val qty: String,
     val cracked: String,
     val eggTypeId: Int,
@@ -25,6 +27,7 @@ data class EggCollectionResult(
 
 fun EggCollectionResult.toEggCollection(): EggCollection {
     return EggCollection(
+        uuid = this.uuid,
         qty = this.qty,
         cracked = this.cracked,
         eggTypeId = this.eggTypeId,

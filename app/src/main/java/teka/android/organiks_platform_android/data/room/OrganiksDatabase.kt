@@ -21,6 +21,7 @@ abstract class OrganiksDatabase: RoomDatabase() {
 
     abstract fun eggTypeDao():EggTypeDao
     abstract fun eggCollectionDao():EggCollectionDao
+    abstract fun milkCollectionDao():MilkCollectionDao
     abstract fun productionCategoryDao():ProductionCategoryDao
 
     companion object{

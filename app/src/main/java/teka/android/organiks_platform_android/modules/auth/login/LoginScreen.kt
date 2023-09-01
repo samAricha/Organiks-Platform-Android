@@ -1,6 +1,7 @@
 package teka.android.organiks_platform_android.modules.auth.login
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -10,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -20,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import teka.android.organiks_platform_android.R
+import teka.android.organiks_platform_android.modules.auth.AuthViewModel
 
 import teka.android.organiks_platform_android.ui.theme.*
 
@@ -28,11 +31,21 @@ import teka.android.organiks_platform_android.ui.theme.*
 fun LoginScreen(
     onClick: () -> Unit,
     ) {
+    val context = LocalContext.current
     val loginViewModel:LoginViewModel = hiltViewModel()
+    val authViewModel:AuthViewModel = hiltViewModel()
     Log.d("lscrn", "inside login screen")
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordOpen by remember { mutableStateOf(false) }
+    val isLoggedIn by authViewModel.isLoggedIn.collectAsState(false)
+
+
+    if (isLoggedIn){
+        loginViewModel.saveOnBoardingState(completed = true)
+        onClick
+        Toast.makeText(context, "Login successful.", Toast.LENGTH_SHORT).show()
+    }
 
     Column() {
 
@@ -50,43 +63,42 @@ fun LoginScreen(
                     painter = painterResource(id = R.drawable.access),
                     contentDescription = "Access image",
                     modifier = Modifier
-                        .size(150.dp)
-                        .padding(bottom = 16.dp),
+                        .size(100.dp),
                     contentScale = ContentScale.Fit
                 )
                 Spacer(modifier = Modifier.height(20.dp))
-                Text(
-                    text = "welcome to ORGANIKS",
-                    fontSize = 28.sp,
-                    color = Color.White,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 30.dp),
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold,
-                    fontFamily = ReemKufi
-                )
+//                Text(
+//                    text = "welcome to ORGANIKS",
+//                    fontSize = 28.sp,
+//                    color = Color.White,
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(horizontal = 30.dp),
+//                    textAlign = TextAlign.Center,
+//                    fontWeight = FontWeight.Bold,
+//                    fontFamily = ReemKufi
+//                )
 
-                Button(
-                    onClick = { },
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = Color.White
-                    ),
-                    contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
-                    modifier = Modifier.padding(top = 20.dp),
-                    shape = Shapes.large,
-                ) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_google),
-                            contentDescription = "",
-                            tint = Color.Unspecified,
-                            modifier = Modifier.size(26.dp)
-                        )
-                        Spacer(modifier = Modifier.width(20.dp))
-                        Text(text = "Continue with Google", color = PrimaryColor, fontSize = 16.sp)
-                    }
-                }
+//                Button(
+//                    onClick = { },
+//                    colors = ButtonDefaults.buttonColors(
+//                        backgroundColor = Color.White
+//                    ),
+//                    contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
+//                    modifier = Modifier.padding(top = 20.dp),
+//                    shape = Shapes.large,
+//                ) {
+//                    Row(verticalAlignment = Alignment.CenterVertically) {
+//                        Icon(
+//                            painter = painterResource(id = R.drawable.ic_google),
+//                            contentDescription = "",
+//                            tint = Color.Unspecified,
+//                            modifier = Modifier.size(26.dp)
+//                        )
+//                        Spacer(modifier = Modifier.width(20.dp))
+//                        Text(text = "Continue with Google", color = PrimaryColor, fontSize = 16.sp)
+//                    }
+//                }
 
 
                 Card(
@@ -99,13 +111,13 @@ fun LoginScreen(
                 ) {
 
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text(
-                            text = "Log In with Email",
-                            color = LightTextColor,
-                            fontFamily = Poppins,
-                            fontSize = 12.sp,
-                            modifier = Modifier.padding(top = 16.dp)
-                        )
+//                        Text(
+//                            text = "Or",
+//                            color = LightTextColor,
+//                            fontFamily = Poppins,
+//                            fontSize = 12.sp,
+//                            modifier = Modifier.padding(top = 16.dp)
+//                        )
 
                         OutlinedTextField(
                             value = email,
@@ -191,8 +203,7 @@ fun LoginScreen(
 
                         Button(
                             onClick = {
-                                loginViewModel.saveOnBoardingState(completed = true)
-                                onClick
+                                authViewModel.login(email = email, password = password)
                             },
                             modifier = Modifier
                                 .fillMaxWidth()

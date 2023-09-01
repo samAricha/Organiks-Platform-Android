@@ -13,7 +13,8 @@ object OrganiksDI {
         Repository(
             eggTypeDao = db.eggTypeDao(),
             eggCollectionDao = db.eggCollectionDao(),
-            productionCategoryDao = db.productionCategoryDao()
+            productionCategoryDao = db.productionCategoryDao(),
+            milkCollectionDao = db.milkCollectionDao()
         )
     }
 

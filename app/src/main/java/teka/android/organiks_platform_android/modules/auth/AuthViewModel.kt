@@ -29,7 +29,9 @@ class AuthViewModel @Inject constructor(
         viewModelScope.launch {
             val success = authManager.login(email, password)
             _isLoggedIn.value = success
-            if (success)dataStoreRepository.saveLoggedInState(isLoggedIn = success)
+            if (success){
+                dataStoreRepository.saveLoggedInState(isLoggedIn = success)
+            }
         }
     }
 

@@ -14,7 +14,7 @@ class RemoteDataUpdater {
         withContext(Dispatchers.IO) {
             try {
                 eggCollections.forEach { eggCollection ->
-                    val response = RetrofitProvider.createVisitorListService().createRemoteEggCollection(eggCollection)
+                    val response = RetrofitProvider.createEggCollectionService().createRemoteEggCollection(eggCollection)
                     if (response != null) {
                         if (response.success){
                             eggCollection.isBackedUp = true
