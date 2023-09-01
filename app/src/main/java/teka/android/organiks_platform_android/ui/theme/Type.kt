@@ -14,10 +14,11 @@ val Poppins = FontFamily(Font(R.font.poppins))
 
 
 val Typography = Typography(
+    defaultFontFamily = ReemKufi,
     body1 = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp
+        fontFamily = ReemKufi,
+        fontWeight = FontWeight.Light,
+        fontSize = 13.sp
     )
     /* Other default text styles to override
     button = TextStyle(
