@@ -32,7 +32,12 @@ import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
+import teka.android.organiks_platform_android.ui.theme.PoppinsExtraLight
+import teka.android.organiks_platform_android.ui.theme.PoppinsLight
+import teka.android.organiks_platform_android.ui.theme.ReemKufi
 import teka.android.organiks_platform_android.ui.theme.Shapes
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -44,7 +49,7 @@ fun ProductionHomeScreen(
     val productionHomeState = productionHomeViewModel.state
 
     println("ALERT ALERT ${ productionHomeState.eggCollectionsWithTypesList.size }")
-    Log.d(TAG, "INSIDE GET EGG COLLECTION${productionHomeState.eggCollections}")
+    Log.d(TAG, "INSIDE GET EGG COLLECTION${ productionHomeState.eggCollections }")
 
 
     Scaffold(floatingActionButton = {
@@ -133,24 +138,26 @@ fun EggCollectionItems(
                 )
             }
 
-
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
                     text = "Kienyeji",
-                    style = MaterialTheme.typography.h6,
-                    fontWeight = FontWeight.Bold
+                    fontFamily = PoppinsLight
                 )
-                Spacer(modifier = Modifier.size(4.dp))
-
-            }
-            Column(modifier = Modifier.padding(8.dp)) {
                 Text(text = "Total: ${eggCollection.qty}",
-                    style = MaterialTheme.typography.h6,
-                    fontWeight = FontWeight.Bold
+                    fontFamily = PoppinsLight
                 )
                 Text(text = "Cracked: ${eggCollection.cracked}",
-                    style = MaterialTheme.typography.h6,
-                    fontWeight = FontWeight.Bold
+                    fontFamily = PoppinsLight
+                )
+            }
+            Column(modifier = Modifier.padding(8.dp).fillMaxHeight(),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.End) {
+                // Date Text
+                val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                    .format(eggCollection.date)
+                Text(text = formattedDate,
+                    fontFamily = PoppinsExtraLight,
                 )
             }
 

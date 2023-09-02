@@ -6,6 +6,7 @@ import android.content.Context
 import android.widget.DatePicker
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
@@ -17,13 +18,16 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import teka.android.organiks_platform_android.presentation.records.production.components.EggProductionEntryComponent
+import teka.android.organiks_platform_android.presentation.records.production.components.MilkProductionEntryComponent
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
+import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import java.util.*
 
@@ -51,18 +55,18 @@ fun ProductionRecordingScreen(
 @Composable
 fun ProductionRecording(
     state: ProductionRecordingState,
-    onCategoryChange:(Category) -> Unit,
+    onCategoryChange: (Category) -> Unit,
     navigateUp: () -> Unit,
     viewModel: ProductionRecordingViewModel
-){
-
+) {
     Column() {
-        //Production Category Section
-        LazyRow{
-            items(Utils.productionCategory){ category: Category ->
-                CategoryItem(iconRes = category.resId,
+        // Production Category Section
+        LazyRow {
+            items(Utils.productionCategory) { category: Category ->
+                CategoryItem(
+                    iconRes = category.resId,
                     title = category.title,
-                    selected = category == state.productionCategory
+                    selected = category == state.selectedProductionCategory
                 ) {
                     onCategoryChange(category)
                 }
@@ -72,20 +76,33 @@ fun ProductionRecording(
 
         Spacer(modifier = Modifier.size(16.dp))
 
-        //Production Entry component
-        EggProductionEntryComponent(
-            state,
-            onDateSelected = viewModel::onDateChange,
-            onEggTypeChange = viewModel::onEggTypeChange,
-            onCollectionQuantityChange = viewModel::onQtyChange,
-            onCrackedQuantityChange = viewModel::onCrackedQtyChange,
-            onCategoryChange = viewModel::onCategoryChange,
-            onDialogDismissed = viewModel::onScreenDialogDismissed,
-            onSaveEggType = viewModel::addEggCollection,
-            updateEggCollectionQty = { viewModel::updateEggCollection },
-            onSaveEggCollection= viewModel::onSaveEggCollection,
-            navigateUp = navigateUp
-        )
+        // Conditional Entry Component
+        when (state.selectedProductionCategory) {
+            Utils.productionCategory[0] -> {
+                EggProductionEntryComponent(
+                    state,
+                    onDateSelected = viewModel::onDateChange,
+                    onEggTypeChange = viewModel::onEggTypeChange,
+                    onCollectionQuantityChange = viewModel::onQtyChange,
+                    onCrackedQuantityChange = viewModel::onCrackedQtyChange,
+                    onCategoryChange = viewModel::onCategoryChange,
+                    onDialogDismissed = viewModel::onScreenDialogDismissed,
+                    onSaveEggType = viewModel::addEggCollection,
+                    updateEggCollectionQty = { viewModel::updateEggCollection },
+                    onSaveEggCollection = viewModel::onSaveEggCollection,
+                    navigateUp = navigateUp
+                )
+            }
+            Utils.productionCategory[1] -> {
+                MilkProductionEntryComponent(
+                    state = ProductionRecordingState(),
+                    onCollectionQuantityChange = {},
+                    onSaveMilkCollection = {},
+                    updateMilkCollectionQty = {},
+                    navigateUp= {},
+                )
+            }
+        }
     }
 }
 
@@ -142,15 +159,16 @@ fun CategoryItem(
             else MaterialTheme.colors.onSurface,
         ),
         shape = Shapes.large,
-        backgroundColor = if(selected) MaterialTheme.colors.primary.copy(.5f)
-        else MaterialTheme.colors.surface,
+        backgroundColor = if(selected) PrimaryColor
+        else Color.LightGray,
         contentColor = if (selected) MaterialTheme.colors.onPrimary
         else MaterialTheme.colors.onSurface
 
     ) {
         Row(horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(8.dp)) {
+            modifier = Modifier.padding(8.dp)
+        ) {
 
             Icon(painter = painterResource(id = iconRes),
                 contentDescription = null,

@@ -64,6 +64,7 @@ class ProductionRecordingViewModel
     //methods for modifying state
     fun onCategoryChange(newValue: Category){
         state = state.copy(productionCategory = newValue)
+        state = state.copy(selectedProductionCategory = newValue)
     }
     fun onEggTypeChange(newValue: String){
         state = state.copy(eggTypeName = newValue)
@@ -189,5 +190,7 @@ data class ProductionRecordingState(
     val date: Date = Date(),
     val isScreenDialogDismissed: Boolean = true,
     val isUpdatingItem: Boolean = false,
-    val productionCategory: Category = Category()
+    val productionCategory: Category = Category(),
+    val selectedProductionCategory: Category = Utils.productionCategory[0] // Set the default to "Eggs"
+
 )

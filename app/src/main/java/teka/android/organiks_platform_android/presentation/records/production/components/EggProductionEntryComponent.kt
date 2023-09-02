@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.presentation.records.production.components
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -11,13 +12,16 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Popup
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.models.EggType
 import teka.android.organiks_platform_android.presentation.records.production.productionRecording.ProductionRecordingState
@@ -26,6 +30,7 @@ import teka.android.organiks_platform_android.ui.theme.PlaceholderColor
 import teka.android.organiks_platform_android.ui.theme.Poppins
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
+import teka.android.organiks_platform_android.ui.theme.buttonShapes
 import java.util.*
 
 @Composable
@@ -111,7 +116,7 @@ fun EggProductionEntryComponent(
                 Text(
                     text = selectedEggTypeItem.name,
                     modifier = Modifier
-                        .padding(12.dp)
+                        .padding(horizontal = 12.dp)
                         .align(Alignment.CenterVertically),
 
                 )
@@ -206,35 +211,55 @@ fun EggProductionEntryComponent(
         }
 
 
-        Spacer(modifier = Modifier.height(84.dp))
+        Spacer(modifier = Modifier.height(34.dp))
 
+        Canvas(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            val startY = size.height / 2f
+            val startX = 0f
+            val endX = size.width
 
+            drawLine(
+                color = Color.Black, // You can change the color here
+                start = Offset(startX, startY),
+                end = Offset(endX, startY),
+                strokeWidth = 2f, // You can change the line thickness here
+                cap = StrokeCap.Round
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
         val buttonTitle = if (state.isUpdatingItem) "Update"
         else "Save"
 
-        Button(
-            onClick ={
-                when(state.isUpdatingItem){
-                    true -> {
-                        updateEggCollectionQty.invoke()
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.End
+        ){
+            Button(
+                modifier = Modifier.padding(horizontal = 4.dp).width(155.dp),
+                onClick ={
+                    when(state.isUpdatingItem){
+                        true -> {
+                            updateEggCollectionQty.invoke()
+                        }
+                        false -> {
+                            onSaveEggCollection.invoke()
+                        }
                     }
-                    false -> {
-                        onSaveEggCollection.invoke()
-                    }
-                }
-                navigateUp.invoke()
-            },
-            modifier = Modifier
-                .fillMaxWidth(),
-            enabled = state.eggCollectionQty.isNotEmpty()&&
-                    state.eggsCracked.isNotEmpty()&&
-                    state.eggTypeName.isNotEmpty(),
-            shape = Shapes.large,
-            contentPadding = PaddingValues(vertical = 14.dp)
-        ) {
-            Text(text = buttonTitle, fontFamily = Poppins)
+                    navigateUp.invoke()
+                },
+                enabled = state.eggCollectionQty.isNotEmpty()&&
+                        state.eggsCracked.isNotEmpty()&&
+                        state.eggTypeName.isNotEmpty(),
+                shape = buttonShapes.large,
+                contentPadding = PaddingValues(vertical = 14.dp)
+            ) {
+                Text(text = buttonTitle, fontFamily = Poppins)
 
+            }
         }
+
 
 
     }

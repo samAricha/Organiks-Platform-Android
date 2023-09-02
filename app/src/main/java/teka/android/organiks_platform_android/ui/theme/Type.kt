@@ -15,6 +15,7 @@ val ReemKufiSemiBold = FontFamily(Font(R.font.reem_kufi_semi_bold))
 val ReemKufiBold = FontFamily(Font(R.font.reem_kufi_bold))
 val Poppins = FontFamily(Font(R.font.poppins))
 val PoppinsLight = FontFamily(Font(R.font.poppins_light))
+val PoppinsExtraLight = FontFamily(Font(R.font.poppins_extra_light))
 
 
 val Typography = Typography(
