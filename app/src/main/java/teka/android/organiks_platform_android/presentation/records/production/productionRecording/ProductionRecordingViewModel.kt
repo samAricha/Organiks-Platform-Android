@@ -36,7 +36,7 @@ class ProductionRecordingViewModel
                 repository.getEggCollectionById(eggCollectionId)
                     .collectLatest {
                         state = state.copy(
-                            date = it.date,
+                            date = Date(it.date),
                             eggCollectionQty = it.qty,
                             eggsCracked = it.cracked,
                             productionCategory = Utils.productionCategory.find { c ->
@@ -89,7 +89,7 @@ class ProductionRecordingViewModel
         viewModelScope.launch {
             repository.insertEggCollection(
                 EggCollection(
-                    date = state.date,
+                    date = state.date.time,
                     qty = state.eggCollectionQty,
                     cracked = state.eggsCracked,
                     eggTypeId = state.eggTypes.find {
@@ -125,7 +125,7 @@ class ProductionRecordingViewModel
         viewModelScope.launch {
             repository.insertEggCollection(
                 EggCollection(
-                    date = state.date,
+                    date = state.date.time,
                     qty = state.eggCollectionQty,
                     cracked = state.eggsCracked,
                     eggTypeId = state.eggTypes.find {
@@ -141,7 +141,7 @@ class ProductionRecordingViewModel
         viewModelScope.launch {
             repository.insertEggCollection(
                 EggCollection(
-                    date = state.date,
+                    date = state.date.time,
                     qty = state.eggCollectionQty,
                     cracked = state.eggsCracked,
                     eggTypeId = state.eggTypes.find {

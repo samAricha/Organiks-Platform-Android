@@ -32,7 +32,7 @@ data class EggCollection(
     val qty: String,
     val cracked: String,
     val eggTypeId: Int,
-    val date: Date,
+    val date: Long,
     var isBackedUp: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
 ) {

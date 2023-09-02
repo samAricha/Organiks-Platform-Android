@@ -19,11 +19,8 @@ data class EggCollectionResult(
     val qty: String,
     val cracked: String,
     val eggTypeId: Int,
-    val dateTimestamp: Long,  // Date as a timestamp
-) {
-    val date: Date
-        get() = Date(dateTimestamp)
-}
+    val date: Long,  // Date as a timestamp
+)
 
 fun EggCollectionResult.toEggCollection(): EggCollection {
     return EggCollection(
