@@ -53,8 +53,10 @@ data class MilkCollection(
     val uuid: String = generateUniqueId(),
     val qty:String,
     val date: Long = System.currentTimeMillis(),
-    val createdAt: Long = System.currentTimeMillis()
-){
+    val createdAt: Long = System.currentTimeMillis(),
+    var isBackedUp: Boolean = false,
+
+    ){
     companion object {
         private fun generateUniqueId(): String {
             // Use UUID for generating a unique ID

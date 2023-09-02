@@ -53,6 +53,9 @@ class Repository(
     suspend fun updateEggCollection(eggCollection: EggCollection){
         eggCollectionDao.update(eggCollection = eggCollection)
     }
+    suspend fun updateMilkCollection(milkCollection: MilkCollection){
+        milkCollectionDao.update(milkCollection = milkCollection)
+    }
 
     //the following are functions that are going to help us delete/erase data
 
