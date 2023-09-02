@@ -17,8 +17,7 @@ interface EggCollectionService {
     suspend fun getEggCollections():EggCollectionResponse
 
 
-    //Remember to adjust the response model class based on the actual JSON structure returned by your server's API.
-    @POST("collections/egg")
+    @POST("api/collections/egg/store")
     suspend fun createRemoteEggCollection(@Body eggCollection: EggCollectionRequest): RemoteEggCollectionResponse
 
 }

@@ -7,6 +7,7 @@ package="teka.android.organiks_platform_android">
 
     <application
         android:name=".OrganiksApplication"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
         android:icon="@drawable/egg100"
         android:label="@string/app_name"

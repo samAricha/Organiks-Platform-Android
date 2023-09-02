@@ -25,7 +25,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.EggTypeEggCollectionItem
 import teka.android.organiks_platform_android.data.room.models.EggCollection
@@ -45,7 +47,7 @@ fun ProductionHomeScreen(
     onNavigate:(Int) -> Unit
 ){
 
-    val productionHomeViewModel = viewModel(modelClass = ProductionHomeViewModel::class.java)
+    val productionHomeViewModel : ProductionHomeViewModel = hiltViewModel()
     val productionHomeState = productionHomeViewModel.state
 
     println("ALERT ALERT ${ productionHomeState.eggCollectionsWithTypesList.size }")
@@ -150,9 +152,11 @@ fun EggCollectionItems(
                     fontFamily = PoppinsLight
                 )
             }
-            Column(modifier = Modifier.padding(8.dp).fillMaxHeight(),
-            verticalArrangement = Arrangement.Bottom,
-            horizontalAlignment = Alignment.End) {
+            Column(modifier = Modifier
+                .padding(8.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Bottom) {
+                Spacer(modifier = Modifier.weight(1f))
                 // Date Text
                 val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
                     .format(eggCollection.date)

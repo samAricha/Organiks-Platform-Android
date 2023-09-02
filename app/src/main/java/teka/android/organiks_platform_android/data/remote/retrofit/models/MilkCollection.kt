@@ -1,9 +1,9 @@
 package teka.android.organiks_platform_android.data.remote.retrofit.models
 
-import teka.android.organiks_platform_android.data.remote.retrofit.MilkCollectionResult
-import teka.android.organiks_platform_android.data.room.models.EggCollection
+import kotlinx.serialization.Serializable
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 
+@Serializable
 data class MilkCollectionRequest(
     val collection_uuid: String,
     val quantity: String,

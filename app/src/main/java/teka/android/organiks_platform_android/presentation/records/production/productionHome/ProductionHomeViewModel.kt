@@ -5,20 +5,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.EggTypeEggCollectionItem
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
-import teka.android.organiks_platform_android.di.OrganiksDI
-import teka.android.organiks_platform_android.repository.Repository
+import teka.android.organiks_platform_android.repository.DbRepository
 import teka.android.organiks_platform_android.ui.Category
+import javax.inject.Inject
 
-private val TAG: String = ProductionHomeViewModel::class.java.simpleName
-
-
-class ProductionHomeViewModel(
-    private val repository: Repository = OrganiksDI.repository
+@HiltViewModel
+class ProductionHomeViewModel @Inject constructor(
+    private val repository: DbRepository,
+    private val remoteDataUpdater: RemoteDataUpdater
 ): ViewModel() {
 
     var state by mutableStateOf(ProductionHomeState())
@@ -94,7 +94,7 @@ class ProductionHomeViewModel(
 
     //Synchronizing local Room to Remote db
     fun syncRoomDbToRemote() {
-        val remoteDataUpdater = RemoteDataUpdater()
+
         viewModelScope.launch {
             //filter and get eggCollections with status backedUp == false
             val notBackedUpEggCollections = state.eggCollections.filter { eggCollection ->

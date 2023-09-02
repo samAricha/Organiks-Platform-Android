@@ -8,11 +8,11 @@ import teka.android.organiks_platform_android.data.remote.retrofit.toEggCollecti
 import teka.android.organiks_platform_android.data.remote.retrofit.toMilkCollection
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
-import teka.android.organiks_platform_android.repository.Repository
+import teka.android.organiks_platform_android.repository.DbRepository
 
 
 class FetchRemoteData {
-    suspend fun fetchRemoteEggCollectionDataAndSaveLocally(repository: Repository){
+    suspend fun fetchRemoteEggCollectionDataAndSaveLocally(repository: DbRepository){
         withContext(Dispatchers.IO) {
             try {
                 Log.d("INSIDE TRY", "FIRST LINE")
@@ -29,7 +29,7 @@ class FetchRemoteData {
     }
 
 
-    suspend fun fetchRemoteMilkCollectionDataAndSaveLocally(repository: Repository){
+    suspend fun fetchRemoteMilkCollectionDataAndSaveLocally(repository: DbRepository){
         withContext(Dispatchers.IO) {
             try {
                 Log.d("INSIDE TRY", "FIRST LINE")

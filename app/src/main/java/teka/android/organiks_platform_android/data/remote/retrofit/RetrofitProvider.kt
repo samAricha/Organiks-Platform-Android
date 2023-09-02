@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 
 object RetrofitProvider {
 //    private const val BASE_URL = "https://api.themoviedb.org"
-    private const val BASE_URL = "https://c3e6-2c0f-fe38-2401-1688-a28f-6f5f-11a7-23c7.ngrok-free.app/api/"
+    private const val BASE_URL = "https://e599-2c0f-fe38-2401-1688-b69d-ef46-ee54-c3aa.ngrok-free.app/"
 
     private fun provide(): Retrofit {
         val json = Json { ignoreUnknownKeys = true }//to ignore unkown keys

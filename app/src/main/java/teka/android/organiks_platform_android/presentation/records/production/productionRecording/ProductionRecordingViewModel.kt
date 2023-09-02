@@ -1,28 +1,31 @@
 package teka.android.organiks_platform_android.presentation.records.production.productionRecording
 
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.Flow
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
 import teka.android.organiks_platform_android.data.room.models.ProductionCategory
-import teka.android.organiks_platform_android.di.OrganiksDI
-import teka.android.organiks_platform_android.repository.Repository
+import teka.android.organiks_platform_android.repository.DbRepository
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
 import java.util.*
+import javax.inject.Inject
 
-class ProductionRecordingViewModel
-    constructor(
-        private val eggCollectionId: Int,
-        private val repository: Repository = OrganiksDI.repository
+@HiltViewModel
+class ProductionRecordingViewModel @Inject constructor(
+        private val repository: DbRepository
     ): ViewModel(){
+
+    // Mutable state for eggCollectionId
+    private val _eggCollectionId = mutableStateOf(-1)
+    val eggCollectionId: State<Int> get() = _eggCollectionId
 
     var state by mutableStateOf(ProductionRecordingState())
         private set
@@ -31,9 +34,9 @@ class ProductionRecordingViewModel
         addProductionCategories()
         getEggTypes()
 
-        if(eggCollectionId != -1){
+        if(eggCollectionId.value != -1){
             viewModelScope.launch {
-                repository.getEggCollectionById(eggCollectionId)
+                repository.getEggCollectionById(eggCollectionId.value)
                     .collectLatest {
                         state = state.copy(
                             date = Date(it.date),
@@ -49,7 +52,7 @@ class ProductionRecordingViewModel
     }
 
     init {
-        state = if (eggCollectionId != -1){
+        state = if (eggCollectionId.value != -1){
             state.copy(isUpdatingItem = true)
         }else{
             state.copy(isUpdatingItem = false)
@@ -175,13 +178,6 @@ class ProductionRecordingViewModel
 
 
 }
-
-class ProductionRecordingViewModelFactory(private val id: Int):ViewModelProvider.Factory{
-    override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return ProductionRecordingViewModel(eggCollectionId = id) as T
-    }
-}
-
 data class ProductionRecordingState(
     val eggTypes: List<EggType> = emptyList(),
     val eggCollectionQty: String = "",

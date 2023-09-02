@@ -1,13 +1,17 @@
 package teka.android.organiks_platform_android.di
 
 import android.content.Context
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import teka.android.organiks_platform_android.data.room.OrganiksDatabase
+import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
 import teka.android.organiks_platform_android.repository.DataStoreRepository
 import teka.android.organiks_platform_android.modules.splash_screen.presentation.SplashViewModel
+import teka.android.organiks_platform_android.repository.DbRepository
 import javax.inject.Singleton
 
 @Module
@@ -20,6 +24,27 @@ object MainModule {
         return appContext
     }
 
+    @Singleton
+    @Provides
+    fun provideOrganiksDatabase(@ApplicationContext context: Context): OrganiksDatabase {
+        return Room.databaseBuilder(
+            context,
+            OrganiksDatabase::class.java,
+            "organiks_database"
+        ).build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRepository(database: OrganiksDatabase): DbRepository {
+        return DbRepository(
+            eggTypeDao = database.eggTypeDao(),
+            eggCollectionDao = database.eggCollectionDao(),
+            productionCategoryDao = database.productionCategoryDao(),
+            milkCollectionDao = database.milkCollectionDao()
+        )
+    }
+
     @Provides
     @Singleton
     fun provideDataStoreRepository(
@@ -30,6 +55,12 @@ object MainModule {
     @Singleton
     fun provideSplashViewModel(repository: DataStoreRepository): SplashViewModel {
         return SplashViewModel(repository)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRemoteDataUpdater(@ApplicationContext context: Context): RemoteDataUpdater {
+        return RemoteDataUpdater(context)
     }
 
 }

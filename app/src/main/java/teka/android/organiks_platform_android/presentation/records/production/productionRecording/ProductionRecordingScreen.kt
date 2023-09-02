@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import teka.android.organiks_platform_android.presentation.records.production.components.EggProductionEntryComponent
 import teka.android.organiks_platform_android.presentation.records.production.components.MilkProductionEntryComponent
@@ -38,8 +39,8 @@ fun ProductionRecordingScreen(
     navigateUp: () -> Unit
 
 ){
-    val viewModel =
-        viewModel<ProductionRecordingViewModel>(factory = ProductionRecordingViewModelFactory(id))
+    val viewModel: ProductionRecordingViewModel = hiltViewModel()
+//        viewModel<ProductionRecordingViewModel>(factory = ProductionRecordingViewModelFactory(id))
 
     Scaffold() {
         ProductionRecording(

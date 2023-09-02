@@ -10,17 +10,17 @@ import teka.android.tekeventandroidclient.authentication.models.User
 
 interface AuthService {
 
-    @POST("auth/register")
+    @POST("/api/auth/register")
     suspend fun registration(
         @Body registerRequest: RegisterRequest
     ): AuthResponse
 
-    @POST("auth/login")
+    @POST("/api/auth/login")
     suspend fun login(
         @Body loginRequest: LoginRequest
     ): AuthResponse
 
-    @POST("auth/me")
+    @POST("/api/auth/me")
     suspend fun getMeInfo(
         @Body personInfoRequest: PersonInfoRequest
     ): User
