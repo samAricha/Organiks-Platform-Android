@@ -26,7 +26,6 @@ class DbRepository(
 
 
     //getting our data while filtering it
-
     fun getEggCollectionById(id: Int) = eggCollectionDao
         .getEggCollectionById(id)
 
@@ -35,20 +34,15 @@ class DbRepository(
 
 
     //the following are functions that are going to help us insert/save our data
-
     suspend fun insertProductionCategory(productionCategory: ProductionCategory){
         productionCategoryDao.insertProductionCategory(productionCategory = productionCategory)
     }
-
     suspend fun insertEggCollection(eggCollection: EggCollection){
         eggCollectionDao.insert(eggCollection)
     }
     suspend fun insertEggType(eggType: EggType){
-
         eggTypeDao.insert(eggType)
-
     }
-
     //the following are functions that are going to help us update our data
     suspend fun updateEggCollection(eggCollection: EggCollection){
         eggCollectionDao.update(eggCollection = eggCollection)
@@ -56,18 +50,16 @@ class DbRepository(
     suspend fun updateMilkCollection(milkCollection: MilkCollection){
         milkCollectionDao.update(milkCollection = milkCollection)
     }
-
     //the following are functions that are going to help us delete/erase data
-
     suspend fun deleteCollection(eggCollection: EggCollection){
         eggCollectionDao.delete(eggCollection = eggCollection)
     }
-
     suspend fun saveRemoteEggCollections(eggCollections: List<EggCollection>){
         eggCollectionDao.insertEggCollections(eggCollections)
     }
 
 
+    //<<<<<<<<<< MILK COLLECTIONS >>>>>>>>
     suspend fun saveRemoteMilkCollections(milkCollections: List<MilkCollection>){
         milkCollectionDao.insertMilkCollections(milkCollections)
     }

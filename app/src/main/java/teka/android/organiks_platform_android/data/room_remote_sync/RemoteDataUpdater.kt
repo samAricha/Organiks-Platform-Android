@@ -28,6 +28,7 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
                     if (response.success){
                         eggCollection.isBackedUp = true
                         repository.updateEggCollection(eggCollection)
+                        Toast.makeText(appContext, "Sync successful.", Toast.LENGTH_SHORT).show()
                     }else{
                         Toast.makeText(appContext, "Sync failed. Please try again.", Toast.LENGTH_SHORT).show()
                     }
@@ -36,7 +37,6 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.d(">>>>>>>>REMOTEEGG", e.message.toString())
-//                Toast.makeText(appContext, "Sync failed. Please try again.", Toast.LENGTH_SHORT).show()
             }
         }
     }

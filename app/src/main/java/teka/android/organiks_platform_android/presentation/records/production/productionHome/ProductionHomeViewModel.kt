@@ -1,18 +1,17 @@
 package teka.android.organiks_platform_android.presentation.records.production.productionHome
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import teka.android.organiks_platform_android.data.room.EggTypeEggCollectionItem
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
 import teka.android.organiks_platform_android.repository.DbRepository
-import teka.android.organiks_platform_android.ui.Category
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,96 +20,41 @@ class ProductionHomeViewModel @Inject constructor(
     private val remoteDataUpdater: RemoteDataUpdater
 ): ViewModel() {
 
-    var state by mutableStateOf(ProductionHomeState())
-        private set
+    private val _eggCollections = MutableStateFlow<List<EggCollection>>(emptyList())
+    val eggCollections: StateFlow<List<EggCollection>> = _eggCollections.asStateFlow()
+
+    private val _isSyncing = MutableStateFlow(false)
+    val isSyncing: StateFlow<Boolean> = _isSyncing
 
     init {
-        getEggCollectionsWithEggTypes()
+        viewModelInitialization()
     }
 
-
-    private fun getEggCollectionsWithEggTypes(){
+    fun viewModelInitialization(){
         viewModelScope.launch {
-            repository.getEggCollections.collectLatest {
-//                Log.d(TAG, "INSIDE GET EGG COLLECTION$it")
-                state = state.copy(eggCollections = it)
+            repository.getEggCollections.collectLatest {eggCollections ->
+                _eggCollections.value = eggCollections
             }
-        }
-    }
 
-    private fun getEggCollections(){
-        viewModelScope.launch {
-            repository.getEggCollections.collectLatest {
-                state = state.copy(eggCollections = it)
-            }
-        }
-    }
-
-    private fun getEggTypeById(id: Int){
-
-        viewModelScope.launch {
-            repository.getEggTypeById(id)
-        }
-
-    }
-
-    fun deleteEggCollections(eggCollection: EggCollection){
-        viewModelScope.launch {
-            repository.deleteCollection(eggCollection)
-        }
-
-    }
-
-
-//    fun onProductionCategoryChange(category: Category){
-//        state = state.copy(category = category)
-//        filterBy(category.id)
-//    }
-
-    fun onEggCollectionCheckedChange(eggCollection: EggCollection, isChecked: Boolean){
-        viewModelScope.launch {
-            repository.updateEggCollection(
-                eggCollection = eggCollection.copy(isBackedUp = isChecked)
-            )
         }
     }
 
 
-
-    private fun filterBy(categoryId:Int){
-        if(categoryId != 10001){
-            viewModelScope.launch {
-                repository.getEggCollectionById(
-                    categoryId
-                ).collectLatest {
-                    //state = state.copy(eggCollections = it)
-                }
-            }
-        }else{
-            getEggCollections()
-        }
-    }
-
-
-    //Synchronizing local Room to Remote db
     fun syncRoomDbToRemote() {
-
         viewModelScope.launch {
-            //filter and get eggCollections with status backedUp == false
-            val notBackedUpEggCollections = state.eggCollections.filter { eggCollection ->
-                !eggCollection.isBackedUp
+            _isSyncing.value = true // Set isSyncing to true when synchronization starts
+            try {
+                // Filter and get eggCollections with status backedUp == false
+                val notBackedUpEggCollections = eggCollections.value.filter { eggCollection ->
+                    !eggCollection.isBackedUp
+                }
+                remoteDataUpdater.updateRemoteEggCollectionData(notBackedUpEggCollections, repository)
+                // Synchronization completed successfully
+            } catch (e: Exception) {
+                // Handle synchronization failure
+            } finally {
+                _isSyncing.value = false // Set isSyncing back to false when synchronization is done
             }
-            remoteDataUpdater.updateRemoteEggCollectionData(notBackedUpEggCollections, repository)
         }
     }
-
-
 }
-
-data class ProductionHomeState(
-    val eggCollectionsWithTypesList: List<EggTypeEggCollectionItem> = emptyList(),
-    val eggCollections: List<EggCollection> = emptyList(),
-    val category: Category = Category(),
-    val itemChecked: Boolean = false
-
-)

@@ -19,6 +19,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,6 +42,7 @@ import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
 import teka.android.organiks_platform_android.ui.theme.PoppinsExtraLight
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
+import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.ReemKufi
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import java.text.SimpleDateFormat
@@ -48,15 +55,22 @@ fun ProductionHomeScreen(
 ){
 
     val productionHomeViewModel : ProductionHomeViewModel = hiltViewModel()
-    val productionHomeState = productionHomeViewModel.state
+    val eggCollections by productionHomeViewModel.eggCollections.collectAsState()
 
-    println("ALERT ALERT ${ productionHomeState.eggCollectionsWithTypesList.size }")
-    Log.d(TAG, "INSIDE GET EGG COLLECTION${ productionHomeState.eggCollections }")
+    val isSyncing by productionHomeViewModel.isSyncing.collectAsState()
+    val fabClicked = remember { mutableStateOf(false) }
+
+    // Use rememberUpdatedState to trigger recomposition when the sync completes
+    val syncCompleted = rememberUpdatedState(!isSyncing)
 
 
     Scaffold(floatingActionButton = {
+        FloatingActionButton(onClick = {
+            fabClicked.value = true
+            productionHomeViewModel.syncRoomDbToRemote()
+            fabClicked.value = false
 
-        FloatingActionButton(onClick = { productionHomeViewModel.syncRoomDbToRemote() }) {
+        }) {
             Icon(painter = painterResource(R.drawable.cloud_upload),
                 contentDescription = null,
             tint = Color.White
@@ -64,40 +78,57 @@ fun ProductionHomeScreen(
         }
 
     }) {
-        LazyColumn {
-            item {
-                LazyRow {
-                    items(Utils.productionCategory) { category: Category ->
-                        CategoryItem(
-                            iconRes = category.resId,
-                            title = category.title,
-                            selected = category == productionHomeState.category
-                        ) {
-                            //productionHomeViewModel.onProductionCategoryChange(category)
-                        }
-                        Spacer(modifier = Modifier.size(16.dp))
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ){
 
+            LazyColumn {
+                item {
+                    LazyRow {
+                        items(Utils.productionCategory) { category: Category ->
+                            CategoryItem(
+                                iconRes = category.resId,
+                                title = category.title,
+                                selected = category == Utils.productionCategory[0]
+                            ) {
+                                //productionHomeViewModel.onProductionCategoryChange(category)
+                            }
+                            Spacer(modifier = Modifier.size(16.dp))
+                        }
+                    }
+                }
+
+                items(eggCollections){
+                    EggCollectionItems(
+                        eggCollection = it,
+                    ) {
+                        onNavigate.invoke(it.id)
                     }
                 }
             }
 
-            items(productionHomeState.eggCollections){
-
-                EggCollectionItems(
-                    eggCollection = it,
-                    onCheckedChange = productionHomeViewModel::onEggCollectionCheckedChange
-                ) {
-                    onNavigate.invoke(it.id)
-                }
-
+            if (isSyncing) {
+                ProgressIndicator()
             }
 
-
         }
-
     }
+}
 
-
+@Composable
+fun ProgressIndicator(){
+    Box(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(color = PrimaryColor)
+    }
+}
+@Composable
+private fun KeyedSyncIndicator() {
+    // This composable exists solely to trigger a recomposition when sync completes
+    // You can add any UI elements or logic you want here
 }
 
 
@@ -105,13 +136,8 @@ fun ProductionHomeScreen(
 @Composable
 fun EggCollectionItems(
     eggCollection: EggCollection,
-    onCheckedChange: (EggCollection, Boolean) -> Unit,
     onItemClick: () -> Unit
 ){
-
-    println("ALERT3 ALERT3 ${ eggCollection.qty }")
-    Log.d(TAG, "INSIDE GET EGG COLLECTION$eggCollection")
-
 
     Card(
         modifier = Modifier
@@ -197,8 +223,8 @@ fun CategoryItem(
             else MaterialTheme.colors.onSurface,
         ),
         shape = Shapes.large,
-        backgroundColor = if(selected) MaterialTheme.colors.primary.copy(.5f)
-        else MaterialTheme.colors.surface,
+        backgroundColor = if(selected) PrimaryColor
+        else Color.LightGray,
         contentColor = if (selected) MaterialTheme.colors.onPrimary
         else MaterialTheme.colors.onSurface
 
