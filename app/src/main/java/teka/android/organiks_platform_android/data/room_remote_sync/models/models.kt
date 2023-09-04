@@ -15,3 +15,8 @@ data class RemoteMilkCollectionResponse(
     val success: Boolean,
     val message: String?,
 )
+
+@Serializable
+data class OpenAiSearchResponse(
+    val result: String?,
+)

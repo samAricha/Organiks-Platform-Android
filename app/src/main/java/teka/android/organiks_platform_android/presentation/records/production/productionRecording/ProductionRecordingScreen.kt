@@ -109,31 +109,6 @@ fun ProductionRecording(
 
 
 
-@Composable
-fun datePickerDialog(
-    context: Context,
-    onDateSelected: (Date) -> Unit
-): DatePickerDialog {
-    val calendar = Calendar.getInstance()
-    val year = calendar.get(Calendar.YEAR)
-    val month = calendar.get(Calendar.MONTH)
-    val day = calendar.get(Calendar.DAY_OF_MONTH)
-    calendar.time = Date()
-
-
-    val mDatePickerDialog = DatePickerDialog(
-        context,
-        { _: DatePicker,
-          mYear: Int, mMonth: Int,
-          mDayofMonth: Int ->
-            val calendar = Calendar.getInstance()
-            calendar.set(mYear, mMonth, mDayofMonth)
-            onDateSelected.invoke(calendar.time)
-
-        }, year, month, day
-    )
-    return mDatePickerDialog
-}
 
 
 @Composable
@@ -183,4 +158,32 @@ fun CategoryItem(
 
     }
 
+}
+
+
+
+@Composable
+fun datePickerDialog(
+    context: Context,
+    onDateSelected: (Date) -> Unit
+): DatePickerDialog {
+    val calendar = Calendar.getInstance()
+    val year = calendar.get(Calendar.YEAR)
+    val month = calendar.get(Calendar.MONTH)
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+    calendar.time = Date()
+
+
+    val mDatePickerDialog = DatePickerDialog(
+        context,
+        { _: DatePicker,
+          mYear: Int, mMonth: Int,
+          mDayofMonth: Int ->
+            val calendar = Calendar.getInstance()
+            calendar.set(mYear, mMonth, mDayofMonth)
+            onDateSelected.invoke(calendar.time)
+
+        }, year, month, day
+    )
+    return mDatePickerDialog
 }

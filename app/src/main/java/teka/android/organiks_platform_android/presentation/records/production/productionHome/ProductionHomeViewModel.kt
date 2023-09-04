@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.models.EggCollection
+import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
 import teka.android.organiks_platform_android.repository.DbRepository
 import javax.inject.Inject
@@ -23,6 +24,10 @@ class ProductionHomeViewModel @Inject constructor(
     private val _eggCollections = MutableStateFlow<List<EggCollection>>(emptyList())
     val eggCollections: StateFlow<List<EggCollection>> = _eggCollections.asStateFlow()
 
+    private val _milkCollections = MutableStateFlow<List<MilkCollection>>(emptyList())
+    val milkCollections: StateFlow<List<MilkCollection>> = _milkCollections.asStateFlow()
+
+
     private val _isSyncing = MutableStateFlow(false)
     val isSyncing: StateFlow<Boolean> = _isSyncing
 
@@ -31,11 +36,23 @@ class ProductionHomeViewModel @Inject constructor(
     }
 
     fun viewModelInitialization(){
+        fetchEggCollections()
+    }
+
+    // Fetch and update milk collections in your ViewModel
+    private fun fetchEggCollections() {
         viewModelScope.launch {
-            repository.getEggCollections.collectLatest {eggCollections ->
+            repository.getEggCollections.collectLatest { eggCollections ->
                 _eggCollections.value = eggCollections
             }
+        }
+    }
 
+    private fun fetchMilkCollections() {
+        viewModelScope.launch {
+            repository.getMilkCollection.collectLatest { milkCollections ->
+                _milkCollections.value = milkCollections
+            }
         }
     }
 

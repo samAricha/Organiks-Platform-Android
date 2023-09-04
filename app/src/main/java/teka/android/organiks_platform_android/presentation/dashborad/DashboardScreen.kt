@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
+import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
 import teka.android.organiks_platform_android.ui.theme.SecondaryColor
 
 @Composable
@@ -37,22 +38,22 @@ fun DashboardScreen() {
         Column(
         ) {
             DashboardCard(
-                title = "Not Backed up",
-                value = "5",
-                iconResId = teka.android.organiks_platform_android.R.drawable.baseline_sync_problem_24,
-                color = Color.Yellow
-            )
-            DashboardCard(
                 title = "Egg Collections",
-                value = "10",
+                value = "100 Eggs",
                 iconResId = teka.android.organiks_platform_android.R.drawable.ic_egg_collection,
-                color = Color.Green
+                color = PrimaryVariant
             )
             DashboardCard(
                 title = "Milk Collection",
                 value = "50 Litres",
                 iconResId = teka.android.organiks_platform_android.R.drawable.ic_milk_can,
                 color = Color.Gray
+            )
+            DashboardCard(
+                title = "Not Backed up",
+                value = "5",
+                iconResId = teka.android.organiks_platform_android.R.drawable.baseline_sync_problem_24,
+                color = Color(0xFFE57373)
             )
         }
     }

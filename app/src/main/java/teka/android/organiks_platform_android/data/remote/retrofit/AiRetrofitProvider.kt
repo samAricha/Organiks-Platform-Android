@@ -7,8 +7,8 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 
-object RetrofitProvider {
-    private const val BASE_URL = "https://organiks-246f53a8d7da.herokuapp.com"
+object AiRetrofitProvider {
+    private const val BASE_URL = "https://laravel-openai-api-f76e0ac15d16.herokuapp.com/"
 
     private fun provide(): Retrofit {
         val json = Json { ignoreUnknownKeys = true }//to ignore unkown keys
@@ -29,16 +29,8 @@ object RetrofitProvider {
             .build()
 
 
-    fun createEggCollectionService(): EggCollectionService {
-        return provide().create(EggCollectionService::class.java)
-    }
-
-    fun createMilkCollectionService(): MilkCollectionService {
-        return provide().create(MilkCollectionService::class.java)
-    }
-
-    fun createAuthService(): AuthService {
-        return provide().create(AuthService::class.java)
+    fun creatOpenAiPromptService(): AiSearchService {
+        return provide().create(AiSearchService::class.java)
     }
 
 }

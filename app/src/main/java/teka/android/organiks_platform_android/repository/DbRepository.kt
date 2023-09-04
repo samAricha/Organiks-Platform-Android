@@ -21,6 +21,7 @@ class DbRepository(
 
     val eggTypes = eggTypeDao.getAllEggTypes()
     val getEggCollections = eggCollectionDao.getAllEggCollections()
+    val getMilkCollection = milkCollectionDao.getAllMilkCollections()
     val getEggCollectionsWithEggTypes = eggCollectionDao.getEggCollectionsWithEggTypes()
 
 
@@ -47,9 +48,7 @@ class DbRepository(
     suspend fun updateEggCollection(eggCollection: EggCollection){
         eggCollectionDao.update(eggCollection = eggCollection)
     }
-    suspend fun updateMilkCollection(milkCollection: MilkCollection){
-        milkCollectionDao.update(milkCollection = milkCollection)
-    }
+
     //the following are functions that are going to help us delete/erase data
     suspend fun deleteCollection(eggCollection: EggCollection){
         eggCollectionDao.delete(eggCollection = eggCollection)
@@ -62,5 +61,8 @@ class DbRepository(
     //<<<<<<<<<< MILK COLLECTIONS >>>>>>>>
     suspend fun saveRemoteMilkCollections(milkCollections: List<MilkCollection>){
         milkCollectionDao.insertMilkCollections(milkCollections)
+    }
+    suspend fun updateMilkCollection(milkCollection: MilkCollection){
+        milkCollectionDao.update(milkCollection = milkCollection)
     }
 }

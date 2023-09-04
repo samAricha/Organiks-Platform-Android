@@ -107,6 +107,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$ktx_version"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$ktx_version"
 
+    implementation "androidx.compose.runtime:runtime-livedata:1.0.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
+
+
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

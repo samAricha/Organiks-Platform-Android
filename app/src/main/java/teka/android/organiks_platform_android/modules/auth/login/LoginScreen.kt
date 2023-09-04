@@ -60,7 +60,7 @@ fun LoginScreen(
             ) {
 
                 Image(
-                    painter = painterResource(id = R.drawable.access),
+                    painter = painterResource(id = R.drawable.unlock),
                     contentDescription = "Access image",
                     modifier = Modifier
                         .size(100.dp),

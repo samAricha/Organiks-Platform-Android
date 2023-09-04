@@ -25,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,10 +35,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.EggTypeEggCollectionItem
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
+import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
 import teka.android.organiks_platform_android.ui.theme.PoppinsExtraLight
@@ -53,12 +56,27 @@ import java.util.Locale
 fun ProductionHomeScreen(
     onNavigate:(Int) -> Unit
 ){
-
+    var selectedCategory by remember { mutableStateOf(Utils.productionCategory[0]) }
     val productionHomeViewModel : ProductionHomeViewModel = hiltViewModel()
     val eggCollections by productionHomeViewModel.eggCollections.collectAsState()
 
+
     val isSyncing by productionHomeViewModel.isSyncing.collectAsState()
     val fabClicked = remember { mutableStateOf(false) }
+
+
+
+    val collections = when (selectedCategory) {
+        Utils.productionCategory[0] -> {
+            val eggCollectionsState by productionHomeViewModel.eggCollections.collectAsState()
+            eggCollectionsState
+        }
+        Utils.productionCategory[1] -> {
+            val milkCollectionsState by productionHomeViewModel.milkCollections.collectAsState()
+            milkCollectionsState
+        }
+        else -> emptyList() // Handle other categories as needed
+    }
 
 
     Scaffold(floatingActionButton = {
@@ -86,22 +104,44 @@ fun ProductionHomeScreen(
                             CategoryItem(
                                 iconRes = category.resId,
                                 title = category.title,
-                                selected = category == Utils.productionCategory[0]
+                                selected = category == selectedCategory
                             ) {
+                                selectedCategory = category
                                 //productionHomeViewModel.onProductionCategoryChange(category)
                             }
                             Spacer(modifier = Modifier.size(16.dp))
                         }
                     }
                 }
-
-                items(eggCollections){
-                    EggCollectionItems(
-                        eggCollection = it,
-                    ) {
-                        onNavigate.invoke(it.id)
+                items(collections) { collection ->
+                    when (selectedCategory) {
+                        Utils.productionCategory[0] -> {
+                            EggCollectionItem(
+                                eggCollection = collection as EggCollection,
+                                onItemClick = { onNavigate.invoke(collection.id) }
+                            )
+                        }
+                        Utils.productionCategory[1] -> {
+                            MilkCollectionItem(
+                                milkCollection = collection as MilkCollection,
+                                onItemClick = { onNavigate.invoke(collection.id) }
+                            )
+                        }
+                        // Handle other categories as needed
                     }
                 }
+
+
+
+
+
+//                items(eggCollections){
+//                    EggCollectionItems(
+//                        eggCollection = it,
+//                    ) {
+//                        onNavigate.invoke(it.id)
+//                    }
+//                }
             }
 
             if (isSyncing) {
@@ -125,7 +165,7 @@ fun ProgressIndicator(){
 
 
 @Composable
-fun EggCollectionItems(
+fun EggCollectionItem(
     eggCollection: EggCollection,
     onItemClick: () -> Unit
 ){
@@ -185,9 +225,67 @@ fun EggCollectionItems(
         }
 
     }
-
-
 }
+
+
+
+@Composable
+fun MilkCollectionItem(milkCollection: MilkCollection, onItemClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onItemClick)
+            .padding(8.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            val icon = if (milkCollection.isBackedUp) {
+                painterResource(R.drawable.cloud_done) // "Backed Up" icon
+            } else {
+                painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
+            }
+
+            Column(modifier = Modifier.padding(0.dp)) {
+                Image(
+                    painter = icon,
+                    contentDescription = if (milkCollection.isBackedUp) "Backed Up" else "Not Backed Up"
+                )
+            }
+
+            Column(modifier = Modifier.padding(8.dp)) {
+                Text(
+                    text = "Milk", // You can customize the text as needed
+                    fontFamily = PoppinsLight
+                )
+                Text(
+                    text = "Qty: ${milkCollection.qty}",
+                    fontFamily = PoppinsLight
+                )
+                // Add more properties as needed
+            }
+
+            Column(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.Bottom
+            ) {
+                Spacer(modifier = Modifier.weight(1f))
+                // Date Text
+                val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                    .format(milkCollection.date)
+                Text(
+                    text = formattedDate,
+                    fontFamily = PoppinsExtraLight,
+                )
+            }
+        }
+    }
+}
+
 
 
 @Composable
