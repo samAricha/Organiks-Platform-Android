@@ -60,9 +60,6 @@ fun ProductionHomeScreen(
     val isSyncing by productionHomeViewModel.isSyncing.collectAsState()
     val fabClicked = remember { mutableStateOf(false) }
 
-    // Use rememberUpdatedState to trigger recomposition when the sync completes
-    val syncCompleted = rememberUpdatedState(!isSyncing)
-
 
     Scaffold(floatingActionButton = {
         FloatingActionButton(onClick = {
@@ -125,12 +122,6 @@ fun ProgressIndicator(){
         CircularProgressIndicator(color = PrimaryColor)
     }
 }
-@Composable
-private fun KeyedSyncIndicator() {
-    // This composable exists solely to trigger a recomposition when sync completes
-    // You can add any UI elements or logic you want here
-}
-
 
 
 @Composable

@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -77,7 +78,9 @@ fun MainAppScreen() {
                         )
                     },
                     label = {
-                        Text(text = "Records")
+                        Text(
+                            text = "Records",
+                        fontSize = 13.sp)
                     }
                 )
 
@@ -93,7 +96,24 @@ fun MainAppScreen() {
                         )
                     },
                     label = {
-                        Text(text = "Add Record")
+                        Text(text = "Add")
+                    }
+                )
+
+
+                BottomNavigationItem(
+                    selected = currentRoute?.startsWith(Screen.ProductionRecording.route) == true,
+                    onClick = {
+                        navHostController.navigate(route = Screen.AiSearchScreen.route)
+                    },
+                    icon = {
+                        Icon(
+                            painter = painterResource(R.drawable._search_24),
+                            contentDescription = "Search"
+                        )
+                    },
+                    label = {
+                        Text(text = "Search")
                     }
                 )
             }

@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import teka.android.organiks_platform_android.MainAppScreen
+import teka.android.organiks_platform_android.presentation.aiadvice.AiAdviceScreen
 import teka.android.organiks_platform_android.presentation.dashborad.DashboardScreen
 import teka.android.organiks_platform_android.presentation.records.production.productionHome.ProductionHomeScreen
 import teka.android.organiks_platform_android.presentation.records.production.productionRecording.ProductionRecordingScreen
@@ -43,6 +44,9 @@ fun MainNavGraph(
 
         composable(route = Screen.DashboardScreen.route){
             DashboardScreen()
+        }
+        composable(route = Screen.AiSearchScreen.route){
+            AiAdviceScreen()
         }
 
     }

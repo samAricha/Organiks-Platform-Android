@@ -13,4 +13,5 @@ sealed class Screen(val route: String) {
     object ProductionHome: Screen(route = "production_home")
     object ProductionRecording: Screen(route = "production_recording")
     object DashboardScreen: Screen(route = "dashboard_screen")
+    object AiSearchScreen: Screen(route = "ai_search_screen")
 }

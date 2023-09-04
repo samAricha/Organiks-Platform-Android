@@ -3,6 +3,7 @@ package teka.android.organiks_platform_android.presentation.dashborad
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
@@ -13,10 +14,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import teka.android.organiks_platform_android.ui.theme.PoppinsLight
 import teka.android.organiks_platform_android.ui.theme.SecondaryColor
 
 @Composable
@@ -28,31 +31,28 @@ fun DashboardScreen() {
     ) {
         Text(
             text = "Dashboard",
-            style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 8.dp),
+            style = MaterialTheme.typography.h6
         )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+        Column(
         ) {
             DashboardCard(
-                title = "Sales",
-                value = "$1000",
-                icon = Icons.Outlined.ShoppingCart,
-                color = SecondaryColor
+                title = "Not Backed up",
+                value = "5",
+                iconResId = teka.android.organiks_platform_android.R.drawable.baseline_sync_problem_24,
+                color = Color.Yellow
             )
             DashboardCard(
-                title = "Orders",
+                title = "Egg Collections",
                 value = "10",
-                icon = Icons.Filled.ShoppingCart,
+                iconResId = teka.android.organiks_platform_android.R.drawable.ic_egg_collection,
                 color = Color.Green
             )
             DashboardCard(
-                title = "Users",
-                value = "50",
-                icon = Icons.Filled.Person,
-                color = Color.Magenta
+                title = "Milk Collection",
+                value = "50 Litres",
+                iconResId = teka.android.organiks_platform_android.R.drawable.ic_milk_can,
+                color = Color.Gray
             )
         }
     }
@@ -62,15 +62,17 @@ fun DashboardScreen() {
 fun DashboardCard(
     title: String,
     value: String,
-    icon: ImageVector,
+    iconResId: Int, // Resource ID for the icon drawable
     color: Color
 ) {
+    // Load the drawable resource and convert it to a Painter
+    val iconPainter = painterResource(id = iconResId)
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         elevation = 4.dp
-
     ) {
         Column(
             modifier = Modifier
@@ -78,21 +80,23 @@ fun DashboardCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                imageVector = icon,
+                painter = iconPainter, // Use the loaded drawable
                 contentDescription = null,
                 tint = color,
                 modifier = Modifier.size(48.dp)
             )
             Text(
                 text = title,
-                style = TextStyle(fontSize = 16.sp),
-                modifier = Modifier.padding(top = 8.dp)
+                modifier = Modifier.padding(top = 8.dp),
+                fontFamily = PoppinsLight
             )
             Text(
                 text = value,
-                style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(top = 8.dp)
+                style = TextStyle(fontWeight = FontWeight.Bold),
+                modifier = Modifier.padding(top = 8.dp),
+                fontFamily = PoppinsLight
             )
         }
     }
 }
+
