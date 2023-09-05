@@ -21,14 +21,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.modules.auth.AuthViewModel
+import teka.android.organiks_platform_android.navigation.Screen
 
 import teka.android.organiks_platform_android.ui.theme.*
 
 
 @Composable
 fun LoginScreen(
+    navController: NavController,
     onClick: () -> Unit,
     ) {
     val context = LocalContext.current
@@ -235,6 +238,7 @@ fun LoginScreen(
                         }
                         TextButton(
                             onClick = {
+                                      navController.navigate(Screen.Registration.route)
                             },
                             contentPadding = PaddingValues(vertical = 0.dp)
                         ) {

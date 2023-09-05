@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.google.accompanist.pager.ExperimentalPagerApi
 import teka.android.organiks_platform_android.modules.auth.login.LoginScreen
+import teka.android.organiks_platform_android.modules.auth.registration.RegisterScreen
 import teka.android.organiks_platform_android.modules.splash_screen.presentation.WelcomeScreen
 import teka.android.organiks_platform_android.modules.splash_screen.presentation.WelcomeViewModel
 
@@ -34,10 +35,19 @@ fun NavGraphBuilder.authNavGraph(
             route = Screen.Login.route
         ) {
             LoginScreen(
+                navController = navController,
                 onClick = {
                     navController.popBackStack()
                     navController.navigate(To_MAIN_GRAPH_ROUTE)
                 }
+            )
+        }
+
+        composable(
+            route = Screen.Registration.route
+        ) {
+            RegisterScreen(
+                navController = navController,
             )
         }
 
