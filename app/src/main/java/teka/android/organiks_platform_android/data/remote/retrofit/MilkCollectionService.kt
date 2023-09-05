@@ -18,7 +18,7 @@ interface MilkCollectionService {
 
 
     //Remember to adjust the response model class based on the actual JSON structure returned by your server's API.
-    @POST("collections/milk")
+    @POST("api/collections/milk/store")
     suspend fun createRemoteMilkCollection(@Body milkCollection: MilkCollectionRequest): RemoteMilkCollectionResponse
 
 }

@@ -42,20 +42,18 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
     }
 
 
-    suspend fun updateRemoteMilkCollectionData(milkcollections: List<MilkCollection>, repository: DbRepository) {
+    suspend fun updateRemoteMilkCollectionData(milkCollections: List<MilkCollection>, repository: DbRepository) {
         withContext(Dispatchers.IO) {
             try {
-                milkcollections.forEach { milkCollection ->
+                milkCollections.forEach { milkCollection ->
                     val milkCollectionRequest = milkCollection.toMilkCollectionRequest()
 
                     val response = RetrofitProvider.createMilkCollectionService().createRemoteMilkCollection(milkCollectionRequest)
-                    if (response != null) {
-                        if (response.success){
-                            milkCollection.isBackedUp = true
-                            repository.updateMilkCollection(milkCollection)
-                        }
-                    }
 
+                    if (response.success){
+                        milkCollection.isBackedUp = true
+                        repository.updateMilkCollection(milkCollection)
+                    }
                 }
                 // Handle the response if needed
             } catch (e: Exception) {

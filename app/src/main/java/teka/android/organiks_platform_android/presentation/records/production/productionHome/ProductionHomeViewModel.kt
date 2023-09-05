@@ -66,7 +66,11 @@ class ProductionHomeViewModel @Inject constructor(
                 val notBackedUpEggCollections = eggCollections.value.filter { eggCollection ->
                     !eggCollection.isBackedUp
                 }
+                val notBackedUpMilkCollections = milkCollections.value.filter { milkCollection ->
+                    !milkCollection.isBackedUp
+                }
                 remoteDataUpdater.updateRemoteEggCollectionData(notBackedUpEggCollections, repository)
+                remoteDataUpdater.updateRemoteMilkCollectionData(notBackedUpMilkCollections, repository)
                 // Synchronization completed successfully
             } catch (e: Exception) {
                 // Handle synchronization failure
