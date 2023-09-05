@@ -2,7 +2,6 @@ package teka.android.organiks_platform_android.presentation.records.production.c
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
@@ -14,21 +13,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Popup
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
-import teka.android.organiks_platform_android.R
+import androidx.navigation.NavController
 import teka.android.organiks_platform_android.data.room.models.EggType
+import teka.android.organiks_platform_android.navigation.Screen
 import teka.android.organiks_platform_android.presentation.records.production.productionRecording.ProductionRecordingState
 import teka.android.organiks_platform_android.ui.Category
-import teka.android.organiks_platform_android.ui.theme.PlaceholderColor
 import teka.android.organiks_platform_android.ui.theme.Poppins
-import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.ui.theme.buttonShapes
 import java.util.*
@@ -45,7 +38,7 @@ fun EggProductionEntryComponent(
     onSaveEggType:() -> Unit,
     onSaveEggCollection: () -> Unit,
     updateEggCollectionQty:() -> Unit,
-    navigateUp: () -> Unit
+    navController: NavController
 ){
 
     val eggTypeItems = listOf(
@@ -237,7 +230,9 @@ fun EggProductionEntryComponent(
             horizontalArrangement = Arrangement.End
         ){
             Button(
-                modifier = Modifier.padding(horizontal = 4.dp).width(155.dp),
+                modifier = Modifier
+                    .padding(horizontal = 4.dp)
+                    .width(155.dp),
                 onClick ={
                     when(state.isUpdatingItem){
                         true -> {
@@ -247,7 +242,8 @@ fun EggProductionEntryComponent(
                             onSaveEggCollection.invoke()
                         }
                     }
-                    navigateUp.invoke()
+//                    navigateUp.invoke()
+                    navController.navigate(Screen.ProductionHome.route)
                 },
                 enabled = state.eggCollectionQty.isNotEmpty()&&
                         state.eggsCracked.isNotEmpty()&&
@@ -259,30 +255,9 @@ fun EggProductionEntryComponent(
 
             }
         }
-
-
-
     }
 
 
 }
 
 
-@Preview(showBackground = true)
-@Composable
-fun EggProductionPreview() {
-    EggProductionEntryComponent(
-        state = ProductionRecordingState(),
-        onDateSelected = {},
-        onEggTypeChange = {},
-        onCollectionQuantityChange = {},
-        onCrackedQuantityChange = {},
-        onCategoryChange = {},
-        onDialogDismissed = {},
-        onSaveEggType = { /*TODO*/ },
-        updateEggCollectionQty = {},
-        onSaveEggCollection = {}
-    ) {
-
-    }
-}

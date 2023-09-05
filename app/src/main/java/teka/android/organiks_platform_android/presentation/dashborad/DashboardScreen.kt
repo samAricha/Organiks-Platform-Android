@@ -10,6 +10,10 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,12 +23,30 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import teka.android.organiks_platform_android.presentation.records.production.productionHome.ProductionHomeViewModel
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
 import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
 import teka.android.organiks_platform_android.ui.theme.SecondaryColor
 
 @Composable
 fun DashboardScreen() {
+    val viewModel : DashboardViewModel = hiltViewModel()
+
+    val totalEggs by rememberUpdatedState(newValue = viewModel.totalEggsCollected)
+    val totalMilk by rememberUpdatedState(newValue = viewModel.totalMilkCollected)
+
+    val eggs by viewModel.eggCollections.collectAsState()
+    val totalEggsCollected = eggs.sumOf { it.qty.toInt() }
+
+    val milk by viewModel.eggCollections.collectAsState()
+    val totalMilkCollected = milk.sumOf { it.qty.toDouble() }
+
+
+    LaunchedEffect(viewModel) {
+        viewModel.viewModelInitialization()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -39,13 +61,13 @@ fun DashboardScreen() {
         ) {
             DashboardCard(
                 title = "Egg Collections",
-                value = "100 Eggs",
+                value = "$totalEggsCollected Eggs",
                 iconResId = teka.android.organiks_platform_android.R.drawable.ic_egg_collection,
                 color = PrimaryVariant
             )
             DashboardCard(
                 title = "Milk Collection",
-                value = "50 Litres",
+                value = "$totalMilkCollected Litres",
                 iconResId = teka.android.organiks_platform_android.R.drawable.ic_milk_can,
                 color = Color.Gray
             )

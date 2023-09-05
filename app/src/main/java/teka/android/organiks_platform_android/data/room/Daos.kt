@@ -23,7 +23,7 @@ interface EggCollectionDao{
     suspend fun insertEggCollections(eggCollections: List<EggCollection>)
 
 
-    @Query("SELECT * FROM egg_collections")
+    @Query("SELECT * FROM egg_collections ORDER BY date DESC")
     fun getAllEggCollections(): Flow<List<EggCollection>>
 
     @Query("SELECT * FROM egg_collections WHERE egg_collection_id=:collectionId")
@@ -97,7 +97,7 @@ interface MilkCollectionDao{
     suspend fun insertMilkCollections(milkCollections: List<MilkCollection>)
 
 
-    @Query("SELECT * FROM milk_collections")
+    @Query("SELECT * FROM milk_collections ORDER BY date DESC")
     fun getAllMilkCollections(): Flow<List<MilkCollection>>
 
     @Query("SELECT * FROM milk_collections WHERE milk_collection_id=:collectionId")

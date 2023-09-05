@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import teka.android.organiks_platform_android.presentation.records.production.components.EggProductionEntryComponent
 import teka.android.organiks_platform_android.presentation.records.production.components.MilkProductionEntryComponent
 import teka.android.organiks_platform_android.ui.Category
@@ -36,18 +37,16 @@ import java.util.*
 @Composable
 fun ProductionRecordingScreen(
     id: Int,
-    navigateUp: () -> Unit
-
+    navController: NavController
 ){
     val viewModel: ProductionRecordingViewModel = hiltViewModel()
-//        viewModel<ProductionRecordingViewModel>(factory = ProductionRecordingViewModelFactory(id))
 
     Scaffold() {
         ProductionRecording(
             state = viewModel.state,
             onCategoryChange = viewModel::onCategoryChange,
             viewModel = viewModel,
-            navigateUp = navigateUp
+            navController = navController
         )
     }
 }
@@ -57,8 +56,8 @@ fun ProductionRecordingScreen(
 fun ProductionRecording(
     state: ProductionRecordingState,
     onCategoryChange: (Category) -> Unit,
-    navigateUp: () -> Unit,
-    viewModel: ProductionRecordingViewModel
+    viewModel: ProductionRecordingViewModel,
+    navController: NavController
 ) {
     Column() {
         // Production Category Section
@@ -91,16 +90,13 @@ fun ProductionRecording(
                     onSaveEggType = viewModel::addEggCollection,
                     updateEggCollectionQty = { viewModel::updateEggCollection },
                     onSaveEggCollection = viewModel::onSaveEggCollection,
-                    navigateUp = navigateUp
+                    navController = navController
                 )
             }
             Utils.productionCategory[1] -> {
                 MilkProductionEntryComponent(
                     state = ProductionRecordingState(),
-                    onCollectionQuantityChange = {},
-                    onSaveMilkCollection = {},
-                    updateMilkCollectionQty = {},
-                    navigateUp= {},
+                    navController = navController
                 )
             }
         }

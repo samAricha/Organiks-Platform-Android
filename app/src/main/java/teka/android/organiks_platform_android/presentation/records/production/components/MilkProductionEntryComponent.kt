@@ -13,7 +13,13 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import kotlinx.coroutines.launch
+import teka.android.organiks_platform_android.navigation.Screen
 import teka.android.organiks_platform_android.presentation.records.production.productionRecording.ProductionRecordingState
+import teka.android.organiks_platform_android.presentation.records.production.productionRecording.ProductionRecordingViewModel
 import teka.android.organiks_platform_android.ui.theme.Poppins
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.ui.theme.buttonShapes
@@ -21,11 +27,16 @@ import teka.android.organiks_platform_android.ui.theme.buttonShapes
 @Composable
 fun MilkProductionEntryComponent(
     state: ProductionRecordingState,
-    onCollectionQuantityChange:(String) -> Unit,
-    onSaveMilkCollection: () -> Unit,
-    updateMilkCollectionQty:() -> Unit,
-    navigateUp: () -> Unit
+    navController: NavController
 ){
+
+    // Use hiltViewModel() to inject the ViewModel
+    val viewModel: ProductionRecordingViewModel = hiltViewModel()
+    var isButtonEnabled by remember { mutableStateOf(false) }
+
+
+    val scaffoldState = rememberScaffoldState()
+    val coroutineScope = rememberCoroutineScope()
 
     var isNewEnabled by remember {
         mutableStateOf(false)
@@ -36,9 +47,12 @@ fun MilkProductionEntryComponent(
     ) {
 
         TextField(
-            value = state.eggCollectionQty,
+            value = viewModel.milkCollectionQtyEntered.value,
             label = { Text(text = "Total Milk Collected(litres)") },
-            onValueChange = {onCollectionQuantityChange(it)},
+            onValueChange = {
+                viewModel.onMilkCollectionQuantityChange(it)
+                isButtonEnabled = it.isNotEmpty()
+            },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier
                 .fillMaxWidth(),
@@ -82,14 +96,19 @@ fun MilkProductionEntryComponent(
 //                            updateEggCollectionQty.invoke()
                         }
                         false -> {
-//                            onSaveEggCollection.invoke()
+                            viewModel.saveMilkCollection()
+                            coroutineScope.launch {
+                                scaffoldState.snackbarHostState.showSnackbar(
+                                    message = "Record saved successfully",
+                                    actionLabel = "Dismiss"
+                                )
+                            }
                         }
                     }
-                    navigateUp.invoke()
+                    navController.navigate(Screen.ProductionHome.route)
                 },
-                enabled = state.eggCollectionQty.isNotEmpty()&&
-                        state.eggsCracked.isNotEmpty()&&
-                        state.eggTypeName.isNotEmpty(),
+                enabled = isButtonEnabled, // Enable the button based on isButtonEnabled
+
                 shape = buttonShapes.large,
                 contentPadding = PaddingValues(vertical = 14.dp)
             ) {
@@ -97,24 +116,8 @@ fun MilkProductionEntryComponent(
 
             }
         }
-
-
     }
-
-
 }
 
-
-@Preview(showBackground = true)
-@Composable
-fun MilkProductionPreview() {
-    MilkProductionEntryComponent(
-        state = ProductionRecordingState(),
-        onCollectionQuantityChange = {},
-        onSaveMilkCollection = {},
-        updateMilkCollectionQty = {},
-        navigateUp= {},
-    )
-}
 
 

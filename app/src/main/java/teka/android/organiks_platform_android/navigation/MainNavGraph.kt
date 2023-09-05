@@ -36,9 +36,10 @@ fun MainNavGraph(
         ){
             val id = it.arguments?.getInt("id") ?: -1
 
-            ProductionRecordingScreen(id = id){
-                navController.navigateUp()
-            }
+            ProductionRecordingScreen(
+                id = id,
+                navController = navController,
+            )
         }
 
 

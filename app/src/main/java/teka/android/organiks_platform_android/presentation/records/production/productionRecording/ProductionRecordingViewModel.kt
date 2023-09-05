@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
+import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 import teka.android.organiks_platform_android.repository.DbRepository
 import teka.android.organiks_platform_android.ui.Category
@@ -26,6 +27,9 @@ class ProductionRecordingViewModel @Inject constructor(
     // Mutable state for eggCollectionId
     private val _eggCollectionId = mutableStateOf(-1)
     val eggCollectionId: State<Int> get() = _eggCollectionId
+
+    private val _milkCollectionQtyEntered = mutableStateOf("")
+    val milkCollectionQtyEntered: State<String> get() = _milkCollectionQtyEntered
 
     var state by mutableStateOf(ProductionRecordingState())
         private set
@@ -63,6 +67,13 @@ class ProductionRecordingViewModel @Inject constructor(
         get() = state.eggTypes.isNotEmpty() &&
                 state.eggCollectionQty.isNotEmpty()
 
+
+    fun onMilkCollectionQtyChange(newValue: String) {
+        _milkCollectionQtyEntered.value = newValue
+    }
+    fun onMilkCollectionQuantityChange(newValue: String) {
+        _milkCollectionQtyEntered.value = newValue
+    }
 
     //methods for modifying state
     fun onCategoryChange(newValue: Category){
@@ -104,6 +115,24 @@ class ProductionRecordingViewModel @Inject constructor(
             )
         }
     }
+
+    fun saveMilkCollection() {
+        viewModelScope.launch {
+            // Get the milk collection quantity from the state
+            val milkCollectionQty = milkCollectionQtyEntered.value
+
+            // Check if the quantity is not empty
+            if (milkCollectionQty.isNotEmpty()) {
+                // Create a new MilkCollection object and save it
+                repository.insertMilkCollection(
+                    MilkCollection(
+                        qty = milkCollectionQty,
+                    )
+                )
+            }
+        }
+    }
+
 
 
     //THIS IS CURRENTLY EGG COLLECTION BUT SHOULD BE
@@ -188,5 +217,4 @@ data class ProductionRecordingState(
     val isUpdatingItem: Boolean = false,
     val productionCategory: Category = Category(),
     val selectedProductionCategory: Category = Utils.productionCategory[0] // Set the default to "Eggs"
-
 )

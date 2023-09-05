@@ -202,23 +202,22 @@ fun EggCollectionItem(
                     text = "Kienyeji",
                     fontFamily = PoppinsLight
                 )
-                Text(text = "Total: ${eggCollection.qty}",
+                Text(text = "Total: ${eggCollection.qty} Eggs",
                     fontFamily = PoppinsLight
                 )
-                Text(text = "Cracked: ${eggCollection.cracked}",
+                Text(text = "Cracked: ${eggCollection.cracked} Eggs",
                     fontFamily = PoppinsLight
                 )
             }
-            Column(modifier = Modifier
+            Box(modifier = Modifier
                 .padding(8.dp)
-                .fillMaxSize(),
-            verticalArrangement = Arrangement.Bottom) {
-                Spacer(modifier = Modifier.weight(1f))
+                .fillMaxSize()) {
                 // Date Text
                 val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
                     .format(eggCollection.date)
                 Text(text = formattedDate,
                     fontFamily = PoppinsExtraLight,
+                    modifier = Modifier.align(Alignment.BottomEnd)
                 )
             }
 
@@ -261,25 +260,26 @@ fun MilkCollectionItem(milkCollection: MilkCollection, onItemClick: () -> Unit) 
                     fontFamily = PoppinsLight
                 )
                 Text(
-                    text = "Qty: ${milkCollection.qty}",
+                    text = "Qty: ${milkCollection.qty} litres",
                     fontFamily = PoppinsLight
                 )
                 // Add more properties as needed
             }
 
-            Column(
+            Spacer(modifier = Modifier.weight(1f))
+
+            Box(
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxSize(),
-                verticalArrangement = Arrangement.Bottom
             ) {
-                Spacer(modifier = Modifier.weight(1f))
                 // Date Text
                 val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
                     .format(milkCollection.date)
                 Text(
                     text = formattedDate,
                     fontFamily = PoppinsExtraLight,
+                    modifier = Modifier.align(Alignment.BottomEnd)
                 )
             }
         }

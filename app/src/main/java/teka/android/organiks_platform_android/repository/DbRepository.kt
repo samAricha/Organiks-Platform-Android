@@ -65,4 +65,7 @@ class DbRepository(
     suspend fun updateMilkCollection(milkCollection: MilkCollection){
         milkCollectionDao.update(milkCollection = milkCollection)
     }
+    suspend fun insertMilkCollection(milkCollection: MilkCollection){
+        milkCollectionDao.insert(milkCollection)
+    }
 }

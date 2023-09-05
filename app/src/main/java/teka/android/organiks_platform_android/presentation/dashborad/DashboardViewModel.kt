@@ -1,5 +1,4 @@
-package teka.android.organiks_platform_android.presentation.records.production.productionHome
-
+package teka.android.organiks_platform_android.presentation.dashborad
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,17 +15,17 @@ import teka.android.organiks_platform_android.repository.DbRepository
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductionHomeViewModel @Inject constructor(
+class DashboardViewModel  @Inject constructor(
     private val repository: DbRepository,
-    private val remoteDataUpdater: RemoteDataUpdater
-): ViewModel() {
+    ): ViewModel() {
+
+
 
     private val _eggCollections = MutableStateFlow<List<EggCollection>>(emptyList())
     val eggCollections: StateFlow<List<EggCollection>> = _eggCollections.asStateFlow()
 
     private val _milkCollections = MutableStateFlow<List<MilkCollection>>(emptyList())
     val milkCollections: StateFlow<List<MilkCollection>> = _milkCollections.asStateFlow()
-
 
     private val _isSyncing = MutableStateFlow(false)
     val isSyncing: StateFlow<Boolean> = _isSyncing
@@ -35,7 +34,7 @@ class ProductionHomeViewModel @Inject constructor(
         viewModelInitialization()
     }
 
-    fun viewModelInitialization(){
+    fun viewModelInitialization() {
         fetchEggCollections()
         fetchMilkCollections()
     }
@@ -57,22 +56,11 @@ class ProductionHomeViewModel @Inject constructor(
         }
     }
 
+    // Computed property to get the total number of eggs collected
+    val totalEggsCollected: Int
+        get() = _eggCollections.value.sumOf { it.qty.toInt() }
 
-    fun syncRoomDbToRemote() {
-        viewModelScope.launch {
-            _isSyncing.value = true // Set isSyncing to true when synchronization starts
-            try {
-                // Filter and get eggCollections with status backedUp == false
-                val notBackedUpEggCollections = eggCollections.value.filter { eggCollection ->
-                    !eggCollection.isBackedUp
-                }
-                remoteDataUpdater.updateRemoteEggCollectionData(notBackedUpEggCollections, repository)
-                // Synchronization completed successfully
-            } catch (e: Exception) {
-                // Handle synchronization failure
-            } finally {
-                _isSyncing.value = false // Set isSyncing back to false when synchronization is done
-            }
-        }
-    }
+    // Computed property to get the total amount of milk collected
+    val totalMilkCollected: Double
+        get() = _milkCollections.value.sumOf { it.qty.toDouble() }
 }
