@@ -33,14 +33,17 @@ import teka.android.organiks_platform_android.ui.theme.SecondaryColor
 fun DashboardScreen() {
     val viewModel : DashboardViewModel = hiltViewModel()
 
-    val totalEggs by rememberUpdatedState(newValue = viewModel.totalEggsCollected)
-    val totalMilk by rememberUpdatedState(newValue = viewModel.totalMilkCollected)
+//    val totalEggs by rememberUpdatedState(newValue = viewModel.totalEggsCollected)
+//    val totalMilk by rememberUpdatedState(newValue = viewModel.totalMilkCollected)
 
     val eggs by viewModel.eggCollections.collectAsState()
     val totalEggsCollected = eggs.sumOf { it.qty.toInt() }
 
     val milk by viewModel.eggCollections.collectAsState()
     val totalMilkCollected = milk.sumOf { it.qty.toDouble() }
+
+    val totalNotBackedUpCount by viewModel.totalNotBackedUpCount.collectAsState()
+
 
 
     LaunchedEffect(viewModel) {
@@ -73,7 +76,7 @@ fun DashboardScreen() {
             )
             DashboardCard(
                 title = "Not Backed up",
-                value = "5",
+                value = "$totalNotBackedUpCount Records",
                 iconResId = teka.android.organiks_platform_android.R.drawable.baseline_sync_problem_24,
                 color = Color(0xFFE57373)
             )

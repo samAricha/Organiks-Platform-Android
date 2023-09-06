@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.presentation.dashborad
 
+import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -7,6 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
@@ -20,7 +24,6 @@ class DashboardViewModel  @Inject constructor(
     ): ViewModel() {
 
 
-
     private val _eggCollections = MutableStateFlow<List<EggCollection>>(emptyList())
     val eggCollections: StateFlow<List<EggCollection>> = _eggCollections.asStateFlow()
 
@@ -30,6 +33,9 @@ class DashboardViewModel  @Inject constructor(
     private val _isSyncing = MutableStateFlow(false)
     val isSyncing: StateFlow<Boolean> = _isSyncing
 
+    private val _totalNotBackedUpCount = MutableStateFlow(0)
+    val totalNotBackedUpCount: StateFlow<Int> = _totalNotBackedUpCount
+
     init {
         viewModelInitialization()
     }
@@ -37,6 +43,7 @@ class DashboardViewModel  @Inject constructor(
     fun viewModelInitialization() {
         fetchEggCollections()
         fetchMilkCollections()
+        refreshNotBackedUpCollections()
     }
 
     // Fetch and update milk collections in your ViewModel
@@ -56,11 +63,30 @@ class DashboardViewModel  @Inject constructor(
         }
     }
 
-    // Computed property to get the total number of eggs collected
-    val totalEggsCollected: Int
-        get() = _eggCollections.value.sumOf { it.qty.toInt() }
+    private suspend fun fetchNotBackedUpCollections() {
+        val notBackedUpEggCollections = repository.getEggCollections
+            .map { eggCollections ->
+                eggCollections.filter { !it.isBackedUp }
+            }
 
-    // Computed property to get the total amount of milk collected
-    val totalMilkCollected: Double
-        get() = _milkCollections.value.sumOf { it.qty.toDouble() }
+        val notBackedUpMilkCollections = repository.getMilkCollection
+            .map { milkCollections ->
+                milkCollections.filter { !it.isBackedUp }
+            }
+
+        val totalNotBackedUp =
+            combine(notBackedUpEggCollections, notBackedUpMilkCollections) { eggs, milk ->
+                eggs.size + milk.size
+            }
+
+        val total = totalNotBackedUp.first()
+        _totalNotBackedUpCount.value = total
+    }
+
+    fun refreshNotBackedUpCollections() {
+        viewModelScope.launch {
+            fetchNotBackedUpCollections()
+        }
+    }
+
 }
