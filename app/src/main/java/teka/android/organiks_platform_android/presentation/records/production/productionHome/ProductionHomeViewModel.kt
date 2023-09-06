@@ -1,6 +1,9 @@
 package teka.android.organiks_platform_android.presentation.records.production.productionHome
 
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,8 +15,12 @@ import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
+import teka.android.organiks_platform_android.data.room_remote_sync.UpdateResult
 import teka.android.organiks_platform_android.repository.DbRepository
 import javax.inject.Inject
+
+data class SnackbarData(val message: String)
+
 
 @HiltViewModel
 class ProductionHomeViewModel @Inject constructor(
@@ -31,6 +38,14 @@ class ProductionHomeViewModel @Inject constructor(
     private val _isSyncing = MutableStateFlow(false)
     val isSyncing: StateFlow<Boolean> = _isSyncing
 
+    val eggSnackbarMessage = mutableStateOf<String?>(null)
+    val milkSnackbarMessage = mutableStateOf<String?>(null)
+
+    private val _snackbarData = MutableStateFlow<SnackbarData?>(null)
+    val snackbarData: StateFlow<SnackbarData?> = _snackbarData
+
+
+
     init {
         viewModelInitialization()
     }
@@ -47,6 +62,16 @@ class ProductionHomeViewModel @Inject constructor(
                 _eggCollections.value = eggCollections
             }
         }
+    }
+
+    // Function to trigger a Snackbar
+    fun showSnackbar(message: String) {
+        _snackbarData.value = SnackbarData(message)
+    }
+
+    // Function to clear the Snackbar
+    fun clearSnackbar() {
+        _snackbarData.value = null
     }
 
     private fun fetchMilkCollections() {
@@ -69,9 +94,29 @@ class ProductionHomeViewModel @Inject constructor(
                 val notBackedUpMilkCollections = milkCollections.value.filter { milkCollection ->
                     !milkCollection.isBackedUp
                 }
-                remoteDataUpdater.updateRemoteEggCollectionData(notBackedUpEggCollections, repository)
-                remoteDataUpdater.updateRemoteMilkCollectionData(notBackedUpMilkCollections, repository)
+                val result =remoteDataUpdater.updateRemoteEggCollectionData(notBackedUpEggCollections, repository)
+                val result2 =remoteDataUpdater.updateRemoteMilkCollectionData(notBackedUpMilkCollections, repository)
                 // Synchronization completed successfully
+                when (result) {
+                    is UpdateResult.Success -> {
+                        eggSnackbarMessage.value = result.message
+                        showSnackbar(eggSnackbarMessage.value!!)
+                    }
+                    is UpdateResult.Failure -> {
+                        eggSnackbarMessage.value = result.errorMessage
+                        showSnackbar(eggSnackbarMessage.value!!)
+                    }
+                }
+                when (result2) {
+                    is UpdateResult.Success -> {
+                        milkSnackbarMessage.value = result2.message
+                        showSnackbar(milkSnackbarMessage.value!!)
+                    }
+                    is UpdateResult.Failure -> {
+                        milkSnackbarMessage.value = result2.errorMessage
+                        showSnackbar(milkSnackbarMessage.value!!)
+                    }
+                }
             } catch (e: Exception) {
                 // Handle synchronization failure
             } finally {

@@ -8,15 +8,15 @@ data class MilkCollectionRequest(
     val collection_uuid: String,
     val quantity: String,
     val date: Long,
-    val createdAt: Long
+    val collection_date: Long,
 )
 
 fun MilkCollection.toMilkCollectionRequest(): MilkCollectionRequest {
     return MilkCollectionRequest(
         collection_uuid = this.uuid,
         quantity = this.qty,
-        date = this.date,
-        createdAt = this.createdAt
+        date = this.createdAt,
+        collection_date = this.date,
     )
 }
 
@@ -24,7 +24,8 @@ fun MilkCollectionRequest.toMilkCollection(): MilkCollection {
     return MilkCollection(
         uuid = this.collection_uuid,
         qty = this.quantity,
-        date = this.date,
-        createdAt = this.createdAt
+        date = this.collection_date,
+        createdAt = this.date
+
     )
 }

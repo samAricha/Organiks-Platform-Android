@@ -64,6 +64,16 @@ fun ProductionHomeScreen(
     val isSyncing by productionHomeViewModel.isSyncing.collectAsState()
     val fabClicked = remember { mutableStateOf(false) }
 
+    val scaffoldState = rememberScaffoldState()
+
+    val snackbarData by productionHomeViewModel.snackbarData.collectAsState()
+
+    if (snackbarData != null) {
+        LaunchedEffect(snackbarData) {
+            scaffoldState.snackbarHostState.showSnackbar(snackbarData!!.message)
+            productionHomeViewModel.clearSnackbar()
+        }
+    }
 
 
     val collections = when (selectedCategory) {
@@ -79,7 +89,8 @@ fun ProductionHomeScreen(
     }
 
 
-    Scaffold(floatingActionButton = {
+    Scaffold(
+        floatingActionButton = {
         FloatingActionButton(onClick = {
             fabClicked.value = true
             productionHomeViewModel.syncRoomDbToRemote()
@@ -91,8 +102,20 @@ fun ProductionHomeScreen(
             tint = Color.White
             )
         }
+    },
+    snackbarHost = {
+        SnackbarHost(
+            hostState = scaffoldState.snackbarHostState,
+            modifier = Modifier.padding(16.dp) // Adjust padding as needed
+        ) { snackbarData ->
+            Snackbar(
+                modifier = Modifier.padding(8.dp), // Adjust padding as needed
+                snackbarData = snackbarData
+            )
+        }
+    }
 
-    }) {
+    ) {
         Box(
             modifier = Modifier.fillMaxSize()
         ){
@@ -130,24 +153,10 @@ fun ProductionHomeScreen(
                         // Handle other categories as needed
                     }
                 }
-
-
-
-
-
-//                items(eggCollections){
-//                    EggCollectionItems(
-//                        eggCollection = it,
-//                    ) {
-//                        onNavigate.invoke(it.id)
-//                    }
-//                }
             }
-
             if (isSyncing) {
                 ProgressIndicator()
             }
-
         }
     }
 }

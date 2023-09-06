@@ -16,11 +16,17 @@ import teka.android.organiks_platform_android.repository.DbRepository
 import javax.inject.Inject
 
 
+sealed class UpdateResult {
+    data class Success(val message: String) : UpdateResult()
+    data class Failure(val errorMessage: String) : UpdateResult()
+}
+
 class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
 
-    suspend fun updateRemoteEggCollectionData(eggCollections: List<EggCollection>, repository: DbRepository) {
-        withContext(Dispatchers.IO) {
-            try {
+    suspend fun updateRemoteEggCollectionData(eggCollections: List<EggCollection>, repository: DbRepository): UpdateResult {
+
+        return try{
+            withContext(Dispatchers.IO) {
                 eggCollections.forEach { eggCollection ->
                     val eggCollectionRequest = eggCollection.toEggCollectionRequest()
 
@@ -28,23 +34,26 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
                     if (response.success){
                         eggCollection.isBackedUp = true
                         repository.updateEggCollection(eggCollection)
-                        Toast.makeText(appContext, "Sync successful.", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(appContext, "Sync successful.", Toast.LENGTH_SHORT).show()
+                         UpdateResult.Success("Data updated successfully.")
                     }else{
                         Toast.makeText(appContext, "Sync failed. Please try again.", Toast.LENGTH_SHORT).show()
                     }
                 }
-                // Handle the response if needed
-            } catch (e: Exception) {
+                UpdateResult.Success("Data updated successfully.")
+            }
+        } catch (e: Exception) {
                 e.printStackTrace()
                 Log.d(">>>>>>>>REMOTEEGG", e.message.toString())
-            }
+                UpdateResult.Failure("Error updating data: ${e.message}")
         }
     }
 
 
-    suspend fun updateRemoteMilkCollectionData(milkCollections: List<MilkCollection>, repository: DbRepository) {
-        withContext(Dispatchers.IO) {
-            try {
+    suspend fun updateRemoteMilkCollectionData(milkCollections: List<MilkCollection>, repository: DbRepository):UpdateResult {
+
+        return try {
+            withContext(Dispatchers.IO) {
                 milkCollections.forEach { milkCollection ->
                     val milkCollectionRequest = milkCollection.toMilkCollectionRequest()
 
@@ -55,10 +64,10 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
                         repository.updateMilkCollection(milkCollection)
                     }
                 }
-                // Handle the response if needed
-            } catch (e: Exception) {
-                // Handle the error
+                UpdateResult.Success("Data updated successfully.")
             }
+        }catch (e: Exception) {
+            UpdateResult.Failure("Error updating data: ${e.message}")
         }
     }
 
