@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
@@ -60,7 +61,9 @@ fun MainAppScreen() {
         },
 
         bottomBar = {
-            BottomNavigation {
+            BottomNavigation(
+                modifier = Modifier.height(52.dp) // Adjust the height as needed
+            ) {
                 val navBackStackEntry by navHostController.currentBackStackEntryAsState()
                 val currentRoute = navBackStackEntry?.destination?.route
 
@@ -74,11 +77,12 @@ fun MainAppScreen() {
                     icon = {
                         Icon(
                             painter = painterResource(R.drawable.home),
-                            contentDescription = "Home"
+                            contentDescription = "Home",
+                            modifier = Modifier.size(20.dp)
                         )
                     },
                     label = {
-                        Text(text = "Home")
+                        Text(text = "Home", fontSize = 10.sp)
                     }
                 )
 
@@ -92,13 +96,14 @@ fun MainAppScreen() {
                     icon = {
                         Icon(
                             painter = painterResource(R.drawable.monitoring),
-                            contentDescription = "Records"
+                            contentDescription = "Records",
+                            modifier = Modifier.size(20.dp)
                         )
                     },
                     label = {
                         Text(
                             text = "Records",
-                        fontSize = 13.sp)
+                        fontSize = 10.sp)
                     }
                 )
 
@@ -110,11 +115,12 @@ fun MainAppScreen() {
                     icon = {
                         Icon(
                             painter = painterResource(R.drawable.add_to_list),
-                            contentDescription = "Add Record"
+                            contentDescription = "Add Record",
+                            modifier = Modifier.size(20.dp)
                         )
                     },
                     label = {
-                        Text(text = "Add")
+                        Text(text = "Add", fontSize = 10.sp)
                     }
                 )
 
@@ -127,11 +133,12 @@ fun MainAppScreen() {
                     icon = {
                         Icon(
                             painter = painterResource(R.drawable._search_24),
-                            contentDescription = "Search"
+                            contentDescription = "Search",
+                            modifier = Modifier.size(20.dp)
                         )
                     },
                     label = {
-                        Text(text = "Search")
+                        Text(text = "Search", fontSize = 10.sp)
                     }
                 )
             }
