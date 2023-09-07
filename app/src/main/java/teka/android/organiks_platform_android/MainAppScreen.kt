@@ -5,7 +5,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -38,6 +41,21 @@ fun MainAppScreen() {
                         color = Color.Gray
                     )
                 },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            navHostController.navigate(Screen.ProfileScreen.route)
+                        },
+                        modifier = Modifier.padding(end = 16.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.AccountCircle,
+                            contentDescription = "Profile",
+                            tint = Color.Gray,
+                            modifier = Modifier.size(30.dp)
+                        )
+                    }
+                }
             )
         },
 

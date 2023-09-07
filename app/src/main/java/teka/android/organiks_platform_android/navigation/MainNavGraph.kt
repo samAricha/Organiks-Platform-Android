@@ -12,6 +12,7 @@ import teka.android.organiks_platform_android.presentation.aiadvice.AiAdviceScre
 import teka.android.organiks_platform_android.presentation.dashborad.DashboardScreen
 import teka.android.organiks_platform_android.presentation.records.production.productionHome.ProductionHomeScreen
 import teka.android.organiks_platform_android.presentation.records.production.productionRecording.ProductionRecordingScreen
+import teka.android.organiks_platform_android.presentation.settings.SettingsScreen
 
 
 @Composable
@@ -48,6 +49,9 @@ fun MainNavGraph(
         }
         composable(route = Screen.AiSearchScreen.route){
             AiAdviceScreen()
+        }
+        composable(route = Screen.ProfileScreen.route){
+            SettingsScreen()
         }
 
     }
