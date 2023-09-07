@@ -120,7 +120,7 @@ fun MainAppScreen() {
 
 
                 BottomNavigationItem(
-                    selected = currentRoute?.startsWith(Screen.ProductionRecording.route) == true,
+                    selected = currentRoute?.startsWith(Screen.AiSearchScreen.route) == true,
                     onClick = {
                         navHostController.navigate(route = Screen.AiSearchScreen.route)
                     },
