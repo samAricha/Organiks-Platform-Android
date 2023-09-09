@@ -91,7 +91,7 @@ fun MainAppScreen() {
                     },
                     icon = {
                         Icon(
-                            painter = painterResource(R.drawable.home),
+                            painter = painterResource(if (currentRoute == Screen.DashboardScreen.route) R.drawable.home else R.drawable.outline_home_24),
                             contentDescription = "Home",
                             modifier = Modifier.size(20.dp),
                             tint = if (currentRoute == Screen.DashboardScreen.route) PrimaryColor else Color.Gray
