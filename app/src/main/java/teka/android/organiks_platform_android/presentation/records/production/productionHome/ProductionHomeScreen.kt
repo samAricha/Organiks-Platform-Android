@@ -106,10 +106,10 @@ fun ProductionHomeScreen(
     snackbarHost = {
         SnackbarHost(
             hostState = scaffoldState.snackbarHostState,
-            modifier = Modifier.padding(16.dp) // Adjust padding as needed
+            modifier = Modifier.padding(16.dp)
         ) { snackbarData ->
             Snackbar(
-                modifier = Modifier.padding(8.dp), // Adjust padding as needed
+                modifier = Modifier.padding(8.dp),
                 snackbarData = snackbarData
             )
         }
@@ -117,7 +117,7 @@ fun ProductionHomeScreen(
 
     ) {
         Box(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize().padding(top = 16.dp, start = 8.dp, end = 8.dp)
         ){
 
             LazyColumn {
@@ -130,7 +130,6 @@ fun ProductionHomeScreen(
                                 selected = category == selectedCategory
                             ) {
                                 selectedCategory = category
-                                //productionHomeViewModel.onProductionCategoryChange(category)
                             }
                             Spacer(modifier = Modifier.size(16.dp))
                         }
@@ -185,7 +184,6 @@ fun EggCollectionItem(
             .clickable {
                 onItemClick.invoke()
             }
-            .padding(8.dp)
     ) {
 
         Row(
@@ -243,7 +241,6 @@ fun MilkCollectionItem(milkCollection: MilkCollection, onItemClick: () -> Unit) 
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onItemClick)
-            .padding(8.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -307,8 +304,7 @@ fun CategoryItem(
 
     Card(
         modifier = Modifier
-            .padding(top = 8.dp, bottom = 8.dp, start = 8.dp)
-            .width(200.dp)
+            .width(120.dp)
             .selectable(
                 selected = selected,
                 interactionSource = MutableInteractionSource(),
@@ -329,7 +325,7 @@ fun CategoryItem(
     ) {
         Row(horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(8.dp)) {
+        ) {
 
             Icon(painter = painterResource(id = iconRes),
                 contentDescription = null,

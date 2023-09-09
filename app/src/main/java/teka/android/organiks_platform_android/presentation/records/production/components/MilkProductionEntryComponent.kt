@@ -43,7 +43,6 @@ fun MilkProductionEntryComponent(
     }
 
     Column(
-        modifier = Modifier.padding(16.dp)
     ) {
 
         TextField(
@@ -85,11 +84,10 @@ fun MilkProductionEntryComponent(
         else "Save"
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ){
             Button(
-                modifier = Modifier.padding(horizontal = 4.dp).width(155.dp),
+                modifier = Modifier.padding(horizontal = 0.dp).width(155.dp),
                 onClick ={
                     when(state.isUpdatingItem){
                         true -> {
@@ -110,10 +108,8 @@ fun MilkProductionEntryComponent(
                 enabled = isButtonEnabled, // Enable the button based on isButtonEnabled
 
                 shape = buttonShapes.large,
-                contentPadding = PaddingValues(vertical = 14.dp)
             ) {
                 Text(text = buttonTitle, fontFamily = Poppins)
-
             }
         }
     }

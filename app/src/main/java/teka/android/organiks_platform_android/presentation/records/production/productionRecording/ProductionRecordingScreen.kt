@@ -59,7 +59,7 @@ fun ProductionRecording(
     viewModel: ProductionRecordingViewModel,
     navController: NavController
 ) {
-    Column() {
+    Column(Modifier.padding(horizontal = 16.dp, vertical = 16.dp)) {
         // Production Category Section
         LazyRow {
             items(Utils.productionCategory) { category: Category ->
@@ -117,8 +117,7 @@ fun CategoryItem(
 
     Card(
         modifier = Modifier
-            .padding(top = 8.dp, bottom = 8.dp, start = 8.dp)
-            .width(200.dp)
+            .width(120.dp)
             .selectable(
                 selected = selected,
                 interactionSource = MutableInteractionSource(),
@@ -139,7 +138,6 @@ fun CategoryItem(
     ) {
         Row(horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(8.dp)
         ) {
 
             Icon(painter = painterResource(id = iconRes),

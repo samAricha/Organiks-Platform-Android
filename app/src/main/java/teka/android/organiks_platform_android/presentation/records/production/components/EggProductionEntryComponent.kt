@@ -57,7 +57,6 @@ fun EggProductionEntryComponent(
     }
 
     Column(
-        modifier = Modifier.padding(16.dp)
     ) {
 
         TextField(
@@ -249,7 +248,6 @@ fun EggProductionEntryComponent(
                         state.eggsCracked.isNotEmpty()&&
                         state.eggTypeName.isNotEmpty(),
                 shape = buttonShapes.large,
-                contentPadding = PaddingValues(vertical = 14.dp)
             ) {
                 Text(text = buttonTitle, fontFamily = Poppins)
 
