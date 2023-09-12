@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Card
@@ -50,6 +52,7 @@ import teka.android.organiks_platform_android.ui.theme.BottomBoxShape
 import teka.android.organiks_platform_android.ui.theme.LightTextColor
 import teka.android.organiks_platform_android.ui.theme.Poppins
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
+import teka.android.organiks_platform_android.ui.theme.ReemKufi
 import teka.android.organiks_platform_android.ui.theme.ReemKufiBold
 import teka.android.organiks_platform_android.ui.theme.Shapes
 
@@ -81,9 +84,10 @@ fun RegisterScreen(
 
     Column(
         modifier = Modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Card(
             modifier = Modifier
@@ -95,7 +99,8 @@ fun RegisterScreen(
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
+
             ) {
 
                 Image(
@@ -110,6 +115,13 @@ fun RegisterScreen(
                     fontFamily = ReemKufiBold,
                     fontSize = 32.sp,
                 )
+                Text(
+                    text = "Create an Account",
+                    fontFamily = ReemKufi,
+                    color = Color.Gray,
+                    fontSize = 15.sp,
+                )
+                Spacer(modifier = Modifier.height(20.dp))
 
                 OutlinedTextField(
                     value = userName,

@@ -4,7 +4,9 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -61,7 +63,9 @@ fun LoginScreen(
                     shape = BottomBoxShape.medium
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center) {
+                        verticalArrangement = Arrangement.Center,
+                        modifier = Modifier.verticalScroll(rememberScrollState())
+                    ) {
                         Image(
                             painter = painterResource(id = R.drawable.unlock2),
                             contentDescription = "Access image",
@@ -73,6 +77,12 @@ fun LoginScreen(
                             text = "Organiks",
                             fontFamily = ReemKufiBold,
                             fontSize = 32.sp,
+                        )
+                        Text(
+                            text = "Sign In",
+                            fontFamily = ReemKufi,
+                            color = Color.Gray,
+                            fontSize = 15.sp,
                         )
                         Spacer(modifier = Modifier.height(20.dp))
 
