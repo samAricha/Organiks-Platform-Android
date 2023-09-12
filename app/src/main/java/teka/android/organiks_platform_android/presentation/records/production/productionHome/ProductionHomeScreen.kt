@@ -28,7 +28,9 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -50,6 +52,10 @@ import teka.android.organiks_platform_android.ui.theme.ReemKufi
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import java.text.SimpleDateFormat
 import java.util.Locale
+import androidx.compose.foundation.Canvas
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.zIndex
+
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -96,7 +102,8 @@ fun ProductionHomeScreen(
             productionHomeViewModel.syncRoomDbToRemote()
             fabClicked.value = false
 
-        }) {
+        },
+        backgroundColor = PrimaryColor) {
             Icon(painter = painterResource(R.drawable.cloud_upload),
                 contentDescription = null,
             tint = Color.White
@@ -113,16 +120,14 @@ fun ProductionHomeScreen(
                 snackbarData = snackbarData
             )
         }
-    }
-
-    ) {
+    }) {
         Box(
-            modifier = Modifier.fillMaxSize().padding(top = 16.dp, start = 8.dp, end = 8.dp)
+            modifier = Modifier.fillMaxSize().padding(top = 16.dp, start = 16.dp, end = 16.dp)
         ){
 
             LazyColumn {
                 item {
-                    LazyRow {
+                    LazyRow(Modifier.padding(bottom = 16.dp)) {
                         items(Utils.productionCategory) { category: Category ->
                             CategoryItem(
                                 iconRes = category.resId,
@@ -153,6 +158,8 @@ fun ProductionHomeScreen(
                     }
                 }
             }
+
+
             if (isSyncing) {
                 ProgressIndicator()
             }
@@ -184,10 +191,11 @@ fun EggCollectionItem(
             .clickable {
                 onItemClick.invoke()
             }
+            .padding(top = 8.dp)
     ) {
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 3.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){
@@ -241,9 +249,10 @@ fun MilkCollectionItem(milkCollection: MilkCollection, onItemClick: () -> Unit) 
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onItemClick)
+            .padding(top = 8.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 3.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -339,6 +348,24 @@ fun CategoryItem(
 
     }
 
+}
+
+@Composable
+private fun DrawVerticalDashLine() {
+    val pathEffect = PathEffect.dashPathEffect(floatArrayOf(20f, 10f), 0f)
+    Canvas(
+        modifier = Modifier
+            .fillMaxHeight()
+            .width(1.5.dp)
+    ) {
+        drawLine(
+            color = Color.Black, // Line color
+            strokeWidth = 5f, // Line width
+            start = Offset(0f, 0f), // Starting point (left side)
+            end = Offset(0f, size.height), // Ending point (bottom)
+            pathEffect = pathEffect
+        )
+    }
 }
 
 

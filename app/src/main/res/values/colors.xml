@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="organiks_brown">#8B4513</color>
+    <color name="organiks_light_brown">#9E804B</color>
     <color name="organiks_green">#336633</color>
 </resources>

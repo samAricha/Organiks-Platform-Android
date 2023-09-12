@@ -49,78 +49,32 @@ fun LoginScreen(
         onClick
         Toast.makeText(context, "Login successful.", Toast.LENGTH_SHORT).show()
     }
-
-    Column() {
-
         Box(
-            contentAlignment = Alignment.BottomCenter,
-            modifier = Modifier
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
         ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .padding(top = 100.dp),
-            ) {
-
-                Image(
-                    painter = painterResource(id = R.drawable.unlock),
-                    contentDescription = "Access image",
-                    modifier = Modifier
-                        .size(100.dp),
-                    contentScale = ContentScale.Fit
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-//                Text(
-//                    text = "welcome to ORGANIKS",
-//                    fontSize = 28.sp,
-//                    color = Color.White,
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(horizontal = 30.dp),
-//                    textAlign = TextAlign.Center,
-//                    fontWeight = FontWeight.Bold,
-//                    fontFamily = ReemKufi
-//                )
-
-//                Button(
-//                    onClick = { },
-//                    colors = ButtonDefaults.buttonColors(
-//                        backgroundColor = Color.White
-//                    ),
-//                    contentPadding = PaddingValues(horizontal = 20.dp, vertical = 10.dp),
-//                    modifier = Modifier.padding(top = 20.dp),
-//                    shape = Shapes.large,
-//                ) {
-//                    Row(verticalAlignment = Alignment.CenterVertically) {
-//                        Icon(
-//                            painter = painterResource(id = R.drawable.ic_google),
-//                            contentDescription = "",
-//                            tint = Color.Unspecified,
-//                            modifier = Modifier.size(26.dp)
-//                        )
-//                        Spacer(modifier = Modifier.width(20.dp))
-//                        Text(text = "Continue with Google", color = PrimaryColor, fontSize = 16.sp)
-//                    }
-//                }
-
-
                 Card(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp),
+                        .fillMaxSize(),
                     backgroundColor = Color.White,
                     elevation = 0.dp,
                     shape = BottomBoxShape.medium
                 ) {
-
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-//                        Text(
-//                            text = "Or",
-//                            color = LightTextColor,
-//                            fontFamily = Poppins,
-//                            fontSize = 12.sp,
-//                            modifier = Modifier.padding(top = 16.dp)
-//                        )
+                    Column(horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center) {
+                        Image(
+                            painter = painterResource(id = R.drawable.unlock2),
+                            contentDescription = "Access image",
+                            modifier = Modifier
+                                .size(100.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                        Text(
+                            text = "Organiks",
+                            fontFamily = ReemKufiBold,
+                            fontSize = 32.sp,
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
 
                         OutlinedTextField(
                             value = email,
@@ -128,16 +82,19 @@ fun LoginScreen(
                                 email = it
                             },
                             label = {
-                                Text(text = "Email Address", color = PrimaryColor)
+                                Text(text = "Email Address")
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 20.dp)
                                 .padding(top = 10.dp),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
-                                unfocusedBorderColor = PrimaryColor,
-                                textColor = PrimaryColor
-
+                                unfocusedBorderColor = Color.Gray,
+                                textColor = Color.Black,
+                                unfocusedLabelColor = Color.Gray,
+                                focusedLabelColor = PrimaryColor,
+                                cursorColor = Color.Black,
+                                leadingIconColor = Color.LightGray
                             ),
                             keyboardOptions = KeyboardOptions(
                                 keyboardType =
@@ -148,8 +105,8 @@ fun LoginScreen(
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_email),
                                     contentDescription = "",
+                                    modifier = Modifier.size(24.dp),
                                     tint = PrimaryColor,
-                                    modifier = Modifier.size(24.dp)
                                 )
                             },
                             shape = Shapes.large,
@@ -161,15 +118,20 @@ fun LoginScreen(
                                 password = it
                             },
                             label = {
-                                Text(text = "Password", color = PrimaryColor)
+                                Text(text = "Password")
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 20.dp)
                                 .padding(top = 10.dp),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
-                                unfocusedBorderColor = PrimaryColor,
-                                textColor = PrimaryColor
+                                unfocusedBorderColor = Color.Gray,
+                                textColor = Color.Black,
+                                unfocusedLabelColor = Color.Gray,
+                                focusedLabelColor = PrimaryColor,
+                                cursorColor = Color.Black,
+                                leadingIconColor = Color.LightGray,
+                                trailingIconColor = Color.LightGray
                             ),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                             singleLine = true,
@@ -178,8 +140,8 @@ fun LoginScreen(
                                 Icon(
                                     painter = painterResource(id = R.drawable.ic_password),
                                     contentDescription = "",
+                                    modifier = Modifier.size(24.dp),
                                     tint = PrimaryColor,
-                                    modifier = Modifier.size(24.dp)
                                 )
                             },
                             trailingIcon = {
@@ -188,15 +150,15 @@ fun LoginScreen(
                                         Icon(
                                             painter = painterResource(id = R.drawable.ic_eye_open),
                                             contentDescription = "",
+                                            modifier = Modifier.size(24.dp),
                                             tint = PrimaryColor,
-                                            modifier = Modifier.size(24.dp)
                                         )
                                     } else {
                                         Icon(
                                             painter = painterResource(id = R.drawable.ic_eye_close),
                                             contentDescription = "",
+                                            modifier = Modifier.size(24.dp),
                                             tint = PrimaryColor,
-                                            modifier = Modifier.size(24.dp)
                                         )
                                     }
                                 }
@@ -252,7 +214,7 @@ fun LoginScreen(
                         Spacer(modifier = Modifier.height(20.dp))
                     }
                 }
-            }
+
         }
-    }
+
 }

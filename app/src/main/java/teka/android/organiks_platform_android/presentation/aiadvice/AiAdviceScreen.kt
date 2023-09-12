@@ -60,7 +60,7 @@ fun AiAdviceScreen(){
             FloatingActionButton(onClick = {
                 aiAdviceViewModel.performSearch(OpenAiPromptModel(searchText))
             },
-                backgroundColor = SecondaryColor
+                backgroundColor = PrimaryColor
             ) {
                 Icon(
                     Icons.Default.Search,

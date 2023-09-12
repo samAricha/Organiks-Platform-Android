@@ -47,8 +47,10 @@ import teka.android.organiks_platform_android.modules.auth.AuthViewModel
 import teka.android.organiks_platform_android.navigation.Screen
 import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 import teka.android.organiks_platform_android.ui.theme.BottomBoxShape
+import teka.android.organiks_platform_android.ui.theme.LightTextColor
 import teka.android.organiks_platform_android.ui.theme.Poppins
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
+import teka.android.organiks_platform_android.ui.theme.ReemKufiBold
 import teka.android.organiks_platform_android.ui.theme.Shapes
 
 @Composable
@@ -79,36 +81,34 @@ fun RegisterScreen(
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Card(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),
+                .fillMaxSize(),
             backgroundColor = Color.White,
             elevation = 0.dp,
             shape = BottomBoxShape.medium
         ) {
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
 
                 Image(
-                    painter = painterResource(id = R.drawable.access),
-                    contentDescription = "Sms Logo",
+                    painter = painterResource(id = R.drawable.unlock2),
+                    contentDescription = "Access image",
                     modifier = Modifier
-                        .size(150.dp)
-                        .padding(bottom = 16.dp),
+                        .size(100.dp),
                     contentScale = ContentScale.Fit
                 )
-
                 Text(
-                    text = "Log In with Email",
-//                            fontFamily = Poppins,
-                    fontSize = 12.sp,
-                    modifier = Modifier.padding(top = 16.dp)
+                    text = "Organiks",
+                    fontFamily = ReemKufiBold,
+                    fontSize = 32.sp,
                 )
 
                 OutlinedTextField(
@@ -117,7 +117,7 @@ fun RegisterScreen(
                         userName = it
                     },
                     label = {
-                        Text(text = "Name", color = PrimaryColor)
+                        Text(text = "Phone")
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -125,16 +125,21 @@ fun RegisterScreen(
                         .padding(top = 10.dp),
                     keyboardOptions = KeyboardOptions(
                         keyboardType =
-                        KeyboardType.Email
+                        KeyboardType.Phone
                     ),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        unfocusedBorderColor = PrimaryColor,
-                        textColor = PrimaryColor
+                        unfocusedBorderColor = Color.Gray,
+                        textColor = Color.Black,
+                        unfocusedLabelColor = Color.Gray,
+                        focusedLabelColor = PrimaryColor,
+                        cursorColor = Color.Black,
+                        leadingIconColor = Color.LightGray,
+                        trailingIconColor = Color.LightGray
                     ),
                     singleLine = true,
                     leadingIcon = {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_email),
+                            painter = painterResource(id = R.drawable.baseline_phone_24),
                             contentDescription = "",
                             modifier = Modifier.size(24.dp),
                             tint = PrimaryColor
@@ -149,7 +154,7 @@ fun RegisterScreen(
                         email = it
                     },
                     label = {
-                        Text(text = "Email Address", color = PrimaryColor)
+                        Text(text = "Email Address")
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -160,8 +165,13 @@ fun RegisterScreen(
                         KeyboardType.Email
                     ),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        unfocusedBorderColor = PrimaryColor,
-                        textColor = PrimaryColor
+                        unfocusedBorderColor = Color.Gray,
+                        textColor = Color.Black,
+                        unfocusedLabelColor = Color.Gray,
+                        focusedLabelColor = PrimaryColor,
+                        cursorColor = Color.Black,
+                        leadingIconColor = Color.LightGray,
+                        trailingIconColor = Color.LightGray
                     ),
                     singleLine = true,
                     leadingIcon = {
@@ -181,15 +191,20 @@ fun RegisterScreen(
                         password = it
                     },
                     label = {
-                        Text(text = "Password", color = PrimaryColor)
+                        Text(text = "Password")
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp)
                         .padding(top = 10.dp),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        unfocusedBorderColor = PrimaryColor,
-                        textColor = PrimaryColor
+                        unfocusedBorderColor = Color.Gray,
+                        textColor = Color.Black,
+                        unfocusedLabelColor = Color.Gray,
+                        focusedLabelColor = PrimaryColor,
+                        cursorColor = Color.Black,
+                        leadingIconColor = Color.LightGray,
+                        trailingIconColor = Color.LightGray
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     singleLine = true,
@@ -231,15 +246,20 @@ fun RegisterScreen(
                         passwordConfirmation = it
                     },
                     label = {
-                        Text(text = "Confirm Password", color = PrimaryColor)
+                        Text(text = "Confirm Password")
                     },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 20.dp)
                         .padding(top = 10.dp),
                     colors = TextFieldDefaults.outlinedTextFieldColors(
-                        unfocusedBorderColor = PrimaryColor,
-                        textColor = PrimaryColor
+                        unfocusedBorderColor = Color.Gray,
+                        textColor = Color.Black,
+                        unfocusedLabelColor = Color.Gray,
+                        focusedLabelColor = PrimaryColor,
+                        cursorColor = Color.Black,
+                        leadingIconColor = Color.LightGray,
+                        trailingIconColor = Color.LightGray
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                     singleLine = true,
@@ -274,6 +294,8 @@ fun RegisterScreen(
                     shape = Shapes.large,
                 )
 
+                Spacer(modifier = Modifier.height(20.dp))
+
                 Button(
                     onClick = {
                         authViewModel.register(userName, email, password, passwordConfirmation)
@@ -305,6 +327,7 @@ fun RegisterScreen(
                     Text(
                         text = "Forgot Password ?",
                         fontFamily = Poppins,
+                        color = LightTextColor,
                         fontSize = 12.sp,
                         modifier = Modifier.padding(top = 26.dp)
                     )
@@ -315,6 +338,7 @@ fun RegisterScreen(
                 ) {
                     Text(
                         text = "Already have an Account ? Log In",
+                        color = LightTextColor,
                         fontFamily = Poppins,
                         fontSize = 12.sp,
                     )
