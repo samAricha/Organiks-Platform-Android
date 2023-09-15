@@ -1,6 +1,7 @@
 package teka.android.organiks_platform_android.presentation.navDrawer
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,15 +12,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Button
@@ -61,6 +66,7 @@ import teka.android.organiks_platform_android.ScaffoldContent
 import teka.android.organiks_platform_android.navigation.MainNavGraph
 import teka.android.organiks_platform_android.navigation.Screen
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
+import teka.android.organiks_platform_android.ui.theme.ReemKufiBold
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -69,10 +75,9 @@ fun NavigationDrawerM3() {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val items = listOf(
-        DrawerItem(icon = Icons.Default.Favorite, label = "Likes", secondaryLabel = "64"),
-        DrawerItem(icon = Icons.Default.Face, label = "Messages", secondaryLabel = "12"),
-        DrawerItem(icon = Icons.Default.Email, label = "Mail", secondaryLabel = "64"),
-        DrawerItem(icon = Icons.Default.Settings, label = "Settings", secondaryLabel = ""),
+        DrawerItem(icon = Icons.Default.Home, label = "Home", secondaryLabel = "64"),
+        DrawerItem(icon = Icons.Default.Notifications, label = "Notifications", secondaryLabel = "12"),
+        DrawerItem(icon = Icons.Default.ExitToApp, label = "Log Out", secondaryLabel = ""),
     )
     var selectedItem by remember { mutableStateOf(items[0]) }
 
@@ -89,20 +94,22 @@ fun NavigationDrawerM3() {
         onDrawerIconClick = { scope.launch { drawerState.open() } }
     )
 
-//     scope.launch { drawerState.open() }
-
     ModalNavigationDrawer(
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
-            ModalDrawerSheet {
+            ModalDrawerSheet(
+                modifier = Modifier.width(300.dp),
+
+                ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .background(PrimaryColor)
                         .padding(vertical = 64.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = "Header", style = MaterialTheme.typography.headlineLarge)
+                    Text(text = "Organiks", fontFamily = ReemKufiBold, color = Color.White, fontSize = 45.sp)
                 }
                 items.forEach { item ->
                     NavigationDrawerItem(
