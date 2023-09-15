@@ -1,6 +1,8 @@
 package teka.android.organiks_platform_android
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,9 +13,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -23,54 +29,65 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.navigation.*
+import teka.android.organiks_platform_android.presentation.navDrawer.AppBar
+import teka.android.organiks_platform_android.presentation.navDrawer.DrawerBody
+import teka.android.organiks_platform_android.presentation.navDrawer.DrawerHeader
+import teka.android.organiks_platform_android.presentation.navDrawer.MenuItem
 import teka.android.organiks_platform_android.ui.theme.PlaceholderColor
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
 import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainAppScreen() {
     val navHostController: NavHostController = rememberNavController()
+    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(
-                backgroundColor = Color.White,
-                title = {
-                    Text(
-                        text = "Organiks",
-                        fontFamily = ReemKufiMedium,
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Left,
-                        color = Color.Black
-                    )
-                },
-                actions = {
-                    IconButton(
-                        onClick = {
-                            navHostController.navigate(Screen.ProfileScreen.route)
-                        },
-                        modifier = Modifier.padding(end = 16.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.AccountCircle,
-                            contentDescription = "Profile",
-                            tint = Color.Gray,
-                            modifier = Modifier.size(30.dp)
-                        )
+            AppBar(
+                onNavigationIconClick = {
+                    scope.launch {
+                        scaffoldState.drawerState.open()
                     }
-                },
-                navigationIcon = {
-                    IconButton(onClick = { }) {
-                        Icon(
-                            imageVector = Icons.Filled.Menu,
-                            contentDescription = "Profile",
-                            tint = Color.Black,
-                            modifier = Modifier.size(30.dp)
-                        )
+                }
+            )
+        },
+        drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
+        drawerContent = {
+            DrawerHeader()
+            DrawerBody(
+                items = listOf(
+                    MenuItem(
+                        id = "home",
+                        title = "Home",
+                        contentDescription = "Go to home screen",
+                        icon = Icons.Default.Home
+                    ),
+                    MenuItem(
+                        id = "settings",
+                        title = "Settings",
+                        contentDescription = "Go to settings screen",
+                        icon = Icons.Default.Settings
+                    ),
+                    MenuItem(
+                        id = "help",
+                        title = "Help",
+                        contentDescription = "Get help",
+                        icon = Icons.Default.Info
+                    ),
+                ),
+                onItemClick = {
+                    when(it.id){
+                        "settings" -> navHostController.navigate(Screen.ProfileScreen.route)
                     }
-                },
+                    println("Clicked on ${it.title}")
+                }
             )
         },
 
