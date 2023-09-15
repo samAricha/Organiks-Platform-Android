@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
@@ -81,10 +82,19 @@ fun MainAppScreen() {
                         contentDescription = "Get help",
                         icon = Icons.Default.Info
                     ),
+                    MenuItem(
+                        id = "log-out",
+                        title = "Log out",
+                        contentDescription = "Log out",
+                        icon = Icons.Default.ExitToApp
+                    ),
                 ),
                 onItemClick = {
                     when(it.id){
                         "settings" -> navHostController.navigate(Screen.ProfileScreen.route)
+                    }
+                    scope.launch {
+                        scaffoldState.drawerState.close()
                     }
                     println("Clicked on ${it.title}")
                 }
