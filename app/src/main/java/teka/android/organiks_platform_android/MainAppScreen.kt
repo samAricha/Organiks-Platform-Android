@@ -30,12 +30,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.navigation.*
 import teka.android.organiks_platform_android.presentation.navDrawer.AppBar
 import teka.android.organiks_platform_android.presentation.navDrawer.DrawerBody
 import teka.android.organiks_platform_android.presentation.navDrawer.DrawerHeader
 import teka.android.organiks_platform_android.presentation.navDrawer.MenuItem
+import teka.android.organiks_platform_android.presentation.navDrawer.NavigationDrawerM3
 import teka.android.organiks_platform_android.ui.theme.PlaceholderColor
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
@@ -45,61 +47,79 @@ import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainAppScreen() {
-    val navHostController: NavHostController = rememberNavController()
-    val scaffoldState = rememberScaffoldState()
-    val scope = rememberCoroutineScope()
+//    val navHostController: NavHostController = rememberNavController()
+//    val scaffoldState = rememberScaffoldState()
+//    val scope = rememberCoroutineScope()
+//
+//
+//    val scaffoldContent:Unit = ScaffoldContent(navHostController = navHostController, scaffoldState = scaffoldState, scope = scope)
+    NavigationDrawerM3()
+}
+
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@Composable
+fun ScaffoldContent(
+     navHostController: NavHostController,
+    scaffoldState: ScaffoldState,
+    scope: CoroutineScope,
+     onDrawerIconClick: () -> Unit
+) {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             AppBar(
                 onNavigationIconClick = {
+                    //this is where we call our drawer navigation from
+                    onDrawerIconClick
                     scope.launch {
                         scaffoldState.drawerState.open()
                     }
                 }
             )
         },
-        drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
-        drawerContent = {
-            DrawerHeader()
-            DrawerBody(
-                items = listOf(
-                    MenuItem(
-                        id = "home",
-                        title = "Home",
-                        contentDescription = "Go to home screen",
-                        icon = Icons.Default.Home
-                    ),
-                    MenuItem(
-                        id = "settings",
-                        title = "Settings",
-                        contentDescription = "Go to settings screen",
-                        icon = Icons.Default.Settings
-                    ),
-                    MenuItem(
-                        id = "help",
-                        title = "Help",
-                        contentDescription = "Get help",
-                        icon = Icons.Default.Info
-                    ),
-                    MenuItem(
-                        id = "log-out",
-                        title = "Log out",
-                        contentDescription = "Log out",
-                        icon = Icons.Default.ExitToApp
-                    ),
-                ),
-                onItemClick = {
-                    when(it.id){
-                        "settings" -> navHostController.navigate(Screen.ProfileScreen.route)
-                    }
-                    scope.launch {
-                        scaffoldState.drawerState.close()
-                    }
-                    println("Clicked on ${it.title}")
-                }
-            )
-        },
+//        drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
+//        drawerContent =
+//        {
+//            DrawerHeader()
+//            DrawerBody(
+//                items = listOf(
+//                    MenuItem(
+//                        id = "home",
+//                        title = "Home",
+//                        contentDescription = "Go to home screen",
+//                        icon = Icons.Default.Home
+//                    ),
+//                    MenuItem(
+//                        id = "settings",
+//                        title = "Settings",
+//                        contentDescription = "Go to settings screen",
+//                        icon = Icons.Default.Settings
+//                    ),
+//                    MenuItem(
+//                        id = "help",
+//                        title = "Help",
+//                        contentDescription = "Get help",
+//                        icon = Icons.Default.Info
+//                    ),
+//                    MenuItem(
+//                        id = "log-out",
+//                        title = "Log out",
+//                        contentDescription = "Log out",
+//                        icon = Icons.Default.ExitToApp
+//                    ),
+//                ),
+//                onItemClick = {
+//                    when(it.id){
+//                        "settings" -> navHostController.navigate(Screen.ProfileScreen.route)
+//                    }
+//                    scope.launch {
+//                        scaffoldState.drawerState.close()
+//                    }
+//                    println("Clicked on ${it.title}")
+//                }
+//            )
+//        },
 
         bottomBar = {
             BottomNavigation(
@@ -203,11 +223,15 @@ fun MainAppScreen() {
                 )
             }
         }
-        ) {
-            Box(modifier = Modifier.padding(bottom = 60.dp)) {
-                MainNavGraph(navController = navHostController)
-            }
+    ) {
+        Box(modifier = Modifier.padding(bottom = 60.dp)) {
+            MainNavGraph(navController = navHostController)
         }
+    }
+
+
+
+
 }
 
 
