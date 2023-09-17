@@ -7,7 +7,7 @@ import androidx.compose.ui.unit.dp
 val Shapes = Shapes(
     small = RoundedCornerShape(4.dp),
     medium = RoundedCornerShape(12.dp),
-    large = RoundedCornerShape(16.dp)
+    large = RoundedCornerShape(16.dp),
 )
 
 val TxtFieldShapes = Shapes(
@@ -31,4 +31,8 @@ val BottomBoxShape = Shapes(
 
 val InputBoxShape = Shapes(
     medium = RoundedCornerShape(14.dp)
+)
+
+val NoShapes = Shapes(
+    small = RoundedCornerShape(0.dp)
 )

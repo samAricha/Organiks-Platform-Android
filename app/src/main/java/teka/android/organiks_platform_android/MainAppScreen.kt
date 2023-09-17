@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -27,11 +28,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import teka.android.organiks_platform_android.modules.auth.AuthViewModel
 import teka.android.organiks_platform_android.navigation.*
 import teka.android.organiks_platform_android.presentation.navDrawer.AppBar
 import teka.android.organiks_platform_android.presentation.navDrawer.DrawerBody
@@ -47,14 +50,46 @@ import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainAppScreen() {
-//    val navHostController: NavHostController = rememberNavController()
-//    val scaffoldState = rememberScaffoldState()
-//    val scope = rememberCoroutineScope()
-//
-//
-//    val scaffoldContent:Unit = ScaffoldContent(navHostController = navHostController, scaffoldState = scaffoldState, scope = scope)
+
     NavigationDrawerM3()
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -78,49 +113,6 @@ fun ScaffoldContent(
                 }
             )
         },
-//        drawerGesturesEnabled = scaffoldState.drawerState.isOpen,
-//        drawerContent =
-//        {
-//            DrawerHeader()
-//            DrawerBody(
-//                items = listOf(
-//                    MenuItem(
-//                        id = "home",
-//                        title = "Home",
-//                        contentDescription = "Go to home screen",
-//                        icon = Icons.Default.Home
-//                    ),
-//                    MenuItem(
-//                        id = "settings",
-//                        title = "Settings",
-//                        contentDescription = "Go to settings screen",
-//                        icon = Icons.Default.Settings
-//                    ),
-//                    MenuItem(
-//                        id = "help",
-//                        title = "Help",
-//                        contentDescription = "Get help",
-//                        icon = Icons.Default.Info
-//                    ),
-//                    MenuItem(
-//                        id = "log-out",
-//                        title = "Log out",
-//                        contentDescription = "Log out",
-//                        icon = Icons.Default.ExitToApp
-//                    ),
-//                ),
-//                onItemClick = {
-//                    when(it.id){
-//                        "settings" -> navHostController.navigate(Screen.ProfileScreen.route)
-//                    }
-//                    scope.launch {
-//                        scaffoldState.drawerState.close()
-//                    }
-//                    println("Clicked on ${it.title}")
-//                }
-//            )
-//        },
-
         bottomBar = {
             BottomNavigation(
                 modifier = Modifier.height(52.dp),
@@ -225,7 +217,15 @@ fun ScaffoldContent(
         }
     ) {
         Box(modifier = Modifier.padding(bottom = 60.dp)) {
-            MainNavGraph(navController = navHostController)
+
+
+            val authViewModel: AuthViewModel = hiltViewModel()
+                val isLoggedInState = authViewModel.isLoggedIn.collectAsState()
+                if(!isLoggedInState.value){
+                    RootNavGraph(navController = navHostController, startDestination = AUTH_GRAPH_ROUTE)
+                }else{
+                    MainNavGraph(navController = navHostController)
+                }
         }
     }
 

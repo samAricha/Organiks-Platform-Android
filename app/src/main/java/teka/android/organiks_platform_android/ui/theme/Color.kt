@@ -10,3 +10,5 @@ val SecondaryColor = Color(0xFF678F36)
 val BackgroundColor = Color(0xFFFFFFFF)
 val PlaceholderColor = Color(0xFFE5E5E5)
 val LightPrimaryColor = Color(0xFFFFF6EE)
+
+val PrimaryLight = Color(0x449E804B)

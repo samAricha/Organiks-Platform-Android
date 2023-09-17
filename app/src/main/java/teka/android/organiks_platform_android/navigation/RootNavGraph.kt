@@ -1,5 +1,7 @@
 package teka.android.organiks_platform_android.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
@@ -8,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import teka.android.organiks_platform_android.MainAppScreen
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RootNavGraph(
     navController: NavHostController,

@@ -41,6 +41,8 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -56,6 +58,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -63,36 +66,66 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.ScaffoldContent
+import teka.android.organiks_platform_android.modules.auth.AuthViewModel
 import teka.android.organiks_platform_android.navigation.MainNavGraph
 import teka.android.organiks_platform_android.navigation.Screen
+import teka.android.organiks_platform_android.ui.theme.LightPrimaryColor
+import teka.android.organiks_platform_android.ui.theme.NoShapes
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
+import teka.android.organiks_platform_android.ui.theme.PrimaryLight
+import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
 import teka.android.organiks_platform_android.ui.theme.ReemKufiBold
+import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
+import teka.android.organiks_platform_android.ui.theme.Shapes
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun NavigationDrawerM3() {
 
+    val navHostController: NavHostController = rememberNavController()
+    val scaffoldState = rememberScaffoldState()
+    val authViewModel: AuthViewModel = hiltViewModel()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val items = listOf(
-        DrawerItem(icon = Icons.Default.Home, label = "Home", secondaryLabel = "64"),
-        DrawerItem(icon = Icons.Default.Notifications, label = "Notifications", secondaryLabel = "12"),
-        DrawerItem(icon = Icons.Default.ExitToApp, label = "Log Out", secondaryLabel = ""),
+        DrawerItem(
+            icon = Icons.Default.Home,
+            label = "Home",
+            secondaryLabel = "64",
+            onItemClick = {
+                // Define the action for the "Home" item here
+                // For example, navigate to the Home screen
+                navHostController.navigate(Screen.Home.route)
+                scope.launch { drawerState.close() }
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.Notifications,
+            label = "Notifications",
+            secondaryLabel = "12",
+            onItemClick = {
+                // Define the action for the "Notifications" item here
+                // For example, navigate to the Notifications screen
+                navHostController.navigate(Screen.ProductionHome.route)
+                scope.launch { drawerState.close() }
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.ExitToApp,
+            label = "Log Out",
+            secondaryLabel = "",
+            onItemClick = {
+                // Define the action for the "Log Out" item here
+                // For example, perform the logout action
+               authViewModel.logout()
+            }
+            ),
     )
     var selectedItem by remember { mutableStateOf(items[0]) }
 
 
-    val navHostController: NavHostController = rememberNavController()
-    val scaffoldState = rememberScaffoldState()
-//    val scope = rememberCoroutineScope()
 
 
-    val scaffoldContent:Unit = ScaffoldContent(
-        navHostController = navHostController,
-        scaffoldState = scaffoldState,
-        scope = scope,
-        onDrawerIconClick = { scope.launch { drawerState.open() } }
-    )
 
     ModalNavigationDrawer(
         drawerState = drawerState,
@@ -100,28 +133,35 @@ fun NavigationDrawerM3() {
         drawerContent = {
             ModalDrawerSheet(
                 modifier = Modifier.width(300.dp),
-
+                drawerContainerColor = Color.White,
+                drawerShape = NoShapes.small
                 ) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(PrimaryColor)
-                        .padding(vertical = 64.dp),
+                        .padding(vertical = 24.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(text = "Organiks", fontFamily = ReemKufiBold, color = Color.White, fontSize = 45.sp)
                 }
+                Spacer(Modifier.size(6.dp))
                 items.forEach { item ->
                     NavigationDrawerItem(
                         label = { Text(text = item.label) },
                         selected = item == selectedItem,
                         onClick = {
-                            scope.launch { drawerState.close() }
+//                            scope.launch { drawerState.close() }
                             selectedItem = item
                         },
                         icon = { Icon(imageVector = item.icon, contentDescription = item.label)},
                         badge = { Text(text = item.secondaryLabel)},
-                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding)
+//                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                        colors = NavigationDrawerItemDefaults.colors(
+                            selectedContainerColor = PrimaryLight,
+                            unselectedContainerColor = Color.White
+                        )
+
                     )
                 }
             }
@@ -140,7 +180,8 @@ fun NavigationDrawerM3() {
 data class DrawerItem(
     val icon: ImageVector,
     val label: String,
-    val secondaryLabel: String
+    val secondaryLabel: String,
+    val onItemClick: () -> Unit
 )
 
 
@@ -157,14 +198,7 @@ fun ScaffoldContent2(
     androidx.compose.material.Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(
-                navigationIcon = {
-                    IconButton(onClick = onDrawerIconClick) {
-                        Icon(imageVector = Icons.Default.Menu, contentDescription = "Open Drawer")
-                    }
-                },
-                title = { Text(text = stringResource(id = R.string.app_name)) }
-            )
+                 AppBar(onNavigationIconClick = onDrawerIconClick)
         },
 
         bottomBar = {
