@@ -72,6 +72,7 @@ import teka.android.organiks_platform_android.modules.auth.AuthViewModel
 import teka.android.organiks_platform_android.navigation.AppNavigationActions
 import teka.android.organiks_platform_android.navigation.MainNavGraph
 import teka.android.organiks_platform_android.navigation.Screen
+import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 import teka.android.organiks_platform_android.ui.theme.LightPrimaryColor
 import teka.android.organiks_platform_android.ui.theme.NoShapes
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
@@ -133,7 +134,8 @@ fun NavigationDrawerM3(
                 // Define the action for the "Log Out" item here
                 // For example, perform the logout action
                 Toast.makeText(context, "This is a Log Out Toast. Yay!", Toast.LENGTH_SHORT).show()
-//               authViewModel.logout()
+               authViewModel.logout()
+
             }
             ),
     )

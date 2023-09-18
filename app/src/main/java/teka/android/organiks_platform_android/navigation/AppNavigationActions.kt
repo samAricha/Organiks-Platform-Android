@@ -17,4 +17,10 @@ class AppNavigationActions(private val navController: NavHostController) {
         }
     }
 
+    fun logoutNav() {
+        navController.navigate(AUTH_GRAPH_ROUTE) {
+            popUpTo(Screen.Login.route)
+        }
+    }
+
 }

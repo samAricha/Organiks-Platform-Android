@@ -1,13 +1,17 @@
 package teka.android.organiks_platform_android
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.*
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -16,6 +20,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import dagger.hilt.android.AndroidEntryPoint
+import teka.android.organiks_platform_android.modules.auth.AuthViewModel
+import teka.android.organiks_platform_android.modules.auth.UserState
 import teka.android.organiks_platform_android.modules.splash_screen.presentation.SplashViewModel
 import teka.android.organiks_platform_android.navigation.*
 import teka.android.organiks_platform_android.ui.theme.OrganiksPlatformAndroidTheme
@@ -29,6 +35,10 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var splashViewModel: SplashViewModel
 
+    private val userState by viewModels<AuthViewModel>()
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,10 +55,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             splashViewModel.startDestination.value?.let { Log.d("TAG3", it) }
 
-            OrganiksPlatformAndroidTheme {
-                val startDestination by splashViewModel.startDestination
-                startDestination?.let { RootNavGraph(navController = rememberNavController(), startDestination = it) }
+            CompositionLocalProvider(UserState provides userState) {
+                OrganiksPlatformAndroidTheme {
+                    val startDestination by splashViewModel.startDestination
+                    startDestination?.let { RootNavGraph(navController = rememberNavController(), startDestination = it) }
+                }
             }
+
         }
     }
 }

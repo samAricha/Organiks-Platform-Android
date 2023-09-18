@@ -50,7 +50,6 @@ import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainAppScreen() {
-    val navHostController: NavHostController = rememberNavController()
     NavigationDrawerM3()
 }
 
@@ -219,14 +218,8 @@ fun ScaffoldContent(
     ) {
         Box(modifier = Modifier.padding(bottom = 60.dp)) {
 
+            MainNavGraph(navController = navHostController)
 
-            val authViewModel: AuthViewModel = hiltViewModel()
-                val isLoggedInState = authViewModel.isLoggedIn.collectAsState()
-                if(!isLoggedInState.value){
-                    RootNavGraph(navController = navHostController, startDestination = AUTH_GRAPH_ROUTE)
-                }else{
-                    MainNavGraph(navController = navHostController)
-                }
         }
     }
 

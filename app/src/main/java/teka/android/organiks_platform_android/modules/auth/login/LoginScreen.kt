@@ -27,6 +27,7 @@ import androidx.navigation.NavController
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.modules.auth.AuthViewModel
 import teka.android.organiks_platform_android.navigation.Screen
+import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 
 import teka.android.organiks_platform_android.ui.theme.*
 
@@ -34,7 +35,6 @@ import teka.android.organiks_platform_android.ui.theme.*
 @Composable
 fun LoginScreen(
     navController: NavController,
-    onClick: () -> Unit,
     ) {
     val context = LocalContext.current
     val loginViewModel:LoginViewModel = hiltViewModel()
@@ -48,7 +48,9 @@ fun LoginScreen(
 
     if (isLoggedIn){
         loginViewModel.saveOnBoardingState(completed = true)
-        onClick
+        navController.popBackStack()
+        navController.navigate(To_MAIN_GRAPH_ROUTE)
+//        onClick
         Toast.makeText(context, "Login successful.", Toast.LENGTH_SHORT).show()
     }
         Box(

@@ -35,11 +35,7 @@ fun NavGraphBuilder.authNavGraph(
             route = Screen.Login.route
         ) {
             LoginScreen(
-                navController = navController,
-                onClick = {
-                    navController.popBackStack()
-                    navController.navigate(To_MAIN_GRAPH_ROUTE)
-                }
+                navController = navController
             )
         }
 
