@@ -17,7 +17,7 @@ import teka.android.organiks_platform_android.presentation.settings.SettingsScre
 
 @Composable
 fun MainNavGraph(
-    navController: NavHostController,
+    navController: NavHostController = rememberNavController(),
 ) {
 
     NavHost(

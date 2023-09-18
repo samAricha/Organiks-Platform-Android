@@ -50,7 +50,7 @@ import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainAppScreen() {
-
+    val navHostController: NavHostController = rememberNavController()
     NavigationDrawerM3()
 }
 
@@ -92,6 +92,7 @@ fun MainAppScreen() {
 
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ScaffoldContent(
