@@ -24,7 +24,6 @@ import teka.android.organiks_platform_android.modules.auth.login.LoginScreen
 fun RootNavGraph(
     navController: NavHostController,
     startDestination: String = To_MAIN_GRAPH_ROUTE
-
 ) {
     NavHost(navController = navController,
         startDestination = startDestination,

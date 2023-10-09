@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.navigation
 
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -13,6 +14,8 @@ import teka.android.organiks_platform_android.presentation.dashborad.DashboardSc
 import teka.android.organiks_platform_android.presentation.records.production.productionHome.ProductionHomeScreen
 import teka.android.organiks_platform_android.presentation.records.production.productionRecording.ProductionRecordingScreen
 import teka.android.organiks_platform_android.presentation.settings.SettingsScreen
+import teka.android.organiks_platform_android.ui.animations.scaleIntoContainer
+import teka.android.organiks_platform_android.ui.animations.scaleOutOfContainer
 
 
 @Composable
@@ -26,14 +29,43 @@ fun MainNavGraph(
         route = MAIN_GRAPH_ROUTE
     ) {
 
-        composable(route = Screen.ProductionHome.route){
+        composable(
+            route = Screen.ProductionHome.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+
+        ){
             ProductionHomeScreen(onNavigate = { id ->
                 navController.navigate(route = "${Screen.ProductionRecording.route}?id=$id")
             })
         }
 
-        composable(route = "${ Screen.ProductionRecording.route }?id={id}",
-            arguments = listOf(navArgument("id"){type = NavType.IntType})
+        composable(
+            route = "${ Screen.ProductionRecording.route }?id={id}",
+            arguments = listOf(navArgument("id"){type = NavType.IntType}),
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+
         ){
             val id = it.arguments?.getInt("id") ?: -1
 
@@ -44,13 +76,57 @@ fun MainNavGraph(
         }
 
 
-        composable(route = Screen.DashboardScreen.route){
+        composable(
+            route = Screen.DashboardScreen.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+
+            ){
             DashboardScreen()
         }
-        composable(route = Screen.AiSearchScreen.route){
+        composable(
+            route = Screen.AiSearchScreen.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+
+            ){
             AiAdviceScreen()
         }
-        composable(route = Screen.ProfileScreen.route){
+        composable(
+            route = Screen.ProfileScreen.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+            ){
             SettingsScreen()
         }
 

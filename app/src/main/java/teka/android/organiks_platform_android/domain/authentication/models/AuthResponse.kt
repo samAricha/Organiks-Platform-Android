@@ -26,7 +26,8 @@ data class AuthData(
 data class User(
     val id: Int,
     val name: String,
-    val email: String,
+    val email: String?,
+    val phone: String?,
     @SerialName("created_at")
     val createdAt: String,
     @SerialName("updated_at")
