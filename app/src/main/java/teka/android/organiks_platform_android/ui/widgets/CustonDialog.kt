@@ -31,6 +31,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.hilt.navigation.compose.hiltViewModel
+import teka.android.organiks_platform_android.modules.auth.AuthViewModel
 import teka.android.organiks_platform_android.ui.theme.ReemKufi
 import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
 
@@ -43,6 +45,7 @@ fun CustomDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (Str
     val positiveButtonColor: Color = Color(0xFFFF0000)
     val spaceBetweenElements: Dp = 18.dp
     val context: Context = LocalContext.current.applicationContext
+    val authViewModel: AuthViewModel = hiltViewModel()
 
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
@@ -97,8 +100,9 @@ fun CustomDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (Str
                         }
                         DialogButton(buttonColor = positiveButtonColor, buttonText = "Yes") {
                             Toast
-                                .makeText(context, "Yes Click", Toast.LENGTH_SHORT)
+                                .makeText(context, "Logging Out", Toast.LENGTH_SHORT)
                                 .show()
+                            authViewModel.logout()
                             setShowDialog(false)
                         }
                     }

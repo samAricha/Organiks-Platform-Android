@@ -94,7 +94,7 @@ fun LoginScreen(
                                 email = it
                             },
                             label = {
-                                Text(text = "Email Address")
+                                Text(text = "Email / Phone")
                             },
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -115,7 +115,7 @@ fun LoginScreen(
                             singleLine = true,
                             leadingIcon = {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.ic_email),
+                                    painter = painterResource(id = R.drawable.ic_user),
                                     contentDescription = "",
                                     modifier = Modifier.size(24.dp),
                                     tint = PrimaryColor,
@@ -150,7 +150,7 @@ fun LoginScreen(
                             visualTransformation = if (!isPasswordOpen) PasswordVisualTransformation() else VisualTransformation.None,
                             leadingIcon = {
                                 Icon(
-                                    painter = painterResource(id = R.drawable.ic_password),
+                                    painter = painterResource(id = R.drawable.outline_lock_24),
                                     contentDescription = "",
                                     modifier = Modifier.size(24.dp),
                                     tint = PrimaryColor,

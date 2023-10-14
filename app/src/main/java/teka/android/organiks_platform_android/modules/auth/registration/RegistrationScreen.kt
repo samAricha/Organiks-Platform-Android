@@ -151,7 +151,7 @@ fun RegisterScreen(
                     singleLine = true,
                     leadingIcon = {
                         Icon(
-                            painter = painterResource(id = R.drawable.baseline_phone_24),
+                            painter = painterResource(id = R.drawable.outline_phone_24),
                             contentDescription = "",
                             modifier = Modifier.size(24.dp),
                             tint = PrimaryColor
@@ -188,7 +188,7 @@ fun RegisterScreen(
                     singleLine = true,
                     leadingIcon = {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_email),
+                            painter = painterResource(id = R.drawable.outline_email_24),
                             contentDescription = "",
                             modifier = Modifier.size(24.dp),
                             tint = PrimaryColor
@@ -223,7 +223,7 @@ fun RegisterScreen(
                     visualTransformation = if (!isPasswordOpen) PasswordVisualTransformation() else VisualTransformation.None,
                     leadingIcon = {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_password),
+                            painter = painterResource(id = R.drawable.outline_lock_24),
                             contentDescription = "",
                             tint = PrimaryColor,
                             modifier = Modifier.size(24.dp)

@@ -144,7 +144,7 @@ fun NavigationDrawerM3(
 //               authViewModel.logout()
 
             }
-            ),
+        ),
     )
     val selectedItem by remember { mutableStateOf(items[0]) }
 
@@ -169,22 +169,21 @@ fun NavigationDrawerM3(
                 drawerContainerColor = Color.White,
                 drawerShape = NoShapes.small
                 ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(PrimaryColor)
-                        .padding(vertical = 24.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(text = "Organiks", fontFamily = ReemKufiBold, color = Color.White, fontSize = 45.sp)
-                }
+//                Box(
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .background(PrimaryColor)
+//                        .padding(vertical = 24.dp),
+//                    contentAlignment = Alignment.Center
+//                ) {
+//                    Text(text = "Organiks", fontFamily = ReemKufiBold, color = Color.White, fontSize = 45.sp)
+//                }
                 Spacer(Modifier.size(6.dp))
                 items.forEach { item ->
                     NavigationDrawerItem(
                         label = { Text(text = item.label) },
                         selected = item == selectedItem,
                         onClick = item.onItemClick,
-
                         icon = { Icon(imageVector = item.icon, contentDescription = item.label)},
                         badge = { Text(text = item.secondaryLabel)},
                         colors = NavigationDrawerItemDefaults.colors(
