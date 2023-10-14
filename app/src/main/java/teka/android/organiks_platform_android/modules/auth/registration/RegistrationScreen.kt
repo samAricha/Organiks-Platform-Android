@@ -61,7 +61,7 @@ fun RegisterScreen(
     navController: NavController,
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
-    var userName by remember { mutableStateOf("") }
+    var phone by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirmation by remember { mutableStateOf("") }
@@ -124,9 +124,9 @@ fun RegisterScreen(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 OutlinedTextField(
-                    value = userName,
+                    value = phone,
                     onValueChange = {
-                        userName = it
+                        phone = it
                     },
                     label = {
                         Text(text = "Phone")
@@ -310,7 +310,12 @@ fun RegisterScreen(
 
                 Button(
                     onClick = {
-                        authViewModel.register(userName, email, password, passwordConfirmation)
+                        authViewModel.register(
+                            phone = phone,
+                            email = email,
+                            password = password,
+                            passwordConfirmation = passwordConfirmation
+                        )
                     },
                     modifier = Modifier
                         .fillMaxWidth()
