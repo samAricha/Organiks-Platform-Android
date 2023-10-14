@@ -1,6 +1,7 @@
 package teka.android.organiks_platform_android.presentation.navDrawer
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -81,6 +82,7 @@ import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
 import teka.android.organiks_platform_android.ui.theme.ReemKufiBold
 import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
 import teka.android.organiks_platform_android.ui.theme.Shapes
+import teka.android.organiks_platform_android.ui.widgets.CustomDialog
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -97,6 +99,9 @@ fun NavigationDrawerM3(
     val navigationActions = remember(navHostController) {
         AppNavigationActions(navHostController)
     }
+
+    val showDialog =  remember { mutableStateOf(false) }
+
 
     val items = listOf(
         DrawerItem(
@@ -131,10 +136,12 @@ fun NavigationDrawerM3(
             label = "Log Out",
             secondaryLabel = "",
             onItemClick = {
-                // Define the action for the "Log Out" item here
-                // For example, perform the logout action
+                scope.launch {
+                    drawerState.close()
+                }
+                showDialog.value = true
                 Toast.makeText(context, "This is a Log Out Toast. Yay!", Toast.LENGTH_SHORT).show()
-               authViewModel.logout()
+//               authViewModel.logout()
 
             }
             ),
@@ -142,6 +149,14 @@ fun NavigationDrawerM3(
     val selectedItem by remember { mutableStateOf(items[0]) }
 
 
+
+
+    if(showDialog.value)
+        CustomDialog(value = "", setShowDialog = {
+            showDialog.value = it
+        }) {
+            Log.i("HomePage","HomePage : $it")
+        }
 
 
 
@@ -169,15 +184,9 @@ fun NavigationDrawerM3(
                         label = { Text(text = item.label) },
                         selected = item == selectedItem,
                         onClick = item.onItemClick,
-//                        {
-//                            scope.launch { drawerState.close() }
-//
-//
-//                            selectedItem = item
-//                        },
+
                         icon = { Icon(imageVector = item.icon, contentDescription = item.label)},
                         badge = { Text(text = item.secondaryLabel)},
-//                        modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
                         colors = NavigationDrawerItemDefaults.colors(
                             selectedContainerColor = PrimaryLight,
                             unselectedContainerColor = Color.White
@@ -299,27 +308,27 @@ fun ScaffoldContent2(
                 )
 
 
-                BottomNavigationItem(
-                    selected = currentRoute?.startsWith(Screen.AiSearchScreen.route) == true,
-                    onClick = {
-                        navHostController.navigate(route = Screen.AiSearchScreen.route)
-                    },
-                    icon = {
-                        androidx.compose.material.Icon(
-                            painter = painterResource(R.drawable._search_24),
-                            contentDescription = "Search",
-                            modifier = Modifier.size(20.dp),
-                            tint = if (currentRoute == Screen.AiSearchScreen.route) PrimaryColor else Color.Gray
-                        )
-                    },
-                    label = {
-                        androidx.compose.material.Text(
-                            text = "Search",
-                            fontSize = 10.sp,
-                            color = if (currentRoute == Screen.AiSearchScreen.route) PrimaryColor else Color.Gray
-                        )
-                    }
-                )
+//                BottomNavigationItem(
+//                    selected = currentRoute?.startsWith(Screen.AiSearchScreen.route) == true,
+//                    onClick = {
+//                        navHostController.navigate(route = Screen.AiSearchScreen.route)
+//                    },
+//                    icon = {
+//                        androidx.compose.material.Icon(
+//                            painter = painterResource(R.drawable._search_24),
+//                            contentDescription = "Search",
+//                            modifier = Modifier.size(20.dp),
+//                            tint = if (currentRoute == Screen.AiSearchScreen.route) PrimaryColor else Color.Gray
+//                        )
+//                    },
+//                    label = {
+//                        androidx.compose.material.Text(
+//                            text = "Search",
+//                            fontSize = 10.sp,
+//                            color = if (currentRoute == Screen.AiSearchScreen.route) PrimaryColor else Color.Gray
+//                        )
+//                    }
+//                )
             }
         }
     ) {

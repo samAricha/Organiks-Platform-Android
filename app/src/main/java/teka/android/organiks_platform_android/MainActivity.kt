@@ -58,7 +58,12 @@ class MainActivity : ComponentActivity() {
             CompositionLocalProvider(UserState provides userState) {
                 OrganiksPlatformAndroidTheme {
                     val startDestination by splashViewModel.startDestination
-                    startDestination?.let { RootNavGraph(navController = rememberNavController(), startDestination = it) }
+                    startDestination?.let {
+                        RootNavGraph(
+                            navController = rememberNavController(),
+                            startDestination = it
+                        )
+                    }
                 }
             }
 

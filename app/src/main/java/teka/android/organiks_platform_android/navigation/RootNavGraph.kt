@@ -50,7 +50,6 @@ fun RootNavGraph(
                     CircularProgressIndicator()
                 }
             }
-//            MainAppScreen()
         }
 
     }

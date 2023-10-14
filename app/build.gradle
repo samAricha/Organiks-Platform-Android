@@ -63,6 +63,9 @@ dependencies {
     //material 3
     def material3_version = "1.1.1"
     implementation "androidx.compose.material3:material3:$material3_version"
+    //icons
+    implementation ("androidx.compose.material:material-icons-extended:1.4.0")
+
 
 
     // Navigation Compose
