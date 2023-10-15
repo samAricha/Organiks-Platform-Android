@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -14,12 +16,11 @@ import javax.inject.Inject
 
 
 @HiltWorker
-class DbDataSyncWorker @Inject constructor(
-    appContext: Context,
-    params: WorkerParameters,
+class DbDataSyncWorker @AssistedInject constructor(
+    @Assisted appContext: Context,
+    @Assisted workerParams: WorkerParameters,
     private val productionHomeViewModel: ProductionHomeViewModel // Inject your ViewModel
-
-) : CoroutineWorker(appContext, params) {
+) : CoroutineWorker(appContext, workerParams) {
     private lateinit var connectivityObserver: ConnectivityObserver
 
 

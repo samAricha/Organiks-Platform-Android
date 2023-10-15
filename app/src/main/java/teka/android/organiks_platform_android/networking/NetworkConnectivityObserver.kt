@@ -3,6 +3,8 @@ package teka.android.organiks_platform_android.networking
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.Network
+import androidx.work.Constraints
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import kotlinx.coroutines.channels.awaitClose
@@ -10,7 +12,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
-import teka.android.organiks_platform_android.networking.ConnectivityObserver
 import teka.android.organiks_platform_android.workmanager.DbDataSyncWorker
 
 class NetworkConnectivityObserver(
@@ -58,8 +59,14 @@ class NetworkConnectivityObserver(
     }
 
     private fun enqueueDataSyncWorker() {
+
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
         // Create a one-time work request for your DbDataSyncWorker
         val syncRequest = OneTimeWorkRequest.Builder(DbDataSyncWorker::class.java)
+            .setConstraints(constraints)
             .build()
 
         // Enqueue the work request to run immediately

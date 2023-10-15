@@ -1,31 +1,69 @@
 package teka.android.organiks_platform_android
 
 import android.app.Application
-import androidx.work.PeriodicWorkRequest
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import dagger.hilt.android.HiltAndroidApp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import teka.android.organiks_platform_android.networking.ConnectivityObserver
+import teka.android.organiks_platform_android.networking.NetworkConnectivityObserver
 import teka.android.organiks_platform_android.workmanager.DbDataSyncWorker
-import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 @HiltAndroidApp
 class OrganiksApplication: Application() {
 
+    @Inject
+    lateinit var workManager: WorkManager // Inject WorkManager
+
+    @Inject
+    lateinit var networkConnectivityObserver: NetworkConnectivityObserver
+
+
     override fun onCreate() {
         super.onCreate()
 
-        // Define the repeat interval and unit (e.g., every 24 hours)
-        val repeatInterval = 24L
-        val repeatIntervalTimeUnit = TimeUnit.HOURS
+        // Initialize and observe network connectivity
+        val connectivityFlow = networkConnectivityObserver.observe()
 
-        // Create a periodic work request
-        val syncRequest = PeriodicWorkRequest.Builder(
-            DbDataSyncWorker::class.java,
-            repeatInterval,
-            repeatIntervalTimeUnit
-        ).build()
+        // Collect and observe network connectivity status within a coroutine scope
+        CoroutineScope(Dispatchers.IO).launch {
+            withContext(Dispatchers.Main) {
+                connectivityFlow.collect { status ->
+                    // Handle network status changes (e.g., enqueue your worker)
+                    when (status) {
+                        ConnectivityObserver.Status.Available -> {
+                            // Handle network available status (enqueue worker, etc.)
+                            enqueueDataSyncWorker()
+                        }
+                        // Handle other network statuses if needed
+                        else -> {}
+                    }
+                }
+            }
+        }
 
-        // Enqueue the work request
-        WorkManager.getInstance(applicationContext).enqueue(syncRequest)
+
+    }
+
+    private fun enqueueDataSyncWorker() {
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
+        // Create a one-time work request for your DbDataSyncWorker
+        val syncRequest = OneTimeWorkRequest.Builder(DbDataSyncWorker::class.java)
+            .setConstraints(constraints)
+            .build()
+
+        // Enqueue the work request to run immediately
+        workManager.enqueue(syncRequest)
     }
 
 }

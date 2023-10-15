@@ -2,6 +2,7 @@ package teka.android.organiks_platform_android.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.work.WorkManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,6 +12,7 @@ import teka.android.organiks_platform_android.data.room.OrganiksDatabase
 import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
 import teka.android.organiks_platform_android.repository.DataStoreRepository
 import teka.android.organiks_platform_android.modules.splash_screen.presentation.SplashViewModel
+import teka.android.organiks_platform_android.networking.NetworkConnectivityObserver
 import teka.android.organiks_platform_android.repository.DbRepository
 import javax.inject.Singleton
 
@@ -62,5 +64,18 @@ object MainModule {
     fun provideRemoteDataUpdater(@ApplicationContext context: Context): RemoteDataUpdater {
         return RemoteDataUpdater(context)
     }
+
+    @Provides
+    @Singleton
+    fun provideWorkManager(@ApplicationContext context: Context): WorkManager {
+        return WorkManager.getInstance(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNetworkConnectivityObserver(@ApplicationContext context: Context): NetworkConnectivityObserver {
+        return NetworkConnectivityObserver(context)
+    }
+
 
 }
