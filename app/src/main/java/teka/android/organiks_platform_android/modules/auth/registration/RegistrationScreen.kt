@@ -388,7 +388,7 @@ fun RegisterScreen(
 
                 Button(
                     onClick = {
-                        if (!isPhoneNumberError && !isEmailError && isPasswordError && isPasswordConfirmationError){
+                        if (!isPhoneNumberError && !isEmailError && !isPasswordError && !isPasswordConfirmationError){
                             authViewModel.register(
                                 phone = phone,
                                 email = email,
