@@ -2,6 +2,9 @@ package teka.android.organiks_platform_android.modules.auth.registration
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,6 +26,8 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -36,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -61,6 +67,8 @@ fun RegisterScreen(
     navController: NavController,
     authViewModel: AuthViewModel = hiltViewModel()
 ) {
+    val localContext = LocalContext.current
+
     var phone by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -68,6 +76,23 @@ fun RegisterScreen(
     val isRegisteredState = authViewModel.isRegistered.collectAsState()
     var isPasswordOpen by remember { mutableStateOf(false) }
     val mContext = LocalContext.current
+
+    val registrationViewModel : RegistrationViewModel = hiltViewModel()
+
+    val isEmailError = registrationViewModel.formState.emailError != null
+    val emailErrorMessage = registrationViewModel.formState.emailError
+
+    val isPhoneNumberError = registrationViewModel.formState.phoneNumberError != null
+    val phoneNumberErrorMessage = registrationViewModel.formState.phoneNumberError
+
+    val isPasswordError = registrationViewModel.formState.passwordError != null
+    val passwordErrorMessage = registrationViewModel.formState.passwordError
+
+    val isPasswordConfirmationError = registrationViewModel.formState.passwordConfirmationError != null
+    val passwordConfirmationErrorMessage = registrationViewModel.formState.passwordConfirmationError
+
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
 
 
 
@@ -127,6 +152,7 @@ fun RegisterScreen(
                     value = phone,
                     onValueChange = {
                         phone = it
+                        registrationViewModel.onEvent(MainEvent.PhoneNumberChanged(it))
                     },
                     label = {
                         Text(text = "Phone")
@@ -157,13 +183,25 @@ fun RegisterScreen(
                             tint = PrimaryColor
                         )
                     },
+                    isError = isPhoneNumberError,
                     shape = Shapes.large,
                 )
+                if (isPhoneNumberError) {
+                    if (phoneNumberErrorMessage != null) {
+                        Text(
+                            text = phoneNumberErrorMessage.asString(),
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
+                }
 
                 OutlinedTextField(
                     value = email,
                     onValueChange = {
                         email = it
+                        registrationViewModel.onEvent(MainEvent.EmailChanged(it))
                     },
                     label = {
                         Text(text = "Email Address")
@@ -194,13 +232,25 @@ fun RegisterScreen(
                             tint = PrimaryColor
                         )
                     },
+                    isError = isEmailError,
                     shape = Shapes.large,
                 )
+                if (isEmailError) {
+                    if (emailErrorMessage != null) {
+                        Text(
+                            text = emailErrorMessage.asString(),
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
+                }
 
                 OutlinedTextField(
                     value = password,
                     onValueChange = {
                         password = it
+                        registrationViewModel.onEvent(MainEvent.PasswordChanged(it))
                     },
                     label = {
                         Text(text = "Password")
@@ -248,14 +298,28 @@ fun RegisterScreen(
                             }
                         }
                     },
+                    isError = isPasswordError,
                     shape = Shapes.large,
                 )
+                if (isPasswordError) {
+                    if (passwordErrorMessage != null) {
+                        Text(
+                            text = passwordErrorMessage.asString(),
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
+                }
+
+
 
                 //password confirmation
                 OutlinedTextField(
                     value = passwordConfirmation,
                     onValueChange = {
                         passwordConfirmation = it
+                        registrationViewModel.onEvent(MainEvent.PasswordConfirmationChanged(it))
                     },
                     label = {
                         Text(text = "Confirm Password")
@@ -303,19 +367,38 @@ fun RegisterScreen(
                             }
                         }
                     },
+                    isError = isPasswordConfirmationError,
                     shape = Shapes.large,
                 )
+                if (isPasswordConfirmationError) {
+                    if (passwordConfirmationErrorMessage != null) {
+                        Text(
+                            text = passwordConfirmationErrorMessage.asString(),
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall,
+                            modifier = Modifier.padding(start = 16.dp)
+                        )
+                    }
+                }
+
+
+
 
                 Spacer(modifier = Modifier.height(20.dp))
 
                 Button(
                     onClick = {
-                        authViewModel.register(
-                            phone = phone,
-                            email = email,
-                            password = password,
-                            passwordConfirmation = passwordConfirmation
-                        )
+                        if (!isPhoneNumberError && !isEmailError && isPasswordError && isPasswordConfirmationError){
+                            authViewModel.register(
+                                phone = phone,
+                                email = email,
+                                password = password,
+                                passwordConfirmation = passwordConfirmation
+                            )
+                        }else{
+                            Toast.makeText(localContext,"Please fix the errors", Toast.LENGTH_SHORT).show()
+                        }
+
                     },
                     modifier = Modifier
                         .fillMaxWidth()

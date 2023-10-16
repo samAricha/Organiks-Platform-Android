@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Organiks</string>
+
+    <string name="strTheEmailCanNotBeBlank">The email can\'t be blank</string>
+    <string name="strThatsNotAValidEmail">That\'s not a valid email</string>
+
+    <string name="strThePasswordNeedsToConsistOfAtLeastEightCharacters">The password needs to consist of at least 8 characters</string>
+    <string name="strThePasswordNeedsToContainAtLeastOneLetterAndDigit">The password needs to contain at least one letter and digit</string>
+
+    <string name="strThePhoneCanNotBeBlank">The phone can\'t be blank</string>
+    <string name="strThePhoneNumberShouldBeContentJustDigit">The phone number should be content just digit</string>
+    <string name="strThePhoneMustBeEqualTo10">The phone number should be 10 digits</string>
+
 </resources>

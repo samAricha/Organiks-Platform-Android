@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.domain.authentication.AuthManager
+import teka.android.organiks_platform_android.domain.form.validation.use_cases.ValidateEmailUseCase
+import teka.android.organiks_platform_android.domain.form.validation.use_cases.ValidatePasswordUseCase
 import teka.android.organiks_platform_android.repository.DataStoreRepository
 import javax.inject.Inject
 
@@ -58,10 +60,10 @@ class AuthViewModel @Inject constructor(
             authManager.clearAuthToken()
             dataStoreRepository.saveLoggedInState(false)
         }
-
     }
 
 }
+
 
 @SuppressLint("CompositionLocalNaming")
 val UserState = compositionLocalOf<AuthViewModel> { error("User State Context Not Found!") }
