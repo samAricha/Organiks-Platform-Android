@@ -4,6 +4,8 @@ import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
+import teka.android.organiks_platform_android.data.room.models.FruitCollection
+import teka.android.organiks_platform_android.data.room.models.FruitType
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 
@@ -38,6 +40,36 @@ interface EggCollectionDao{
 
 }
 
+@Dao
+interface FruitCollectionDao{
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(fruitCollection: FruitCollection)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(fruitCollection: FruitCollection)
+
+    @Delete
+    suspend fun delete(fruitCollection: FruitCollection)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFruitCollections(fruitCollections: List<FruitCollection>)
+
+
+    @Query("SELECT * FROM fruit_collections ORDER BY date DESC")
+    fun getAllFruitCollections(): Flow<List<FruitCollection>>
+
+    @Query("SELECT * FROM fruit_collections WHERE fruit_collection_id=:collectionId")
+    fun getFruitCollectionById(collectionId:Int): Flow<FruitCollection>
+
+
+    @Query("""
+        SELECT * FROM egg_collections AS EC INNER JOIN egg_types AS ET ON
+        EC.eggTypeId = ET.egg_type_id
+    """)
+    fun getFruitCollectionsWithFruitTypes():Flow<List<EggTypeEggCollectionItem>>
+
+}
+
 
 @Dao
 interface EggTypeDao{
@@ -55,6 +87,24 @@ interface EggTypeDao{
 
     @Query("SELECT * FROM egg_types WHERE egg_type_id=:eggTypeId")
     fun getEggType(eggTypeId:Int): Flow<EggType>
+}
+
+@Dao
+interface FruitTypeDao{
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(fruitType: FruitType)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(fruitType: FruitType)
+
+    @Delete
+    suspend fun delete(fruitType: FruitType)
+
+    @Query("SELECT * FROM fruit_types")
+    fun getAllEggTypes(): Flow<List<FruitType>>
+
+    @Query("SELECT * FROM fruit_types WHERE fruit_type_id=:fruitTypeId")
+    fun getEggType(fruitTypeId:Int): Flow<FruitType>
 
 }
 
@@ -77,6 +127,10 @@ interface ProductionCategoryDao{
 data class EggTypeEggCollectionItem(
     @Embedded val eggType: EggType,
     @Embedded val eggCollection: EggCollection,
+)
+data class FruitTypeFruitCollectionItem(
+    @Embedded val fruitType: FruitType,
+    @Embedded val fruitCollection: FruitCollection,
 )
 
 
@@ -102,6 +156,4 @@ interface MilkCollectionDao{
 
     @Query("SELECT * FROM milk_collections WHERE milk_collection_id=:collectionId")
     fun getMilkCollectionById(collectionId:Int): Flow<MilkCollection>
-
-
 }

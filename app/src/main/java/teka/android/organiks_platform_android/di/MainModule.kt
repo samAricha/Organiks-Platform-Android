@@ -43,7 +43,8 @@ object MainModule {
             eggTypeDao = database.eggTypeDao(),
             eggCollectionDao = database.eggCollectionDao(),
             productionCategoryDao = database.productionCategoryDao(),
-            milkCollectionDao = database.milkCollectionDao()
+            milkCollectionDao = database.milkCollectionDao(),
+            fruitCollectionDao = database.fruitCollectionDao()
         )
     }
 

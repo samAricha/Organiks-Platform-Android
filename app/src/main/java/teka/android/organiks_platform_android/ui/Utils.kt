@@ -7,7 +7,7 @@ object Utils {
     val productionCategory = listOf(
         Category(title = "Eggs", resId = R.drawable.ic_egg_collection, id = 0),
         Category(title = "Milk", resId = R.drawable.ic_milk_can, id = 1),
-        Category(title = "Fruits", resId = R.drawable.ic_fruits, id = 1),
+        Category(title = "Fruits", resId = R.drawable.ic_fruits, id = 2),
     )
     val stockCategory = listOf(
         Category(title = "Chicken", resId = R.drawable.ic_chicken, id = 0),

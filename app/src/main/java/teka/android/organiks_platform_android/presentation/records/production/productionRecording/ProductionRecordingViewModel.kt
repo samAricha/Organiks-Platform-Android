@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
+import teka.android.organiks_platform_android.data.room.models.FruitCollection
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 import teka.android.organiks_platform_android.repository.DbRepository
@@ -92,6 +93,10 @@ class ProductionRecordingViewModel @Inject constructor(
         state = state.copy(eggsCracked = newValue)
     }
 
+    fun onFruitQtyChange(newValue: String){
+        state = state.copy(fruitCollectionQty = newValue)
+    }
+
     fun onDateChange(newValue: Date){
         state = state.copy(date = newValue)
     }
@@ -108,6 +113,21 @@ class ProductionRecordingViewModel @Inject constructor(
                     qty = state.eggCollectionQty,
                     cracked = state.eggsCracked,
                     eggTypeId = state.eggTypes.find {
+                        it.name == state.eggTypeName
+                    }?.id ?: 0,
+                    isBackedUp = false
+                )
+            )
+        }
+    }
+
+    fun onSaveFruitCollection(){
+        viewModelScope.launch {
+            repository.insertFruitCollection(
+                FruitCollection(
+                    date = state.date.time,
+                    qty = state.fruitCollectionQty,
+                    fruitTypeId = state.eggTypes.find {
                         it.name == state.eggTypeName
                     }?.id ?: 0,
                     isBackedUp = false
@@ -186,6 +206,22 @@ class ProductionRecordingViewModel @Inject constructor(
         }
     }
 
+    fun updateFruitCollection(id: Int){
+        viewModelScope.launch {
+            repository.insertEggCollection(
+                EggCollection(
+                    date = state.date.time,
+                    qty = state.eggCollectionQty,
+                    cracked = state.eggsCracked,
+                    eggTypeId = state.eggTypes.find {
+                        it.name == state.eggTypeName
+                    }?.id ?: 0,
+                    id = id
+                )
+            )
+        }
+    }
+
     fun addEggType(){
         viewModelScope.launch {
             repository.insertEggType(
@@ -213,6 +249,7 @@ data class ProductionRecordingState(
     var eggTypeName : String = "",
     val eggsCracked: String = "",
     val fruitCollectionQty: String = "",
+    var fruitTypeName : String = "",
     val date: Date = Date(),
     val isScreenDialogDismissed: Boolean = true,
     val isUpdatingItem: Boolean = false,

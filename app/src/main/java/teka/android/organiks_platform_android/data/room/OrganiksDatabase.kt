@@ -8,12 +8,18 @@ import androidx.room.TypeConverters
 import teka.android.organiks_platform_android.data.room.converters.DateConverter
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
+import teka.android.organiks_platform_android.data.room.models.FruitCollection
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 
 @TypeConverters(value = [DateConverter::class])
 @Database(
-    entities = [ProductionCategory::class, EggType::class, EggCollection::class, MilkCollection::class],
+    entities = [
+        ProductionCategory::class,
+        EggType::class,
+        EggCollection::class,
+        MilkCollection::class,
+        FruitCollection::class],
     version = 1,
     exportSchema = false
 )
@@ -22,6 +28,7 @@ abstract class OrganiksDatabase: RoomDatabase() {
     abstract fun eggTypeDao():EggTypeDao
     abstract fun eggCollectionDao():EggCollectionDao
     abstract fun milkCollectionDao():MilkCollectionDao
+    abstract fun fruitCollectionDao():FruitCollectionDao
     abstract fun productionCategoryDao():ProductionCategoryDao
 
     companion object{

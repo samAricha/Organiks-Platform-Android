@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.models.EggCollection
+import teka.android.organiks_platform_android.data.room.models.FruitCollection
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
 import teka.android.organiks_platform_android.data.room_remote_sync.UpdateResult
@@ -34,6 +35,9 @@ class ProductionHomeViewModel @Inject constructor(
     private val _milkCollections = MutableStateFlow<List<MilkCollection>>(emptyList())
     val milkCollections: StateFlow<List<MilkCollection>> = _milkCollections.asStateFlow()
 
+    private val _fruitCollections = MutableStateFlow<List<FruitCollection>>(emptyList())
+    val fruitCollections: StateFlow<List<FruitCollection>> = _fruitCollections.asStateFlow()
+
 
     private val _isSyncing = MutableStateFlow(false)
     val isSyncing: StateFlow<Boolean> = _isSyncing
@@ -53,6 +57,7 @@ class ProductionHomeViewModel @Inject constructor(
     fun viewModelInitialization(){
         fetchEggCollections()
         fetchMilkCollections()
+        fetchFruitCollections()
     }
 
     // Fetch and update milk collections in your ViewModel
@@ -60,6 +65,22 @@ class ProductionHomeViewModel @Inject constructor(
         viewModelScope.launch {
             repository.getEggCollections.collectLatest { eggCollections ->
                 _eggCollections.value = eggCollections
+            }
+        }
+    }
+
+    private fun fetchFruitCollections() {
+        viewModelScope.launch {
+            repository.getFruitCollections.collectLatest { fruitCollections ->
+                _fruitCollections.value = fruitCollections
+            }
+        }
+    }
+
+    private fun fetchMilkCollections() {
+        viewModelScope.launch {
+            repository.getMilkCollection.collectLatest { milkCollections ->
+                _milkCollections.value = milkCollections
             }
         }
     }
@@ -74,13 +95,7 @@ class ProductionHomeViewModel @Inject constructor(
         _snackbarData.value = null
     }
 
-    private fun fetchMilkCollections() {
-        viewModelScope.launch {
-            repository.getMilkCollection.collectLatest { milkCollections ->
-                _milkCollections.value = milkCollections
-            }
-        }
-    }
+
 
 
     fun syncRoomDbToRemote() {
@@ -93,6 +108,9 @@ class ProductionHomeViewModel @Inject constructor(
                 }
                 val notBackedUpMilkCollections = milkCollections.value.filter { milkCollection ->
                     !milkCollection.isBackedUp
+                }
+                val notBackedUpFruitCollections = fruitCollections.value.filter { fruitCollection ->
+                    !fruitCollection.isBackedUp
                 }
                 val result =remoteDataUpdater.updateRemoteEggCollectionData(notBackedUpEggCollections, repository)
                 val result2 =remoteDataUpdater.updateRemoteMilkCollectionData(notBackedUpMilkCollections, repository)

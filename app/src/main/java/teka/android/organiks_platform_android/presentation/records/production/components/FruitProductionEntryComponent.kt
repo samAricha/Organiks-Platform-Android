@@ -56,25 +56,8 @@ fun FruitProductionEntryComponent(
     Column(
     ) {
 
-        TextField(
-            value = state.fruitCollectionQty,
-            label = { Text(text = "Total Fuits Collected(Kgs)") },
-            onValueChange = {onCollectionQuantityChange(it)},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier
-                .fillMaxWidth(),
-            colors = TextFieldDefaults.textFieldColors(
-                unfocusedIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-            ),
-            shape = Shapes.large
-        )
-
-        Spacer(modifier = Modifier.size(24.dp))
-
-
         Row(
-            horizontalArrangement = Arrangement.End
+            horizontalArrangement = Arrangement.Center
         ) {
 
             //Text("Selected Item: ${selectedEggTypeItem.name}")
@@ -85,15 +68,13 @@ fun FruitProductionEntryComponent(
                 .background(Color.LightGray, Shapes.large)
                 .clickable { expanded = true },
                 horizontalArrangement = Arrangement.SpaceBetween,
-
-            ) {
+                ) {
                 Text(
                     text = selectedFruitTypeItem.name,
                     modifier = Modifier
                         .padding(horizontal = 12.dp)
                         .align(Alignment.CenterVertically),
-
-                )
+                    )
                 Icon(
                     imageVector = Icons.Default.ArrowDropDown,
                     contentDescription = null,
@@ -118,6 +99,23 @@ fun FruitProductionEntryComponent(
                 }
             }
         }
+
+        Spacer(modifier = Modifier.size(24.dp))
+
+
+        TextField(
+            value = state.fruitCollectionQty,
+            label = { Text(text = "Total Fruits Collected(Kgs)") },
+            onValueChange = {onCollectionQuantityChange(it)},
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = TextFieldDefaults.textFieldColors(
+                unfocusedIndicatorColor = Color.Transparent,
+                focusedIndicatorColor = Color.Transparent,
+            ),
+            shape = Shapes.large
+        )
 
 
         Spacer(modifier = Modifier.height(34.dp))
@@ -161,18 +159,13 @@ fun FruitProductionEntryComponent(
 //                    navigateUp.invoke()
                     navController.navigate(Screen.ProductionHome.route)
                 },
-                enabled = state.eggCollectionQty.isNotEmpty()&&
-                        state.eggsCracked.isNotEmpty()&&
-                        state.eggTypeName.isNotEmpty(),
+                enabled = state.fruitCollectionQty.isNotEmpty(),
                 shape = buttonShapes.large,
             ) {
                 Text(text = buttonTitle, fontFamily = Poppins)
-
             }
         }
     }
-
-
 }
 
 

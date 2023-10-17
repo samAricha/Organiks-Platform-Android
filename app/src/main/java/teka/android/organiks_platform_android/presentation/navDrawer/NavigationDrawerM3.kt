@@ -102,7 +102,6 @@ fun NavigationDrawerM3(
 
     val showDialog =  remember { mutableStateOf(false) }
 
-
     val items = listOf(
         DrawerItem(
             icon = Icons.Default.Home,
@@ -142,7 +141,6 @@ fun NavigationDrawerM3(
                 showDialog.value = true
                 Toast.makeText(context, "This is a Log Out Toast. Yay!", Toast.LENGTH_SHORT).show()
 //               authViewModel.logout()
-
             }
         ),
     )

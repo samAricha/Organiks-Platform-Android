@@ -55,6 +55,7 @@ import java.util.Locale
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.zIndex
+import teka.android.organiks_platform_android.data.room.models.FruitCollection
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -91,6 +92,10 @@ fun ProductionHomeScreen(
             val milkCollectionsState by productionHomeViewModel.milkCollections.collectAsState()
             milkCollectionsState
         }
+        Utils.productionCategory[2] -> {
+            val fruitCollectionsState by productionHomeViewModel.fruitCollections.collectAsState()
+            fruitCollectionsState
+        }
         else -> emptyList() // Handle other categories as needed
     }
 
@@ -124,7 +129,6 @@ fun ProductionHomeScreen(
         Box(
             modifier = Modifier.fillMaxSize().padding(top = 16.dp, start = 16.dp, end = 16.dp)
         ){
-
             LazyColumn {
                 item {
                     LazyRow(Modifier.padding(bottom = 16.dp)) {
@@ -151,6 +155,12 @@ fun ProductionHomeScreen(
                         Utils.productionCategory[1] -> {
                             MilkCollectionItem(
                                 milkCollection = collection as MilkCollection,
+                                onItemClick = { onNavigate.invoke(collection.id) }
+                            )
+                        }
+                        Utils.productionCategory[2] -> {
+                            FruitCollectionItem(
+                                fruitCollection = collection as FruitCollection,
                                 onItemClick = { onNavigate.invoke(collection.id) }
                             )
                         }
@@ -291,6 +301,66 @@ fun MilkCollectionItem(milkCollection: MilkCollection, onItemClick: () -> Unit) 
                 // Date Text
                 val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
                     .format(milkCollection.date)
+                Text(
+                    text = formattedDate,
+                    fontFamily = PoppinsExtraLight,
+                    modifier = Modifier.align(Alignment.BottomEnd)
+                )
+            }
+        }
+    }
+}
+
+
+@Composable
+fun FruitCollectionItem(fruitCollection: FruitCollection, onItemClick: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onItemClick)
+            .padding(top = 8.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 3.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            val icon = if (fruitCollection.isBackedUp) {
+                painterResource(R.drawable.cloud_done) // "Backed Up" icon
+            } else {
+                painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
+            }
+
+            Column(modifier = Modifier.padding(0.dp)) {
+                Image(
+                    painter = icon,
+                    contentDescription = if (fruitCollection.isBackedUp) "Backed Up" else "Not Backed Up"
+                )
+            }
+
+            Column(modifier = Modifier.padding(8.dp)) {
+                Text(
+                    text = "Fruits", // You can customize the text as needed
+                    fontFamily = PoppinsLight
+                )
+                Text(
+//                    text = "Qty: ${fruitCollection.qty} litres",
+                    text = "Qty: ${fruitCollection.qty} litres",
+                    fontFamily = PoppinsLight
+                )
+                // Add more properties as needed
+            }
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            Box(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxSize(),
+            ) {
+                // Date Text
+                val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                    .format(fruitCollection.date)
                 Text(
                     text = formattedDate,
                     fontFamily = PoppinsExtraLight,

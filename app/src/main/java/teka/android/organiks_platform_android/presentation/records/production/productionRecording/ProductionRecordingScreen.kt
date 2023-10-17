@@ -89,7 +89,7 @@ fun ProductionRecording(
                     onCategoryChange = viewModel::onCategoryChange,
                     onDialogDismissed = viewModel::onScreenDialogDismissed,
                     onSaveEggType = viewModel::addEggCollection,
-                    updateEggCollectionQty = { viewModel::updateEggCollection },
+                    updateEggCollectionQty = { viewModel::updateFruitCollection },
                     onSaveEggCollection = viewModel::onSaveEggCollection,
                     navController = navController
                 )
@@ -105,9 +105,9 @@ fun ProductionRecording(
                     state,
                     onDateSelected = viewModel::onDateChange,
                     onFruitTypeChange = viewModel::onEggTypeChange,
-                    onCollectionQuantityChange = viewModel::onQtyChange,
+                    onCollectionQuantityChange = viewModel::onFruitQtyChange,
                     updateFruitCollectionQty = { viewModel::updateEggCollection },
-                    onSaveFruitCollection = viewModel::onSaveEggCollection,
+                    onSaveFruitCollection = viewModel::onSaveFruitCollection,
                     navController = navController
                 )
             }
