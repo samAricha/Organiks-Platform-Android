@@ -19,7 +19,9 @@ fun AppBar(
 ) {
     TopAppBar(
         title = {
-            Text(text = stringResource(id = R.string.app_name))
+            Text(
+                text = stringResource(id = R.string.app_name),
+                color = Color.Gray)
         },
         backgroundColor = Color.White,
         contentColor = Color.Black,
@@ -27,7 +29,8 @@ fun AppBar(
             IconButton(onClick = onNavigationIconClick) {
                 Icon(
                     imageVector = Icons.Default.Menu,
-                    contentDescription = "Toggle drawer"
+                    contentDescription = "Toggle drawer",
+                    tint = Color.Gray
                 )
             }
         }
