@@ -23,6 +23,15 @@ data class EggType(
 
 )
 
+@Entity(tableName = "fruit_types")
+data class FruitType(
+    @ColumnInfo(name = "fruit_type_id")
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val name:String
+
+)
+
 @Entity(tableName = "egg_collections")
 data class EggCollection(
     @ColumnInfo(name = "egg_collection_id")

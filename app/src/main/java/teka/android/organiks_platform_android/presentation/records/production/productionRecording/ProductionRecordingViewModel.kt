@@ -212,6 +212,7 @@ data class ProductionRecordingState(
     val eggCollectionQty: String = "",
     var eggTypeName : String = "",
     val eggsCracked: String = "",
+    val fruitCollectionQty: String = "",
     val date: Date = Date(),
     val isScreenDialogDismissed: Boolean = true,
     val isUpdatingItem: Boolean = false,

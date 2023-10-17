@@ -26,6 +26,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import teka.android.organiks_platform_android.presentation.records.production.components.EggProductionEntryComponent
+import teka.android.organiks_platform_android.presentation.records.production.components.FruitProductionEntryComponent
 import teka.android.organiks_platform_android.presentation.records.production.components.MilkProductionEntryComponent
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
@@ -96,6 +97,17 @@ fun ProductionRecording(
             Utils.productionCategory[1] -> {
                 MilkProductionEntryComponent(
                     state = ProductionRecordingState(),
+                    navController = navController
+                )
+            }
+            Utils.productionCategory[2] -> {
+                FruitProductionEntryComponent(
+                    state,
+                    onDateSelected = viewModel::onDateChange,
+                    onFruitTypeChange = viewModel::onEggTypeChange,
+                    onCollectionQuantityChange = viewModel::onQtyChange,
+                    updateFruitCollectionQty = { viewModel::updateEggCollection },
+                    onSaveFruitCollection = viewModel::onSaveEggCollection,
                     navController = navController
                 )
             }
