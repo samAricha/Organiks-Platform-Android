@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import teka.android.organiks_platform_android.modules.auth.AuthViewModel
+import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.ReemKufi
 import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
 
@@ -42,7 +43,7 @@ fun CustomDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (Str
     val txtFieldError = remember { mutableStateOf("") }
     val txtField = remember { mutableStateOf(value) }
     val negativeButtonColor: Color = Color(0xFF35898F)
-    val positiveButtonColor: Color = Color(0xFFFF0000)
+    val positiveButtonColor: Color = PrimaryColor
     val spaceBetweenElements: Dp = 18.dp
     val context: Context = LocalContext.current.applicationContext
     val authViewModel: AuthViewModel = hiltViewModel()
@@ -92,13 +93,20 @@ fun CustomDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (Str
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceAround
                     ) {
-                        DialogButton(buttonColor = negativeButtonColor, buttonText = "No") {
+                        DialogButton(
+                            buttonColor = negativeButtonColor,
+                            cornerRadiusPercent = 40,
+                            buttonText = "No") {
                             Toast
                                 .makeText(context, "No Click", Toast.LENGTH_SHORT)
                                 .show()
                             setShowDialog(false)
                         }
-                        DialogButton(buttonColor = positiveButtonColor, buttonText = "Yes") {
+                        DialogButton(
+                            buttonColor = positiveButtonColor,
+                            cornerRadiusPercent = 40,
+                            buttonText = "Yes"
+                        ) {
                             Toast
                                 .makeText(context, "Logging Out", Toast.LENGTH_SHORT)
                                 .show()
