@@ -7,7 +7,7 @@ import teka.android.organiks_platform_android.data.room.models.FruitCollectionEn
 data class FruitCollectionRequest(
     val collection_uuid: String,
     val quantity: String,
-    val fruitTypeId: Int,
+    val fruit_type_id: Int,
     val date: Long,
     val collection_date: Long,
 )
@@ -17,7 +17,7 @@ fun FruitCollectionEntity.toFruitCollectionRequest(): FruitCollectionRequest {
         collection_uuid = this.uuid,
         quantity = this.qty,
         date = this.createdAt,
-        fruitTypeId = this.fruitTypeId,
+        fruit_type_id = this.fruitTypeId,
         collection_date = this.date,
     )
 }
@@ -27,7 +27,7 @@ fun FruitCollectionRequest.toFruitCollection(): FruitCollectionEntity {
         uuid = this.collection_uuid,
         qty = this.quantity,
         date = this.collection_date,
-        fruitTypeId = this.fruitTypeId,
+        fruitTypeId = this.fruit_type_id,
         createdAt = this.date
 
     )
