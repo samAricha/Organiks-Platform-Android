@@ -39,7 +39,7 @@ fun DashboardScreen() {
     val eggs by viewModel.eggCollections.collectAsState()
     val totalEggsCollected = eggs.sumOf { it.qty.toInt() }
 
-    val milk by viewModel.eggCollections.collectAsState()
+    val milk by viewModel.milkCollections.collectAsState()
     val totalMilkCollected = milk.sumOf { it.qty.toDouble() }
 
     val totalNotBackedUpCount by viewModel.totalNotBackedUpCount.collectAsState()
