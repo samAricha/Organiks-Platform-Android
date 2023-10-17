@@ -7,7 +7,7 @@ import teka.android.organiks_platform_android.data.room.MilkCollectionDao
 import teka.android.organiks_platform_android.data.room.ProductionCategoryDao
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
-import teka.android.organiks_platform_android.data.room.models.FruitCollection
+import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 
@@ -64,8 +64,11 @@ class DbRepository(
     }
 
     //<<<<<<<<<< MILK COLLECTIONS >>>>>>>>
-    suspend fun insertFruitCollection(fruitCollection: FruitCollection){
+    suspend fun insertFruitCollection(fruitCollection: FruitCollectionEntity){
         fruitCollectionDao.insert(fruitCollection)
+    }
+    suspend fun updateFruitCollection(fruitCollection: FruitCollectionEntity){
+        fruitCollectionDao.update(fruitCollection = fruitCollection)
     }
 
     //<<<<<<<<<< MILK COLLECTIONS >>>>>>>>

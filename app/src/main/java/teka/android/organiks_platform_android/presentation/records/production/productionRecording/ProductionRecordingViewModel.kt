@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
-import teka.android.organiks_platform_android.data.room.models.FruitCollection
+import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 import teka.android.organiks_platform_android.repository.DbRepository
@@ -124,7 +124,7 @@ class ProductionRecordingViewModel @Inject constructor(
     fun onSaveFruitCollection(){
         viewModelScope.launch {
             repository.insertFruitCollection(
-                FruitCollection(
+                FruitCollectionEntity(
                     date = state.date.time,
                     qty = state.fruitCollectionQty,
                     fruitTypeId = state.eggTypes.find {

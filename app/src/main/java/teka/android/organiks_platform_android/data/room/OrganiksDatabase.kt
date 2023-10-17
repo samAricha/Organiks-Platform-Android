@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 import teka.android.organiks_platform_android.data.room.converters.DateConverter
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
-import teka.android.organiks_platform_android.data.room.models.FruitCollection
+import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 
@@ -19,7 +19,7 @@ import teka.android.organiks_platform_android.data.room.models.ProductionCategor
         EggType::class,
         EggCollection::class,
         MilkCollection::class,
-        FruitCollection::class],
+        FruitCollectionEntity::class],
     version = 1,
     exportSchema = false
 )

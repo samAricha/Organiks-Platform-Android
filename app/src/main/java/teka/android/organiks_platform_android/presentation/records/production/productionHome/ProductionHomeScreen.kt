@@ -1,12 +1,9 @@
 package teka.android.organiks_platform_android.presentation.records.production.productionHome
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
-import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -15,8 +12,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,38 +19,29 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import teka.android.organiks_platform_android.R
-import teka.android.organiks_platform_android.data.room.EggTypeEggCollectionItem
 import teka.android.organiks_platform_android.data.room.models.EggCollection
-import teka.android.organiks_platform_android.data.room.models.EggType
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
 import teka.android.organiks_platform_android.ui.theme.PoppinsExtraLight
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
-import teka.android.organiks_platform_android.ui.theme.ReemKufi
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import java.text.SimpleDateFormat
 import java.util.Locale
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.zIndex
-import teka.android.organiks_platform_android.data.room.models.FruitCollection
+import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -160,7 +146,7 @@ fun ProductionHomeScreen(
                         }
                         Utils.productionCategory[2] -> {
                             FruitCollectionItem(
-                                fruitCollection = collection as FruitCollection,
+                                fruitCollection = collection as FruitCollectionEntity,
                                 onItemClick = { onNavigate.invoke(collection.id) }
                             )
                         }
@@ -313,7 +299,7 @@ fun MilkCollectionItem(milkCollection: MilkCollection, onItemClick: () -> Unit) 
 
 
 @Composable
-fun FruitCollectionItem(fruitCollection: FruitCollection, onItemClick: () -> Unit) {
+fun FruitCollectionItem(fruitCollection: FruitCollectionEntity, onItemClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()

@@ -1,9 +1,7 @@
 package teka.android.organiks_platform_android.presentation.records.production.productionHome
 
 
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,7 +11,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.models.EggCollection
-import teka.android.organiks_platform_android.data.room.models.FruitCollection
+import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
 import teka.android.organiks_platform_android.data.room_remote_sync.UpdateResult
@@ -35,8 +33,8 @@ class ProductionHomeViewModel @Inject constructor(
     private val _milkCollections = MutableStateFlow<List<MilkCollection>>(emptyList())
     val milkCollections: StateFlow<List<MilkCollection>> = _milkCollections.asStateFlow()
 
-    private val _fruitCollections = MutableStateFlow<List<FruitCollection>>(emptyList())
-    val fruitCollections: StateFlow<List<FruitCollection>> = _fruitCollections.asStateFlow()
+    private val _fruitCollections = MutableStateFlow<List<FruitCollectionEntity>>(emptyList())
+    val fruitCollections: StateFlow<List<FruitCollectionEntity>> = _fruitCollections.asStateFlow()
 
 
     private val _isSyncing = MutableStateFlow(false)
@@ -44,6 +42,7 @@ class ProductionHomeViewModel @Inject constructor(
 
     val eggSnackbarMessage = mutableStateOf<String?>(null)
     val milkSnackbarMessage = mutableStateOf<String?>(null)
+    val fruitSnackbarMessage = mutableStateOf<String?>(null)
 
     private val _snackbarData = MutableStateFlow<SnackbarData?>(null)
     val snackbarData: StateFlow<SnackbarData?> = _snackbarData
@@ -114,6 +113,7 @@ class ProductionHomeViewModel @Inject constructor(
                 }
                 val result =remoteDataUpdater.updateRemoteEggCollectionData(notBackedUpEggCollections, repository)
                 val result2 =remoteDataUpdater.updateRemoteMilkCollectionData(notBackedUpMilkCollections, repository)
+                val result3 =remoteDataUpdater.updateRemoteFruitCollectionData(notBackedUpFruitCollections, repository)
                 // Synchronization completed successfully
                 when (result) {
                     is UpdateResult.Success -> {
@@ -133,6 +133,16 @@ class ProductionHomeViewModel @Inject constructor(
                     is UpdateResult.Failure -> {
                         milkSnackbarMessage.value = result2.errorMessage
                         showSnackbar(milkSnackbarMessage.value!!)
+                    }
+                }
+                when (result3) {
+                    is UpdateResult.Success -> {
+                        fruitSnackbarMessage.value = result3.message
+                        showSnackbar(fruitSnackbarMessage.value!!)
+                    }
+                    is UpdateResult.Failure -> {
+                        fruitSnackbarMessage.value = result3.errorMessage
+                        showSnackbar(fruitSnackbarMessage.value!!)
                     }
                 }
             } catch (e: Exception) {

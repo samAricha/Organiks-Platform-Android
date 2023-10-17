@@ -4,7 +4,7 @@ import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
-import teka.android.organiks_platform_android.data.room.models.FruitCollection
+import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.models.FruitType
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room.models.ProductionCategory
@@ -43,23 +43,23 @@ interface EggCollectionDao{
 @Dao
 interface FruitCollectionDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(fruitCollection: FruitCollection)
+    suspend fun insert(fruitCollection: FruitCollectionEntity)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun update(fruitCollection: FruitCollection)
+    suspend fun update(fruitCollection: FruitCollectionEntity)
 
     @Delete
-    suspend fun delete(fruitCollection: FruitCollection)
+    suspend fun delete(fruitCollection: FruitCollectionEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertFruitCollections(fruitCollections: List<FruitCollection>)
+    suspend fun insertFruitCollections(fruitCollections: List<FruitCollectionEntity>)
 
 
     @Query("SELECT * FROM fruit_collections ORDER BY date DESC")
-    fun getAllFruitCollections(): Flow<List<FruitCollection>>
+    fun getAllFruitCollections(): Flow<List<FruitCollectionEntity>>
 
     @Query("SELECT * FROM fruit_collections WHERE fruit_collection_id=:collectionId")
-    fun getFruitCollectionById(collectionId:Int): Flow<FruitCollection>
+    fun getFruitCollectionById(collectionId:Int): Flow<FruitCollectionEntity>
 
 
     @Query("""
@@ -130,7 +130,7 @@ data class EggTypeEggCollectionItem(
 )
 data class FruitTypeFruitCollectionItem(
     @Embedded val fruitType: FruitType,
-    @Embedded val fruitCollection: FruitCollection,
+    @Embedded val fruitCollection: FruitCollectionEntity,
 )
 
 

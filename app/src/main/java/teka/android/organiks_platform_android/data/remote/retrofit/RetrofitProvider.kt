@@ -39,6 +39,10 @@ object RetrofitProvider {
         return provide().create(MilkCollectionService::class.java)
     }
 
+    fun createFruitCollectionService(): FruitCollectionService {
+        return provide().create(FruitCollectionService::class.java)
+    }
+
     fun createAuthService(): AuthService {
         return provide().create(AuthService::class.java)
     }

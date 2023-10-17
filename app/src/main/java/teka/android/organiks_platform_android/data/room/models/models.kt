@@ -75,7 +75,7 @@ data class MilkCollection(
 
 
 @Entity(tableName = "fruit_collections")
-data class FruitCollection(
+data class FruitCollectionEntity(
     @ColumnInfo(name = "fruit_collection_id")
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
