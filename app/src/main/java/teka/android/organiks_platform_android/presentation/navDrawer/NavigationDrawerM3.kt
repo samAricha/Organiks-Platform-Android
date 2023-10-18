@@ -3,6 +3,7 @@ package teka.android.organiks_platform_android.presentation.navDrawer
 import android.annotation.SuppressLint
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.ScaffoldState
@@ -28,6 +30,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.DrawerValue
@@ -54,6 +57,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -79,8 +83,10 @@ import teka.android.organiks_platform_android.ui.theme.NoShapes
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.PrimaryLight
 import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
+import teka.android.organiks_platform_android.ui.theme.ReemKufi
 import teka.android.organiks_platform_android.ui.theme.ReemKufiBold
 import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
+import teka.android.organiks_platform_android.ui.theme.SecondaryColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.ui.widgets.CustomDialog
 
@@ -131,6 +137,14 @@ fun NavigationDrawerM3(
             }
         ),
         DrawerItem(
+            icon = Icons.Default.VideoLibrary,
+            label = "Videos",
+            secondaryLabel = "",
+            onItemClick = {
+                Toast.makeText(context, "Videos Coming Soon!", Toast.LENGTH_SHORT).show()
+            }
+        ),
+        DrawerItem(
             icon = Icons.Default.ExitToApp,
             label = "Log Out",
             secondaryLabel = "",
@@ -163,27 +177,51 @@ fun NavigationDrawerM3(
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
             ModalDrawerSheet(
-                modifier = Modifier.width(300.dp),
+                modifier = Modifier.width(280.dp),
                 drawerContainerColor = Color.White,
                 drawerShape = NoShapes.small
                 ) {
-//                Box(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .background(PrimaryColor)
-//                        .padding(vertical = 24.dp),
-//                    contentAlignment = Alignment.Center
-//                ) {
-//                    Text(text = "Organiks", fontFamily = ReemKufiBold, color = Color.White, fontSize = 45.sp)
-//                }
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp) // Adjust the height to your preference
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(PrimaryColor, SecondaryColor),
+                                startY = 0f,
+                                endY = 200f // Adjust the endY to match the height
+                            ),
+                            shape = RoundedCornerShape(bottomEnd = 16.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.egg100), // Replace with your image resource
+                            contentDescription = "organiks mascot",
+                            modifier = Modifier.size(100.dp) // Adjust the size of the image
+                        )
+                        Text(
+                            text = "Organiks",
+                            fontFamily = ReemKufiMedium,
+                            color = Color.White,
+                            fontSize = 25.sp
+                        )
+                    }
+                }
                 Spacer(Modifier.size(6.dp))
                 items.forEach { item ->
                     NavigationDrawerItem(
-                        label = { Text(text = item.label) },
+                        label = {
+                            Text(text = item.label, fontFamily = ReemKufi)
+                                },
                         selected = item == selectedItem,
                         onClick = item.onItemClick,
                         icon = { Icon(imageVector = item.icon, contentDescription = item.label)},
-                        badge = { Text(text = item.secondaryLabel)},
+//                        badge = { Text(text = item.secondaryLabel)},
                         colors = NavigationDrawerItemDefaults.colors(
                             selectedContainerColor = PrimaryLight,
                             unselectedContainerColor = Color.White
