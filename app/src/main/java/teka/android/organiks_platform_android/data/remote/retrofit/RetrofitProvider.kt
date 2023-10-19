@@ -16,7 +16,7 @@ object RetrofitProvider {
         val json = Json { ignoreUnknownKeys = true }//to ignore unkown keys
 
         return Retrofit.Builder()
-            .baseUrl(TEST_URL)
+            .baseUrl(BASE_URL)
             .client(provideOkhttpClient())
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()
