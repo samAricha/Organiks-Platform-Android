@@ -6,6 +6,7 @@ import retrofit2.http.POST
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionRequest
 import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionRequest
 import teka.android.organiks_platform_android.data.room_remote_sync.models.RemoteEggCollectionResponse
+import teka.android.organiks_platform_android.data.room_remote_sync.models.SaveCollectionResponse
 
 interface FruitCollectionService {
 
@@ -15,10 +16,10 @@ interface FruitCollectionService {
 
 
     @GET("collections/egg")
-    suspend fun getFruitCollections():EggCollectionResponse
+    suspend fun getFruitCollections():FruitCollectionResponse
 
 
-    @POST("api/collections/egg/store")
-    suspend fun createRemoteFruitCollection(@Body fruitCollection: FruitCollectionRequest): RemoteEggCollectionResponse
+    @POST("api/collections/fruits/store")
+    suspend fun createRemoteFruitCollection(@Body fruitCollection: FruitCollectionRequest): SaveCollectionResponse
 
 }

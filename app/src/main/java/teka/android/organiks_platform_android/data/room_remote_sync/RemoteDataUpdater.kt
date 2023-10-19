@@ -89,7 +89,8 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
                 UpdateResult.Success("Data updated successfully.")
             }
         }catch (e: Exception) {
-            UpdateResult.Failure("Error updating data: ${e.message}")
+            e.let { Log.d("Fruit sync error", it.toString()) }
+            UpdateResult.Failure("Error updating Fruit data: ${e.message}")
         }
     }
 }
