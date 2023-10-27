@@ -32,9 +32,9 @@ class AuthViewModel @Inject constructor(
     private val _isRegistered = MutableStateFlow(false)
     val isRegistered: StateFlow<Boolean> = _isRegistered
 
-    fun login(email: String, password: String) {
+    fun login(username: String, password: String) {
         viewModelScope.launch {
-            val success = authManager.login(email, password)
+            val success = authManager.login(username, password)
             _isLoggedIn.value = success
             if (success){
                 dataStoreRepository.saveLoggedInState(isLoggedIn = success)

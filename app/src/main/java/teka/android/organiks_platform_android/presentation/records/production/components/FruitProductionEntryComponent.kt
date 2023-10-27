@@ -39,8 +39,9 @@ fun FruitProductionEntryComponent(
 ){
 
     val fruitTypeItems = listOf(
-        FruitType(1, "Mangoes"),
-        FruitType(2, "Oranges")
+        FruitType(1, "Tamarillo"),
+        FruitType(2, "Mangoes"),
+        FruitType(3, "Oranges")
     )
     var selectedFruitTypeItem by remember { mutableStateOf(fruitTypeItems[0]) }
 

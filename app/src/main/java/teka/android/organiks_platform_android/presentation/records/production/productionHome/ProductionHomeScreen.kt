@@ -28,7 +28,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.ui.Category
@@ -41,6 +40,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.graphics.PathEffect
+import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 
 
@@ -196,7 +196,7 @@ fun EggCollectionItem(
             verticalAlignment = Alignment.CenterVertically
         ){
             val icon = if (eggCollection.isBackedUp) {
-                painterResource(R.drawable.cloud_done) // "Backed Up" icon
+                painterResource(R.drawable.checkmark) // "Backed Up" icon
             } else {
                 painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
             }
@@ -204,6 +204,7 @@ fun EggCollectionItem(
             Column(modifier = Modifier.padding(0.dp)) {
                 Image(
                     painter = icon,
+                    modifier = Modifier.size(24.dp),
                     contentDescription = if (eggCollection.isBackedUp) "Backed Up" else "Not Backed Up"
                 )
             }
@@ -253,7 +254,7 @@ fun MilkCollectionItem(milkCollection: MilkCollection, onItemClick: () -> Unit) 
             verticalAlignment = Alignment.CenterVertically
         ) {
             val icon = if (milkCollection.isBackedUp) {
-                painterResource(R.drawable.cloud_done) // "Backed Up" icon
+                painterResource(R.drawable.checkmark) // "Backed Up" icon
             } else {
                 painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
             }
@@ -261,6 +262,7 @@ fun MilkCollectionItem(milkCollection: MilkCollection, onItemClick: () -> Unit) 
             Column(modifier = Modifier.padding(0.dp)) {
                 Image(
                     painter = icon,
+                    modifier = Modifier.size(24.dp),
                     contentDescription = if (milkCollection.isBackedUp) "Backed Up" else "Not Backed Up"
                 )
             }
@@ -312,7 +314,7 @@ fun FruitCollectionItem(fruitCollection: FruitCollectionEntity, onItemClick: () 
             verticalAlignment = Alignment.CenterVertically
         ) {
             val icon = if (fruitCollection.isBackedUp) {
-                painterResource(R.drawable.cloud_done) // "Backed Up" icon
+                painterResource(R.drawable.checkmark) // "Backed Up" icon
             } else {
                 painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
             }
@@ -320,6 +322,7 @@ fun FruitCollectionItem(fruitCollection: FruitCollectionEntity, onItemClick: () 
             Column(modifier = Modifier.padding(0.dp)) {
                 Image(
                     painter = icon,
+                    modifier = Modifier.size(24.dp),
                     contentDescription = if (fruitCollection.isBackedUp) "Backed Up" else "Not Backed Up"
                 )
             }

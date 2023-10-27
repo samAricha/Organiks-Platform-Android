@@ -23,7 +23,11 @@ sealed class UpdateResult {
 
 class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
 
-    suspend fun updateRemoteEggCollectionData(eggCollections: List<EggCollection>, repository: DbRepository): UpdateResult {
+    suspend fun updateRemoteEggCollectionData(
+        eggCollections: List<EggCollection>,
+        repository: DbRepository
+    ): UpdateResult {
+
 
         return try{
             withContext(Dispatchers.IO) {
