@@ -1,12 +1,17 @@
 package teka.android.organiks_platform_android.presentation.aiadvice.chat_screen
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -19,7 +24,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.outlined.ImageSearch
 import androidx.compose.material.icons.rounded.Close
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -38,18 +42,26 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.bumptech.glide.Glide
 import teka.android.organiks_platform_android.domain.models.ChatStatusModel
 import teka.android.organiks_platform_android.ui.theme.Cream1
 import teka.android.organiks_platform_android.ui.theme.Cream2
 import teka.android.organiks_platform_android.ui.theme.Gray700
 import teka.android.organiks_platform_android.ui.theme.SecondaryLightColor
+import java.io.ByteArrayOutputStream
+import java.io.FileDescriptor
+import java.io.IOException
+import java.io.InputStream
+
 
 /**
  * TODO : allow sending attachments without text
@@ -61,21 +73,25 @@ fun CustomBottomSearchBar(
     onSendClick: (String, List<ByteArray>) -> Unit
 ) {
     val textState = remember { mutableStateOf("") }
-    val images = remember { mutableStateOf(listOf<ByteArray>()) }
+    val images = remember { mutableStateOf(listOf<Bitmap>()) }
     val scope = rememberCoroutineScope()
 
-//    val pickerLauncher = rememberFilePickerLauncher(
-//        type = FilePickerFileType.Image,
-//        selectionMode = FilePickerSelectionMode.Multiple,
-//        onResult = { images.value = it.map { kmpFile -> kmpFile.readByteArray() } }
-//    )
+    val context = LocalContext.current
+
+    val pickMultipleMedia =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickMultipleVisualMedia(5)
+        ) { uris ->
+            images.value = uris.mapNotNull { uri -> Glide.with(context).asBitmap().load(uri).submit().get()
+            }
+        }
+
     Column {
         LazyRow {
             items(images.value.size) { index ->
-//                val bitmap = images.value[index].toImageBitmap()
-                val bitmap = null
+                val bitmap: ImageBitmap = images.value[index].asImageBitmap()
                 ImageAttachment(
-                    bitmap = bitmap!!,
+                    bitmap = bitmap,
                     onCloseClick = {
                         val mutableImages = images.value.toMutableList()
                         mutableImages.removeAt(index)
@@ -131,7 +147,7 @@ fun CustomBottomSearchBar(
             IconButton(
                 modifier = Modifier.padding(5.dp),
                 onClick = {
-                    onSendClick(textState.value, images.value)
+                    onSendClick(textState.value, images.value.map { imageBitMap -> bitmapToByteArray(imageBitMap) })
                     images.value = emptyList()
                     textState.value = ""
                 },
@@ -168,7 +184,7 @@ fun CustomBottomSearchBar(
 }
 
 @Composable
-private fun ImageAttachment(bitmap: ImageBitmap, onCloseClick: () -> Unit = {}) {
+fun ImageAttachment(bitmap: ImageBitmap, onCloseClick: () -> Unit = {}) {
 
     val iconSize = 20.dp
     val offsetInPx = LocalDensity.current.run { (iconSize / 2).roundToPx() }
@@ -206,4 +222,36 @@ private fun ImageAttachment(bitmap: ImageBitmap, onCloseClick: () -> Unit = {}) 
             )
         }
     }
+}
+
+@Throws(IOException::class)
+fun getImageBytes(inputStream: InputStream): ByteArray? {
+    val byteBuffer = ByteArrayOutputStream()
+    val bufferSize = 1024
+    val buffer = ByteArray(bufferSize)
+    var len = 0
+    while (inputStream.read(buffer).also { len = it } != -1) {
+        byteBuffer.write(buffer, 0, len)
+    }
+    return byteBuffer.toByteArray()
+}
+
+//TODO takes URI of the image and returns bitmap
+private fun uriToBitmap(selectedFileUri: Uri, context: Context): Bitmap? {
+    try {
+        val parcelFileDescriptor = context.contentResolver.openFileDescriptor(selectedFileUri, "r")
+        val fileDescriptor: FileDescriptor = parcelFileDescriptor!!.fileDescriptor
+        val image = BitmapFactory.decodeFileDescriptor(fileDescriptor)
+        parcelFileDescriptor.close()
+        return image
+    } catch (e: IOException) {
+        e.printStackTrace()
+    }
+    return null
+}
+
+fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
+    val stream = ByteArrayOutputStream()
+    bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+    return stream.toByteArray()
 }
