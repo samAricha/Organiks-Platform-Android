@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="Theme.OrganiksPlatformAndroid" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:statusBarColor">@color/organiks_transparent</item>
+    </style>
+
     <style name="Theme.CustomSplashScreenTheme" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/organiks_brown</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/logo</item>
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/welcome55</item>
         <item name="windowSplashScreenAnimationDuration">600</item>
-        <item name="android:windowSplashScreenBrandingImage" >
-            @drawable/ic_chicken
-        </item>
 
         <item name="postSplashScreenTheme">@style/Theme.OrganiksPlatformAndroid</item>
     </style>

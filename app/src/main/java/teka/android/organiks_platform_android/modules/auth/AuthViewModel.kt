@@ -1,7 +1,9 @@
 package teka.android.organiks_platform_android.modules.auth
 
 import android.annotation.SuppressLint
+import androidx.compose.runtime.State
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,6 +16,10 @@ import teka.android.organiks_platform_android.domain.form.validation.use_cases.V
 import teka.android.organiks_platform_android.domain.form.validation.use_cases.ValidatePasswordUseCase
 import teka.android.organiks_platform_android.repository.DataStoreRepository
 import javax.inject.Inject
+
+data class LoginState(
+    val isLoading: Boolean = false
+)
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
@@ -29,20 +35,30 @@ class AuthViewModel @Inject constructor(
     private var _isLoggedIn = MutableStateFlow(false)
     val isLoggedIn: StateFlow<Boolean> = _isLoggedIn
 
+    private val _loginState = mutableStateOf(LoginState())
+    val loginState: State<LoginState> = _loginState
+
     private val _isRegistered = MutableStateFlow(false)
     val isRegistered: StateFlow<Boolean> = _isRegistered
 
-    fun login(email: String, password: String) {
+    fun login(username: String, password: String) {
         viewModelScope.launch {
-            val success = authManager.login(email, password)
+            _loginState.value = loginState.value.copy(isLoading = true)
+            val success = authManager.login(username, password)
             _isLoggedIn.value = success
             if (success){
                 dataStoreRepository.saveLoggedInState(isLoggedIn = success)
             }
+            _loginState.value = loginState.value.copy(isLoading = true)
         }
     }
 
-    fun register(phone: String, email: String, password: String, passwordConfirmation: String) {
+    fun register(
+        phone: String,
+        email: String,
+        password: String,
+        passwordConfirmation: String
+    ) {
         viewModelScope.launch {
             val success = authManager.register(
                 phone = phone,
