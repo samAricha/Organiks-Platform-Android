@@ -180,7 +180,7 @@ fun LoginScreen(
 
                         Button(
                             onClick = {
-                                authViewModel.login(email = email, password = password)
+                                authViewModel.login(username = email, password = password)
                             },
                             modifier = Modifier
                                 .fillMaxWidth()

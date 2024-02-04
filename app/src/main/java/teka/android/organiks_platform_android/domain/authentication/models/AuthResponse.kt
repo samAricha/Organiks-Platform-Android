@@ -1,4 +1,4 @@
-package teka.android.tekeventandroidclient.authentication.models
+package teka.android.organiks_platform_android.domain.authentication.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

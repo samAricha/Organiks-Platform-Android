@@ -9,7 +9,6 @@ import teka.android.organiks_platform_android.data.room.models.FruitType
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 
-
 @Dao
 interface EggCollectionDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)

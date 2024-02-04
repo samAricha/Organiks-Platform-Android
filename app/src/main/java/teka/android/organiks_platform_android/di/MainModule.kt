@@ -78,5 +78,4 @@ object MainModule {
         return NetworkConnectivityObserver(context)
     }
 
-
 }
