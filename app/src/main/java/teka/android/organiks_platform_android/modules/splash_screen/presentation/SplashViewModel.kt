@@ -37,4 +37,18 @@ class SplashViewModel @Inject constructor(
         }
     }
 
+    fun getLoggedInState(){
+        viewModelScope.launch {
+            repository.readLoggedInState().collect { completed ->
+                if (completed) {
+                    _startDestination.value = To_MAIN_GRAPH_ROUTE
+                } else {
+                    _startDestination.value = AUTH_GRAPH_ROUTE
+                }
+            }
+            _isLoading.value = false
+
+        }
+    }
+
 }

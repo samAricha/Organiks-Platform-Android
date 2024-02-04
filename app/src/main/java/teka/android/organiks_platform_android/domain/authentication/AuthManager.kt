@@ -22,9 +22,9 @@ class AuthManager @Inject constructor(
 
     private val authService: AuthService = RetrofitProvider.createAuthService()
 
-    suspend fun login(email: String, password: String): Boolean {
+    suspend fun login(username: String, password: String): Boolean {
         try {
-            val response = authService.login(LoginRequest(email, password))
+            val response = authService.login(LoginRequest(username, password))
             if (response.isSuccessful) {
                 val token = response.data.accessToken
                 saveAuthToken(token)
