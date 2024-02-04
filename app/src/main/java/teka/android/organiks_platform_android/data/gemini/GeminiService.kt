@@ -1,7 +1,6 @@
-package data.remote
+package teka.android.organiks_platform_android.data.gemini
 
-import data.remote.dto.Request
-import data.remote.dto.Response
+import teka.android.organiks_platform_android.data.gemini.dto.Response
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -16,6 +15,8 @@ import io.ktor.util.InternalAPI
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import teka.android.organiks_platform_android.data.gemini.dto.GeminiRequestDto
+
 
 const val TIMEOUT = 30000L
 
@@ -69,9 +70,9 @@ class GeminiService {
 
     private suspend fun makeApiRequest(
         url: String,
-        requestBuilder: Request.RequestBuilder.() -> Unit
+        requestBuilder: GeminiRequestDto.RequestBuilder.() -> Unit
     ): Response {
-        val request = Request.RequestBuilder().apply(requestBuilder).build()
+        val request = GeminiRequestDto.RequestBuilder().apply(requestBuilder).build()
 
         val response: String = client.post(url) {
             body = Json.encodeToString(request)

@@ -1,4 +1,4 @@
-package data.remote.dto
+package teka.android.organiks_platform_android.data.gemini.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
