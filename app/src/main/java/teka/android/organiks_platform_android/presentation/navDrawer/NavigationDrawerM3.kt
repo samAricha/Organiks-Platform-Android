@@ -31,6 +31,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.VideoLibrary
+import androidx.compose.material.icons.filled.VoiceChat
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Button
 import androidx.compose.material3.DrawerValue
@@ -94,7 +95,6 @@ import teka.android.organiks_platform_android.ui.widgets.CustomDialog
 @Composable
 fun NavigationDrawerM3(
 ) {
-
     val navHostController: NavHostController = rememberNavController()
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
@@ -134,6 +134,18 @@ fun NavigationDrawerM3(
                 // For example, navigate to the Notifications screen
                 Toast.makeText(context, "This is a Notifications Toast. Yay!", Toast.LENGTH_SHORT).show()
 //                navHostController.navigate(Screen.ProductionHome.route)
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.VoiceChat,
+            label = "AiAssistant",
+            secondaryLabel = "Chat",
+            onItemClick = {
+                navigationActions.navigateToGeminichatScreen()
+                scope.launch {
+                    drawerState.close()
+                }
+                Toast.makeText(context, "AiAssistant", Toast.LENGTH_SHORT).show()
             }
         ),
         DrawerItem(

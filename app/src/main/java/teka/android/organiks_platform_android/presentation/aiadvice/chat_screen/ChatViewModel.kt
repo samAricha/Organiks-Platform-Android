@@ -75,9 +75,6 @@ class ChatViewModel : ViewModel() {
 
 
 
-
-    
-
     val generativeTextModel = GenerativeModel(
         modelName = "gemini-pro",
         apiKey = BuildConfig.GEMINI_API_KEY

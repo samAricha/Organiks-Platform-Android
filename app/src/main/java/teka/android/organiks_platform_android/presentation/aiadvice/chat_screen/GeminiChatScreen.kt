@@ -31,7 +31,7 @@ import teka.android.organiks_platform_android.ui.theme.LightGreen
 import teka.android.organiks_platform_android.ui.theme.LightRed
 
 @Composable
-fun ChatScreen(viewModel: ChatViewModel = ChatViewModel()) {
+fun GeminiChatScreen(viewModel: ChatViewModel = ChatViewModel()) {
     val chatUiState = viewModel.uiState
     val focusManager = LocalFocusManager.current
     val coroutineScope = rememberCoroutineScope()
