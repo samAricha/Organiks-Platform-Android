@@ -73,9 +73,11 @@ import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.ScaffoldContent
 import teka.android.organiks_platform_android.modules.auth.AuthViewModel
 import teka.android.organiks_platform_android.navigation.AppNavigationActions
+import teka.android.organiks_platform_android.navigation.AppState
 import teka.android.organiks_platform_android.navigation.MainNavGraph
 import teka.android.organiks_platform_android.navigation.Screen
 import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
+import teka.android.organiks_platform_android.navigation.rememberAppState
 import teka.android.organiks_platform_android.ui.theme.LightPrimaryColor
 import teka.android.organiks_platform_android.ui.theme.NoShapes
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
@@ -98,6 +100,8 @@ fun NavigationDrawerM3(
     val authViewModel: AuthViewModel = hiltViewModel()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
+    val appState = rememberAppState(navHostController)
+
 
     val navigationActions = remember(navHostController) {
         AppNavigationActions(navHostController)
@@ -111,13 +115,10 @@ fun NavigationDrawerM3(
             label = "Home",
             secondaryLabel = "64",
             onItemClick = {
-                // Define the action for the "Home" item here
-                // For example, navigate to the Home screen
                 navigationActions.navigateToHome()
                 scope.launch {
                     drawerState.close()
                 }
-
                 Toast.makeText(context, "This is a Home Toast. Yay!", Toast.LENGTH_SHORT).show()
 //                navHostController.navigate(Screen.Home.route)
             }
@@ -127,8 +128,6 @@ fun NavigationDrawerM3(
             label = "Notifications",
             secondaryLabel = "12",
             onItemClick = {
-                // Define the action for the "Notifications" item here
-                // For example, navigate to the Notifications screen
                 Toast.makeText(context, "This is a Notifications Toast. Yay!", Toast.LENGTH_SHORT).show()
 //                navHostController.navigate(Screen.ProductionHome.route)
             }
@@ -245,7 +244,8 @@ fun NavigationDrawerM3(
                 navHostController = navHostController,
                 scaffoldState = scaffoldState,
                 scope = scope,
-                onDrawerIconClick = { scope.launch { drawerState.open() } }
+                onDrawerIconClick = { scope.launch { drawerState.open() } },
+                appState = appState
             )
         }
     )
@@ -266,7 +266,8 @@ fun ScaffoldContent2(
     navHostController: NavHostController,
     scaffoldState: ScaffoldState,
     scope: CoroutineScope,
-    onDrawerIconClick: () -> Unit
+    onDrawerIconClick: () -> Unit,
+    appState: AppState
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
@@ -274,87 +275,90 @@ fun ScaffoldContent2(
                  AppBar(onNavigationIconClick = onDrawerIconClick)
         },
         bottomBar = {
-            BottomNavigation(
-                modifier = Modifier.height(52.dp),
-                backgroundColor = Color.White
-            ) {
-                val navBackStackEntry by navHostController.currentBackStackEntryAsState()
-                val currentRoute = navBackStackEntry?.destination?.route
+//            if (appState.shouldShowBottomBar){
+                BottomNavigation(
+                    modifier = Modifier.height(52.dp),
+                    backgroundColor = Color.White
+                ) {
+                    val navBackStackEntry by appState.navHostController.currentBackStackEntryAsState()
+                    val currentRoute = navBackStackEntry?.destination?.route
 
-                BottomNavigationItem(
-                    selected = currentRoute == Screen.DashboardScreen.route,
-                    onClick = {
-                        navHostController.navigate(Screen.DashboardScreen.route) {
-                            launchSingleTop = true
+                    BottomNavigationItem(
+                        selected = currentRoute == Screen.DashboardScreen.route,
+                        onClick = {
+                            navHostController.navigate(Screen.DashboardScreen.route) {
+                                launchSingleTop = true
+                            }
+                        },
+                        icon = {
+                            androidx.compose.material.Icon(
+                                painter = painterResource(if (currentRoute == Screen.DashboardScreen.route) R.drawable.home else R.drawable.outline_home_24),
+                                contentDescription = "Home",
+                                modifier = Modifier.size(20.dp),
+                                tint = if (currentRoute == Screen.DashboardScreen.route) PrimaryColor else Color.Gray
+                            )
+                        },
+                        label = {
+                            androidx.compose.material.Text(
+                                text = "Home",
+                                fontSize = 10.sp,
+                                color = if (currentRoute == Screen.DashboardScreen.route) PrimaryColor else Color.Gray
+                            )
                         }
-                    },
-                    icon = {
-                        androidx.compose.material.Icon(
-                            painter = painterResource(if (currentRoute == Screen.DashboardScreen.route) R.drawable.home else R.drawable.outline_home_24),
-                            contentDescription = "Home",
-                            modifier = Modifier.size(20.dp),
-                            tint = if (currentRoute == Screen.DashboardScreen.route) PrimaryColor else Color.Gray
-                        )
-                    },
-                    label = {
-                        androidx.compose.material.Text(
-                            text = "Home",
-                            fontSize = 10.sp,
-                            color = if (currentRoute == Screen.DashboardScreen.route) PrimaryColor else Color.Gray
-                        )
-                    }
-                )
+                    )
 
-                BottomNavigationItem(
-                    selected = currentRoute == Screen.ProductionHome.route,
-                    onClick = {
-                        navHostController.navigate(Screen.ProductionHome.route) {
-                            launchSingleTop = true
+                    BottomNavigationItem(
+                        selected = currentRoute == Screen.ProductionHome.route,
+                        onClick = {
+                            navHostController.navigate(Screen.ProductionHome.route) {
+                                launchSingleTop = true
+                            }
+                        },
+                        icon = {
+                            androidx.compose.material.Icon(
+                                painter = painterResource(R.drawable.monitoring),
+                                contentDescription = "Records",
+                                modifier = Modifier.size(20.dp),
+                                tint = if (currentRoute == Screen.ProductionHome.route) PrimaryColor else Color.Gray
+                            )
+                        },
+                        label = {
+                            androidx.compose.material.Text(
+                                text = "Records",
+                                fontSize = 10.sp,
+                                color = if (currentRoute == Screen.ProductionHome.route) PrimaryColor else Color.Gray
+                            )
                         }
-                    },
-                    icon = {
-                        androidx.compose.material.Icon(
-                            painter = painterResource(R.drawable.monitoring),
-                            contentDescription = "Records",
-                            modifier = Modifier.size(20.dp),
-                            tint = if (currentRoute == Screen.ProductionHome.route) PrimaryColor else Color.Gray
-                        )
-                    },
-                    label = {
-                        androidx.compose.material.Text(
-                            text = "Records",
-                            fontSize = 10.sp,
-                            color = if (currentRoute == Screen.ProductionHome.route) PrimaryColor else Color.Gray
-                        )
-                    }
-                )
+                    )
 
-                BottomNavigationItem(
-                    selected = currentRoute?.startsWith(Screen.ProductionRecording.route) == true,
-                    onClick = {
-                        navHostController.navigate(route = "${Screen.ProductionRecording.route}?id=-1")
-                    },
-                    icon = {
-                        androidx.compose.material.Icon(
-                            painter = painterResource(R.drawable.add_to_list),
-                            contentDescription = "Add Record",
-                            modifier = Modifier.size(20.dp),
-                            tint = if (currentRoute?.startsWith(Screen.ProductionRecording.route) == true) PrimaryColor else Color.Gray
-                        )
-                    },
-                    label = {
-                        androidx.compose.material.Text(
-                            text = "Add",
-                            fontSize = 10.sp,
-                            color = if (currentRoute?.startsWith(Screen.ProductionRecording.route) == true) PrimaryColor else Color.Gray
-                        )
-                    }
-                )
-            }
+                    BottomNavigationItem(
+                        selected = currentRoute?.startsWith(Screen.ProductionRecording.route) == true,
+                        onClick = {
+                            navHostController.navigate(route = "${Screen.ProductionRecording.route}?id=-1")
+                        },
+                        icon = {
+                            androidx.compose.material.Icon(
+                                painter = painterResource(R.drawable.add_to_list),
+                                contentDescription = "Add Record",
+                                modifier = Modifier.size(20.dp),
+                                tint = if (currentRoute?.startsWith(Screen.ProductionRecording.route) == true) PrimaryColor else Color.Gray
+                            )
+                        },
+                        label = {
+                            androidx.compose.material.Text(
+                                text = "Add",
+                                fontSize = 10.sp,
+                                color = if (currentRoute?.startsWith(Screen.ProductionRecording.route) == true) PrimaryColor else Color.Gray
+                            )
+                        }
+                    )
+                }
+//            }
+
         }
     ) {
         Box(modifier = Modifier.padding(bottom = 60.dp)) {
-            MainNavGraph(navHostController)
+            MainNavGraph(appState.navHostController,)
         }
     }
 

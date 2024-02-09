@@ -45,11 +45,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        WindowCompat.setDecorFitsSystemWindows(
-//            window,
-//            false
-//        )
-
         Log.d("TAG1", "WORKINg")
 
         val isLoading = splashViewModel.isLoading.value
