@@ -4,6 +4,11 @@
     <string name="strTheEmailCanNotBeBlank">The email can\'t be blank</string>
     <string name="strThatsNotAValidEmail">That\'s not a valid email</string>
 
+    <string name="homeRoute">Home</string>
+    <string name="notificationRoute">Notification</string>
+    <string name="profileRoute">Profile</string>
+
+
     <string name="strThePasswordNeedsToConsistOfAtLeastEightCharacters">The password needs to consist of at least 8 characters</string>
     <string name="strThePasswordNeedsToContainAtLeastOneLetterAndDigit">The password needs to contain at least one letter and digit</string>
 

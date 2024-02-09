@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
@@ -44,18 +45,14 @@ import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarColors
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -271,7 +268,7 @@ fun ScaffoldContent2(
     scope: CoroutineScope,
     onDrawerIconClick: () -> Unit
 ) {
-    androidx.compose.material.Scaffold(
+    Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
                  AppBar(onNavigationIconClick = onDrawerIconClick)
@@ -353,29 +350,6 @@ fun ScaffoldContent2(
                         )
                     }
                 )
-
-
-//                BottomNavigationItem(
-//                    selected = currentRoute?.startsWith(Screen.AiSearchScreen.route) == true,
-//                    onClick = {
-//                        navHostController.navigate(route = Screen.AiSearchScreen.route)
-//                    },
-//                    icon = {
-//                        androidx.compose.material.Icon(
-//                            painter = painterResource(R.drawable._search_24),
-//                            contentDescription = "Search",
-//                            modifier = Modifier.size(20.dp),
-//                            tint = if (currentRoute == Screen.AiSearchScreen.route) PrimaryColor else Color.Gray
-//                        )
-//                    },
-//                    label = {
-//                        androidx.compose.material.Text(
-//                            text = "Search",
-//                            fontSize = 10.sp,
-//                            color = if (currentRoute == Screen.AiSearchScreen.route) PrimaryColor else Color.Gray
-//                        )
-//                    }
-//                )
             }
         }
     ) {
