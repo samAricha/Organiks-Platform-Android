@@ -62,6 +62,7 @@ class MainActivity : ComponentActivity() {
                     val startDestination by splashViewModel.startDestination
                     startDestination?.let {
                         RootNavGraph(
+//                            appState = appState,
                             navController = rememberNavController(),
                             startDestination = it
                         )

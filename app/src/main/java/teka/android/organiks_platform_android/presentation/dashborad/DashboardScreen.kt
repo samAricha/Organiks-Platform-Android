@@ -80,6 +80,18 @@ fun DashboardScreen() {
                 iconResId = teka.android.organiks_platform_android.R.drawable.baseline_sync_problem_24,
                 color = Color(0xFFE57373)
             )
+            DashboardCard(
+                title = "Not Backed up",
+                value = "$totalNotBackedUpCount Records",
+                iconResId = teka.android.organiks_platform_android.R.drawable.baseline_sync_problem_24,
+                color = Color(0xFFE57373)
+            )
+            DashboardCard(
+                title = "Not Backed up",
+                value = "$totalNotBackedUpCount Records",
+                iconResId = teka.android.organiks_platform_android.R.drawable.baseline_sync_problem_24,
+                color = Color(0xFFE57373)
+            )
         }
     }
 }

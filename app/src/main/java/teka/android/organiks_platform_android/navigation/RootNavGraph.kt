@@ -33,6 +33,9 @@ fun RootNavGraph(
     navController: NavHostController,
     startDestination: String = To_MAIN_GRAPH_ROUTE
 ) {
+    val appState = rememberAppState(navHostController = navController)
+
+
     NavHost(navController = navController,
         startDestination = startDestination,
         route = ROOT_GRAPH_ROUTE){
@@ -48,7 +51,7 @@ fun RootNavGraph(
 
             if (isLoggedInState != null) {
                 if (isLoggedInState as Boolean) {
-                    MainAppScreen()
+                    MainAppScreen(appState)
                 } else {
                     LoginScreen(navController)
                 }

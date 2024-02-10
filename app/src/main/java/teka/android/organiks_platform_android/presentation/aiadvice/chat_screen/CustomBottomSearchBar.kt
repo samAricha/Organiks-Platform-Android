@@ -126,6 +126,7 @@ fun CustomBottomSearchBar(
                     disabledContainerColor = Cream2,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
+                    cursorColor = SecondaryLightColor
                 ),
                 leadingIcon = {
                     IconButton(
