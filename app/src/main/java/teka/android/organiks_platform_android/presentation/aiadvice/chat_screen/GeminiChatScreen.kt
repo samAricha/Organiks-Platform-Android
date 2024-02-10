@@ -54,7 +54,7 @@ fun GeminiChatScreen(viewModel: ChatViewModel = ChatViewModel()) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 10.dp)
-                    .padding(bottom = 15.dp, top = 5.dp),
+                    .padding(top = 5.dp),
                 status = chatUiState.value.status,
                 onSendClick = { text, images ->
                     coroutineScope.launch(Dispatchers.IO) {
@@ -77,13 +77,16 @@ fun GeminiChatScreen(viewModel: ChatViewModel = ChatViewModel()) {
                 )
             }
         },
-        modifier = Modifier.pointerInput(Unit) {
-            detectTapGestures(onTap = { focusManager.clearFocus() })
-        }
+        modifier = Modifier
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { focusManager.clearFocus() })
+            }
+            .padding(bottom = 15.dp)
     ) {
         ChatList(
             messages = chatUiState.value.messages
         )
+        Spacer(modifier = Modifier.height(15.dp))
 
         if (showDialog.value) {
             CustomChatDialog(
