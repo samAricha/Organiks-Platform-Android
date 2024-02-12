@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -52,6 +54,9 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import teka.android.organiks_platform_android.domain.models.ChatStatusModel
 import teka.android.organiks_platform_android.ui.theme.Cream1
 import teka.android.organiks_platform_android.ui.theme.Cream2
@@ -82,9 +87,13 @@ fun CustomBottomSearchBar(
         rememberLauncherForActivityResult(
             contract = ActivityResultContracts.PickMultipleVisualMedia(5)
         ) { uris ->
-            images.value = uris.mapNotNull { uri -> Glide.with(context).asBitmap().load(uri).submit().get()
+            scope.launch(Dispatchers.IO) {
+                images.value = uris.mapNotNull { uri ->
+                    Glide.with(context).asBitmap().load(uri).submit().get()
+                }
             }
         }
+
 
     Column {
         LazyRow {
@@ -131,7 +140,9 @@ fun CustomBottomSearchBar(
                 leadingIcon = {
                     IconButton(
                         onClick = {
-//                            pickerLauncher.launch()
+                            pickMultipleMedia.launch(
+                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                            )
                         },
                         content = {
                             Icon(
