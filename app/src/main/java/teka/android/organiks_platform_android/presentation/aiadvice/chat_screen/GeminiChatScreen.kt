@@ -128,6 +128,9 @@ fun ChatList(messages: List<ChatMessageModel>) {
         contentPadding = PaddingValues(10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
+        item{
+            Spacer(modifier = Modifier.height(25.dp))
+        }
         items(messages.size) {
             val message = messages[it]
             if (message.images.isNotEmpty()) {

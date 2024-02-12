@@ -68,9 +68,6 @@ import java.io.IOException
 import java.io.InputStream
 
 
-/**
- * TODO : allow sending attachments without text
- */
 @Composable
 fun CustomBottomSearchBar(
     modifier: Modifier = Modifier,
