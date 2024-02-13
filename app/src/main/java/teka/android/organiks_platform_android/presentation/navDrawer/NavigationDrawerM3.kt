@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Scaffold
@@ -278,6 +279,7 @@ fun ScaffoldContent2(
     onDrawerIconClick: () -> Unit,
     appState: AppState
 ) {
+
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -285,7 +287,7 @@ fun ScaffoldContent2(
         },
         bottomBar = {
             if (appState.shouldShowBottomBar){
-                    BottomNavigation(
+                    BottomAppBar(
                         modifier = Modifier.height(52.dp),
                         backgroundColor = Color.White
                     ) {
@@ -361,6 +363,7 @@ fun ScaffoldContent2(
                                 )
                             }
                         )
+
                     }
                 }
         },
