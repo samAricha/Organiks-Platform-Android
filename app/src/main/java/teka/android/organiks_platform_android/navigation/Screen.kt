@@ -15,5 +15,10 @@ sealed class Screen(val route: String) {
     object ProductionRecording: Screen(route = "production_recording")
     object DashboardScreen: Screen(route = "dashboard_screen")
     object AiSearchScreen: Screen(route = "ai_search_screen")
+    object GeminiChatScreen: Screen(route = "gemini_chat_screen")
     object ProfileScreen: Screen(route = "profile_screen")
+
+    object Splash : Screen("splash")
+    object BottomBar : Screen("bottombar")
+    object Detail : Screen("detail")
 }

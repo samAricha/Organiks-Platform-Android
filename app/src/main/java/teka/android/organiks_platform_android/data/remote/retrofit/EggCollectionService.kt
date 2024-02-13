@@ -7,8 +7,6 @@ import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCol
 import teka.android.organiks_platform_android.data.room_remote_sync.models.RemoteEggCollectionResponse
 
 interface EggCollectionService {
-
-
     @POST("api/eventVisitors/update")
     suspend fun updateEggCollection(@Body eggCollection: EggCollectionRequest)
 

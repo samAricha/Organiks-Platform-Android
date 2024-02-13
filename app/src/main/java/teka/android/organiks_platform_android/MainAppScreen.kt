@@ -3,54 +3,33 @@ package teka.android.organiks_platform_android
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import teka.android.organiks_platform_android.modules.auth.AuthViewModel
 import teka.android.organiks_platform_android.navigation.*
 import teka.android.organiks_platform_android.presentation.navDrawer.AppBar
-import teka.android.organiks_platform_android.presentation.navDrawer.DrawerBody
-import teka.android.organiks_platform_android.presentation.navDrawer.DrawerHeader
-import teka.android.organiks_platform_android.presentation.navDrawer.MenuItem
 import teka.android.organiks_platform_android.presentation.navDrawer.NavigationDrawerM3
-import teka.android.organiks_platform_android.ui.theme.PlaceholderColor
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
-import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
-import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
+
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainAppScreen() {
-    NavigationDrawerM3()
+fun MainAppScreen(appState: AppState) {
+    NavigationDrawerM3(appState)
 }
 
 

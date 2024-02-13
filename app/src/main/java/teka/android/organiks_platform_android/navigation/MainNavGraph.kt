@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import teka.android.organiks_platform_android.MainAppScreen
 import teka.android.organiks_platform_android.presentation.aiadvice.AiAdviceScreen
+import teka.android.organiks_platform_android.presentation.aiadvice.chat_screen.GeminiChatScreen
 import teka.android.organiks_platform_android.presentation.dashborad.DashboardScreen
 import teka.android.organiks_platform_android.presentation.records.production.productionHome.ProductionHomeScreen
 import teka.android.organiks_platform_android.presentation.records.production.productionRecording.ProductionRecordingScreen
@@ -20,7 +21,7 @@ import teka.android.organiks_platform_android.ui.animations.scaleOutOfContainer
 
 @Composable
 fun MainNavGraph(
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController,
 ) {
 
     NavHost(
@@ -93,6 +94,23 @@ fun MainNavGraph(
 
             ){
             DashboardScreen()
+        }
+        composable(
+            route = Screen.GeminiChatScreen.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            GeminiChatScreen()
         }
         composable(
             route = Screen.AiSearchScreen.route,

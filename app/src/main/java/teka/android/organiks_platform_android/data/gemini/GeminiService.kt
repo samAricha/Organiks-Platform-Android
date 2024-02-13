@@ -1,7 +1,6 @@
-package data.remote
+package teka.android.organiks_platform_android.data.gemini
 
-import data.remote.dto.Request
-import data.remote.dto.Response
+import teka.android.organiks_platform_android.data.gemini.dto.Response
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -16,12 +15,17 @@ import io.ktor.util.InternalAPI
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import teka.android.organiks_platform_android.BuildConfig
+import teka.android.organiks_platform_android.data.gemini.dto.GeminiRequestDto
+import java.io.FileInputStream
+import java.io.InputStream
+import java.util.Properties
+
 
 const val TIMEOUT = 30000L
 
 @OptIn(ExperimentalSerializationApi::class, InternalAPI::class)
 class GeminiService {
-
     // region Setup
     private val client = HttpClient {
         install(ContentNegotiation) {
@@ -43,8 +47,10 @@ class GeminiService {
         }
     }
 
+
+
     private val baseUrl = "https://generativelanguage.googleapis.com/v1/models"
-    private var apiKey: String = ""
+    private var apiKey: String = BuildConfig.GEMINI_API_KEY
 
     fun getApiKey(): String {
         return apiKey
@@ -69,9 +75,9 @@ class GeminiService {
 
     private suspend fun makeApiRequest(
         url: String,
-        requestBuilder: Request.RequestBuilder.() -> Unit
+        requestBuilder: GeminiRequestDto.RequestBuilder.() -> Unit
     ): Response {
-        val request = Request.RequestBuilder().apply(requestBuilder).build()
+        val request = GeminiRequestDto.RequestBuilder().apply(requestBuilder).build()
 
         val response: String = client.post(url) {
             body = Json.encodeToString(request)

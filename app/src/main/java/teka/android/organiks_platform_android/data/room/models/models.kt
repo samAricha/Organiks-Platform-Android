@@ -20,7 +20,6 @@ data class EggType(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name:String
-
 )
 
 @Entity(tableName = "fruit_types")

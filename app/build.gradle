@@ -6,6 +6,9 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization'
 }
 
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
 android {
     namespace 'teka.android.organiks_platform_android'
     compileSdk 34
@@ -21,6 +24,9 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField("String", "GEMINI_API_KEY", "\"" + localProperties['geminiApiKey'] + "\"")
+
     }
 
     buildTypes {
@@ -30,11 +36,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildFeatures {
         compose true
@@ -104,7 +110,14 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0'
     implementation 'com.squareup.okhttp3:okhttp:4.11.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
+    implementation 'org.jetbrains.kotlinx:kotlinx-datetime:0.5.0'
+
+    //ktor
+    def ktorVersion = "2.3.6"
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
+    implementation("io.ktor:ktor-client-logging:$ktorVersion")
 
     //Coroutines
     def coroutine_version = "1.7.0"
@@ -118,6 +131,17 @@ dependencies {
 
     implementation "androidx.compose.runtime:runtime-livedata:1.0.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:1.0.0-alpha07"
+
+    //coil
+    implementation "io.coil-kt:coil-compose:2.5.0"
+    //glide
+    implementation "com.github.bumptech.glide:glide:4.12.0"
+    annotationProcessor "com.github.bumptech.glide:compiler:4.12.0"
+
+    //gemini
+    implementation("com.google.ai.client.generativeai:generativeai:0.1.2")
+
+
 
 
 

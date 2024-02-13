@@ -1,9 +1,9 @@
-package data.remote.repository
+package teka.android.organiks_platform_android.data.gemini.repository
 
-import data.remote.GeminiService
-import domain.model.ChatStatusModel
-import domain.repository.GeminiRepository
+import teka.android.organiks_platform_android.data.gemini.GeminiService
 import io.ktor.utils.io.errors.IOException
+import teka.android.organiks_platform_android.domain.models.ChatStatusModel
+import teka.android.organiks_platform_android.domain.repository.GeminiRepository
 
 class GeminiRepositoryImpl : GeminiRepository {
 
