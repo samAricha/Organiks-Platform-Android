@@ -365,9 +365,14 @@ fun ScaffoldContent2(
                 }
         },
     ) {
-//        Box(modifier = Modifier.padding(bottom = 60.dp)) {
+        if (appState.shouldShowBottomBar){
+            Box(modifier = Modifier.padding(bottom = 39.dp)) {
+                MainNavGraph(appState.navHostController,)
+            }
+        }else{
             MainNavGraph(appState.navHostController,)
-//        }
+        }
+
     }
 }
 
