@@ -1,9 +1,12 @@
 package teka.android.organiks_platform_android.presentation.aiadvice.chat_screen
 
+import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -18,6 +21,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
@@ -30,6 +34,7 @@ import teka.android.organiks_platform_android.domain.models.ChatStatusModel
 import teka.android.organiks_platform_android.ui.theme.LightGreen
 import teka.android.organiks_platform_android.ui.theme.LightRed
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun GeminiChatScreen(viewModel: ChatViewModel = ChatViewModel()) {
     val chatUiState = viewModel.uiState
@@ -49,7 +54,7 @@ fun GeminiChatScreen(viewModel: ChatViewModel = ChatViewModel()) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 10.dp)
-                    .padding(bottom = 30.dp, top = 5.dp),
+                    .padding(top = 5.dp),
                 status = chatUiState.value.status,
                 onSendClick = { text, images ->
                     coroutineScope.launch(Dispatchers.IO) {
@@ -72,14 +77,16 @@ fun GeminiChatScreen(viewModel: ChatViewModel = ChatViewModel()) {
                 )
             }
         },
-        modifier = Modifier.pointerInput(Unit) {
-            detectTapGestures(onTap = { focusManager.clearFocus() })
-        },
-    ) { paddingValues ->
+        modifier = Modifier
+            .pointerInput(Unit) {
+                detectTapGestures(onTap = { focusManager.clearFocus() })
+            }
+            .padding(bottom = 15.dp)
+    ) {
         ChatList(
-            modifier = Modifier.padding(paddingValues),
             messages = chatUiState.value.messages
         )
+        Spacer(modifier = Modifier.height(15.dp))
 
         if (showDialog.value) {
             CustomChatDialog(
@@ -107,7 +114,7 @@ fun GeminiChatScreen(viewModel: ChatViewModel = ChatViewModel()) {
 
 
 @Composable
-fun ChatList(modifier: Modifier, messages: List<ChatMessageModel>) {
+fun ChatList(messages: List<ChatMessageModel>) {
     val listState = rememberLazyListState()
 
     if (messages.isNotEmpty()) {
@@ -117,10 +124,13 @@ fun ChatList(modifier: Modifier, messages: List<ChatMessageModel>) {
     }
     LazyColumn(
         state = listState,
-        modifier = modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
+        item{
+            Spacer(modifier = Modifier.height(25.dp))
+        }
         items(messages.size) {
             val message = messages[it]
             if (message.images.isNotEmpty()) {
