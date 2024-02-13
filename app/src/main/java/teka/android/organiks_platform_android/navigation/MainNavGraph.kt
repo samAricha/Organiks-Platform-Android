@@ -21,7 +21,7 @@ import teka.android.organiks_platform_android.ui.animations.scaleOutOfContainer
 
 @Composable
 fun MainNavGraph(
-    navController: NavHostController = rememberNavController(),
+    navController: NavHostController,
 ) {
 
     NavHost(

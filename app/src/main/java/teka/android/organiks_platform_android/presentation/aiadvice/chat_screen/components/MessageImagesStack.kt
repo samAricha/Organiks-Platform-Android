@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.presentation.aiadvice.chat_screen.components
 
+import android.graphics.BitmapFactory
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
@@ -13,12 +14,15 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -36,6 +40,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
@@ -77,14 +83,14 @@ fun MessageImagesStack(
                 cardCount = message.images.size,
                 cardShape = RoundedCornerShape(20.dp),
                 cardContent = { index ->
-//                    Image(
-//                        bitmap = message.images[index].toImageBitmap(),
-//                        contentDescription = "Same Card Type with Different Image",
-//                        contentScale = ContentScale.Crop,
-//                        modifier = Modifier
-//                            .heightIn(100.dp, 300.dp)
-//                            .widthIn(50.dp, 200.dp)
-//                    )
+                    Image(
+                        bitmap = BitmapFactory.decodeByteArray(message.images[index], 0, message.images[index].size).asImageBitmap(),
+                        contentDescription = "Same Card Type with Different Image",
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .heightIn(100.dp, 300.dp)
+                            .widthIn(50.dp, 200.dp)
+                    )
                 },
                 orientation = Orientation.Horizontal(
                     alignment = HorizontalAlignment.EndToStart,
