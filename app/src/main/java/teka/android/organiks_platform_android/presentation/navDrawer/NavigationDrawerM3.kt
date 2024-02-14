@@ -289,8 +289,8 @@ fun ScaffoldContent2(
             if (appState.shouldShowBottomBar){
                     BottomAppBar(
                         modifier = Modifier.height(52.dp),
-                        backgroundColor = Color.White
-                    ) {
+                        backgroundColor = Color.White,
+                ) {
                         val navBackStackEntry by appState.navHostController.currentBackStackEntryAsState()
                         val currentRoute = navBackStackEntry?.destination?.route
 
