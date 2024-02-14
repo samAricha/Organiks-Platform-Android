@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.presentation.aiadvice.chat_screen
 
+import android.app.Application
 import android.graphics.Bitmap
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -7,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.BuildConfig
 import teka.android.organiks_platform_android.data.gemini.repository.GeminiRepositoryImpl
@@ -14,8 +16,11 @@ import teka.android.organiks_platform_android.domain.models.ChatMessageModel
 import teka.android.organiks_platform_android.domain.models.ChatStatusModel
 import teka.android.organiks_platform_android.domain.models.Sender
 import teka.android.organiks_platform_android.domain.repository.GeminiRepository
+import javax.inject.Inject
 
-class ChatViewModel : ViewModel() {
+@HiltViewModel
+class ChatViewModel  @Inject constructor(
+) : ViewModel() {
 
     private val geminiRepository: GeminiRepository = GeminiRepositoryImpl()
 
