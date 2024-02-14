@@ -78,9 +78,10 @@ class GeminiService {
     suspend fun generateAiContentWithMedia(prompt: String, images: List<Bitmap>): Response {
         return makeApiRequest("$baseUrl/gemini-pro-vision:generateContent?key=$apiKey") {
             addText(prompt)
-            addImages(images.map { bitmap ->
-                convertBitmapToByteArray(bitmap)
-            })
+            addImage(convertBitmapToByteArray(images[0]))
+//            addImages(images.map { bitmap ->
+//                convertBitmapToByteArray(bitmap)
+//            })
         }
     }
 

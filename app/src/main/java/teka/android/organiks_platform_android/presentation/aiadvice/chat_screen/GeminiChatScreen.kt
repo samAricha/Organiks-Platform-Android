@@ -142,5 +142,8 @@ fun ChatList(messages: List<ChatMessageModel>) {
             }
             MessageBubble(message = message)
         }
+        item { 
+            Spacer(modifier = Modifier.height(50.dp))
+        }
     }
 }
