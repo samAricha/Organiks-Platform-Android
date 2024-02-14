@@ -324,6 +324,8 @@ fun ScaffoldContent2(
                                 )
                             }
                         )
+                        Spacer(modifier = Modifier.width(108.dp))
+
 
                         BottomNavigationItem(
                             selected = currentRoute == Screen.ProductionHome.route,
