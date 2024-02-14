@@ -72,7 +72,8 @@ import java.io.InputStream
 fun CustomBottomSearchBar(
     modifier: Modifier = Modifier,
     status: ChatStatusModel,
-    onSendClick: (String, List<ByteArray>) -> Unit
+    onSendClick: (String, List<Bitmap>) -> Unit,
+    chatViewModel: ChatViewModel
 ) {
     val textState = remember { mutableStateOf("") }
     val images = remember { mutableStateOf(listOf<Bitmap>()) }
@@ -156,7 +157,8 @@ fun CustomBottomSearchBar(
             IconButton(
                 modifier = Modifier.padding(5.dp),
                 onClick = {
-                    onSendClick(textState.value, images.value.map { imageBitMap -> bitmapToByteArray(imageBitMap) })
+//                    onSendClick(textState.value, images.value.map { imageBitMap -> bitmapToByteArray(imageBitMap) })
+                    onSendClick(textState.value, images.value)
                     images.value = emptyList()
                     textState.value = ""
                 },
