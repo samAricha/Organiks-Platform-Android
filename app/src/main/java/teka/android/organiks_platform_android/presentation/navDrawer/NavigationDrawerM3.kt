@@ -17,13 +17,18 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.FabPosition
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Face
@@ -290,6 +295,8 @@ fun ScaffoldContent2(
                     BottomAppBar(
                         modifier = Modifier.height(52.dp),
                         backgroundColor = Color.White,
+                        cutoutShape = CircleShape,
+                        elevation = 22.dp
                 ) {
                         val navBackStackEntry by appState.navHostController.currentBackStackEntryAsState()
                         val currentRoute = navBackStackEntry?.destination?.route
@@ -342,31 +349,51 @@ fun ScaffoldContent2(
                             }
                         )
 
-                        BottomNavigationItem(
-                            selected = currentRoute?.startsWith(Screen.ProductionRecording.route) == true,
-                            onClick = {
-                                navHostController.navigate(route = "${Screen.ProductionRecording.route}?id=-1")
-                            },
-                            icon = {
-                                androidx.compose.material.Icon(
-                                    painter = painterResource(R.drawable.add_to_list),
-                                    contentDescription = "Add Record",
-                                    modifier = Modifier.size(20.dp),
-                                    tint = if (currentRoute?.startsWith(Screen.ProductionRecording.route) == true) PrimaryColor else Color.Gray
-                                )
-                            },
-                            label = {
-                                androidx.compose.material.Text(
-                                    text = "Add",
-                                    fontSize = 10.sp,
-                                    color = if (currentRoute?.startsWith(Screen.ProductionRecording.route) == true) PrimaryColor else Color.Gray
-                                )
-                            }
-                        )
+//                        BottomNavigationItem(
+//                            selected = currentRoute?.startsWith(Screen.ProductionRecording.route) == true,
+//                            onClick = {
+//                                navHostController.navigate(route = "${Screen.ProductionRecording.route}?id=-1")
+//                            },
+//                            icon = {
+//                                androidx.compose.material.Icon(
+//                                    painter = painterResource(R.drawable.add_to_list),
+//                                    contentDescription = "Add Record",
+//                                    modifier = Modifier.size(20.dp),
+//                                    tint = if (currentRoute?.startsWith(Screen.ProductionRecording.route) == true) PrimaryColor else Color.Gray
+//                                )
+//                            },
+//                            label = {
+//                                androidx.compose.material.Text(
+//                                    text = "Add",
+//                                    fontSize = 10.sp,
+//                                    color = if (currentRoute?.startsWith(Screen.ProductionRecording.route) == true) PrimaryColor else Color.Gray
+//                                )
+//                            }
+//                        )
 
                     }
-                }
+            }
         },
+        floatingActionButtonPosition = FabPosition.Center,
+        isFloatingActionButtonDocked = true,
+        floatingActionButton = {
+            if (appState.shouldShowBottomBar){
+                FloatingActionButton(
+                    shape = CircleShape,
+                    onClick = {
+                        navHostController.navigate(route = "${Screen.ProductionRecording.route}?id=-1")
+                    },
+                    backgroundColor = Color.White
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "Add Record",
+                        tint = PrimaryColor
+                    )
+                }
+            }
+
+        }
     ) {
         if (appState.shouldShowBottomBar){
             Box(modifier = Modifier.padding(bottom = 39.dp)) {
