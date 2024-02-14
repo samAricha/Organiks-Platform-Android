@@ -84,7 +84,7 @@ fun MessageImagesStack(
                 cardShape = RoundedCornerShape(20.dp),
                 cardContent = { index ->
                     Image(
-                        bitmap = BitmapFactory.decodeByteArray(message.images[index], 0, message.images[index].size).asImageBitmap(),
+                        bitmap = message.images[index].asImageBitmap(),
                         contentDescription = "Same Card Type with Different Image",
                         contentScale = ContentScale.Crop,
                         modifier = Modifier

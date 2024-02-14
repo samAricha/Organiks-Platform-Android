@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.presentation.aiadvice.chat_screen
 
+import android.app.Application
 import android.graphics.Bitmap
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
@@ -7,15 +8,20 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.BuildConfig
 import teka.android.organiks_platform_android.data.gemini.repository.GeminiRepositoryImpl
+import teka.android.organiks_platform_android.domain.models.AiChatMessageModel
 import teka.android.organiks_platform_android.domain.models.ChatMessageModel
 import teka.android.organiks_platform_android.domain.models.ChatStatusModel
 import teka.android.organiks_platform_android.domain.models.Sender
 import teka.android.organiks_platform_android.domain.repository.GeminiRepository
+import javax.inject.Inject
 
-class ChatViewModel : ViewModel() {
+@HiltViewModel
+class ChatViewModel  @Inject constructor(
+) : ViewModel() {
 
     private val geminiRepository: GeminiRepository = GeminiRepositoryImpl()
 
@@ -33,12 +39,25 @@ class ChatViewModel : ViewModel() {
         _uiState.value = _uiState.value.copy(apiKey = key, status = ChatStatusModel.Success("API key updated successfully."))
     }
 
-    fun generateContent(message: String, images: List<ByteArray> = emptyList()) {
+//    fun generateContent(message: String, images: List<ByteArray> = emptyList()) {
+//        viewModelScope.launch {
+//            addToMessages(message, images, Sender.User)
+//            addToMessages("", emptyList(), Sender.Bot, true)
+//
+//            when (val response = geminiRepository.generate(message, images)) {
+//                is ChatStatusModel.Success -> updateLastBotMessage(response.data, response)
+//                is ChatStatusModel.Error -> updateLastBotMessage(response.message, response)
+//                else -> {}
+//            }
+//        }
+//    }
+
+    fun generateGeminiResponse(message: String, images: List<Bitmap> = emptyList()) {
         viewModelScope.launch {
             addToMessages(message, images, Sender.User)
             addToMessages("", emptyList(), Sender.Bot, true)
 
-            when (val response = geminiRepository.generate(message, images)) {
+            when (val response = geminiRepository.generateResponse(message, images)) {
                 is ChatStatusModel.Success -> updateLastBotMessage(response.data, response)
                 is ChatStatusModel.Error -> updateLastBotMessage(response.message, response)
                 else -> {}
@@ -61,7 +80,7 @@ class ChatViewModel : ViewModel() {
 
     private fun addToMessages(
         text: String,
-        images: List<ByteArray>,
+        images: List<Bitmap>,
         sender: Sender,
         isLoading: Boolean = false
     ) {
@@ -71,6 +90,36 @@ class ChatViewModel : ViewModel() {
             status = if (isLoading) ChatStatusModel.Loading else ChatStatusModel.Idle
         )
     }
+
+//    private fun addToChatMessages2(
+//        text: String,
+//        images: List<Bitmap>,
+//        sender: Sender,
+//        isLoading: Boolean = false
+//    ) {
+//        val message = AiChatMessageModel(sender, text, images, isLoading)
+//        _uiState.value = _uiState.value.copy(
+//            chatMessages = _uiState.value.chatMessages + message,
+//            status = if (isLoading) ChatStatusModel.Loading else ChatStatusModel.Idle
+//        )
+//    }
+
+//    private fun addToChatMessages(
+//        text: String,
+//        images: List<ByteArray>,
+//        sender: Sender,
+//        isLoading: Boolean = false
+//    ) {
+//        val message = AiChatMessageModel(sender, text, images, isLoading)
+//        _uiState.value = _uiState.value.copy(
+//            chatMessages = _uiState.value.chatMessages + message,
+//            status = if (isLoading) ChatStatusModel.Loading else ChatStatusModel.Idle
+//        )
+//    }
+
+
+
+
 
 
 
@@ -83,13 +132,13 @@ class ChatViewModel : ViewModel() {
         modelName = "gemini-pro-vision",
         apiKey = BuildConfig.GEMINI_API_KEY
     )
-    private fun geminiText(){
+    fun geminiText(){
         viewModelScope.launch {
             val prompt = "Write a story about a magic backpack."
             val response = generativeTextModel.generateContent(prompt)
         }
     }
-    private fun geminiImage(images:List<Bitmap>, prompt:String){
+    fun geminiImage(images:List<Bitmap>, prompt:String){
         viewModelScope.launch {
             val inputContent = content {
                 for (inputImage in images) {

@@ -25,18 +25,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.presentation.aiadvice.chat_screen.components.MessageBubble
 import teka.android.organiks_platform_android.presentation.aiadvice.chat_screen.components.MessageImagesStack
 import teka.android.organiks_platform_android.domain.models.ChatMessageModel
 import teka.android.organiks_platform_android.domain.models.ChatStatusModel
+import teka.android.organiks_platform_android.presentation.aiadvice.AiAdviceviewModel
 import teka.android.organiks_platform_android.ui.theme.LightGreen
 import teka.android.organiks_platform_android.ui.theme.LightRed
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun GeminiChatScreen(viewModel: ChatViewModel = ChatViewModel()) {
+fun GeminiChatScreen() {
+    val viewModel: ChatViewModel = hiltViewModel();
+
     val chatUiState = viewModel.uiState
     val focusManager = LocalFocusManager.current
     val coroutineScope = rememberCoroutineScope()
@@ -46,9 +50,9 @@ fun GeminiChatScreen(viewModel: ChatViewModel = ChatViewModel()) {
 
 
     Scaffold(
-        topBar = {
-            CustomAppBar(onActionClick = { showDialog.value = true })
-        },
+//        topBar = {
+//            CustomAppBar(onActionClick = { showDialog.value = true })
+//        },
         bottomBar = {
             CustomBottomSearchBar(
                 modifier = Modifier
@@ -58,9 +62,11 @@ fun GeminiChatScreen(viewModel: ChatViewModel = ChatViewModel()) {
                 status = chatUiState.value.status,
                 onSendClick = { text, images ->
                     coroutineScope.launch(Dispatchers.IO) {
-                        viewModel.generateContent(text, images)
+//                        viewModel.generateContent(text)
+                        viewModel.generateGeminiResponse(text, images)
                     }
                 },
+                chatViewModel = viewModel
             )
         },
         snackbarHost = {
@@ -128,9 +134,6 @@ fun ChatList(messages: List<ChatMessageModel>) {
         contentPadding = PaddingValues(10.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        item{
-            Spacer(modifier = Modifier.height(25.dp))
-        }
         items(messages.size) {
             val message = messages[it]
             if (message.images.isNotEmpty()) {

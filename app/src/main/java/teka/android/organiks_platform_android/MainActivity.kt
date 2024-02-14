@@ -4,7 +4,8 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.Window
+import android.view.WindowInsets
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -17,6 +18,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -41,7 +43,7 @@ class MainActivity : ComponentActivity() {
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "WrongConstant")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,6 +57,10 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
+            val imeiState = rememberImeState()
+
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
             splashViewModel.startDestination.value?.let { Log.d("TAG3", it) }
 
             CompositionLocalProvider(UserState provides userState) {

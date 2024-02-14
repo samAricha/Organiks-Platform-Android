@@ -15,6 +15,7 @@
         android:theme="@style/Theme.CustomSplashScreenTheme">
         <activity
             android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true"
             android:theme="@style/Theme.CustomSplashScreenTheme">
             <intent-filter>

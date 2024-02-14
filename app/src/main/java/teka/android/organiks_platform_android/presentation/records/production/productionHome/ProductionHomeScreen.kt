@@ -87,6 +87,8 @@ fun ProductionHomeScreen(
 
 
     Scaffold(
+        floatingActionButtonPosition = FabPosition.End,
+        isFloatingActionButtonDocked = false,
         floatingActionButton = {
         FloatingActionButton(onClick = {
             fabClicked.value = true
@@ -113,7 +115,7 @@ fun ProductionHomeScreen(
         }
     }) {
         Box(
-            modifier = Modifier.fillMaxSize().padding(top = 16.dp, start = 16.dp, end = 16.dp)
+            modifier = Modifier.fillMaxSize().padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 50.dp)
         ){
             LazyColumn {
                 item {

@@ -1,5 +1,9 @@
 package teka.android.organiks_platform_android.data.gemini
 
+import android.graphics.Bitmap
+import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.GenerateContentResponse
+import com.google.ai.client.generativeai.type.content
 import teka.android.organiks_platform_android.data.gemini.dto.Response
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
@@ -17,9 +21,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import teka.android.organiks_platform_android.BuildConfig
 import teka.android.organiks_platform_android.data.gemini.dto.GeminiRequestDto
-import java.io.FileInputStream
-import java.io.InputStream
-import java.util.Properties
+import java.io.ByteArrayOutputStream
 
 
 const val TIMEOUT = 30000L
@@ -73,6 +75,29 @@ class GeminiService {
         }
     }
 
+    suspend fun generateAiContentWithMedia(prompt: String, images: List<Bitmap>): Response {
+        return makeApiRequest("$baseUrl/gemini-pro-vision:generateContent?key=$apiKey") {
+            addText(prompt)
+            addImages(images.map { bitmap ->
+                convertBitmapToByteArray(bitmap)
+            })
+        }
+    }
+
+    fun convertBitmapToByteArray(bitmap: Bitmap): ByteArray {
+        val outputStream = ByteArrayOutputStream()
+        try {
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            return outputStream.toByteArray()
+        } finally {
+            outputStream.close()
+        }
+    }
+
+
+
+
+
     private suspend fun makeApiRequest(
         url: String,
         requestBuilder: GeminiRequestDto.RequestBuilder.() -> Unit
@@ -84,6 +109,29 @@ class GeminiService {
         }.bodyAsText()
 
         return Json.decodeFromString(response)
+    }
+
+
+
+    val generativeTextModel = GenerativeModel(
+        modelName = "gemini-pro",
+        apiKey = BuildConfig.GEMINI_API_KEY
+    )
+    val generativeImageModel = GenerativeModel(
+        modelName = "gemini-pro-vision",
+        apiKey = BuildConfig.GEMINI_API_KEY
+    )
+    suspend fun geminiText(prompt: String): GenerateContentResponse {
+        return generativeTextModel.generateContent(prompt)
+    }
+    suspend fun geminiImage(images: List<Bitmap>, prompt: String): GenerateContentResponse {
+        val inputContent = content {
+            for (inputImage in images) {
+                image(inputImage)
+            }
+            text("What's different between these pictures?")
+        }
+        return generativeImageModel.generateContent(inputContent)
     }
 
 }
