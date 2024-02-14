@@ -39,25 +39,25 @@ class ChatViewModel  @Inject constructor(
         _uiState.value = _uiState.value.copy(apiKey = key, status = ChatStatusModel.Success("API key updated successfully."))
     }
 
-    fun generateContent(message: String, images: List<ByteArray> = emptyList()) {
+//    fun generateContent(message: String, images: List<ByteArray> = emptyList()) {
+//        viewModelScope.launch {
+//            addToMessages(message, images, Sender.User)
+//            addToMessages("", emptyList(), Sender.Bot, true)
+//
+//            when (val response = geminiRepository.generate(message, images)) {
+//                is ChatStatusModel.Success -> updateLastBotMessage(response.data, response)
+//                is ChatStatusModel.Error -> updateLastBotMessage(response.message, response)
+//                else -> {}
+//            }
+//        }
+//    }
+
+    fun generateGeminiResponse(message: String, images: List<Bitmap> = emptyList()) {
         viewModelScope.launch {
             addToMessages(message, images, Sender.User)
             addToMessages("", emptyList(), Sender.Bot, true)
 
-            when (val response = geminiRepository.generate(message, images)) {
-                is ChatStatusModel.Success -> updateLastBotMessage(response.data, response)
-                is ChatStatusModel.Error -> updateLastBotMessage(response.message, response)
-                else -> {}
-            }
-        }
-    }
-
-    fun generateGeminiResponse(message: String, images: List<ByteArray> = emptyList()) {
-        viewModelScope.launch {
-            addToMessages(message, images, Sender.User)
-            addToMessages("", emptyList(), Sender.Bot, true)
-
-            when (val response = geminiRepository.generate(message)) {
+            when (val response = geminiRepository.generateResponse(message, images)) {
                 is ChatStatusModel.Success -> updateLastBotMessage(response.data, response)
                 is ChatStatusModel.Error -> updateLastBotMessage(response.message, response)
                 else -> {}
@@ -80,7 +80,7 @@ class ChatViewModel  @Inject constructor(
 
     private fun addToMessages(
         text: String,
-        images: List<ByteArray>,
+        images: List<Bitmap>,
         sender: Sender,
         isLoading: Boolean = false
     ) {
