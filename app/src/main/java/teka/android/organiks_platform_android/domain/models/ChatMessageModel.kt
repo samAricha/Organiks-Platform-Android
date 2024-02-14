@@ -9,7 +9,7 @@ import kotlinx.datetime.toLocalDateTime
 data class ChatMessageModel(
     val sender: Sender,
     val text: String,
-    val images: List<ByteArray> = emptyList(),
+    val images: List<Bitmap> = emptyList(),
     val isLoading: Boolean = false,
 ) {
     val time: String

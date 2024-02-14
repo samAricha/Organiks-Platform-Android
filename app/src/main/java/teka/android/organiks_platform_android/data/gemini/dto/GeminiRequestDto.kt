@@ -1,6 +1,7 @@
 package teka.android.organiks_platform_android.data.gemini.dto
 
 import android.graphics.Bitmap
+import android.util.Base64
 import io.ktor.util.encodeBase64
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -39,12 +40,18 @@ data class GeminiRequestDto(
         }
 
         fun addChatImages(images: List<Bitmap>, mimeType: String = "image/png"): RequestBuilder {
-            images.forEach {
+            images.forEach {bitmap ->
                 val outputStream = ByteArrayOutputStream()
-                it.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-                val byteArray = outputStream.toByteArray()
-                val part = RequestPart(requestInlineData = RequestInlineData(mimeType, byteArray.encodeBase64()))
-                addPart(part)
+
+                try {
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                    val byteArray = outputStream.toByteArray()
+                    val base64String = Base64.encodeToString(byteArray, Base64.DEFAULT)
+                    val part = RequestPart(requestInlineData = RequestInlineData(mimeType, base64String))
+                    addPart(part)
+                } finally {
+                    outputStream.close()
+                }
             }
             return this
         }

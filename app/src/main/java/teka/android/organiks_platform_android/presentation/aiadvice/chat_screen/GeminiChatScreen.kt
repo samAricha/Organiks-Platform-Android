@@ -63,7 +63,7 @@ fun GeminiChatScreen() {
                 onSendClick = { text, images ->
                     coroutineScope.launch(Dispatchers.IO) {
 //                        viewModel.generateContent(text)
-                        viewModel.generateGeminiResponse(text)
+                        viewModel.generateGeminiResponse(text, images)
                     }
                 },
                 chatViewModel = viewModel

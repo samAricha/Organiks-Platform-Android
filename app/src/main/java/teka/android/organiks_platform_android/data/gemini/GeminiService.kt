@@ -21,6 +21,7 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import teka.android.organiks_platform_android.BuildConfig
 import teka.android.organiks_platform_android.data.gemini.dto.GeminiRequestDto
+import java.io.ByteArrayOutputStream
 
 
 const val TIMEOUT = 30000L
@@ -77,7 +78,19 @@ class GeminiService {
     suspend fun generateAiContentWithMedia(prompt: String, images: List<Bitmap>): Response {
         return makeApiRequest("$baseUrl/gemini-pro-vision:generateContent?key=$apiKey") {
             addText(prompt)
-            addChatImages(images)
+            addImages(images.map { bitmap ->
+                convertBitmapToByteArray(bitmap)
+            })
+        }
+    }
+
+    fun convertBitmapToByteArray(bitmap: Bitmap): ByteArray {
+        val outputStream = ByteArrayOutputStream()
+        try {
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            return outputStream.toByteArray()
+        } finally {
+            outputStream.close()
         }
     }
 
