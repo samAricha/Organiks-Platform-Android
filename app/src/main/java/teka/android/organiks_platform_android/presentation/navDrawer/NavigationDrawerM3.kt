@@ -292,7 +292,7 @@ fun ScaffoldContent2(
         },
         bottomBar = {
             if (appState.shouldShowBottomBar){
-                    BottomAppBar(
+                BottomAppBar(
                         modifier = Modifier.height(52.dp),
                         backgroundColor = Color.White,
                         cutoutShape = CircleShape,

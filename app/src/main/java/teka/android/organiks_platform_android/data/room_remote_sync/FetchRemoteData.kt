@@ -12,6 +12,22 @@ import teka.android.organiks_platform_android.repository.DbRepository
 
 
 class FetchRemoteData {
+
+    suspend fun fetchAndSaveAccountTypes(repository: DbRepository){
+        withContext(Dispatchers.IO) {
+            try {
+                Log.d("INSIDE TRY", "FIRST LINE")
+                val response = RetrofitProvider.createEggCollectionService().getEggCollections()
+                val eggCollections: List<EggCollection> = response.results.map { it.toEggCollection() }
+                val repositoryResponse = repository.saveRemoteEggCollections(eggCollections)
+                Log.d("REPOSITORY RESPONSE", repositoryResponse.toString())
+
+            } catch (e: Exception) {
+                Log.d("FETCH_ERROR", e.message.toString())
+
+            }
+        }
+    }
     suspend fun fetchRemoteEggCollectionDataAndSaveLocally(repository: DbRepository){
         withContext(Dispatchers.IO) {
             try {
