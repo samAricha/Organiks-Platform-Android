@@ -124,7 +124,6 @@ class AuthViewModel @Inject constructor(
     private fun updateLoginResult(result: LoginResult) {
         _usernameState.value = usernameState.value.copy(error = result.usernameError)
         _passwordState.value = passwordState.value.copy(error = result.passwordError)
-//        loginResult.value = result
     }
 
     private suspend fun performLogin(username: String, password: String, rememberMe: Boolean) {
