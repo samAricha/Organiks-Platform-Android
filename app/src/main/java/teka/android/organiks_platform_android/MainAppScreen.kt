@@ -101,33 +101,33 @@ fun ScaffoldContent(
                 val currentRoute = navBackStackEntry?.destination?.route
 
                 BottomNavigationItem(
-                    selected = currentRoute == Screen.DashboardScreen.route,
+                    selected = currentRoute == AppScreens.DashboardAppScreens.route,
                     onClick = {
-                        navHostController.navigate(Screen.DashboardScreen.route) {
+                        navHostController.navigate(AppScreens.DashboardAppScreens.route) {
                             launchSingleTop = true
                         }
                     },
                     icon = {
                         Icon(
-                            painter = painterResource(if (currentRoute == Screen.DashboardScreen.route) R.drawable.home else R.drawable.outline_home_24),
+                            painter = painterResource(if (currentRoute == AppScreens.DashboardAppScreens.route) R.drawable.home else R.drawable.outline_home_24),
                             contentDescription = "Home",
                             modifier = Modifier.size(20.dp),
-                            tint = if (currentRoute == Screen.DashboardScreen.route) PrimaryColor else Color.Gray
+                            tint = if (currentRoute == AppScreens.DashboardAppScreens.route) PrimaryColor else Color.Gray
                         )
                     },
                     label = {
                         Text(
                             text = "Home",
                             fontSize = 10.sp,
-                            color = if (currentRoute == Screen.DashboardScreen.route) PrimaryColor else Color.Gray
+                            color = if (currentRoute == AppScreens.DashboardAppScreens.route) PrimaryColor else Color.Gray
                         )
                     }
                 )
 
                 BottomNavigationItem(
-                    selected = currentRoute == Screen.ProductionHome.route,
+                    selected = currentRoute == AppScreens.ProductionHome.route,
                     onClick = {
-                        navHostController.navigate(Screen.ProductionHome.route) {
+                        navHostController.navigate(AppScreens.ProductionHome.route) {
                             launchSingleTop = true
                         }
                     },
@@ -136,59 +136,59 @@ fun ScaffoldContent(
                             painter = painterResource(R.drawable.monitoring),
                             contentDescription = "Records",
                             modifier = Modifier.size(20.dp),
-                            tint = if (currentRoute == Screen.ProductionHome.route) PrimaryColor else Color.Gray
+                            tint = if (currentRoute == AppScreens.ProductionHome.route) PrimaryColor else Color.Gray
                         )
                     },
                     label = {
                         Text(
                             text = "Records",
                             fontSize = 10.sp,
-                            color = if (currentRoute == Screen.ProductionHome.route) PrimaryColor else Color.Gray
+                            color = if (currentRoute == AppScreens.ProductionHome.route) PrimaryColor else Color.Gray
                         )
                     }
                 )
 
                 BottomNavigationItem(
-                    selected = currentRoute?.startsWith(Screen.ProductionRecording.route) == true,
+                    selected = currentRoute?.startsWith(AppScreens.ProductionRecording.route) == true,
                     onClick = {
-                        navHostController.navigate(route = "${Screen.ProductionRecording.route}?id=-1")
+                        navHostController.navigate(route = "${AppScreens.ProductionRecording.route}?id=-1")
                     },
                     icon = {
                         Icon(
                             painter = painterResource(R.drawable.add_to_list),
                             contentDescription = "Add Record",
                             modifier = Modifier.size(20.dp),
-                            tint = if (currentRoute?.startsWith(Screen.ProductionRecording.route) == true) PrimaryColor else Color.Gray
+                            tint = if (currentRoute?.startsWith(AppScreens.ProductionRecording.route) == true) PrimaryColor else Color.Gray
                         )
                     },
                     label = {
                         Text(
                             text = "Add",
                             fontSize = 10.sp,
-                            color = if (currentRoute?.startsWith(Screen.ProductionRecording.route) == true) PrimaryColor else Color.Gray
+                            color = if (currentRoute?.startsWith(AppScreens.ProductionRecording.route) == true) PrimaryColor else Color.Gray
                         )
                     }
                 )
 
 
                 BottomNavigationItem(
-                    selected = currentRoute?.startsWith(Screen.AiSearchScreen.route) == true,
+                    selected = currentRoute?.startsWith(AppScreens.AiSearchAppScreens.route) == true,
                     onClick = {
-                        navHostController.navigate(route = Screen.AiSearchScreen.route)
+                        navHostController.navigate(route = AppScreens.AiSearchAppScreens.route)
                     },
                     icon = {
                         Icon(
                             painter = painterResource(R.drawable._search_24),
                             contentDescription = "Search",
                             modifier = Modifier.size(20.dp),
-                            tint = if (currentRoute == Screen.AiSearchScreen.route) PrimaryColor else Color.Gray
+                            tint = if (currentRoute == AppScreens.AiSearchAppScreens.route) PrimaryColor else Color.Gray
                         )
                     },
                     label = {
                         Text(
                             text = "Search",
                             fontSize = 10.sp,
-                            color = if (currentRoute == Screen.AiSearchScreen.route) PrimaryColor else Color.Gray
+                            color = if (currentRoute == AppScreens.AiSearchAppScreens.route) PrimaryColor else Color.Gray
                         )
                     }
                 )
@@ -229,19 +229,19 @@ data class BottomNavigationItem(
 
 val bottomNavigationItems = listOf(
     BottomNavigationItem(
-        route = Screen.ProductionHome.route,
+        route = AppScreens.ProductionHome.route,
         icon = R.drawable.monitoring,
         contentDescription = "Send SMS",
         label = "Send SMS"
     ),
     BottomNavigationItem(
-        route = Screen.ProductionHome.route,
+        route = AppScreens.ProductionHome.route,
         icon = R.drawable.monitoring,
         contentDescription = "Add Contact List",
         label = "Recipients"
     ),
     BottomNavigationItem(
-        route = Screen.ProductionHome.route,
+        route = AppScreens.ProductionHome.route,
         icon = R.drawable.monitoring,
         contentDescription = "Contact List",
         label = "Other Screen"

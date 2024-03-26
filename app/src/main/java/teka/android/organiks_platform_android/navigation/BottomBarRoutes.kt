@@ -10,10 +10,10 @@ enum class BottomBarRoutes(
     val routes: String,
     @DrawableRes val icon: Int
 ) {
-    DASHBOARD(1, R.string.dashboard, Screen.DashboardScreen.route, R.drawable.home),
+    DASHBOARD(1, R.string.dashboard, AppScreens.DashboardAppScreens.route, R.drawable.home),
     PRODUCTION_HOME(
         2,
-        R.string.productionHome, Screen.ProductionHome.route, R.drawable.monitoring
+        R.string.productionHome, AppScreens.ProductionHome.route, R.drawable.monitoring
     ),
-    PRODUCTION_RECORDING(3, R.string.productionRecording, Screen.ProductionRecording.route, R.drawable.add_to_list)
+    PRODUCTION_RECORDING(3, R.string.productionRecording, AppScreens.ProductionRecording.route, R.drawable.add_to_list)
 }

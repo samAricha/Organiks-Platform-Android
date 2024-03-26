@@ -17,11 +17,9 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import teka.android.organiks_platform_android.data.room.models.EggType
 import teka.android.organiks_platform_android.data.room.models.FruitType
-import teka.android.organiks_platform_android.navigation.Screen
+import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.presentation.records.production.productionRecording.ProductionRecordingState
-import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.theme.Poppins
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.ui.theme.buttonShapes
@@ -158,7 +156,7 @@ fun FruitProductionEntryComponent(
                         }
                     }
 //                    navigateUp.invoke()
-                    navController.navigate(Screen.ProductionHome.route)
+                    navController.navigate(AppScreens.ProductionHome.route)
                 },
                 enabled = state.fruitCollectionQty.isNotEmpty(),
                 shape = buttonShapes.large,

@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BottomAppBar
-import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.FabPosition
 import androidx.compose.material.FloatingActionButton
@@ -28,15 +27,11 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material.icons.filled.VoiceChat
 import androidx.compose.material.rememberScaffoldState
@@ -46,7 +41,6 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -66,7 +60,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -76,24 +69,18 @@ import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.R
-import teka.android.organiks_platform_android.ScaffoldContent
 import teka.android.organiks_platform_android.modules.auth.AuthViewModel
 import teka.android.organiks_platform_android.navigation.AppNavigationActions
 import teka.android.organiks_platform_android.navigation.AppState
 import teka.android.organiks_platform_android.navigation.MainNavGraph
-import teka.android.organiks_platform_android.navigation.Screen
-import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
+import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.navigation.rememberAppState
-import teka.android.organiks_platform_android.ui.theme.LightPrimaryColor
 import teka.android.organiks_platform_android.ui.theme.NoShapes
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.PrimaryLight
-import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
 import teka.android.organiks_platform_android.ui.theme.ReemKufi
-import teka.android.organiks_platform_android.ui.theme.ReemKufiBold
 import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
 import teka.android.organiks_platform_android.ui.theme.SecondaryColor
-import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.ui.widgets.CustomDialog
 
 @SuppressLint("CoroutineCreationDuringComposition")
@@ -121,7 +108,7 @@ fun NavigationDrawerM3(
             icon = Icons.Default.Home,
             label = "Home",
             secondaryLabel = "64",
-            route = Screen.DashboardScreen.route,
+            route = AppScreens.DashboardAppScreens.route,
             onItemClick = {
                 navigationActions.navigateToHome()
                 scope.launch {
@@ -145,7 +132,7 @@ fun NavigationDrawerM3(
             icon = Icons.Default.VoiceChat,
             label = "AiAssistant",
             secondaryLabel = "Chat",
-            route = Screen.GeminiChatScreen.route,
+            route = AppScreens.GeminiChatAppScreens.route,
             onItemClick = {
                 navigationActions.navigateToGeminichatScreen()
                 scope.launch {
@@ -302,25 +289,25 @@ fun ScaffoldContent2(
                         val currentRoute = navBackStackEntry?.destination?.route
 
                         BottomNavigationItem(
-                            selected = currentRoute == Screen.DashboardScreen.route,
+                            selected = currentRoute == AppScreens.DashboardAppScreens.route,
                             onClick = {
-                                navHostController.navigate(Screen.DashboardScreen.route) {
+                                navHostController.navigate(AppScreens.DashboardAppScreens.route) {
                                     launchSingleTop = true
                                 }
                             },
                             icon = {
                                 androidx.compose.material.Icon(
-                                    painter = painterResource(if (currentRoute == Screen.DashboardScreen.route) R.drawable.home else R.drawable.outline_home_24),
+                                    painter = painterResource(if (currentRoute == AppScreens.DashboardAppScreens.route) R.drawable.home else R.drawable.outline_home_24),
                                     contentDescription = "Home",
                                     modifier = Modifier.size(20.dp),
-                                    tint = if (currentRoute == Screen.DashboardScreen.route) PrimaryColor else Color.Gray
+                                    tint = if (currentRoute == AppScreens.DashboardAppScreens.route) PrimaryColor else Color.Gray
                                 )
                             },
                             label = {
                                 androidx.compose.material.Text(
                                     text = "Home",
                                     fontSize = 10.sp,
-                                    color = if (currentRoute == Screen.DashboardScreen.route) PrimaryColor else Color.Gray
+                                    color = if (currentRoute == AppScreens.DashboardAppScreens.route) PrimaryColor else Color.Gray
                                 )
                             }
                         )
@@ -328,9 +315,9 @@ fun ScaffoldContent2(
                         Spacer(modifier = Modifier.width(108.dp))
 
                         BottomNavigationItem(
-                            selected = currentRoute == Screen.ProductionHome.route,
+                            selected = currentRoute == AppScreens.ProductionHome.route,
                             onClick = {
-                                navHostController.navigate(Screen.ProductionHome.route) {
+                                navHostController.navigate(AppScreens.ProductionHome.route) {
                                     launchSingleTop = true
                                 }
                             },
@@ -339,14 +326,14 @@ fun ScaffoldContent2(
                                     painter = painterResource(R.drawable.monitoring),
                                     contentDescription = "Records",
                                     modifier = Modifier.size(20.dp),
-                                    tint = if (currentRoute == Screen.ProductionHome.route) PrimaryColor else Color.Gray
+                                    tint = if (currentRoute == AppScreens.ProductionHome.route) PrimaryColor else Color.Gray
                                 )
                             },
                             label = {
                                 androidx.compose.material.Text(
                                     text = "Records",
                                     fontSize = 10.sp,
-                                    color = if (currentRoute == Screen.ProductionHome.route) PrimaryColor else Color.Gray
+                                    color = if (currentRoute == AppScreens.ProductionHome.route) PrimaryColor else Color.Gray
                                 )
                             }
                         )
@@ -383,7 +370,7 @@ fun ScaffoldContent2(
                 FloatingActionButton(
                     shape = CircleShape,
                     onClick = {
-                        navHostController.navigate(route = "${Screen.ProductionRecording.route}?id=-1")
+                        navHostController.navigate(route = "${AppScreens.ProductionRecording.route}?id=-1")
                     },
                     backgroundColor = Color.White
                 ) {

@@ -6,9 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import teka.android.organiks_platform_android.MainAppScreen
 import teka.android.organiks_platform_android.presentation.aiadvice.AiAdviceScreen
 import teka.android.organiks_platform_android.presentation.aiadvice.chat_screen.GeminiChatScreen
 import teka.android.organiks_platform_android.presentation.dashborad.DashboardScreen
@@ -26,12 +24,12 @@ fun MainNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = Screen.DashboardScreen.route,
+        startDestination = AppScreens.DashboardAppScreens.route,
         route = MAIN_GRAPH_ROUTE
     ) {
 
         composable(
-            route = Screen.ProductionHome.route,
+            route = AppScreens.ProductionHome.route,
             enterTransition = {
                 scaleIntoContainer()
             },
@@ -47,12 +45,12 @@ fun MainNavGraph(
 
         ){
             ProductionHomeScreen(onNavigate = { id ->
-                navController.navigate(route = "${Screen.ProductionRecording.route}?id=$id")
+                navController.navigate(route = "${AppScreens.ProductionRecording.route}?id=$id")
             })
         }
 
         composable(
-            route = "${ Screen.ProductionRecording.route }?id={id}",
+            route = "${ AppScreens.ProductionRecording.route }?id={id}",
             arguments = listOf(navArgument("id"){type = NavType.IntType}),
             enterTransition = {
                 scaleIntoContainer()
@@ -78,7 +76,7 @@ fun MainNavGraph(
 
 
         composable(
-            route = Screen.DashboardScreen.route,
+            route = AppScreens.DashboardAppScreens.route,
             enterTransition = {
                 scaleIntoContainer()
             },
@@ -96,7 +94,7 @@ fun MainNavGraph(
             DashboardScreen()
         }
         composable(
-            route = Screen.GeminiChatScreen.route,
+            route = AppScreens.GeminiChatAppScreens.route,
             enterTransition = {
                 scaleIntoContainer()
             },
@@ -113,7 +111,7 @@ fun MainNavGraph(
             GeminiChatScreen()
         }
         composable(
-            route = Screen.AiSearchScreen.route,
+            route = AppScreens.AiSearchAppScreens.route,
             enterTransition = {
                 scaleIntoContainer()
             },
@@ -131,7 +129,7 @@ fun MainNavGraph(
             AiAdviceScreen()
         }
         composable(
-            route = Screen.ProfileScreen.route,
+            route = AppScreens.ProfileAppScreens.route,
             enterTransition = {
                 scaleIntoContainer()
             },

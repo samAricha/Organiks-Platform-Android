@@ -2,9 +2,7 @@ package teka.android.organiks_platform_android.modules.splash_screen.presentatio
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonDefaults
@@ -22,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.*
 import teka.android.organiks_platform_android.modules.splash_screen.utils.OnBoardingPage
-import teka.android.organiks_platform_android.navigation.Screen
+import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.ui.theme.Poppins
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
@@ -63,7 +61,7 @@ fun WelcomeScreen(
         ) {
 //            welcomeViewModel.saveOnBoardingState(completed = true)
             navController.popBackStack()
-            navController.navigate(Screen.Login.route)
+            navController.navigate(AppScreens.Login.route)
         }
 
     }
