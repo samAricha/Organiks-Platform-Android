@@ -21,10 +21,12 @@ import teka.android.organiks_platform_android.domain.form.validation.use_cases.V
 import teka.android.organiks_platform_android.domain.models.TextFieldState
 import teka.android.organiks_platform_android.modules.auth.core.domain.model.LoginResult
 import teka.android.organiks_platform_android.modules.auth.core.domain.model.RegistrationValidationResultModel
+import teka.android.organiks_platform_android.modules.auth.core.domain.use_case.LoginDetailsValidationUseCase
 import teka.android.organiks_platform_android.modules.auth.core.domain.use_case.RegistrationDetailsValidationUseCase
 import teka.android.organiks_platform_android.modules.auth.core.repository.UserPreferencesKeyModel
 import teka.android.organiks_platform_android.modules.auth.core.util.LoginResultModel
 import teka.android.organiks_platform_android.modules.auth.core.util.RegistrationResult
+import teka.android.organiks_platform_android.modules.auth.core.util.models.UserRoleDto
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 import teka.android.organiks_platform_android.repository.DataStoreRepository
@@ -50,6 +52,13 @@ class AuthViewModel @Inject constructor(
     var loggedInUserRoleId: Flow<Int> = dataStoreRepository.readLoggedInUserRoleId
     var loggedInUserKey: Flow<String> = dataStoreRepository.getAccessToken
     var loggedInUserPreferenceModel: Flow<UserPreferencesKeyModel> = dataStoreRepository.userPreferencesKeyModelFlow
+
+    private var _possibleRoleIDs = MutableStateFlow<List<UserRoleDto>>(emptyList())
+    val possibleRoleIDs: Flow<List<UserRoleDto>> = _possibleRoleIDs
+    fun setPossibleRoleIDs(value: List<UserRoleDto>) {
+        Log.d("POSSIBLE ROLES2", value.toString())
+        _possibleRoleIDs.value = value
+    }
 
     private var _isAuthenticated = MutableStateFlow(false)
     val isAuthenticated: StateFlow<Boolean> = _isAuthenticated
@@ -90,15 +99,25 @@ class AuthViewModel @Inject constructor(
     fun setRememberMe(value: Boolean) {
         _rememberMeState.value = value
     }
+
+    private val _loginEventFlow = MutableSharedFlow<UiEvents>()
+    val loginEventFlow = _loginEventFlow.asSharedFlow()
+
     fun login(username: String, password: String) {
         viewModelScope.launch {
             _loginState.value = loginState.value.copy(isLoading = true)
-            val success = authManager.login(username, password)
-            _isLoggedIn.value = success
-            if (success){
-                dataStoreRepository.saveLoggedInState(isLoggedIn = success)
+            val validationResult = LoginDetailsValidationUseCase()(username = username, password =  password, false)
+
+            if (validationResult.result is ResultResource.Success) {
+                // Validation passed, proceed with the repository call
+                performLogin(username, password, false)
+            } else {
+                // Validation failed, update the result
+                updateLoginResult(validationResult)
+                _loginState.value = _loginState.value.copy(isLoading = false)
             }
-            _loginState.value = loginState.value.copy(isLoading = true)
+            _loginState.value = loginState.value.copy(isLoading = false)
+
         }
     }
 
@@ -120,13 +139,12 @@ class AuthViewModel @Inject constructor(
                     if (!(result.roles.isNullOrEmpty()) && result.roles.size > 1){
 //                        toRoute = AppScreens.AuthRolesSelectionScreen.route
                         setPossibleRoleIDs(result.roles)
-                        _isRolesBottomSheetOpen.value = true
                         Log.d("POSSIBLE ROLES3", result.roles.toString())
                         dataStoreRepository.saveLoggedInState(isLoggedIn = false)
                     }else{
                         dataStoreRepository.saveLoggedInState(isLoggedIn = true)
                         dataStoreRepository.saveRoleId(1)
-                        _loginEventFlow.emit(UiEvents.NavigateEvent(To_CLIENT_GRAPH_ROUTE))
+                        _loginEventFlow.emit(UiEvents.NavigateEvent(To_MAIN_GRAPH_ROUTE))
                     }
 
 

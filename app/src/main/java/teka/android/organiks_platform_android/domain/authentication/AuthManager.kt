@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.domain.authentication
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
 import kotlinx.coroutines.Dispatchers
@@ -12,9 +13,14 @@ import teka.android.organiks_platform_android.data.remote.retrofit.AuthService
 import teka.android.organiks_platform_android.data.remote.retrofit.RetrofitProvider
 import teka.android.organiks_platform_android.domain.authentication.models.LoginRequest
 import teka.android.organiks_platform_android.domain.authentication.models.RegisterRequest
+import teka.android.organiks_platform_android.modules.auth.core.util.LoginResultModel
 import teka.android.organiks_platform_android.modules.auth.core.util.RegistrationResult
+import teka.android.organiks_platform_android.modules.auth.core.util.models.LoggedInUser
+import teka.android.organiks_platform_android.modules.auth.core.util.models.LoginRequestBody
+import teka.android.organiks_platform_android.modules.auth.core.util.models.LoginResponseData
 import teka.android.organiks_platform_android.modules.auth.core.util.models.RegisterRequestBody
 import teka.android.organiks_platform_android.modules.auth.core.util.models.RegisterResponseData
+import teka.android.organiks_platform_android.modules.auth.core.util.models.UserRoleDto
 import teka.android.organiks_platform_android.repository.DataStoreRepository
 import teka.android.organiks_platform_android.util.data.ApiResponseHandler
 import timber.log.Timber
@@ -30,21 +36,50 @@ class AuthManager @Inject constructor(
 
     private val authService: AuthService = RetrofitProvider.createAuthService()
 
-    suspend fun login(username: String, password: String): Boolean {
-        try {
-            val response = authService.login(LoginRequest(username, password))
-            if (response.isSuccessful) {
-                val token = response.data.accessToken
-                saveAuthToken(token)
-                return true
-            }
-        }catch (e: Exception) {
-            // Handle the exception here, e.g., log it or perform error handling.
-            e.printStackTrace()
-            Toast.makeText(context, "Login failed. Please try again.", Toast.LENGTH_SHORT).show()
+    @SuppressLint("TimberArgCount")
+    suspend fun login(
+        username: String,
+        password: String
+    ): LoginResultModel {
+        return try {
+            val response: ApiResponseHandler<LoginResponseData> = authService.login(LoginRequestBody(username, password))
+            Timber.d("FIRSTRESPONSE----> ${response}.")
 
+
+            if (response.isSuccessful) {
+                Timber.d("LOGGED-IN USER----> ${response.data?.user}.")
+                val token = response.data?.access_token
+                val userData: LoggedInUser? = response.data?.user
+                val userRoles: List<UserRoleDto>? = response.data?.user?.roles
+                Timber.d("USER ROLES----> ${response.data?.user?.roles}.")
+
+
+                if (token != null) {
+                    saveAuthToken(token)
+                }
+                if (userData != null) {
+                    saveUserData(userData)
+                }
+
+                val savedToken: String = getAuthToken()
+                val savedUserRoleId: Int = getUserRoleId()
+                val savedUserPhone: String? = getUserPhone()
+                val savedUserName: String = getUserName()
+
+
+                Timber.d("USER DATA ----> ${savedToken}...${savedUserRoleId}...${savedUserPhone}...${savedUserName}")
+                LoginResultModel.Success(true, userRoles)
+
+            } else {
+                var errorMessage = "Wrong Credentials"
+                errorMessage = response.message.toString()
+                return LoginResultModel.Failure(Exception(response.status?: "Login Failed"), errorMessage)
+            }
+        } catch (e: Exception) {
+            Timber.tag("<<<<<AuthManager>>>>>").e("Log in was unsuccessful", e)
+            LoginResultModel.Failure(Exception(e), "Login Failed")
+            LoginResultModel.Failure(e)
         }
-        return false
     }
 
     suspend fun register(
@@ -102,12 +137,35 @@ class AuthManager @Inject constructor(
     private suspend fun saveAuthToken(token: String) = withContext(Dispatchers.IO) {
         dataStoreRepository.saveToken(token)
     }
+    private suspend fun saveRoleId(roleId: Int) = withContext(Dispatchers.IO) {
+        dataStoreRepository.saveRoleId(roleId)
+    }
+
+    private suspend fun saveUserData(userData: LoggedInUser) = withContext(Dispatchers.IO) {
+        dataStoreRepository.saveUserData(userData)
+    }
 
     suspend fun getAuthToken(): String {
         return dataStoreRepository.getAccessToken.first()
     }
 
+    suspend fun getUserRoleId(): Int {
+        return dataStoreRepository.readLoggedInUserRoleId.first()
+    }
+
+    suspend fun getUserPhone(): String? {
+        return dataStoreRepository.readLoggedInUserPhone.first()
+    }
+
+    suspend fun getUserName(): String {
+        return dataStoreRepository.readLoggedInUserName.first()
+    }
+
     suspend fun clearAuthToken() {
         dataStoreRepository.saveToken("")
+    }
+
+    suspend fun clearUserData() {
+        dataStoreRepository.clearUserData()
     }
 }
