@@ -65,11 +65,11 @@ fun RegisterScreen(
 ) {
     val localContext = LocalContext.current
 
-    var phone by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordConfirmation by remember { mutableStateOf("") }
-    val isRegisteredState = authViewModel.isRegistered.collectAsState()
+    val phoneState = authViewModel.registrationPhoneState.value
+    val emailState = authViewModel.registrationEmailState.value
+    val passwordState = authViewModel.registrationPasswordState.value
+    val passwordConfirmationState = authViewModel.registrationPasswordConfirmState.value
+
     var isPasswordOpen by remember { mutableStateOf(false) }
     val mContext = LocalContext.current
 
@@ -145,9 +145,9 @@ fun RegisterScreen(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 OutlinedTextField(
-                    value = phone,
+                    value = phoneState.text,
                     onValueChange = {
-                        phone = it
+                        authViewModel.setRegistrationPhone(it)
                         registrationViewModel.onEvent(MainEvent.PhoneNumberChanged(it))
                     },
                     label = {
@@ -194,9 +194,9 @@ fun RegisterScreen(
                 }
 
                 OutlinedTextField(
-                    value = email,
+                    value = emailState.text,
                     onValueChange = {
-                        email = it
+                        authViewModel.setRegistrationEmail(it)
                         registrationViewModel.onEvent(MainEvent.EmailChanged(it))
                     },
                     label = {
@@ -243,9 +243,9 @@ fun RegisterScreen(
                 }
 
                 OutlinedTextField(
-                    value = password,
+                    value = passwordState.text,
                     onValueChange = {
-                        password = it
+                        authViewModel.setRegistrationPassword(it)
                         registrationViewModel.onEvent(MainEvent.PasswordChanged(it))
                     },
                     label = {
@@ -312,9 +312,9 @@ fun RegisterScreen(
 
                 //password confirmation
                 OutlinedTextField(
-                    value = passwordConfirmation,
+                    value = passwordConfirmationState.text,
                     onValueChange = {
-                        passwordConfirmation = it
+                        authViewModel.setRegistrationConfirmPassword(it)
                         registrationViewModel.onEvent(MainEvent.PasswordConfirmationChanged(it))
                     },
                     label = {
@@ -386,10 +386,10 @@ fun RegisterScreen(
                     onClick = {
                         if (!isPhoneNumberError && !isEmailError && !isPasswordError && !isPasswordConfirmationError){
                             authViewModel.register(
-                                phone = phone,
-                                email = email,
-                                password = password,
-                                passwordConfirmation = passwordConfirmation
+                                phone = phoneState.text,
+                                email = emailState.text,
+                                password = passwordState.text,
+                                passwordConfirmation = passwordConfirmationState.text
                             )
                         }else{
                             Toast.makeText(localContext,"Please fix the errors", Toast.LENGTH_SHORT).show()

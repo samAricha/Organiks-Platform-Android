@@ -3,20 +3,23 @@ package teka.android.organiks_platform_android.modules.auth.registration;
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import teka.android.organiks_platform_android.domain.form.validation.UiText
 import teka.android.organiks_platform_android.domain.form.validation.use_cases.ValidateEmailUseCase
 import teka.android.organiks_platform_android.domain.form.validation.use_cases.ValidatePasswordUseCase
 import teka.android.organiks_platform_android.domain.form.validation.use_cases.ValidatePhoneNumberUseCase
+import teka.android.organiks_platform_android.modules.auth.AuthViewModel
 import teka.android.organiks_platform_android.repository.DataStoreRepository
 import javax.inject.Inject
 
 
 @HiltViewModel
 class RegistrationViewModel @Inject constructor(
-    private val repository: DataStoreRepository
+    private val repository: DataStoreRepository,
 ) : ViewModel() {
+
 
     private val validateEmailUseCase = ValidateEmailUseCase()
     private val validatePasswordUseCase = ValidatePasswordUseCase()
