@@ -21,7 +21,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import co.yml.charts.common.utils.DataUtils
 import com.jaikeerthick.composable_graphs.composables.pie.PieChart
 import com.jaikeerthick.composable_graphs.composables.pie.model.PieData
 import com.jaikeerthick.composable_graphs.composables.pie.style.PieChartStyle
@@ -31,6 +33,9 @@ import teka.android.organiks_platform_android.ui.theme.PoppinsLight
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
 import teka.android.organiks_platform_android.ui.theme.SecondaryColor
+import teka.android.organiks_platform_android.util.components.BarchartWithSolidBars
+import teka.android.organiks_platform_android.util.components.PiechartWithSliceLables
+import teka.android.organiks_platform_android.util.components.SingleLineChartWithGridLines
 
 @Composable
 fun DashboardScreen() {
@@ -68,13 +73,6 @@ fun DashboardScreen() {
             style = MaterialTheme.typography.h6
         )
         LazyColumn {
-            // sample data
-            val pieChartData = listOf(
-                PieData(value = 130F, label = "HTC", color = SecondaryColor, labelColor = Color.White),
-                PieData(value = 260F, label = "Apple", color = LightGreen, labelColor = Color.White),
-                PieData(value = 500F, label = "Google", color = PrimaryColor, labelColor = Color.White),
-            )
-
 
             item {
                 LazyRow{
@@ -108,15 +106,46 @@ fun DashboardScreen() {
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
+            item {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Stats",
+                        fontSize = 22.sp,
+                        color = androidx.compose.material3.MaterialTheme.colorScheme.onBackground,
+                        modifier = Modifier.padding(16.dp),
+                        fontWeight = FontWeight.SemiBold,
+                        style = MaterialTheme.typography.h6
+                    )
+                    Text(
+                        text = "(Demo Data)",
+                        fontSize = 14.sp,
+                        color = Color.Gray, // Or any other color you prefer
+                        modifier = Modifier.padding(start = 4.dp),
+                        fontWeight = FontWeight.Normal
+                    )
+                }
+            }
 
             item {
-                ChartSection(
-                    pieChartData1 = pieChartData,
-                    pieChartData2 = pieChartData,
-                    context = context
-                )
-
+                BarchartWithSolidBars()
             }
+            item {
+                PiechartWithSliceLables(context = context)
+            }
+            item {
+                SingleLineChartWithGridLines(
+                    DataUtils.getLineChartData(
+                        100,
+                        start = 50,
+                        maxRange = 100
+                    )
+                )
+            }
+
+
+
         }
     }
 }
