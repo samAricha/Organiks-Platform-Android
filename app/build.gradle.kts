@@ -9,19 +9,6 @@ plugins {
 }
 
 
-//def localProperties = new Properties()
-//localProperties.load(new FileInputStream(rootProject.file("local.properties")))
-//
-////for testing purposes
-//def envVariablesProperties = new Properties()
-//envVariablesProperties.load(new FileInputStream(rootProject.file("envVariables.properties")))
-
-//load the values from .properties file
-//def keystoreFile = project.rootProject.file("envVariables.properties")
-//def properties = Properties()
-//properties.load(keystoreFile.inputStream())
-//def backendUrl = properties.getProperty("BACKEND_URL") ?: ""
-
 android {
     namespace = "teka.android.organiks_platform_android"
     compileSdk = 34
@@ -59,18 +46,6 @@ android {
             value = geminiKey
         )
 
-
-
-//        buildConfigField("String","GEMINI_API_KEY","\"" + localProperties['geminiApiKey'] + "\"")
-//        buildConfigField("String","BACKEND_API_URL","\"" + localProperties['backendUrl'] + "\"")
-
-
-
-//        buildConfigField(
-//                type = "String",
-//                name = "BACKEND_URL",
-//                value = backendUrl
-//        )
 
     }
 
@@ -167,6 +142,7 @@ dependencies {
     implementation ("com.squareup.okhttp3:okhttp:4.12.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.10.0")
     implementation ("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     //ktor
     val ktorVersion = "2.3.6"
@@ -205,6 +181,10 @@ dependencies {
 
     //Y-Charts
     implementation("co.yml:ycharts:2.1.0")
+
+    // Timber
+    implementation("com.jakewharton.timber:timber:5.0.1")
+
 
 
 
