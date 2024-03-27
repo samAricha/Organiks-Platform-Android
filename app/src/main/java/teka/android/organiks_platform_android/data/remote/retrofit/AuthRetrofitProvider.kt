@@ -19,14 +19,12 @@ object AuthRetrofitProvider {
 
         return Retrofit.Builder()
             .baseUrl(BuildConfig.BACKEND_URL)
-            .client(provideOkhttpClient(json.asConverterFactory("application/json".toMediaType())))
+            .client(provideOkhttpClient())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
-    private fun provideOkhttpClient(
-        asConverterFactory: Converter.Factory
-    ): OkHttpClient =
+    private fun provideOkhttpClient(): OkHttpClient =
         OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().also {
                 it.level = HttpLoggingInterceptor.Level.BODY

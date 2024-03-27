@@ -23,19 +23,6 @@ interface CustomAuthService {
         @Body loginRequest: LoginRequestBody
     ): ApiResponseHandler<LoginResponseData>
 
-
-
-
-
-//    @POST("api/auth/register")
-//    suspend fun registration(
-//        @Body registerRequest: RegisterRequestBody
-//    ): Response<AuthResponse>
-//    @POST("/api/auth/login")
-//    suspend fun login(
-//        @Body loginRequest: LoginRequestBody
-//    ): Response<LoginAuthResponse>
-
     @POST("/api/auth/me")
     suspend fun getMeInfo(
         @Body personInfoRequest: PersonInfoRequest

@@ -9,10 +9,12 @@ import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.HttpException
+import teka.android.organiks_platform_android.data.remote.retrofit.AuthRetrofitProvider
 import teka.android.organiks_platform_android.data.remote.retrofit.AuthService
 import teka.android.organiks_platform_android.data.remote.retrofit.RetrofitProvider
 import teka.android.organiks_platform_android.domain.authentication.models.LoginRequest
 import teka.android.organiks_platform_android.domain.authentication.models.RegisterRequest
+import teka.android.organiks_platform_android.modules.auth.core.data.remote.CustomAuthService
 import teka.android.organiks_platform_android.modules.auth.core.util.LoginResultModel
 import teka.android.organiks_platform_android.modules.auth.core.util.RegistrationResult
 import teka.android.organiks_platform_android.modules.auth.core.util.models.LoggedInUser
@@ -34,7 +36,8 @@ class AuthManager @Inject constructor(
 
 ) {
 
-    private val authService: AuthService = RetrofitProvider.createAuthService()
+    private val customAuthService: CustomAuthService = AuthRetrofitProvider.createAuthService()
+
 
     @SuppressLint("TimberArgCount")
     suspend fun login(
@@ -42,7 +45,9 @@ class AuthManager @Inject constructor(
         password: String
     ): LoginResultModel {
         return try {
-            val response: ApiResponseHandler<LoginResponseData> = authService.login(LoginRequestBody(username, password))
+            val response: ApiResponseHandler<LoginResponseData> = customAuthService.login(
+                LoginRequestBody(username, password)
+            )
             Timber.d("FIRSTRESPONSE----> ${response}.")
 
 
@@ -89,9 +94,9 @@ class AuthManager @Inject constructor(
         passwordConfirmation: String
     ): RegistrationResult<Boolean> {
         return try {
-            val response: ApiResponseHandler<RegisterResponseData> = authService.registration(
+            val response: ApiResponseHandler<RegisterResponseData> = customAuthService.registration(
                 RegisterRequestBody(
-                    name = "AdminUser",
+                    name = "MobileUser",
                     phone = phone,
                     email = email,
                     password = password,
