@@ -174,7 +174,8 @@ dependencies {
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
 
     //gemini
-    implementation("com.google.ai.client.generativeai:generativeai:0.2.2")
+    implementation("com.google.ai.client.generativeai:generativeai:0.4.0")
+
 
     //Composable-Graphs
     implementation("com.github.jaikeerthick:Composable-Graphs:v1.2.3")
