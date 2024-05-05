@@ -23,3 +23,9 @@ val LightBlue = Color(0xFF1e90ff)
 val LightGreen = Color(0xFF57C84D)
 
 val SecondaryLightColor = SecondaryColor.copy(alpha = 0.75f)
+
+
+val DecentRed = Color(0xFFEA4141)
+val DecentGreen = Color(0xFF21C091)
+val DecentBlue = Color(0xFF6BA3D3)
+val BlueLight = Color(0xFF99A4EE)
