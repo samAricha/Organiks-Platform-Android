@@ -2,7 +2,6 @@ package teka.android.organiks_platform_android.modules.auth.registration
 
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -26,7 +25,6 @@ import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextFieldDefaults
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,18 +39,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.modules.auth.AuthViewModel
-import teka.android.organiks_platform_android.navigation.Screen
+import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 import teka.android.organiks_platform_android.ui.theme.BottomBoxShape
 import teka.android.organiks_platform_android.ui.theme.LightTextColor
@@ -69,11 +65,11 @@ fun RegisterScreen(
 ) {
     val localContext = LocalContext.current
 
-    var phone by remember { mutableStateOf("") }
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordConfirmation by remember { mutableStateOf("") }
-    val isRegisteredState = authViewModel.isRegistered.collectAsState()
+    val phoneState = authViewModel.registrationPhoneState.value
+    val emailState = authViewModel.registrationEmailState.value
+    val passwordState = authViewModel.registrationPasswordState.value
+    val passwordConfirmationState = authViewModel.registrationPasswordConfirmState.value
+
     var isPasswordOpen by remember { mutableStateOf(false) }
     val mContext = LocalContext.current
 
@@ -149,9 +145,9 @@ fun RegisterScreen(
                 Spacer(modifier = Modifier.height(20.dp))
 
                 OutlinedTextField(
-                    value = phone,
+                    value = phoneState.text,
                     onValueChange = {
-                        phone = it
+                        authViewModel.setRegistrationPhone(it)
                         registrationViewModel.onEvent(MainEvent.PhoneNumberChanged(it))
                     },
                     label = {
@@ -198,9 +194,9 @@ fun RegisterScreen(
                 }
 
                 OutlinedTextField(
-                    value = email,
+                    value = emailState.text,
                     onValueChange = {
-                        email = it
+                        authViewModel.setRegistrationEmail(it)
                         registrationViewModel.onEvent(MainEvent.EmailChanged(it))
                     },
                     label = {
@@ -247,9 +243,9 @@ fun RegisterScreen(
                 }
 
                 OutlinedTextField(
-                    value = password,
+                    value = passwordState.text,
                     onValueChange = {
-                        password = it
+                        authViewModel.setRegistrationPassword(it)
                         registrationViewModel.onEvent(MainEvent.PasswordChanged(it))
                     },
                     label = {
@@ -316,9 +312,9 @@ fun RegisterScreen(
 
                 //password confirmation
                 OutlinedTextField(
-                    value = passwordConfirmation,
+                    value = passwordConfirmationState.text,
                     onValueChange = {
-                        passwordConfirmation = it
+                        authViewModel.setRegistrationConfirmPassword(it)
                         registrationViewModel.onEvent(MainEvent.PasswordConfirmationChanged(it))
                     },
                     label = {
@@ -390,10 +386,10 @@ fun RegisterScreen(
                     onClick = {
                         if (!isPhoneNumberError && !isEmailError && !isPasswordError && !isPasswordConfirmationError){
                             authViewModel.register(
-                                phone = phone,
-                                email = email,
-                                password = password,
-                                passwordConfirmation = passwordConfirmation
+                                phone = phoneState.text,
+                                email = emailState.text,
+                                password = passwordState.text,
+                                passwordConfirmation = passwordConfirmationState.text
                             )
                         }else{
                             Toast.makeText(localContext,"Please fix the errors", Toast.LENGTH_SHORT).show()
@@ -433,7 +429,7 @@ fun RegisterScreen(
                     )
                 }
                 TextButton(
-                    onClick = { navController.navigate(route = Screen.Login.route) },
+                    onClick = { navController.navigate(route = AppScreens.Login.route) },
                     contentPadding = PaddingValues(vertical = 0.dp)
                 ) {
                     Text(

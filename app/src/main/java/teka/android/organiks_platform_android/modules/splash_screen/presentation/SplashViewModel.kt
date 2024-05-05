@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val repository: DataStoreRepository
+    private var repository: DataStoreRepository
 ) : ViewModel() {
 
     private val _isLoading: MutableState<Boolean> = mutableStateOf(true)
@@ -23,9 +23,11 @@ class SplashViewModel @Inject constructor(
     private val _startDestination = mutableStateOf<String?>(null)
     val startDestination: MutableState<String?> = _startDestination
 
-    init {
+    fun init(repository: DataStoreRepository) {
+        this.repository = repository
+
         viewModelScope.launch {
-            repository.readOnBoardingState().collect { completed ->
+            repository.readLoggedInState().collect { completed ->
                 if (completed) {
                     _startDestination.value = To_MAIN_GRAPH_ROUTE
                 } else {
@@ -33,7 +35,6 @@ class SplashViewModel @Inject constructor(
                 }
             }
             _isLoading.value = false
-
         }
     }
 

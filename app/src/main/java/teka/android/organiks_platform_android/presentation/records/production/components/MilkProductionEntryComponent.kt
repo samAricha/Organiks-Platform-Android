@@ -11,13 +11,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
-import teka.android.organiks_platform_android.navigation.Screen
+import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.presentation.records.production.productionRecording.ProductionRecordingState
 import teka.android.organiks_platform_android.presentation.records.production.productionRecording.ProductionRecordingViewModel
 import teka.android.organiks_platform_android.ui.theme.Poppins
@@ -103,7 +101,7 @@ fun MilkProductionEntryComponent(
                             }
                         }
                     }
-                    navController.navigate(Screen.ProductionHome.route)
+                    navController.navigate(AppScreens.ProductionHome.route)
                 },
                 enabled = isButtonEnabled, // Enable the button based on isButtonEnabled
 

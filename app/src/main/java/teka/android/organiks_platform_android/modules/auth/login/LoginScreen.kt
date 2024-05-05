@@ -8,28 +8,33 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.modules.auth.AuthViewModel
-import teka.android.organiks_platform_android.navigation.Screen
+import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 
 import teka.android.organiks_platform_android.ui.theme.*
+import teka.android.organiks_platform_android.util.UiEvents
 
 
 @Composable
@@ -40,10 +45,51 @@ fun LoginScreen(
     val loginViewModel:LoginViewModel = hiltViewModel()
     val authViewModel:AuthViewModel = hiltViewModel()
     Log.d("lscrn", "inside login screen")
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
+//    var email by remember { mutableStateOf("") }
+//    var password by remember { mutableStateOf("") }
+    val usernameState = authViewModel.usernameState.value
+    val passwordState = authViewModel.passwordState.value
+    val rememberMeState = authViewModel.rememberMeState.value
     var isPasswordOpen by remember { mutableStateOf(false) }
     val isLoggedIn by authViewModel.isLoggedIn.collectAsState(false)
+
+
+    val loginState = authViewModel.loginState.value
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+
+    LaunchedEffect(key1 = true) {
+        authViewModel.loginEventFlow.collectLatest { event ->
+            when (event) {
+                is UiEvents.SnackbarEvent -> {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = event.message,
+//                            actionLabel = "Click me",
+                            duration = SnackbarDuration.Long
+                        )
+                    }
+                }
+                is UiEvents.NavigateEvent -> {
+                    scope.launch {
+                        snackbarHostState.showSnackbar(
+                            message = "Successfully Logged In",
+//                            actionLabel = "Click me",
+                            duration = SnackbarDuration.Long
+                        )
+                    }
+                    delay(1000)
+
+                    navController.navigate(
+                        event.route
+                    )
+                }
+            }
+        }
+    }
 
 
     if (isLoggedIn){
@@ -89,9 +135,9 @@ fun LoginScreen(
                         Spacer(modifier = Modifier.height(20.dp))
 
                         OutlinedTextField(
-                            value = email,
+                            value = usernameState.text,
                             onValueChange = {
-                                email = it
+                                authViewModel.setUsername(it)
                             },
                             label = {
                                 Text(text = "Email / Phone")
@@ -100,6 +146,7 @@ fun LoginScreen(
                                 .fillMaxWidth()
                                 .padding(horizontal = 20.dp)
                                 .padding(top = 10.dp),
+
                             colors = TextFieldDefaults.outlinedTextFieldColors(
                                 unfocusedBorderColor = Color.Gray,
                                 textColor = Color.Black,
@@ -125,9 +172,9 @@ fun LoginScreen(
                         )
 
                         OutlinedTextField(
-                            value = password,
+                            value = passwordState.text,
                             onValueChange = {
-                                password = it
+                                authViewModel.setPassword(it)
                             },
                             label = {
                                 Text(text = "Password")
@@ -180,8 +227,10 @@ fun LoginScreen(
 
                         Button(
                             onClick = {
-                                authViewModel.login(username = email, password = password)
+                                keyboardController?.hide()
+                                authViewModel.login(username = usernameState.text, password = passwordState.text)
                             },
+                            enabled = !loginState.isLoading,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(horizontal = 20.dp)
@@ -212,7 +261,7 @@ fun LoginScreen(
                         }
                         TextButton(
                             onClick = {
-                                      navController.navigate(Screen.Registration.route)
+                                      navController.navigate(AppScreens.Registration.route)
                             },
                             contentPadding = PaddingValues(vertical = 0.dp)
                         ) {

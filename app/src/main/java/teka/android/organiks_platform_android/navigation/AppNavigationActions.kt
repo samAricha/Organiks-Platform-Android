@@ -7,19 +7,19 @@ class AppNavigationActions(
 ) {
 
     fun navigateToHome() {
-        navController.navigate(Screen.DashboardScreen.route) {
-            popUpTo(Screen.Home.route)
+        navController.navigate(AppScreens.DashboardAppScreens.route) {
+            popUpTo(AppScreens.Home.route)
         }
     }
 
     fun navigateToGeminichatScreen() {
-        navController.navigate(Screen.GeminiChatScreen.route) {
-            popUpTo(Screen.GeminiChatScreen.route)
+        navController.navigate(AppScreens.GeminiChatAppScreens.route) {
+            popUpTo(AppScreens.GeminiChatAppScreens.route)
         }
     }
 
     fun navigateToProductsHome() {
-        navController.navigate(Screen.ProductionHome.route) {
+        navController.navigate(AppScreens.ProductionHome.route) {
             launchSingleTop = true
             restoreState = true
         }
@@ -27,7 +27,7 @@ class AppNavigationActions(
 
     fun logoutNav() {
         navController.navigate(AUTH_GRAPH_ROUTE) {
-            popUpTo(Screen.Login.route)
+            popUpTo(AppScreens.Login.route)
         }
     }
 

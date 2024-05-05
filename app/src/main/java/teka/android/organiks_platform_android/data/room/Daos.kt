@@ -9,6 +9,7 @@ import teka.android.organiks_platform_android.data.room.models.FruitType
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 
+@Entity
 @Dao
 interface EggCollectionDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -39,6 +40,7 @@ interface EggCollectionDao{
 
 }
 
+@Entity
 @Dao
 interface FruitCollectionDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -70,6 +72,7 @@ interface FruitCollectionDao{
 }
 
 
+@Entity
 @Dao
 interface EggTypeDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -88,6 +91,7 @@ interface EggTypeDao{
     fun getEggType(eggTypeId:Int): Flow<EggType>
 }
 
+@Entity
 @Dao
 interface FruitTypeDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -134,7 +138,7 @@ data class FruitTypeFruitCollectionItem(
 
 
 
-
+@Entity
 @Dao
 interface MilkCollectionDao{
     @Insert(onConflict = OnConflictStrategy.REPLACE)

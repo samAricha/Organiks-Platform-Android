@@ -18,11 +18,11 @@ fun NavGraphBuilder.authNavGraph(
 ){
 
     navigation(
-        startDestination = Screen.Welcome.route,
+        startDestination = AppScreens.Welcome.route,
         route = AUTH_GRAPH_ROUTE
     ){
 
-        composable(route = Screen.Welcome.route) {
+        composable(route = AppScreens.Welcome.route) {
             val welcomeViewModel: WelcomeViewModel = hiltViewModel()
             WelcomeScreen(
                 navController = navController,
@@ -32,7 +32,7 @@ fun NavGraphBuilder.authNavGraph(
 
 
         composable(
-            route = Screen.Login.route
+            route = AppScreens.Login.route
         ) {
             LoginScreen(
                 navController = navController
@@ -40,7 +40,7 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(
-            route = Screen.Registration.route
+            route = AppScreens.Registration.route
         ) {
             RegisterScreen(
                 navController = navController,

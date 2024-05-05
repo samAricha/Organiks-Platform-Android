@@ -31,7 +31,7 @@ import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 @Composable
 fun RootNavGraph(
     navController: NavHostController,
-    startDestination: String = To_MAIN_GRAPH_ROUTE
+    startDestination: String
 ) {
     val appState = rememberAppState(navHostController = navController)
 
@@ -44,27 +44,7 @@ fun RootNavGraph(
         authNavGraph(navController = navController)
 
         composable(route = To_MAIN_GRAPH_ROUTE){
-            val vm = UserState.current
-            val isLoggedInState by vm.isLoggedInState.collectAsState(initial = null)
-            var isLoading by remember { mutableStateOf(true) }
-
-
-            if (isLoggedInState != null) {
-                if (isLoggedInState as Boolean) {
-                    MainAppScreen(appState)
-                } else {
-                    LoginScreen(navController)
-                }
-            } else {
-                LaunchedEffect(isLoading) {
-                    delay(30000) // Adjust the duration as needed (in milliseconds)
-                    isLoading = false // Update the isLoading value
-                }
-
-                if (isLoading) {
-                    ProgressIndicator()
-                }
-            }
+            MainAppScreen(appState)
         }
 
     }

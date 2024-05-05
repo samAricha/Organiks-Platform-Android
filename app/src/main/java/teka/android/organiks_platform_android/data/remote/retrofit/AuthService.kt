@@ -7,18 +7,23 @@ import teka.android.organiks_platform_android.domain.authentication.models.Perso
 import teka.android.organiks_platform_android.domain.authentication.models.RegisterRequest
 import teka.android.organiks_platform_android.domain.authentication.models.AuthResponse
 import teka.android.organiks_platform_android.domain.authentication.models.User
+import teka.android.organiks_platform_android.modules.auth.core.util.models.LoginRequestBody
+import teka.android.organiks_platform_android.modules.auth.core.util.models.LoginResponseData
+import teka.android.organiks_platform_android.modules.auth.core.util.models.RegisterRequestBody
+import teka.android.organiks_platform_android.modules.auth.core.util.models.RegisterResponseData
+import teka.android.organiks_platform_android.util.data.ApiResponseHandler
 
 interface AuthService {
 
-    @POST("/api/auth/register")
+    @POST("api/auth/register")
     suspend fun registration(
-        @Body registerRequest: RegisterRequest
-    ): AuthResponse
+        @Body registerRequest: RegisterRequestBody
+    ): ApiResponseHandler<RegisterResponseData>
 
     @POST("/api/auth/login")
     suspend fun login(
-        @Body loginRequest: LoginRequest
-    ): AuthResponse
+        @Body loginRequest: LoginRequestBody
+    ): ApiResponseHandler<LoginResponseData>
 
     @POST("/api/auth/me")
     suspend fun getMeInfo(
