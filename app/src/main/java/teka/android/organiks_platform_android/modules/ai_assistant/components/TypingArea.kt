@@ -49,13 +49,13 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import teka.android.organiks_platform_android.modules.ai_assistant.utils.ApiType
-import teka.android.organiks_platform_android.modules.ai_assistant.presentation.MainViewModel
+import teka.android.organiks_platform_android.modules.ai_assistant.presentation.GeminiAIViewModel
 import teka.android.organiks_platform_android.R
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TypingArea(
-    viewModel: MainViewModel,
+    viewModel: GeminiAIViewModel,
     apiType: ApiType,
     bitmaps: SnapshotStateList<Bitmap>? = null,
     galleryLauncher: ManagedActivityResultLauncher<String, List<@JvmSuppressWildcards Uri>>? = null,

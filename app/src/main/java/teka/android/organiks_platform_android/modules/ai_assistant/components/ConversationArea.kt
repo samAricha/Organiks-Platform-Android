@@ -24,11 +24,11 @@ import teka.android.organiks_platform_android.modules.ai_assistant.components.Me
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.modules.ai_assistant.data.Message
 import teka.android.organiks_platform_android.modules.ai_assistant.utils.ApiType
-import teka.android.organiks_platform_android.modules.ai_assistant.presentation.MainViewModel
+import teka.android.organiks_platform_android.modules.ai_assistant.presentation.GeminiAIViewModel
 
 @Composable
 fun ConversationArea(
-    viewModel: MainViewModel,
+    viewModel: GeminiAIViewModel,
     apiType: ApiType
 ) {
     val response: List<Message>? = when (apiType) {

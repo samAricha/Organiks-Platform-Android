@@ -10,6 +10,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import teka.android.organiks_platform_android.data.room.OrganiksDatabase
 import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
+import teka.android.organiks_platform_android.modules.ai_assistant.data.MessageDao
+import teka.android.organiks_platform_android.modules.ai_assistant.data.MessageDatabase
 import teka.android.organiks_platform_android.repository.DataStoreRepository
 import teka.android.organiks_platform_android.modules.splash_screen.presentation.SplashViewModel
 import teka.android.organiks_platform_android.networking.NetworkConnectivityObserver
@@ -34,6 +36,23 @@ object MainModule {
             OrganiksDatabase::class.java,
             "organiks_database"
         ).build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideGeminiDatabase(@ApplicationContext context: Context): MessageDatabase {
+        return Room.databaseBuilder(
+            context,
+            MessageDatabase::class.java,
+            "message.db"
+        ).build()
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideGeminiMessageDao(db: MessageDatabase): MessageDao {
+        return db.dao
     }
 
     @Singleton

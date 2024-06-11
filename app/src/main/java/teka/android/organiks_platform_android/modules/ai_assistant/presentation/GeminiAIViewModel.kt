@@ -15,6 +15,7 @@ import com.google.ai.client.generativeai.type.Content
 import com.google.ai.client.generativeai.type.HarmCategory
 import com.google.ai.client.generativeai.type.SafetySetting
 import com.google.ai.client.generativeai.type.content
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.BuildConfig
 import teka.android.organiks_platform_android.modules.ai_assistant.data.Message
@@ -24,8 +25,12 @@ import teka.android.organiks_platform_android.modules.ai_assistant.domain.Gemini
 import teka.android.organiks_platform_android.modules.ai_assistant.domain.GeminiRepositoryImpl
 import teka.android.organiks_platform_android.modules.ai_assistant.domain.GeminiService
 import teka.android.organiks_platform_android.modules.ai_assistant.utils.ApiType
+import javax.inject.Inject
 
-class MainViewModel(private val dao: MessageDao) : ViewModel() {
+@HiltViewModel
+class GeminiAIViewModel @Inject constructor(
+    private val dao: MessageDao
+) : ViewModel() {
 
     private val _conversationList = MutableLiveData(mutableStateListOf<Message>())
     val conversationList: LiveData<SnapshotStateList<Message>> = _conversationList

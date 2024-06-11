@@ -27,7 +27,6 @@ import teka.android.organiks_platform_android.modules.auth.UserState
 import teka.android.organiks_platform_android.modules.auth.login.LoginScreen
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RootNavGraph(
     navController: NavHostController,

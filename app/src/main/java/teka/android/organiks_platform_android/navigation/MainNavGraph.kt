@@ -1,12 +1,15 @@
 package teka.android.organiks_platform_android.navigation
 
 import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import teka.android.organiks_platform_android.modules.ai_assistant.presentation.screens.MultiTurnScreen
 import teka.android.organiks_platform_android.presentation.aiadvice.AiAdviceScreen
 import teka.android.organiks_platform_android.presentation.aiadvice.chat_screen.GeminiChatScreen
 import teka.android.organiks_platform_android.presentation.dashborad.DashboardScreen
@@ -17,6 +20,7 @@ import teka.android.organiks_platform_android.ui.animations.scaleIntoContainer
 import teka.android.organiks_platform_android.ui.animations.scaleOutOfContainer
 
 
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalComposeUiApi::class)
 @Composable
 fun MainNavGraph(
     navController: NavHostController,
@@ -108,7 +112,8 @@ fun MainNavGraph(
                 scaleOutOfContainer()
             }
         ){
-            GeminiChatScreen()
+//            GeminiChatScreen()
+            MultiTurnScreen()
         }
         composable(
             route = AppScreens.AiSearchAppScreens.route,

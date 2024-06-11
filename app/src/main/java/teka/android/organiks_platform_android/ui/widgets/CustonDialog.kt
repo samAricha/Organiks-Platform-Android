@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.Logout
 import androidx.compose.material.icons.rounded.Logout
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
@@ -97,9 +98,11 @@ fun CustomDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (Str
                             buttonColor = negativeButtonColor,
                             cornerRadiusPercent = 40,
                             buttonText = "No") {
-                            Toast
-                                .makeText(context, "No Click", Toast.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(
+                                context,
+                                "No Click",
+                                Toast.LENGTH_SHORT
+                            ).show()
                             setShowDialog(false)
                         }
                         DialogButton(
@@ -121,7 +124,7 @@ fun CustomDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (Str
 
                 // delete icon
                 Icon(
-                    Icons.Rounded.Logout,
+                    Icons.AutoMirrored.Rounded.Logout,
                     contentDescription = "Delete Icon",
                     tint = positiveButtonColor,
                     modifier = Modifier

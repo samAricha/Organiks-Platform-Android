@@ -24,23 +24,26 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.request.ImageRequest
 import com.teka.geminichatsdk.spacee_gemini.components.ConversationArea
 import teka.android.organiks_platform_android.modules.ai_assistant.components.SelectedImageArea
-import teka.android.organiks_platform_android.modules.ai_assistant.presentation.MainViewModel
+import teka.android.organiks_platform_android.modules.ai_assistant.presentation.GeminiAIViewModel
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.modules.ai_assistant.components.TypingArea
 import teka.android.organiks_platform_android.modules.ai_assistant.utils.ApiType
 import teka.android.organiks_platform_android.modules.ai_assistant.utils.ImageHelper
+import teka.android.organiks_platform_android.presentation.aiadvice.AiAdviceviewModel
 
 @ExperimentalMaterial3Api
 @ExperimentalComposeUiApi
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MultiTurnScreen(
-    viewModel: MainViewModel,
-) {
+fun MultiTurnScreen() {
+
+    val viewModel: GeminiAIViewModel = hiltViewModel();
+
 
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
