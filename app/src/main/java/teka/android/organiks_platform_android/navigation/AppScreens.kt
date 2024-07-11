@@ -6,19 +6,19 @@ const val MAIN_GRAPH_ROUTE = "main_graph_route"
 const val To_MAIN_GRAPH_ROUTE = "to_main_graph_route"
 
 
-sealed class AppScreens(val route: String) {
-    object Welcome : AppScreens(route = "welcome_screen")
-    object Home : AppScreens(route = "home_screen")
-    object Login: AppScreens(route = "login_screen")
-    object Registration: AppScreens(route = "registration_screen")
-    object ProductionHome: AppScreens(route = "production_home")
-    object ProductionRecording: AppScreens(route = "production_recording")
-    object DashboardAppScreens: AppScreens(route = "dashboard_screen")
-    object AiSearchAppScreens: AppScreens(route = "ai_search_screen")
-    object GeminiChatAppScreens: AppScreens(route = "gemini_chat_screen")
-    object ProfileAppScreens: AppScreens(route = "profile_screen")
+sealed class AppScreens(
+    val route: String,
+    val title: String
+) {
+    object Welcome : AppScreens(route = "welcome_screen", title = "Welcome")
+    object Home : AppScreens(route = "home_screen", title = "Home")
+    object Login: AppScreens(route = "login_screen", title = "Login")
+    object Registration: AppScreens(route = "registration_screen", title = "Registration")
+    object ProductionHome: AppScreens(route = "production_home", title = "Productions")
+    object ProductionRecording: AppScreens(route = "production_recording", title = "Recording")
+    object DashboardAppScreens: AppScreens(route = "dashboard_screen", title = "Dashboard")
+    object AiSearchAppScreens: AppScreens(route = "ai_search_screen", title = "Ai Search")
+    object GeminiChatAppScreens: AppScreens(route = "gemini_chat_screen", title = "Gemini Assistant")
+    object ProfileAppScreens: AppScreens(route = "profile_screen", title = "Profile")
 
-    object Splash : AppScreens("splash")
-    object BottomBar : AppScreens("bottombar")
-    object Detail : AppScreens("detail")
 }
