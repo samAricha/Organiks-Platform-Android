@@ -25,6 +25,9 @@ import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.modules.ai_assistant.data.Message
 import teka.android.organiks_platform_android.modules.ai_assistant.utils.ApiType
 import teka.android.organiks_platform_android.modules.ai_assistant.presentation.GeminiAIViewModel
+import teka.android.organiks_platform_android.ui.theme.PrimaryColor
+import teka.android.organiks_platform_android.ui.theme.SecondaryColor
+import teka.android.organiks_platform_android.ui.theme.quicksand
 
 @Composable
 fun ConversationArea(
@@ -48,13 +51,14 @@ fun ConversationArea(
         if ((response != null) && response.isEmpty()) {
             Image(
                 modifier = Modifier.size(100.dp),
-                painter = painterResource(id = R.drawable.no_message_icon),
+                painter = painterResource(id = R.drawable.chat_logo),
                 contentDescription = "no message"
             )
             Text(
-                color = MaterialTheme.colorScheme.primary,
-                text = "No messages yet. Start Chatting!",
+                color = SecondaryColor,
+                text = "Ask and I shall answer!",
                 fontWeight = FontWeight.W500,
+                fontFamily = quicksand,
                 fontSize = 15.sp
             )
         }

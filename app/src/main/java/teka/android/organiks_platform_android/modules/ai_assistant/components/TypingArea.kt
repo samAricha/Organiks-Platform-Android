@@ -51,8 +51,10 @@ import androidx.compose.ui.unit.sp
 import teka.android.organiks_platform_android.modules.ai_assistant.utils.ApiType
 import teka.android.organiks_platform_android.modules.ai_assistant.presentation.GeminiAIViewModel
 import teka.android.organiks_platform_android.R
+import teka.android.organiks_platform_android.ui.theme.LightPrimaryColor
+import teka.android.organiks_platform_android.ui.theme.PrimaryColor
+import teka.android.organiks_platform_android.ui.theme.PrimaryLight
 
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun TypingArea(
     viewModel: GeminiAIViewModel,
@@ -73,6 +75,9 @@ fun TypingArea(
         ApiType.DOCUMENT_CHAT -> viewModel.documentResponse.observeAsState().value?.lastOrNull()?.isGenerating
     }
     val context = LocalContext.current
+    var expanded by remember { mutableStateOf(false) }
+
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -87,18 +92,17 @@ fun TypingArea(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
 
-
-        var expanded by remember { mutableStateOf(false) }
-
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = {
                 expanded = false
             },
-            modifier = Modifier.background(MaterialTheme.colorScheme.secondaryContainer)
+            modifier = Modifier
+                .background(colorScheme.background)
         ) {
             DropdownMenuItem(
-                modifier = Modifier.background(MaterialTheme.colorScheme.secondaryContainer),
+                modifier = Modifier
+                    .background(colorScheme.background),
                 onClick = {
                     expanded = false
                     permissionLauncher?.launch(Manifest.permission.CAMERA)
@@ -107,17 +111,18 @@ fun TypingArea(
                 Icon(
                     modifier = Modifier.size(25.dp),
                     painter = painterResource(id = R.drawable.add_camera_icon),
-                    tint = colorScheme.primary,
+                    tint = PrimaryColor,
                     contentDescription = "camera"
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    color = colorScheme.primary,
+                    color = PrimaryColor,
                     text = "Camera", fontSize = 15.sp, fontWeight = FontWeight.W600
                 )
             }
+
             DropdownMenuItem(
-                modifier = Modifier.background(MaterialTheme.colorScheme.secondaryContainer),
+                modifier = Modifier.background(colorScheme.background),
                 onClick = {
                     expanded = false
                     galleryLauncher?.launch("image/*")
@@ -126,17 +131,19 @@ fun TypingArea(
                 Icon(
                     modifier = Modifier.size(25.dp),
                     painter = painterResource(id = R.drawable.add_gallery_icon),
-                    tint = colorScheme.primary,
+                    tint = PrimaryColor,
                     contentDescription = "gallery"
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    color = colorScheme.primary,
+                    color = PrimaryColor,
                     text = "Gallery", fontSize = 15.sp, fontWeight = FontWeight.W600
                 )
             }
+
             DropdownMenuItem(
-                modifier = Modifier.background(MaterialTheme.colorScheme.secondaryContainer),
+                modifier = Modifier
+                    .background(colorScheme.background),
                 onClick = {
                     expanded = false
                     documentLauncher?.launch("application/*")
@@ -146,19 +153,20 @@ fun TypingArea(
                 Icon(
                     modifier = Modifier.size(25.dp),
                     painter = painterResource(id = R.drawable.document_icon),
-                    tint = colorScheme.primary,
+                    tint = PrimaryColor,
                     contentDescription = "document"
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    color = colorScheme.primary,
+                    color = PrimaryColor,
                     text = "Document",
                     fontSize = 15.sp,
                     fontWeight = FontWeight.W600
                 )
             }
+
             DropdownMenuItem(
-                modifier = Modifier.background(MaterialTheme.colorScheme.secondaryContainer),
+                modifier = Modifier.background(colorScheme.background),
                 onClick = {
                     expanded = false
                     viewModel.clearContext()
@@ -167,17 +175,18 @@ fun TypingArea(
                 Icon(
                     modifier = Modifier.size(25.dp),
                     painter = painterResource(id = R.drawable.refresh),
-                    tint = colorScheme.primary,
+                    tint = PrimaryColor,
                     contentDescription = "refresh"
                 )
                 Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    color = colorScheme.primary,
+                    color = PrimaryColor,
                     text = "Refresh",
                     fontSize = 15.sp,
                     fontWeight = FontWeight.W600
                 )
             }
+
         }
 
 
@@ -186,7 +195,7 @@ fun TypingArea(
                 Icon(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(id = R.drawable.add_icon),
-                    tint = colorScheme.primary,
+                    tint = PrimaryColor,
                     contentDescription = "add"
                 )
             }
@@ -197,8 +206,8 @@ fun TypingArea(
             onValueChange = { newText -> text = newText },
             placeholder = {
                 Text(
-                    color = MaterialTheme.colorScheme.inversePrimary,
-                    text = "What would you like to know?"
+                    color = PrimaryLight,
+                    text = "What's in your mind?"
                 )
             },
             modifier = Modifier
@@ -210,11 +219,11 @@ fun TypingArea(
                 onDone = { keyboardController?.hide() }
             ),
             colors = TextFieldDefaults.colors(
-                focusedIndicatorColor = colorScheme.primary,
+                focusedIndicatorColor = PrimaryColor,
                 unfocusedIndicatorColor = Color.LightGray,
                 focusedContainerColor = colorScheme.background,
                 unfocusedContainerColor = colorScheme.background,
-                cursorColor = colorScheme.primary
+                cursorColor = PrimaryColor
             ),
             maxLines = 5,
             trailingIcon = {
@@ -256,7 +265,7 @@ fun TypingArea(
                                         text = TextFieldValue("")
                                     }
                                 },
-                            tint = colorScheme.primary
+                            tint = PrimaryColor
                         )
                     } else {
                         val strokeWidth = 2.dp

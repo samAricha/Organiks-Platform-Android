@@ -97,6 +97,7 @@ fun MainNavGraph(
             ){
             DashboardScreen()
         }
+
         composable(
             route = AppScreens.GeminiChatAppScreens.route,
             enterTransition = {
