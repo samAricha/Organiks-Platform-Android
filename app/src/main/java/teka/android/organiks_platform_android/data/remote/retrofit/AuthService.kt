@@ -2,15 +2,12 @@ package teka.android.organiks_platform_android.data.remote.retrofit
 
 import retrofit2.http.Body
 import retrofit2.http.POST
-import teka.android.organiks_platform_android.domain.authentication.models.LoginRequest
 import teka.android.organiks_platform_android.domain.authentication.models.PersonInfoRequest
-import teka.android.organiks_platform_android.domain.authentication.models.RegisterRequest
-import teka.android.organiks_platform_android.domain.authentication.models.AuthResponse
 import teka.android.organiks_platform_android.domain.authentication.models.User
-import teka.android.organiks_platform_android.modules.auth.core.util.models.LoginRequestBody
-import teka.android.organiks_platform_android.modules.auth.core.util.models.LoginResponseData
-import teka.android.organiks_platform_android.modules.auth.core.util.models.RegisterRequestBody
-import teka.android.organiks_platform_android.modules.auth.core.util.models.RegisterResponseData
+import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.LoginRequestBody
+import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.LoginResponseData
+import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.RegisterRequestBody
+import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.RegisterResponseData
 import teka.android.organiks_platform_android.util.data.ApiResponseHandler
 
 interface AuthService {

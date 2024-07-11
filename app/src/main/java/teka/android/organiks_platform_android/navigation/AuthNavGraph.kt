@@ -7,10 +7,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.google.accompanist.pager.ExperimentalPagerApi
-import teka.android.organiks_platform_android.modules.auth.login.LoginScreen
-import teka.android.organiks_platform_android.modules.auth.registration.RegisterScreen
-import teka.android.organiks_platform_android.modules.splash_screen.presentation.WelcomeScreen
-import teka.android.organiks_platform_android.modules.splash_screen.presentation.WelcomeViewModel
+import teka.android.organiks_platform_android.presentation.feature_auth.login.LoginScreen
+import teka.android.organiks_platform_android.presentation.feature_auth.registration.RegisterScreen
+import teka.android.organiks_platform_android.presentation.feature_splash_screen.presentation.WelcomeScreen
+import teka.android.organiks_platform_android.presentation.feature_splash_screen.presentation.WelcomeViewModel
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalPagerApi::class)
 fun NavGraphBuilder.authNavGraph(
