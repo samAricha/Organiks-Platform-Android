@@ -20,5 +20,4 @@ sealed class AppScreens(
     object AiSearchAppScreens: AppScreens(route = "ai_search_screen", title = "Ai Search")
     object GeminiChatAppScreens: AppScreens(route = "gemini_chat_screen", title = "Gemini Assistant")
     object ProfileAppScreens: AppScreens(route = "profile_screen", title = "Profile")
-
 }
