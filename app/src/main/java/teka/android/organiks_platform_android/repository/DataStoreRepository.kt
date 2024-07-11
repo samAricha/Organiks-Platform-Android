@@ -12,8 +12,8 @@ import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
-import teka.android.organiks_platform_android.modules.auth.core.repository.UserPreferencesKeyModel
-import teka.android.organiks_platform_android.modules.auth.core.util.models.LoggedInUser
+import teka.android.organiks_platform_android.presentation.feature_auth.core.repository.UserPreferencesKeyModel
+import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.LoggedInUser
 import java.io.IOException
 
 val Context.onBoardingDataStore: DataStore<Preferences> by preferencesDataStore(name = "on_boarding_pref")

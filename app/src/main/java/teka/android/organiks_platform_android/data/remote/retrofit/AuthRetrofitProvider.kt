@@ -1,16 +1,13 @@
 package teka.android.organiks_platform_android.data.remote.retrofit
 
 
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import teka.android.organiks_platform_android.modules.auth.core.data.remote.CustomAuthService
 import teka.android.organiks_platform_android.BuildConfig
+import teka.android.organiks_platform_android.presentation.feature_auth.core.data.remote.CustomAuthService
 
 object AuthRetrofitProvider {
 

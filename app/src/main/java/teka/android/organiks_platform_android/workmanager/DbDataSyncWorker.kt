@@ -11,8 +11,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 import teka.android.organiks_platform_android.networking.ConnectivityObserver
 import teka.android.organiks_platform_android.networking.NetworkConnectivityObserver
-import teka.android.organiks_platform_android.presentation.records.production.productionHome.ProductionHomeViewModel
-import javax.inject.Inject
+import teka.android.organiks_platform_android.presentation.feature_records.production.productionHome.ProductionHomeViewModel
 
 
 @HiltWorker

@@ -10,10 +10,10 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import teka.android.organiks_platform_android.data.room.OrganiksDatabase
 import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
-import teka.android.organiks_platform_android.modules.ai_assistant.data.MessageDao
-import teka.android.organiks_platform_android.modules.ai_assistant.data.MessageDatabase
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.MessageDao
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.MessageDatabase
 import teka.android.organiks_platform_android.repository.DataStoreRepository
-import teka.android.organiks_platform_android.modules.splash_screen.presentation.SplashViewModel
+import teka.android.organiks_platform_android.presentation.feature_splash_screen.presentation.SplashViewModel
 import teka.android.organiks_platform_android.networking.NetworkConnectivityObserver
 import teka.android.organiks_platform_android.repository.DbRepository
 import javax.inject.Singleton
@@ -24,13 +24,17 @@ object MainModule {
 
     @Provides
     @Singleton
-    fun provideApplicationContext(@ApplicationContext appContext: Context): Context {
+    fun provideApplicationContext(
+        @ApplicationContext appContext: Context
+    ): Context {
         return appContext
     }
 
     @Singleton
     @Provides
-    fun provideOrganiksDatabase(@ApplicationContext context: Context): OrganiksDatabase {
+    fun provideOrganiksDatabase(
+        @ApplicationContext context: Context
+    ): OrganiksDatabase {
         return Room.databaseBuilder(
             context,
             OrganiksDatabase::class.java,
@@ -40,7 +44,9 @@ object MainModule {
 
     @Singleton
     @Provides
-    fun provideGeminiDatabase(@ApplicationContext context: Context): MessageDatabase {
+    fun provideGeminiDatabase(
+        @ApplicationContext context: Context
+    ): MessageDatabase {
         return Room.databaseBuilder(
             context,
             MessageDatabase::class.java,
@@ -51,13 +57,17 @@ object MainModule {
 
     @Provides
     @Singleton
-    fun provideGeminiMessageDao(db: MessageDatabase): MessageDao {
+    fun provideGeminiMessageDao(
+        db: MessageDatabase
+    ): MessageDao {
         return db.dao
     }
 
     @Singleton
     @Provides
-    fun provideRepository(database: OrganiksDatabase): DbRepository {
+    fun provideRepository(
+        database: OrganiksDatabase
+    ): DbRepository {
         return DbRepository(
             eggTypeDao = database.eggTypeDao(),
             eggCollectionDao = database.eggCollectionDao(),
@@ -75,25 +85,33 @@ object MainModule {
 
     @Provides
     @Singleton
-    fun provideSplashViewModel(repository: DataStoreRepository): SplashViewModel {
+    fun provideSplashViewModel(
+        repository: DataStoreRepository
+    ): SplashViewModel {
         return SplashViewModel(repository)
     }
 
     @Singleton
     @Provides
-    fun provideRemoteDataUpdater(@ApplicationContext context: Context): RemoteDataUpdater {
+    fun provideRemoteDataUpdater(
+        @ApplicationContext context: Context
+    ): RemoteDataUpdater {
         return RemoteDataUpdater(context)
     }
 
     @Provides
     @Singleton
-    fun provideWorkManager(@ApplicationContext context: Context): WorkManager {
+    fun provideWorkManager(
+        @ApplicationContext context: Context
+    ): WorkManager {
         return WorkManager.getInstance(context)
     }
 
     @Provides
     @Singleton
-    fun provideNetworkConnectivityObserver(@ApplicationContext context: Context): NetworkConnectivityObserver {
+    fun provideNetworkConnectivityObserver(
+        @ApplicationContext context: Context
+    ): NetworkConnectivityObserver {
         return NetworkConnectivityObserver(context)
     }
 

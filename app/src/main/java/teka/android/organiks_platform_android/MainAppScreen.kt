@@ -20,8 +20,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.navigation.*
-import teka.android.organiks_platform_android.presentation.navDrawer.AppBar
-import teka.android.organiks_platform_android.presentation.navDrawer.NavigationDrawerM3
+import teka.android.organiks_platform_android.presentation.feature_nav_drawer.AppBar
+import teka.android.organiks_platform_android.presentation.feature_nav_drawer.NavigationDrawerM3
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 
 

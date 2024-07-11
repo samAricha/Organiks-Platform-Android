@@ -2,7 +2,6 @@ package teka.android.organiks_platform_android.domain.authentication
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.widget.Toast
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
@@ -10,19 +9,15 @@ import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.HttpException
 import teka.android.organiks_platform_android.data.remote.retrofit.AuthRetrofitProvider
-import teka.android.organiks_platform_android.data.remote.retrofit.AuthService
-import teka.android.organiks_platform_android.data.remote.retrofit.RetrofitProvider
-import teka.android.organiks_platform_android.domain.authentication.models.LoginRequest
-import teka.android.organiks_platform_android.domain.authentication.models.RegisterRequest
-import teka.android.organiks_platform_android.modules.auth.core.data.remote.CustomAuthService
-import teka.android.organiks_platform_android.modules.auth.core.util.LoginResultModel
-import teka.android.organiks_platform_android.modules.auth.core.util.RegistrationResult
-import teka.android.organiks_platform_android.modules.auth.core.util.models.LoggedInUser
-import teka.android.organiks_platform_android.modules.auth.core.util.models.LoginRequestBody
-import teka.android.organiks_platform_android.modules.auth.core.util.models.LoginResponseData
-import teka.android.organiks_platform_android.modules.auth.core.util.models.RegisterRequestBody
-import teka.android.organiks_platform_android.modules.auth.core.util.models.RegisterResponseData
-import teka.android.organiks_platform_android.modules.auth.core.util.models.UserRoleDto
+import teka.android.organiks_platform_android.presentation.feature_auth.core.data.remote.CustomAuthService
+import teka.android.organiks_platform_android.presentation.feature_auth.core.util.LoginResultModel
+import teka.android.organiks_platform_android.presentation.feature_auth.core.util.RegistrationResult
+import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.LoggedInUser
+import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.LoginRequestBody
+import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.LoginResponseData
+import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.RegisterRequestBody
+import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.RegisterResponseData
+import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.UserRoleDto
 import teka.android.organiks_platform_android.repository.DataStoreRepository
 import teka.android.organiks_platform_android.util.data.ApiResponseHandler
 import timber.log.Timber
@@ -33,7 +28,6 @@ import javax.inject.Inject
 class AuthManager @Inject constructor(
                   private val dataStoreRepository: DataStoreRepository,
                   private val context: Context // Inject the Context
-
 ) {
 
     private val customAuthService: CustomAuthService = AuthRetrofitProvider.createAuthService()
