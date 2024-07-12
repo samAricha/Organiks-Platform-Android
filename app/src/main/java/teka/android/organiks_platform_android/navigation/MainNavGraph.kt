@@ -14,6 +14,7 @@ import teka.android.organiks_platform_android.presentation.aiadvice.AiAdviceScre
 import teka.android.organiks_platform_android.presentation.feature_dashborad.DashboardScreen
 import teka.android.organiks_platform_android.presentation.feature_records.production.productionHome.ProductionHomeScreen
 import teka.android.organiks_platform_android.presentation.feature_records.production.productionRecording.ProductionRecordingScreen
+import teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords.RemoteRecordsScreen
 import teka.android.organiks_platform_android.presentation.feature_settings.SettingsScreen
 import teka.android.organiks_platform_android.ui.animations.scaleIntoContainer
 import teka.android.organiks_platform_android.ui.animations.scaleOutOfContainer
@@ -49,6 +50,29 @@ fun MainNavGraph(
         ){
             ProductionHomeScreen(onNavigate = { id ->
                 navController.navigate(route = "${AppScreens.ProductionRecording.route}?id=$id")
+            })
+        }
+
+        composable(
+            route = AppScreens.RemoteRecordsScreens.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+
+        ){
+            RemoteRecordsScreen(onNavigate = { id ->
+                navController.navigate(
+                    route = "${AppScreens.ProductionRecording.route}?id=$id"
+                )
             })
         }
 

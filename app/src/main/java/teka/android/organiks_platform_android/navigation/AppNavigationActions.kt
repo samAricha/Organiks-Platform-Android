@@ -18,6 +18,12 @@ class AppNavigationActions(
         }
     }
 
+    fun navigateToRemoteRecordsScreen() {
+        navController.navigate(AppScreens.RemoteRecordsScreens.route) {
+            popUpTo(AppScreens.RemoteRecordsScreens.route)
+        }
+    }
+
     fun navigateToProductsHome() {
         navController.navigate(AppScreens.ProductionHome.route) {
             launchSingleTop = true
