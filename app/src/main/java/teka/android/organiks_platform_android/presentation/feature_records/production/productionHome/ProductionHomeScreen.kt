@@ -404,12 +404,15 @@ fun CategoryItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
 
-            Icon(painter = painterResource(id = iconRes),
+            Icon(
+                painter = painterResource(id = iconRes),
                 contentDescription = null,
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.size(8.dp))
-            Text(text = title, style = MaterialTheme.typography.h6,
+            Text(
+                text = title,
+                style = MaterialTheme.typography.h6,
                 fontWeight = FontWeight.Medium
             )
         }

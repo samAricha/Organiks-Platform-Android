@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,6 +29,7 @@ import com.jaikeerthick.composable_graphs.composables.pie.PieChart
 import com.jaikeerthick.composable_graphs.composables.pie.model.PieData
 import com.jaikeerthick.composable_graphs.composables.pie.style.PieChartStyle
 import com.jaikeerthick.composable_graphs.composables.pie.style.PieChartVisibility
+import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
 import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
 import teka.android.organiks_platform_android.util.components.BarchartWithSolidBars
@@ -35,8 +37,11 @@ import teka.android.organiks_platform_android.util.components.PiechartWithSliceL
 import teka.android.organiks_platform_android.util.components.SingleLineChartWithGridLines
 
 @Composable
-fun DashboardScreen() {
+fun DashboardScreen(
+) {
+
     val viewModel : DashboardViewModel = hiltViewModel()
+
 
 //    val totalEggs by rememberUpdatedState(newValue = viewModel.totalEggsCollected)
 //    val totalMilk by rememberUpdatedState(newValue = viewModel.totalMilkCollected)
@@ -51,6 +56,9 @@ fun DashboardScreen() {
     val totalNotBackedUpCount by viewModel.totalNotBackedUpCount.collectAsState()
 
     val context = LocalContext.current
+
+    val remoteEggCollectionList by viewModel.remoteEggCollections.collectAsState()
+
 
 
 
@@ -125,13 +133,51 @@ fun DashboardScreen() {
                 }
             }
 
+            val eggCollectionResults = listOf(
+                EggCollectionResult("uuid1", "20", "2", 1, 1627885440),
+                EggCollectionResult("uuid2", "15", "1", 2, 1627971840),
+                // Add more data here
+            )
+
             item {
-                BarchartWithSolidBars()
+                Text(
+                    text = "Bar Chart",
+                    fontSize = 14.sp,
+                    color = Color.Gray, // Or any other color you prefer
+                    modifier = Modifier.padding(start = 4.dp),
+                    fontWeight = FontWeight.Normal,
+                    textDecoration = TextDecoration.Underline
+                )
+                BarchartWithSolidBars(remoteEggCollectionList)
+
+//                BarchartWithSolidBars()
             }
             item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+            item {
+                Text(
+                    text = "Pie Chart",
+                    fontSize = 14.sp,
+                    color = Color.Gray, // Or any other color you prefer
+                    modifier = Modifier.padding(start = 4.dp),
+                    fontWeight = FontWeight.Normal,
+                    textDecoration = TextDecoration.Underline
+                )
                 PiechartWithSliceLables(context = context)
             }
             item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+            item {
+                Text(
+                    text = "Line Chart",
+                    fontSize = 14.sp,
+                    color = Color.Gray, // Or any other color you prefer
+                    modifier = Modifier.padding(start = 4.dp),
+                    fontWeight = FontWeight.Normal,
+                    textDecoration = TextDecoration.Underline
+                )
                 SingleLineChartWithGridLines(
                     DataUtils.getLineChartData(
                         100,

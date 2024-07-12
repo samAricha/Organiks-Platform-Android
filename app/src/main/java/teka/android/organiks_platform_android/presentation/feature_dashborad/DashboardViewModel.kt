@@ -11,14 +11,18 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.domain.repository.DbRepository
+import teka.android.organiks_platform_android.domain.repository.RemoteEggRecordsRepository
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel  @Inject constructor(
     private val repository: DbRepository,
+    private val eggRecordsRepository: RemoteEggRecordsRepository,
     ): ViewModel() {
 
 
@@ -34,14 +38,51 @@ class DashboardViewModel  @Inject constructor(
     private val _totalNotBackedUpCount = MutableStateFlow(0)
     val totalNotBackedUpCount: StateFlow<Int> = _totalNotBackedUpCount
 
+    private val _remoteEggCollections = MutableStateFlow<List<EggCollectionResult>>(emptyList())
+    val remoteEggCollections: StateFlow<List<EggCollectionResult>> = _remoteEggCollections.asStateFlow()
+
+    // State for loading indicator and error states
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> get() = _isLoading
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage
+
+    private val _successMessage = MutableStateFlow<String?>(null)
+    val successMessage: StateFlow<String?> = _successMessage
+
+
     init {
         viewModelInitialization()
     }
 
     fun viewModelInitialization() {
-        fetchEggCollections()
-        fetchMilkCollections()
-        refreshNotBackedUpCollections()
+        viewModelScope.launch {
+            fetchEggCollections()
+            fetchAllRemoteEggRecords()
+            fetchMilkCollections()
+            refreshNotBackedUpCollections()
+        }
+
+    }
+
+    fun fetchAllRemoteEggRecords() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            try {
+                eggRecordsRepository.getAllEggCollections().collect { eggs ->
+                    _remoteEggCollections.value = eggs
+                    Timber.tag(">>>EGGS LIST").d(eggs.toString())
+                }
+                _successMessage.value = "Data Fetched successfully"
+
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+
+            } finally {
+                _isLoading.value = false
+            }
+        }
     }
 
     // Fetch and update milk collections in your ViewModel
