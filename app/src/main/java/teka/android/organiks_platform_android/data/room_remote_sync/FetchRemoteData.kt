@@ -4,8 +4,8 @@ import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import teka.android.organiks_platform_android.data.remote.retrofit.RetrofitProvider
-import teka.android.organiks_platform_android.data.remote.retrofit.toEggCollection
-import teka.android.organiks_platform_android.data.remote.retrofit.toMilkCollection
+import teka.android.organiks_platform_android.data.remote.retrofit.models.toEggCollection
+import teka.android.organiks_platform_android.data.remote.retrofit.models.toMilkCollection
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.domain.repository.DbRepository
@@ -17,7 +17,7 @@ class FetchRemoteData {
         withContext(Dispatchers.IO) {
             try {
                 Log.d("INSIDE TRY", "FIRST LINE")
-                val response = RetrofitProvider.createEggCollectionService().getEggCollections()
+                val response = RetrofitProvider.createEggCollectionService().getAllEggCollections()
                 val eggCollections: List<EggCollection> = response.results.map { it.toEggCollection() }
                 val repositoryResponse = repository.saveRemoteEggCollections(eggCollections)
                 Log.d("REPOSITORY RESPONSE", repositoryResponse.toString())
@@ -32,7 +32,7 @@ class FetchRemoteData {
         withContext(Dispatchers.IO) {
             try {
                 Log.d("INSIDE TRY", "FIRST LINE")
-                val response = RetrofitProvider.createEggCollectionService().getEggCollections()
+                val response = RetrofitProvider.createEggCollectionService().getAllEggCollections()
                 val eggCollections: List<EggCollection> = response.results.map { it.toEggCollection() }
                 val repositoryResponse = repository.saveRemoteEggCollections(eggCollections)
                 Log.d("REPOSITORY RESPONSE", repositoryResponse.toString())

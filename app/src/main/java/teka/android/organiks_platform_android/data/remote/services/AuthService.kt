@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.data.remote.retrofit
+package teka.android.organiks_platform_android.data.remote.services
 
 import retrofit2.http.Body
 import retrofit2.http.POST

@@ -8,6 +8,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import teka.android.organiks_platform_android.data.remote.retrofit.RetrofitProvider
 import teka.android.organiks_platform_android.data.room.OrganiksDatabase
 import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.MessageDao
@@ -16,6 +17,7 @@ import teka.android.organiks_platform_android.domain.repository.DataStoreReposit
 import teka.android.organiks_platform_android.presentation.feature_splash_screen.presentation.SplashViewModel
 import teka.android.organiks_platform_android.networking.NetworkConnectivityObserver
 import teka.android.organiks_platform_android.domain.repository.DbRepository
+import teka.android.organiks_platform_android.domain.repository.RemoteEggRecordsRepository
 import javax.inject.Singleton
 
 @Module
@@ -97,6 +99,18 @@ object MainModule {
         @ApplicationContext context: Context
     ): RemoteDataUpdater {
         return RemoteDataUpdater(context)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRemoteEggRecordsRepository(
+        @ApplicationContext context: Context
+    ): RemoteEggRecordsRepository {
+        val eggRecordsRepository = RemoteEggRecordsRepository(
+            RetrofitProvider.createEggCollectionService(),
+
+        )
+        return eggRecordsRepository
     }
 
     @Provides

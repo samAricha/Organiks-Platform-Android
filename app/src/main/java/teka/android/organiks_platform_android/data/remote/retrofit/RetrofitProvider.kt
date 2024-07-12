@@ -7,6 +7,10 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import teka.android.organiks_platform_android.BuildConfig
+import teka.android.organiks_platform_android.data.remote.services.AuthService
+import teka.android.organiks_platform_android.data.remote.services.EggCollectionService
+import teka.android.organiks_platform_android.data.remote.services.FruitCollectionService
+import teka.android.organiks_platform_android.data.remote.services.MilkCollectionService
 
 object RetrofitProvider {
     private const val TEST_URL = "https://a3fb-105-57-17-70.ngrok-free.app"

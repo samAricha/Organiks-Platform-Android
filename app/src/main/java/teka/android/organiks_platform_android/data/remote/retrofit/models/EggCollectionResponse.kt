@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.data.remote.retrofit
+package teka.android.organiks_platform_android.data.remote.retrofit.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

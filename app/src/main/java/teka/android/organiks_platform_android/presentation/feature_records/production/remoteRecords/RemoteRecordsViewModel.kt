@@ -10,12 +10,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
-import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
-import teka.android.organiks_platform_android.data.room_remote_sync.UpdateResult
-import teka.android.organiks_platform_android.domain.repository.DbRepository
+import teka.android.organiks_platform_android.domain.repository.RemoteEggRecordsRepository
+import timber.log.Timber
 import javax.inject.Inject
 
 data class SnackbarData(val message: String)
@@ -23,12 +23,11 @@ data class SnackbarData(val message: String)
 
 @HiltViewModel
 class RemoteRecordsViewModel @Inject constructor(
-    private val repository: DbRepository,
-    private val remoteDataUpdater: RemoteDataUpdater
+    private val eggRecordsRepository: RemoteEggRecordsRepository,
 ): ViewModel() {
 
-    private val _eggCollections = MutableStateFlow<List<EggCollection>>(emptyList())
-    val eggCollections: StateFlow<List<EggCollection>> = _eggCollections.asStateFlow()
+    private val _eggCollections = MutableStateFlow<List<EggCollectionResult>>(emptyList())
+    val eggCollections: StateFlow<List<EggCollectionResult>> = _eggCollections.asStateFlow()
 
     private val _milkCollections = MutableStateFlow<List<MilkCollection>>(emptyList())
     val milkCollections: StateFlow<List<MilkCollection>> = _milkCollections.asStateFlow()
@@ -48,39 +47,67 @@ class RemoteRecordsViewModel @Inject constructor(
     val snackbarData: StateFlow<SnackbarData?> = _snackbarData
 
 
+    // State for loading indicator and error states
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> get() = _isLoading
+
+    private val _isCreatingProperty = MutableStateFlow(false)
+    val isCreatingProperty: StateFlow<Boolean> = _isCreatingProperty
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage
+
+    private val _successMessage = MutableStateFlow<String?>(null)
+    val successMessage: StateFlow<String?> = _successMessage
+
+
 
     init {
         viewModelInitialization()
     }
 
-    fun viewModelInitialization(){
-        fetchEggCollections()
+    private fun viewModelInitialization(){
+        fetchAllEggRecords()
         fetchMilkCollections()
         fetchFruitCollections()
     }
 
-    // Fetch and update milk collections in your ViewModel
-    private fun fetchEggCollections() {
+
+
+
+    fun fetchAllEggRecords() {
         viewModelScope.launch {
-            repository.getEggCollections.collectLatest { eggCollections ->
-                _eggCollections.value = eggCollections
+            _isLoading.value = true
+            try {
+                eggRecordsRepository.getAllEggCollections().collect { eggs ->
+                    _eggCollections.value = eggs
+                    Timber.tag(">>>EGGS LIST").d(eggs.toString())
+                }
+                _successMessage.value = "Data Fetched successfully"
+
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+
+            } finally {
+                _isLoading.value = false
             }
         }
     }
 
+
     private fun fetchFruitCollections() {
         viewModelScope.launch {
-            repository.getFruitCollections.collectLatest { fruitCollections ->
-                _fruitCollections.value = fruitCollections
-            }
+//            eggRecordsRepository.getFruitCollections.collectLatest { fruitCollections ->
+//                _fruitCollections.value = fruitCollections
+//            }
         }
     }
 
     private fun fetchMilkCollections() {
         viewModelScope.launch {
-            repository.getMilkCollection.collectLatest { milkCollections ->
-                _milkCollections.value = milkCollections
-            }
+//            eggRecordsRepository.getMilkCollection.collectLatest { milkCollections ->
+//                _milkCollections.value = milkCollections
+//            }
         }
     }
 
@@ -94,62 +121,4 @@ class RemoteRecordsViewModel @Inject constructor(
         _snackbarData.value = null
     }
 
-
-
-
-    fun syncRoomDbToRemote() {
-        viewModelScope.launch {
-            _isSyncing.value = true // Set isSyncing to true when synchronization starts
-            try {
-                // Filter and get eggCollections with status backedUp == false
-                val notBackedUpEggCollections = eggCollections.value.filter { eggCollection ->
-                    !eggCollection.isBackedUp
-                }
-                val notBackedUpMilkCollections = milkCollections.value.filter { milkCollection ->
-                    !milkCollection.isBackedUp
-                }
-                val notBackedUpFruitCollections = fruitCollections.value.filter { fruitCollection ->
-                    !fruitCollection.isBackedUp
-                }
-                val result =remoteDataUpdater.updateRemoteEggCollectionData(notBackedUpEggCollections, repository)
-                val result2 =remoteDataUpdater.updateRemoteMilkCollectionData(notBackedUpMilkCollections, repository)
-                val result3 =remoteDataUpdater.updateRemoteFruitCollectionData(notBackedUpFruitCollections, repository)
-                // Synchronization completed successfully
-                when (result) {
-                    is UpdateResult.Success -> {
-                        eggSnackbarMessage.value = result.message
-                        showSnackbar(eggSnackbarMessage.value!!)
-                    }
-                    is UpdateResult.Failure -> {
-                        eggSnackbarMessage.value = result.errorMessage
-                        showSnackbar(eggSnackbarMessage.value!!)
-                    }
-                }
-                when (result2) {
-                    is UpdateResult.Success -> {
-                        milkSnackbarMessage.value = result2.message
-                        showSnackbar(milkSnackbarMessage.value!!)
-                    }
-                    is UpdateResult.Failure -> {
-                        milkSnackbarMessage.value = result2.errorMessage
-                        showSnackbar(milkSnackbarMessage.value!!)
-                    }
-                }
-                when (result3) {
-                    is UpdateResult.Success -> {
-                        fruitSnackbarMessage.value = result3.message
-                        showSnackbar(fruitSnackbarMessage.value!!)
-                    }
-                    is UpdateResult.Failure -> {
-                        fruitSnackbarMessage.value = result3.errorMessage
-                        showSnackbar(fruitSnackbarMessage.value!!)
-                    }
-                }
-            } catch (e: Exception) {
-                // Handle synchronization failure
-            } finally {
-                _isSyncing.value = false // Set isSyncing back to false when synchronization is done
-            }
-        }
-    }
 }
