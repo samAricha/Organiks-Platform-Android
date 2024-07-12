@@ -1,6 +1,8 @@
 package teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords
 
 import android.annotation.SuppressLint
+import android.health.connect.datatypes.units.Length
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -24,28 +26,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
-import teka.android.organiks_platform_android.ui.theme.PoppinsExtraLight
-import teka.android.organiks_platform_android.ui.theme.PoppinsLight
-import teka.android.organiks_platform_android.ui.theme.PrimaryColor
-import teka.android.organiks_platform_android.ui.theme.Shapes
-import java.text.SimpleDateFormat
-import java.util.Locale
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.graphics.PathEffect
-import teka.android.organiks_platform_android.R
-import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
+import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionDto
+import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionResult
 import teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords.components.CategoryRowItem
 import teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords.components.EggsListItem
 import teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords.components.FruitsListItem
 import teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords.components.MilkListItem
+import teka.android.organiks_platform_android.util.CustomContextProvider
+import teka.android.organiks_platform_android.util.components.LoadingAnimation
 import teka.android.organiks_platform_android.util.components.ProgressIndicatorWidget
 
 
@@ -62,6 +59,10 @@ fun RemoteRecordsScreen(
     val isSyncing by remoteRecordsViewModel.isSyncing.collectAsState()
     val fabClicked = remember { mutableStateOf(false) }
 
+    val isLoading by remoteRecordsViewModel.isLoading.collectAsState()
+    val errorMessage by remoteRecordsViewModel.errorMessage.collectAsState()
+    val successMessage by remoteRecordsViewModel.successMessage.collectAsState()
+
     val scaffoldState = rememberScaffoldState()
 
     val snackbarData by remoteRecordsViewModel.snackbarData.collectAsState()
@@ -70,6 +71,21 @@ fun RemoteRecordsScreen(
         LaunchedEffect(snackbarData) {
             scaffoldState.snackbarHostState.showSnackbar(snackbarData!!.message)
             remoteRecordsViewModel.clearSnackbar()
+        }
+    }
+
+    val contextProvider = CustomContextProvider()
+    val context = contextProvider.getContext()
+    LaunchedEffect(errorMessage) {
+        errorMessage?.let {
+            val toast = Toast.makeText(context, "$it \u274C", Toast.LENGTH_LONG)
+            toast.show()
+        }
+    }
+    LaunchedEffect(successMessage) {
+        successMessage?.let {
+            val toast = Toast.makeText(context,  "$it \u2714", Toast.LENGTH_LONG)
+            toast.show()
         }
     }
 
@@ -105,6 +121,7 @@ fun RemoteRecordsScreen(
                 )
             }
         }) {
+
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -125,29 +142,36 @@ fun RemoteRecordsScreen(
                             }
                         }
                     }
+
                     items(collections) { collection ->
                         when (selectedCategory) {
                             Utils.productionCategory[0] -> {
                                 EggsListItem(
-                                    eggCollection = collection as EggCollection,
-                                    onItemClick = { onNavigate.invoke(collection.id) }
+                                    eggCollection = collection as EggCollectionResult,
+                                    onItemClick = { onNavigate.invoke(collection.uuid.toInt()) }
                                 )
                             }
                             Utils.productionCategory[1] -> {
                                 MilkListItem(
-                                    milkCollection = collection as MilkCollection,
-                                    onItemClick = { onNavigate.invoke(collection.id) }
+                                    milkCollection = collection as MilkCollectionResult,
+                                    onItemClick = { onNavigate.invoke(collection.uuid.toInt()) }
                                 )
                             }
                             Utils.productionCategory[2] -> {
                                 FruitsListItem(
-                                    fruitCollection = collection as FruitCollectionEntity,
-                                    onItemClick = { onNavigate.invoke(collection.id) }
+                                    fruitCollection = collection as FruitCollectionDto,
+                                    onItemClick = { onNavigate.invoke(collection.uuid.toInt()) }
                                 )
                             }
-                            // Handle other categories as needed
                         }
                     }
+                }
+
+                if (isLoading) {
+                    LoadingAnimation(
+                        modifier = Modifier.align(Alignment.Center),
+                        circleSize = 16.dp,
+                    )
                 }
 
 

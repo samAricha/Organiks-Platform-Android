@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import teka.android.organiks_platform_android.R
+import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.ui.theme.PoppinsExtraLight
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
@@ -28,7 +29,7 @@ import java.util.Locale
 
 @Composable
 fun EggsListItem(
-    eggCollection: EggCollection,
+    eggCollection: EggCollectionResult,
     onItemClick: () -> Unit
 ){
 
@@ -46,26 +47,26 @@ fun EggsListItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){
-            val icon = if (eggCollection.isBackedUp) {
-                painterResource(R.drawable.checkmark) // "Backed Up" icon
-            } else {
-                painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
-            }
+//            val icon = if (eggCollection.isBackedUp) {
+//                painterResource(R.drawable.checkmark) // "Backed Up" icon
+//            } else {
+//                painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
+//            }
 
-            Column(modifier = Modifier.padding(0.dp)) {
-                Image(
-                    painter = icon,
-                    modifier = Modifier.size(24.dp),
-                    contentDescription = if (eggCollection.isBackedUp) "Backed Up" else "Not Backed Up"
-                )
-            }
+//            Column(modifier = Modifier.padding(0.dp)) {
+//                Image(
+//                    painter = icon,
+//                    modifier = Modifier.size(24.dp),
+//                    contentDescription = if (eggCollection.isBackedUp) "Backed Up" else "Not Backed Up"
+//                )
+//            }
 
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
                     text = "Kienyeji",
                     fontFamily = PoppinsLight
                 )
-                Text(text = "Total: ${eggCollection.qty} Eggs",
+                Text(text = "Total: ${eggCollection.quantity} Eggs",
                     fontFamily = PoppinsLight
                 )
                 Text(text = "Cracked: ${eggCollection.cracked} Eggs",

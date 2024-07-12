@@ -9,13 +9,9 @@ object HeaderInterceptor : Interceptor {
 
         val request = chain.request()
         val modifiedRequest = request.newBuilder()
-                .header("Accept", "application/vnd.api+json")
-                .apply {
-                    // Add Authorization header if authToken is not null
-                    authToken?.let { token ->
-                        header("Authorization", "Bearer $token")
-                    }
-                }.build()
+            .header("Accept", "application/vnd.api+json")
+            .addHeader("Authorization", "Bearer ")
+            .build()
 
         return chain.proceed(modifiedRequest)
     }

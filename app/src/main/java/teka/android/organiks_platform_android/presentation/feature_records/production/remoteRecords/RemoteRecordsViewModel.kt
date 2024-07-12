@@ -53,9 +53,6 @@ class RemoteRecordsViewModel @Inject constructor(
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> get() = _isLoading
 
-    private val _isCreatingProperty = MutableStateFlow(false)
-    val isCreatingProperty: StateFlow<Boolean> = _isCreatingProperty
-
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
 
@@ -70,7 +67,7 @@ class RemoteRecordsViewModel @Inject constructor(
 
     private fun viewModelInitialization(){
         fetchAllEggRecords()
-        fetchAllMilkCollections()
+//        fetchAllMilkCollections()
         fetchAllFruitCollections()
     }
 

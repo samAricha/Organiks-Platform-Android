@@ -1,17 +1,9 @@
-package teka.android.organiks_platform_android.presentation.aiadvice.chat_screen.components
+package teka.android.organiks_platform_android.util.components
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -22,12 +14,13 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
+import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 
 @Composable
 fun LoadingAnimation(
     modifier: Modifier = Modifier,
     circleSize: Dp = 25.dp,
-    circleColor: Color = MaterialTheme.colorScheme.primary,
+    circleColor: Color = PrimaryColor,
     spaceBetween: Dp = 10.dp,
     travelDistance: Dp = 20.dp
 ) {
@@ -58,24 +51,16 @@ fun LoadingAnimation(
 
     val circleValues = circles.map { it.value }
     val distance = with(LocalDensity.current) { travelDistance.toPx() }
+    val lastCircle = circleValues.size - 1
 
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(spaceBetween)
-    ) {
-        circleValues.forEach { value ->
-            Box(
-                modifier = Modifier
-                    .size(circleSize)
-                    .graphicsLayer {
-                        translationY = -value * distance
-                    }
-                    .background(
-                        color = circleColor,
-                        shape = CircleShape
-                    )
+    Row(modifier = modifier) {
+        circleValues.forEachIndexed { index, value ->
+            Box(modifier = Modifier
+                .size(circleSize)
+                .graphicsLayer { translationY = -value * distance }
+                .background(color = circleColor, shape = CircleShape)
             )
+            if (index != lastCircle) Spacer(modifier = Modifier.width(spaceBetween))
         }
     }
-
 }

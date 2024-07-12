@@ -13,15 +13,15 @@ import teka.android.organiks_platform_android.data.room_remote_sync.models.SaveC
 interface FruitCollectionService {
 
 
-    @POST("api/eventVisitors/update")
+    @POST("eventVisitors/update")
     suspend fun updateFruitCollection(@Body fruitCollection: FruitCollectionRequest)
 
 
-    @GET("collections/fruit")
+    @GET("collections/fruits/get")
     suspend fun getAllFruitCollections(): ApiResponseHandler<List<FruitCollectionDto>>
 
 
-    @POST("api/collections/fruits/store")
+    @POST("collections/fruits/store")
     suspend fun createRemoteFruitCollection(@Body fruitCollection: FruitCollectionRequest): SaveCollectionResponse
 
 }

@@ -6,6 +6,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import teka.android.organiks_platform_android.BuildConfig
 import teka.android.organiks_platform_android.data.remote.services.AuthService
 import teka.android.organiks_platform_android.data.remote.services.EggCollectionService
@@ -17,12 +18,12 @@ object RetrofitProvider {
     private const val BASE_URL = BuildConfig.BACKEND_URL
 
     private fun provide(): Retrofit {
-        val json = Json { ignoreUnknownKeys = true }//to ignore unkown keys
+        val json = Json { ignoreUnknownKeys = true }
 
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(provideOkhttpClient())
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 

@@ -12,16 +12,16 @@ import teka.android.organiks_platform_android.data.room_remote_sync.models.Remot
 interface MilkCollectionService {
 
 
-    @POST("api/milkCollection/update")
+    @POST("milkCollection/update")
     suspend fun updateEventVisitorList(@Body milkCollection: MilkCollectionRequest)
 
 
-    @GET("collections/milk")
+    @GET("collections/milk/get")
     suspend fun getAllMilkCollection(): ApiResponseHandler<List<MilkCollectionResult>>
 
 
     //Remember to adjust the response model class based on the actual JSON structure returned by your server's API.
-    @POST("api/collections/milk/store")
+    @POST("collections/milk/store")
     suspend fun createRemoteMilkCollection(@Body milkCollection: MilkCollectionRequest): RemoteMilkCollectionResponse
 
 }

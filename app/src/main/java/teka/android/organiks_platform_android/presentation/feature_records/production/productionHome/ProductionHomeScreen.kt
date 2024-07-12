@@ -243,7 +243,10 @@ fun EggCollectionItem(
 
 
 @Composable
-fun MilkCollectionItem(milkCollection: MilkCollection, onItemClick: () -> Unit) {
+fun MilkCollectionItem(
+    milkCollection: MilkCollection,
+    onItemClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -303,7 +306,10 @@ fun MilkCollectionItem(milkCollection: MilkCollection, onItemClick: () -> Unit) 
 
 
 @Composable
-fun FruitCollectionItem(fruitCollection: FruitCollectionEntity, onItemClick: () -> Unit) {
+fun FruitCollectionItem(
+    fruitCollection: FruitCollectionEntity,
+    onItemClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -364,6 +370,7 @@ fun FruitCollectionItem(fruitCollection: FruitCollectionEntity, onItemClick: () 
 
 
 
+@SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun CategoryItem(
     @DrawableRes iconRes:Int,

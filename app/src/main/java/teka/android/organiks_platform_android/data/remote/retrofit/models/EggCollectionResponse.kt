@@ -14,6 +14,7 @@ data class EggCollectionResponse(
 
 @Serializable
 data class EggCollectionResult(
+    @SerialName("collection_uuid")
     val uuid: String,
     val quantity: String,
     val cracked: String,
