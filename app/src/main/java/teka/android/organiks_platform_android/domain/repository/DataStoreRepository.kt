@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.repository
+package teka.android.organiks_platform_android.domain.repository
 
 import android.content.Context
 import androidx.datastore.core.DataStore
@@ -31,11 +31,11 @@ class DataStoreRepository(context: Context) {
         val onBoardingKey = booleanPreferencesKey(name = "on_boarding_completed")
         val isLoggedInKey = booleanPreferencesKey(name = "is_logged_in")
         //user data
-        val USER_NAME_KEY = stringPreferencesKey("user_name")
-        val USER_PHONE_KEY = stringPreferencesKey("user_phone")
-        val USER_EMAIL = stringPreferencesKey("user_email")
-        val ROLE_ID = intPreferencesKey("role_id")
-        val ROLE_TYPE = intPreferencesKey("role_type")
+        val USER_NAME_KEY = stringPreferencesKey(name ="user_name")
+        val USER_PHONE_KEY = stringPreferencesKey(name  = "user_phone")
+        val USER_EMAIL = stringPreferencesKey(name = "user_email")
+        val ROLE_ID = intPreferencesKey(name = "role_id")
+        val ROLE_TYPE = intPreferencesKey(name = "role_type")
     }
 
 

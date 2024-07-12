@@ -22,7 +22,7 @@ import teka.android.organiks_platform_android.presentation.feature_splash_screen
 import teka.android.organiks_platform_android.navigation.*
 import teka.android.organiks_platform_android.presentation.feature_auth.AuthViewModel
 import teka.android.organiks_platform_android.presentation.feature_auth.UserState
-import teka.android.organiks_platform_android.repository.DataStoreRepository
+import teka.android.organiks_platform_android.domain.repository.DataStoreRepository
 import teka.android.organiks_platform_android.ui.theme.OrganiksPlatformAndroidTheme
 import teka.android.organiks_platform_android.util.components.SetBarColor
 

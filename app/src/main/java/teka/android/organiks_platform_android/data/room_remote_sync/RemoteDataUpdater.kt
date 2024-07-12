@@ -12,7 +12,7 @@ import teka.android.organiks_platform_android.data.remote.retrofit.models.toFrui
 import teka.android.organiks_platform_android.data.remote.retrofit.models.toMilkCollectionRequest
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
-import teka.android.organiks_platform_android.repository.DbRepository
+import teka.android.organiks_platform_android.domain.repository.DbRepository
 import javax.inject.Inject
 
 

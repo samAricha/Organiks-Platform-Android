@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.feature_records.production.productionHome
+package teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords
 
 
 import androidx.compose.runtime.mutableStateOf
@@ -22,7 +22,7 @@ data class SnackbarData(val message: String)
 
 
 @HiltViewModel
-class ProductionHomeViewModel @Inject constructor(
+class RemoteRecordsViewModel @Inject constructor(
     private val repository: DbRepository,
     private val remoteDataUpdater: RemoteDataUpdater
 ): ViewModel() {

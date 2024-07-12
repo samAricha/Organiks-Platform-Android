@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.repository
+package teka.android.organiks_platform_android.domain.repository
 
 import teka.android.organiks_platform_android.data.room.EggCollectionDao
 import teka.android.organiks_platform_android.data.room.EggTypeDao

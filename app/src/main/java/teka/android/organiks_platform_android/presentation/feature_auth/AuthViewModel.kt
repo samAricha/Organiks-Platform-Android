@@ -27,7 +27,7 @@ import teka.android.organiks_platform_android.presentation.feature_auth.core.rep
 import teka.android.organiks_platform_android.presentation.feature_auth.core.util.LoginResultModel
 import teka.android.organiks_platform_android.presentation.feature_auth.core.util.RegistrationResult
 import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.UserRoleDto
-import teka.android.organiks_platform_android.repository.DataStoreRepository
+import teka.android.organiks_platform_android.domain.repository.DataStoreRepository
 import teka.android.organiks_platform_android.util.UiEvents
 import teka.android.organiks_platform_android.util.data.ResultResource
 import timber.log.Timber

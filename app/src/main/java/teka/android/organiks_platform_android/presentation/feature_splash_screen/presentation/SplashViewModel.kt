@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import teka.android.organiks_platform_android.repository.DataStoreRepository
+import teka.android.organiks_platform_android.domain.repository.DataStoreRepository
 import teka.android.organiks_platform_android.navigation.AUTH_GRAPH_ROUTE
 import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 import javax.inject.Inject

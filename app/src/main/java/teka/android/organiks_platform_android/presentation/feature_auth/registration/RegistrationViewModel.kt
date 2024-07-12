@@ -9,7 +9,7 @@ import teka.android.organiks_platform_android.domain.form.validation.UiText
 import teka.android.organiks_platform_android.domain.form.validation.use_cases.ValidateEmailUseCase
 import teka.android.organiks_platform_android.domain.form.validation.use_cases.ValidatePasswordUseCase
 import teka.android.organiks_platform_android.domain.form.validation.use_cases.ValidatePhoneNumberUseCase
-import teka.android.organiks_platform_android.repository.DataStoreRepository
+import teka.android.organiks_platform_android.domain.repository.DataStoreRepository
 import javax.inject.Inject
 
 

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
-import teka.android.organiks_platform_android.repository.DbRepository
+import teka.android.organiks_platform_android.domain.repository.DbRepository
 import javax.inject.Inject
 
 @HiltViewModel

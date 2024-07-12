@@ -8,7 +8,7 @@ import teka.android.organiks_platform_android.data.remote.retrofit.toEggCollecti
 import teka.android.organiks_platform_android.data.remote.retrofit.toMilkCollection
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
-import teka.android.organiks_platform_android.repository.DbRepository
+import teka.android.organiks_platform_android.domain.repository.DbRepository
 
 
 class FetchRemoteData {

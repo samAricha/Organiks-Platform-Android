@@ -12,10 +12,10 @@ import teka.android.organiks_platform_android.data.room.OrganiksDatabase
 import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.MessageDao
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.MessageDatabase
-import teka.android.organiks_platform_android.repository.DataStoreRepository
+import teka.android.organiks_platform_android.domain.repository.DataStoreRepository
 import teka.android.organiks_platform_android.presentation.feature_splash_screen.presentation.SplashViewModel
 import teka.android.organiks_platform_android.networking.NetworkConnectivityObserver
-import teka.android.organiks_platform_android.repository.DbRepository
+import teka.android.organiks_platform_android.domain.repository.DbRepository
 import javax.inject.Singleton
 
 @Module

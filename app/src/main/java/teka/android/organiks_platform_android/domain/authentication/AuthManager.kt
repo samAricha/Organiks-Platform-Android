@@ -18,7 +18,7 @@ import teka.android.organiks_platform_android.presentation.feature_auth.core.uti
 import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.RegisterRequestBody
 import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.RegisterResponseData
 import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.UserRoleDto
-import teka.android.organiks_platform_android.repository.DataStoreRepository
+import teka.android.organiks_platform_android.domain.repository.DataStoreRepository
 import teka.android.organiks_platform_android.util.data.ApiResponseHandler
 import timber.log.Timber
 
@@ -26,8 +26,8 @@ import javax.inject.Inject
 
 
 class AuthManager @Inject constructor(
-                  private val dataStoreRepository: DataStoreRepository,
-                  private val context: Context // Inject the Context
+    private val dataStoreRepository: DataStoreRepository,
+    private val context: Context // Inject the Context
 ) {
 
     private val customAuthService: CustomAuthService = AuthRetrofitProvider.createAuthService()

@@ -14,7 +14,7 @@ import teka.android.organiks_platform_android.data.room.models.EggType
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.data.room.models.ProductionCategory
-import teka.android.organiks_platform_android.repository.DbRepository
+import teka.android.organiks_platform_android.domain.repository.DbRepository
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
 import java.util.*
