@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.remote.retrofit.RetrofitProvider
-import teka.android.organiks_platform_android.data.remote.retrofit.models.toEggCollection
 import teka.android.organiks_platform_android.data.remote.retrofit.models.toMilkCollection
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
@@ -22,8 +21,8 @@ class RecordsMainViewModel:ViewModel() {
         viewModelScope.launch {
 
             try {
-                val eggCollectionList = RetrofitProvider.createEggCollectionService().getAllEggCollections()
-                eggCollectionsResponse = eggCollectionList.results.map { it.toEggCollection() }
+//                val eggCollectionList = RetrofitProvider.createEggCollectionService().getAllEggCollections()
+//                eggCollectionsResponse = eggCollectionList.results.map { it.toEggCollection() }
 
             }catch (e:Exception){
                 errorMessage = e.message.toString();
@@ -35,8 +34,8 @@ class RecordsMainViewModel:ViewModel() {
         viewModelScope.launch {
 
             try {
-                val milkCollectionList = RetrofitProvider.createMilkCollectionService().getMilkCollection()
-                milkCollectionsResponse = milkCollectionList.results.map { it.toMilkCollection() }
+//                val milkCollectionList = RetrofitProvider.createMilkCollectionService().getAllMilkCollection()
+//                milkCollectionsResponse = milkCollectionList.results.map { it.toMilkCollection() }
 
             }catch (e:Exception){
                 errorMessage = e.message.toString();

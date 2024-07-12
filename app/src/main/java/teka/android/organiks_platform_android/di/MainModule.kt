@@ -18,6 +18,8 @@ import teka.android.organiks_platform_android.presentation.feature_splash_screen
 import teka.android.organiks_platform_android.networking.NetworkConnectivityObserver
 import teka.android.organiks_platform_android.domain.repository.DbRepository
 import teka.android.organiks_platform_android.domain.repository.RemoteEggRecordsRepository
+import teka.android.organiks_platform_android.domain.repository.RemoteFruitRecordsRepository
+import teka.android.organiks_platform_android.domain.repository.RemoteMilkRecordsRepository
 import javax.inject.Singleton
 
 @Module
@@ -111,6 +113,30 @@ object MainModule {
 
         )
         return eggRecordsRepository
+    }
+
+    @Singleton
+    @Provides
+    fun provideRemoteMilkRecordsRepository(
+        @ApplicationContext context: Context
+    ): RemoteMilkRecordsRepository {
+        val milkRecordsRepository = RemoteMilkRecordsRepository(
+            RetrofitProvider.createMilkCollectionService(),
+
+            )
+        return milkRecordsRepository
+    }
+
+    @Singleton
+    @Provides
+    fun provideRemoteFruitsRecordsRepository(
+        @ApplicationContext context: Context
+    ): RemoteFruitRecordsRepository {
+        val fruitsRecordsRepository = RemoteFruitRecordsRepository(
+            RetrofitProvider.createFruitCollectionService(),
+
+            )
+        return fruitsRecordsRepository
     }
 
     @Provides

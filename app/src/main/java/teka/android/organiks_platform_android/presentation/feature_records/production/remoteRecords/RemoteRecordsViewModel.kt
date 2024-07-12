@@ -8,13 +8,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
-import teka.android.organiks_platform_android.data.room.models.EggCollection
-import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
-import teka.android.organiks_platform_android.data.room.models.MilkCollection
+import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionDto
+import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionResult
 import teka.android.organiks_platform_android.domain.repository.RemoteEggRecordsRepository
+import teka.android.organiks_platform_android.domain.repository.RemoteFruitRecordsRepository
+import teka.android.organiks_platform_android.domain.repository.RemoteMilkRecordsRepository
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,16 +24,18 @@ data class SnackbarData(val message: String)
 @HiltViewModel
 class RemoteRecordsViewModel @Inject constructor(
     private val eggRecordsRepository: RemoteEggRecordsRepository,
+    private val milkRecordsRepository: RemoteMilkRecordsRepository,
+    private val fruitsRecordsRepository: RemoteFruitRecordsRepository,
 ): ViewModel() {
 
     private val _eggCollections = MutableStateFlow<List<EggCollectionResult>>(emptyList())
     val eggCollections: StateFlow<List<EggCollectionResult>> = _eggCollections.asStateFlow()
 
-    private val _milkCollections = MutableStateFlow<List<MilkCollection>>(emptyList())
-    val milkCollections: StateFlow<List<MilkCollection>> = _milkCollections.asStateFlow()
+    private val _milkCollections = MutableStateFlow<List<MilkCollectionResult>>(emptyList())
+    val milkCollections: StateFlow<List<MilkCollectionResult>> = _milkCollections.asStateFlow()
 
-    private val _fruitCollections = MutableStateFlow<List<FruitCollectionEntity>>(emptyList())
-    val fruitCollections: StateFlow<List<FruitCollectionEntity>> = _fruitCollections.asStateFlow()
+    private val _fruitCollections = MutableStateFlow<List<FruitCollectionDto>>(emptyList())
+    val fruitCollections: StateFlow<List<FruitCollectionDto>> = _fruitCollections.asStateFlow()
 
 
     private val _isSyncing = MutableStateFlow(false)
@@ -68,8 +70,8 @@ class RemoteRecordsViewModel @Inject constructor(
 
     private fun viewModelInitialization(){
         fetchAllEggRecords()
-        fetchMilkCollections()
-        fetchFruitCollections()
+        fetchAllMilkCollections()
+        fetchAllFruitCollections()
     }
 
 
@@ -95,19 +97,41 @@ class RemoteRecordsViewModel @Inject constructor(
     }
 
 
-    private fun fetchFruitCollections() {
+    private fun fetchAllFruitCollections() {
         viewModelScope.launch {
-//            eggRecordsRepository.getFruitCollections.collectLatest { fruitCollections ->
-//                _fruitCollections.value = fruitCollections
-//            }
+            _isLoading.value = true
+            try {
+                fruitsRecordsRepository.getAllFruitCollections().collect { fruits ->
+                    _fruitCollections.value = fruits
+                    Timber.tag(">>>EGGS LIST").d(fruits.toString())
+                }
+                _successMessage.value = "Data Fetched successfully"
+
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
-    private fun fetchMilkCollections() {
+    private fun fetchAllMilkCollections() {
         viewModelScope.launch {
-//            eggRecordsRepository.getMilkCollection.collectLatest { milkCollections ->
-//                _milkCollections.value = milkCollections
-//            }
+            _isLoading.value = true
+            try {
+                milkRecordsRepository.getAllMilkCollections().collect { milk ->
+                    _milkCollections.value = milk
+                    Timber.tag(">>>EGGS LIST").d(milk.toString())
+                }
+                _successMessage.value = "Data Fetched successfully"
+
+            } catch (e: Exception) {
+                _errorMessage.value = e.message
+
+            } finally {
+                _isLoading.value = false
+            }
         }
     }
 
