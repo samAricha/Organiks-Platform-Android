@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.feature_dashborad
+package teka.android.organiks_platform_android.presentation.feature_dashborad.utils
 
 import androidx.compose.ui.graphics.Color
 import co.yml.charts.axis.DataCategoryOptions

@@ -1,7 +1,6 @@
-package teka.android.organiks_platform_android.presentation.feature_dashborad
+package teka.android.organiks_platform_android.presentation.feature_dashborad.components
 
 import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -11,6 +10,7 @@ import co.yml.charts.ui.barchart.models.BarChartData
 import co.yml.charts.ui.barchart.models.BarStyle
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.navigation.ProgressIndicator
+import teka.android.organiks_platform_android.presentation.feature_dashborad.utils.getBarChartDataFromEggCollection
 
 @Composable
 fun BarchartWithSolidBars(eggCollectionResults: List<EggCollectionResult>) {

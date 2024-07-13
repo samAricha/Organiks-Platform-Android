@@ -1,7 +1,5 @@
 package teka.android.organiks_platform_android.presentation.feature_dashborad
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -25,14 +23,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import co.yml.charts.common.utils.DataUtils
-import com.jaikeerthick.composable_graphs.composables.pie.PieChart
-import com.jaikeerthick.composable_graphs.composables.pie.model.PieData
-import com.jaikeerthick.composable_graphs.composables.pie.style.PieChartStyle
-import com.jaikeerthick.composable_graphs.composables.pie.style.PieChartVisibility
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.presentation.feature_dashborad.components.PiechartWithSliceLablesWidget
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
 import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
-import teka.android.organiks_platform_android.util.components.BarchartWithSolidBars
 import teka.android.organiks_platform_android.util.components.PiechartWithSliceLables
 import teka.android.organiks_platform_android.util.components.SingleLineChartWithGridLines
 
@@ -77,7 +71,6 @@ fun DashboardScreen() {
             style = MaterialTheme.typography.h6
         )
         LazyColumn {
-
             item {
                 LazyRow{
                     item {
@@ -147,7 +140,9 @@ fun DashboardScreen() {
                     fontWeight = FontWeight.Normal,
                     textDecoration = TextDecoration.Underline
                 )
-                BarchartWithSolidBars(remoteEggCollectionList)
+                teka.android.organiks_platform_android.presentation.feature_dashborad.components.BarchartWithSolidBars(
+                    remoteEggCollectionList
+                )
 
 //                BarchartWithSolidBars()
             }
@@ -163,7 +158,12 @@ fun DashboardScreen() {
                     fontWeight = FontWeight.Normal,
                     textDecoration = TextDecoration.Underline
                 )
-                PiechartWithSliceLables(context = context)
+//                PiechartWithSliceLables(context = context)
+                PiechartWithSliceLablesWidget(
+                    context,
+                    eggCollectionResults
+                )
+
             }
             item {
                 Spacer(modifier = Modifier.height(16.dp))
