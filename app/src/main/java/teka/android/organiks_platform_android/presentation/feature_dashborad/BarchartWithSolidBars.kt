@@ -10,7 +10,7 @@ import co.yml.charts.ui.barchart.BarChart
 import co.yml.charts.ui.barchart.models.BarChartData
 import co.yml.charts.ui.barchart.models.BarStyle
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
-import teka.android.organiks_platform_android.util.components.LoadingAnimation
+import teka.android.organiks_platform_android.navigation.ProgressIndicator
 
 @Composable
 fun BarchartWithSolidBars(eggCollectionResults: List<EggCollectionResult>) {
@@ -53,6 +53,6 @@ fun BarchartWithSolidBars(eggCollectionResults: List<EggCollectionResult>) {
         )
     } else {
         // Handle the loading state or empty state
-        LoadingAnimation()
+        ProgressIndicator()
     }
 }

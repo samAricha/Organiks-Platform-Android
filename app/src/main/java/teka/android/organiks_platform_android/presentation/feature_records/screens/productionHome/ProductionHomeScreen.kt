@@ -42,6 +42,7 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.ui.graphics.PathEffect
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
+import teka.android.organiks_platform_android.navigation.ProgressIndicator
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -165,16 +166,16 @@ fun ProductionHomeScreen(
     }
 }
 
-@Composable
-fun ProgressIndicator(){
-    Box(
-        modifier = Modifier
-            .fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(color = PrimaryColor)
-    }
-}
+//@Composable
+//fun ProgressIndicator(){
+//    Box(
+//        modifier = Modifier
+//            .fillMaxSize(),
+//        contentAlignment = Alignment.Center
+//    ) {
+//        CircularProgressIndicator(color = PrimaryColor)
+//    }
+//}
 
 
 @Composable
