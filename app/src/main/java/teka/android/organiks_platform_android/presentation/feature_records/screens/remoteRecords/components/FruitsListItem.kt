@@ -14,7 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionDto
 import teka.android.organiks_platform_android.ui.theme.PoppinsExtraLight
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
@@ -42,7 +44,9 @@ fun FruitsListItem(
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
                     text = "Fruits",
-                    fontFamily = PoppinsLight
+                    fontFamily = PoppinsLight,
+                    fontSize = 12.sp,
+                    fontStyle = FontStyle.Italic,
                 )
                 Text(
                     text = "Qty: ${fruitCollection.quantity ?: 0} kgs",
@@ -63,7 +67,9 @@ fun FruitsListItem(
                 Text(
                     text = formattedDate,
                     fontFamily = PoppinsExtraLight,
-                    modifier = Modifier.align(Alignment.BottomEnd)
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    fontSize = 12.sp,
+                    fontStyle = FontStyle.Italic,
                 )
             }
         }

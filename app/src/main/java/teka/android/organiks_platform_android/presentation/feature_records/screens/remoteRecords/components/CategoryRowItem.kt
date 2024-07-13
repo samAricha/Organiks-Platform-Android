@@ -22,6 +22,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import teka.android.organiks_platform_android.ui.theme.BackgroundColor
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
 
@@ -51,7 +52,7 @@ fun CategoryRowItem(
         shape = Shapes.large,
         backgroundColor = if(selected) PrimaryColor
         else Color.LightGray,
-        contentColor = if (selected) MaterialTheme.colors.onPrimary
+        contentColor = if (selected) BackgroundColor
         else MaterialTheme.colors.onSurface
 
     ) {
@@ -59,13 +60,20 @@ fun CategoryRowItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
 
-            Icon(painter = painterResource(id = iconRes),
+            Icon(
+                painter = painterResource(id = iconRes),
                 contentDescription = null,
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(24.dp),
+                tint = if (selected) BackgroundColor
+                else MaterialTheme.colors.onSurface
             )
             Spacer(modifier = Modifier.size(8.dp))
-            Text(text = title, style = MaterialTheme.typography.h6,
-                fontWeight = FontWeight.Medium
+            Text(
+                text = title,
+                style = MaterialTheme.typography.h6,
+                fontWeight = FontWeight.Medium,
+                color = if (selected) BackgroundColor
+                else MaterialTheme.colors.onSurface
             )
         }
 

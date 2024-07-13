@@ -1,10 +1,12 @@
 package teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -13,7 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.ui.theme.PoppinsExtraLight
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
@@ -45,7 +50,9 @@ fun EggsListItem(
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
                     text = "Kienyeji",
-                    fontFamily = PoppinsLight
+                    fontFamily = PoppinsLight,
+                    fontStyle = FontStyle.Italic,
+                    fontSize = 12.sp
                 )
                 Text(text = "Total: ${eggCollection.quantity ?: 0} Eggs",
                     fontFamily = PoppinsLight
@@ -54,15 +61,24 @@ fun EggsListItem(
                     fontFamily = PoppinsLight
                 )
             }
-            Box(modifier = Modifier
-                .padding(8.dp)
-                .fillMaxSize()) {
+            Box(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .fillMaxSize()
+                    .fillMaxHeight()
+            ) {
                 // Date Text
-                val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-                    .format(eggCollection.date)
-                Text(text = formattedDate,
+                val formattedDate = SimpleDateFormat(
+                    "dd-MM-yyyy",
+                    Locale.getDefault()
+                ).format(eggCollection.date)
+
+                Text(
+                    text = formattedDate,
                     fontFamily = PoppinsExtraLight,
-                    modifier = Modifier.align(Alignment.BottomEnd)
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    fontSize = 12.sp,
+                    fontStyle = FontStyle.Italic,
                 )
             }
 

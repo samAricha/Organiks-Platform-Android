@@ -14,7 +14,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionResult
 import teka.android.organiks_platform_android.ui.theme.PoppinsExtraLight
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
@@ -41,7 +43,9 @@ fun MilkListItem(
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
                     text = "Milk",
-                    fontFamily = PoppinsLight
+                    fontFamily = PoppinsLight,
+                    fontSize = 12.sp,
+                    fontStyle = FontStyle.Italic,
                 )
                 Text(
                     text = "Qty: ${milkCollection.quantity ?: 0} litres",
@@ -63,7 +67,9 @@ fun MilkListItem(
                 Text(
                     text = formattedDate,
                     fontFamily = PoppinsExtraLight,
-                    modifier = Modifier.align(Alignment.BottomEnd)
+                    modifier = Modifier.align(Alignment.BottomEnd),
+                    fontSize = 12.sp,
+                    fontStyle = FontStyle.Italic,
                 )
             }
         }
