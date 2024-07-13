@@ -6,6 +6,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import teka.android.organiks_platform_android.data.remote.services.AiSearchService
 
 object AiRetrofitProvider {
     private const val BASE_URL = "https://laravel-openai-api-f76e0ac15d16.herokuapp.com/"

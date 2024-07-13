@@ -18,6 +18,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.Receipt
 import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material.icons.filled.VoiceChat
 import androidx.compose.material.rememberScaffoldState
@@ -99,13 +100,16 @@ fun NavigationDrawerM3(
             }
         ),
         DrawerItem(
-            icon = Icons.Default.Notifications,
-            label = "Notifications",
-            secondaryLabel = "12",
-            route = null,
+            icon = Icons.Default.Receipt,
+            label = "All Records",
+            secondaryLabel = "Remote Records",
+            route = AppScreens.RemoteRecordsScreens.route,
             onItemClick = {
-                Toast.makeText(context, "This is a Notifications Toast. Yay!", Toast.LENGTH_SHORT).show()
-//                navHostController.navigate(Screen.ProductionHome.route)
+                navigationActions.navigateToRemoteRecordsScreen()
+                scope.launch {
+                    drawerState.close()
+                }
+                Toast.makeText(context, "Records", Toast.LENGTH_SHORT).show()
             }
         ),
         DrawerItem(
@@ -128,6 +132,16 @@ fun NavigationDrawerM3(
             route = null,
             onItemClick = {
                 Toast.makeText(context, "Videos Coming Soon!", Toast.LENGTH_SHORT).show()
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.Notifications,
+            label = "Notifications",
+            secondaryLabel = "12",
+            route = null,
+            onItemClick = {
+                Toast.makeText(context, "This is a Notifications Toast. Yay!", Toast.LENGTH_SHORT).show()
+//                navHostController.navigate(Screen.ProductionHome.route)
             }
         ),
         DrawerItem(

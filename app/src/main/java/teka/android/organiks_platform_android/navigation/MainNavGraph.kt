@@ -12,8 +12,9 @@ import androidx.navigation.navArgument
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.screens.MultiTurnScreen
 import teka.android.organiks_platform_android.presentation.aiadvice.AiAdviceScreen
 import teka.android.organiks_platform_android.presentation.feature_dashborad.DashboardScreen
-import teka.android.organiks_platform_android.presentation.feature_records.production.productionHome.ProductionHomeScreen
-import teka.android.organiks_platform_android.presentation.feature_records.production.productionRecording.ProductionRecordingScreen
+import teka.android.organiks_platform_android.presentation.feature_records.screens.productionHome.ProductionHomeScreen
+import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.ProductionRecordingScreen
+import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.RemoteRecordsScreen
 import teka.android.organiks_platform_android.presentation.feature_settings.SettingsScreen
 import teka.android.organiks_platform_android.ui.animations.scaleIntoContainer
 import teka.android.organiks_platform_android.ui.animations.scaleOutOfContainer
@@ -49,6 +50,29 @@ fun MainNavGraph(
         ){
             ProductionHomeScreen(onNavigate = { id ->
                 navController.navigate(route = "${AppScreens.ProductionRecording.route}?id=$id")
+            })
+        }
+
+        composable(
+            route = AppScreens.RemoteRecordsScreens.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+
+        ){
+            RemoteRecordsScreen(onNavigate = { id ->
+                navController.navigate(
+                    route = "${AppScreens.ProductionRecording.route}?id=$id"
+                )
             })
         }
 

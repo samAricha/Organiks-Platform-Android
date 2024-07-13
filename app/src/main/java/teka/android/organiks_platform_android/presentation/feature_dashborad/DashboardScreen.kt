@@ -1,7 +1,5 @@
 package teka.android.organiks_platform_android.presentation.feature_dashborad
 
-import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -20,23 +18,22 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import co.yml.charts.common.utils.DataUtils
-import com.jaikeerthick.composable_graphs.composables.pie.PieChart
-import com.jaikeerthick.composable_graphs.composables.pie.model.PieData
-import com.jaikeerthick.composable_graphs.composables.pie.style.PieChartStyle
-import com.jaikeerthick.composable_graphs.composables.pie.style.PieChartVisibility
+import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.presentation.feature_dashborad.components.BarchartWithSolidBarsWidget
+import teka.android.organiks_platform_android.presentation.feature_dashborad.components.PiechartWithSliceLablesWidget
+import teka.android.organiks_platform_android.presentation.feature_dashborad.components.SingleLineChartWithGridLinesWidget
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
 import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
-import teka.android.organiks_platform_android.util.components.BarchartWithSolidBars
-import teka.android.organiks_platform_android.util.components.PiechartWithSliceLables
-import teka.android.organiks_platform_android.util.components.SingleLineChartWithGridLines
 
 @Composable
 fun DashboardScreen() {
+
     val viewModel : DashboardViewModel = hiltViewModel()
+
 
 //    val totalEggs by rememberUpdatedState(newValue = viewModel.totalEggsCollected)
 //    val totalMilk by rememberUpdatedState(newValue = viewModel.totalMilkCollected)
@@ -51,6 +48,14 @@ fun DashboardScreen() {
     val totalNotBackedUpCount by viewModel.totalNotBackedUpCount.collectAsState()
 
     val context = LocalContext.current
+
+    val remoteEggCollectionList by viewModel.remoteEggCollections.collectAsState()
+
+
+    val isLoading by viewModel.isLoading.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
+    val successMessage by viewModel.successMessage.collectAsState()
+
 
 
 
@@ -70,7 +75,6 @@ fun DashboardScreen() {
             style = MaterialTheme.typography.h6
         )
         LazyColumn {
-
             item {
                 LazyRow{
                     item {
@@ -125,20 +129,82 @@ fun DashboardScreen() {
                 }
             }
 
+            val eggCollectionResults = listOf(
+                EggCollectionResult("uuid1", "20", "2", 1, 1627885440),
+                EggCollectionResult("uuid2", "15", "1", 2, 1627971840),
+                // Add more data here
+            )
+
             item {
-                BarchartWithSolidBars()
-            }
-            item {
-                PiechartWithSliceLables(context = context)
-            }
-            item {
-                SingleLineChartWithGridLines(
-                    DataUtils.getLineChartData(
-                        100,
-                        start = 50,
-                        maxRange = 100
-                    )
+                Text(
+                    text = "Bar Chart",
+                    fontSize = 14.sp,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(start = 4.dp),
+                    fontWeight = FontWeight.Normal,
+                    textDecoration = TextDecoration.Underline
                 )
+
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    BarchartWithSolidBarsWidget(
+                        remoteEggCollectionList,
+                        isLoading
+                    )
+                }
+
+//                BarchartWithSolidBars()
+            }
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+            item {
+                Text(
+                    text = "Pie Chart",
+                    fontSize = 14.sp,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(start = 4.dp),
+                    fontWeight = FontWeight.Normal,
+                    textDecoration = TextDecoration.Underline
+                )
+//                PiechartWithSliceLables(context = context)
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    PiechartWithSliceLablesWidget(
+                        context,
+                        eggCollectionResults,
+                        isLoading
+                    )
+                }
+            }
+            item {
+                Text(
+                    text = "Line Chart",
+                    fontSize = 14.sp,
+                    color = Color.Gray,
+                    modifier = Modifier.padding(start = 4.dp),
+                    fontWeight = FontWeight.Normal,
+                    textDecoration = TextDecoration.Underline
+                )
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    SingleLineChartWithGridLinesWidget(
+                        remoteEggCollectionList,
+                        isLoading
+                    )
+                }
+
+
+//                SingleLineChartWithGridLines(
+//                    DataUtils.getLineChartData(
+//                        100,
+//                        start = 50,
+//                        maxRange = 100
+//                    )
+//                )
             }
 
 

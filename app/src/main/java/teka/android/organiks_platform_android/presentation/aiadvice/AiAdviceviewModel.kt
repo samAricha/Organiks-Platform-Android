@@ -6,12 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.remote.retrofit.AiRetrofitProvider
-import teka.android.organiks_platform_android.data.remote.retrofit.AiSearchService
+import teka.android.organiks_platform_android.data.remote.services.AiSearchService
 import teka.android.organiks_platform_android.data.remote.retrofit.models.OpenAiPromptModel
 import teka.android.organiks_platform_android.data.room_remote_sync.models.OpenAiSearchResponse
 import javax.inject.Inject

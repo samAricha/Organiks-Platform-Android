@@ -6,19 +6,25 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import teka.android.organiks_platform_android.BuildConfig
+import teka.android.organiks_platform_android.data.remote.services.AuthService
+import teka.android.organiks_platform_android.data.remote.services.EggCollectionService
+import teka.android.organiks_platform_android.data.remote.services.FruitCollectionService
+import teka.android.organiks_platform_android.data.remote.services.MilkCollectionService
+import java.util.concurrent.TimeUnit
 
 object RetrofitProvider {
     private const val TEST_URL = "https://a3fb-105-57-17-70.ngrok-free.app"
     private const val BASE_URL = BuildConfig.BACKEND_URL
 
     private fun provide(): Retrofit {
-        val json = Json { ignoreUnknownKeys = true }//to ignore unkown keys
+        val json = Json { ignoreUnknownKeys = true }
 
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(provideOkhttpClient())
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
@@ -28,6 +34,9 @@ object RetrofitProvider {
                 it.level = HttpLoggingInterceptor.Level.BODY
             })
             .addInterceptor(HeaderInterceptor)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
             .build()
 
 
@@ -53,6 +62,9 @@ object RetrofitProvider {
                     .addHeader("Authorization", "Bearer $token")
                 chain.proceed(request.build())
             }
+            .connectTimeout(50, TimeUnit.SECONDS)
+            .readTimeout(50, TimeUnit.SECONDS)
+            .writeTimeout(50, TimeUnit.SECONDS)
             .build()
 
 

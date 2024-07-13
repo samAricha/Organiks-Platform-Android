@@ -68,7 +68,7 @@ fun ScaffoldContent(
                                 }
                             },
                             icon = {
-                                androidx.compose.material.Icon(
+                                Icon(
                                     painter = painterResource(if (currentRoute == AppScreens.DashboardAppScreens.route) R.drawable.home else R.drawable.outline_home_24),
                                     contentDescription = "Home",
                                     modifier = Modifier.size(20.dp),

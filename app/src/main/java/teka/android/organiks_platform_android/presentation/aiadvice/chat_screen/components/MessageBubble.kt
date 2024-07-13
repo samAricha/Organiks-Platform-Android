@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import teka.android.organiks_platform_android.domain.models.ChatMessageModel
 import teka.android.organiks_platform_android.ui.theme.Gray700
+import teka.android.organiks_platform_android.util.components.LoadingAnimation
 
 @Composable
 inline fun MessageBubble(message: ChatMessageModel, modifier: Modifier = Modifier) {
