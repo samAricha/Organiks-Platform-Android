@@ -1,6 +1,5 @@
-package teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords.components
+package teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -10,25 +9,22 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import teka.android.organiks_platform_android.R
-import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionResult
-import teka.android.organiks_platform_android.data.room.models.MilkCollection
+import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionDto
 import teka.android.organiks_platform_android.ui.theme.PoppinsExtraLight
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
 import java.text.SimpleDateFormat
 import java.util.Locale
 
+
 @Composable
-fun MilkListItem(
-    milkCollection: MilkCollectionResult,
+fun FruitsListItem(
+    fruitCollection: FruitCollectionDto,
     onItemClick: () -> Unit
 ) {
     Card(
@@ -42,7 +38,7 @@ fun MilkListItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-//            val icon = if (milkCollection.isBackedUp) {
+//            val icon = if (fruitCollection.isBackedUp) {
 //                painterResource(R.drawable.checkmark) // "Backed Up" icon
 //            } else {
 //                painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
@@ -52,17 +48,18 @@ fun MilkListItem(
 //                Image(
 //                    painter = icon,
 //                    modifier = Modifier.size(24.dp),
-//                    contentDescription = if (milkCollection.isBackedUp) "Backed Up" else "Not Backed Up"
+//                    contentDescription = if (fruitCollection.isBackedUp) "Backed Up" else "Not Backed Up"
 //                )
 //            }
 
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
-                    text = "Milk", // You can customize the text as needed
+                    text = "Fruits", // You can customize the text as needed
                     fontFamily = PoppinsLight
                 )
                 Text(
-                    text = "Qty: ${milkCollection.qty} litres",
+//                    text = "Qty: ${fruitCollection.qty} litres",
+                    text = "Qty: ${fruitCollection.qty} litres",
                     fontFamily = PoppinsLight
                 )
                 // Add more properties as needed
@@ -77,7 +74,7 @@ fun MilkListItem(
             ) {
                 // Date Text
                 val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-                    .format(milkCollection.date)
+                    .format(fruitCollection.date)
                 Text(
                     text = formattedDate,
                     fontFamily = PoppinsExtraLight,

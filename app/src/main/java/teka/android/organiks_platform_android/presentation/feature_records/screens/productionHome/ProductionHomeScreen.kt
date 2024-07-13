@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.feature_records.production.productionHome
+package teka.android.organiks_platform_android.presentation.feature_records.screens.productionHome
 
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes

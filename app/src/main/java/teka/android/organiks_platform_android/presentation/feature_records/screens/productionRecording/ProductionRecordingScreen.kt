@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.feature_records.production.productionRecording
+package teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording
 
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
@@ -23,9 +23,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import teka.android.organiks_platform_android.presentation.feature_records.production.components.EggProductionEntryComponent
-import teka.android.organiks_platform_android.presentation.feature_records.production.components.FruitProductionEntryComponent
-import teka.android.organiks_platform_android.presentation.feature_records.production.components.MilkProductionEntryComponent
+import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components.EggProductionEntryComponent
+import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components.FruitProductionEntryComponent
+import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components.MilkProductionEntryComponent
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor

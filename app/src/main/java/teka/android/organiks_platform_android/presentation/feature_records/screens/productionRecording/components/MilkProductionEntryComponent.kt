@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.feature_records.production.components
+package teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components
 
 
 import androidx.compose.foundation.Canvas
@@ -16,8 +16,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.navigation.AppScreens
-import teka.android.organiks_platform_android.presentation.feature_records.production.productionRecording.ProductionRecordingState
-import teka.android.organiks_platform_android.presentation.feature_records.production.productionRecording.ProductionRecordingViewModel
+import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.ProductionRecordingState
+import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.ProductionRecordingViewModel
 import teka.android.organiks_platform_android.ui.theme.Poppins
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.ui.theme.buttonShapes

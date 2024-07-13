@@ -16,16 +16,16 @@ class RemoteMilkRecordsRepository(
         return flow {
             try {
                 val response: ApiResponseHandler<List<MilkCollectionResult>> = milkCollectionService.getAllMilkCollection()
-                Timber.tag(">>>PROPERTIES LIST").d(response.toString())
+                Timber.tag(">>>milk LIST").d(response.toString())
                 response.data.let {
                     if (it != null) {
                         emit(it)
                     }
                 }
             } catch (e: Exception) {
-                Timber.tag(">>>PROPERTIES LIST ERROR").e(e)
+                Timber.tag(">>>MILK LIST ERROR").e(e)
                 // Handle exceptions here (e.g., network issues)
-                emit(emptyList()) // Emit an empty list or handle error accordingly
+                emit(emptyList())
             }
         }
     }

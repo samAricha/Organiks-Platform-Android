@@ -12,6 +12,7 @@ import teka.android.organiks_platform_android.data.remote.services.AuthService
 import teka.android.organiks_platform_android.data.remote.services.EggCollectionService
 import teka.android.organiks_platform_android.data.remote.services.FruitCollectionService
 import teka.android.organiks_platform_android.data.remote.services.MilkCollectionService
+import java.util.concurrent.TimeUnit
 
 object RetrofitProvider {
     private const val TEST_URL = "https://a3fb-105-57-17-70.ngrok-free.app"
@@ -33,6 +34,9 @@ object RetrofitProvider {
                 it.level = HttpLoggingInterceptor.Level.BODY
             })
             .addInterceptor(HeaderInterceptor)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
             .build()
 
 
@@ -58,6 +62,9 @@ object RetrofitProvider {
                     .addHeader("Authorization", "Bearer $token")
                 chain.proceed(request.build())
             }
+            .connectTimeout(50, TimeUnit.SECONDS)
+            .readTimeout(50, TimeUnit.SECONDS)
+            .writeTimeout(50, TimeUnit.SECONDS)
             .build()
 
 

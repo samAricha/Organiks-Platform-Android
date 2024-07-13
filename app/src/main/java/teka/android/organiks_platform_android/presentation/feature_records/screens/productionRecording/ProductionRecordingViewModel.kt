@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.feature_records.production.productionRecording
+package teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue

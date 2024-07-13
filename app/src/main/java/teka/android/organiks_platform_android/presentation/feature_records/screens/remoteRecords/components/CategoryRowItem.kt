@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords.components
+package teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components
 
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes

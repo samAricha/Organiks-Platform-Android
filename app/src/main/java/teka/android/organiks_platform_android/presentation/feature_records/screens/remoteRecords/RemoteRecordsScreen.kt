@@ -1,20 +1,12 @@
-package teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords
+package teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords
 
 import android.annotation.SuppressLint
-import android.health.connect.datatypes.units.Length
 import android.widget.Toast
-import androidx.annotation.DrawableRes
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.*
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -28,8 +20,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import teka.android.organiks_platform_android.data.room.models.EggCollection
-import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
 import androidx.compose.foundation.Canvas
@@ -37,10 +27,10 @@ import androidx.compose.ui.graphics.PathEffect
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionDto
 import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionResult
-import teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords.components.CategoryRowItem
-import teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords.components.EggsListItem
-import teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords.components.FruitsListItem
-import teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords.components.MilkListItem
+import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components.CategoryRowItem
+import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components.EggsListItem
+import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components.FruitsListItem
+import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components.MilkListItem
 import teka.android.organiks_platform_android.util.CustomContextProvider
 import teka.android.organiks_platform_android.util.components.LoadingAnimation
 import teka.android.organiks_platform_android.util.components.ProgressIndicatorWidget

@@ -3,6 +3,7 @@ package teka.android.organiks_platform_android.presentation.feature_dashborad
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
@@ -52,14 +54,14 @@ class DashboardViewModel  @Inject constructor(
     val successMessage: StateFlow<String?> = _successMessage
 
 
-    init {
-        viewModelInitialization()
-    }
+//    init {
+//        viewModelInitialization()
+//    }
 
     fun viewModelInitialization() {
         viewModelScope.launch {
-            fetchEggCollections()
             fetchAllRemoteEggRecords()
+            fetchEggCollections()
             fetchMilkCollections()
             refreshNotBackedUpCollections()
         }
@@ -67,7 +69,7 @@ class DashboardViewModel  @Inject constructor(
     }
 
     fun fetchAllRemoteEggRecords() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             _isLoading.value = true
             try {
                 eggRecordsRepository.getAllEggCollections().collect { eggs ->
@@ -87,7 +89,7 @@ class DashboardViewModel  @Inject constructor(
 
     // Fetch and update milk collections in your ViewModel
     private fun fetchEggCollections() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.getEggCollections.collectLatest { eggCollections ->
                 _eggCollections.value = eggCollections
             }
@@ -95,7 +97,7 @@ class DashboardViewModel  @Inject constructor(
     }
 
     private fun fetchMilkCollections() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.getMilkCollection.collectLatest { milkCollections ->
                 _milkCollections.value = milkCollections
             }
@@ -103,23 +105,29 @@ class DashboardViewModel  @Inject constructor(
     }
 
     private suspend fun fetchNotBackedUpCollections() {
-        val notBackedUpEggCollections = repository.getEggCollections
-            .map { eggCollections ->
-                eggCollections.filter { !it.isBackedUp }
-            }
+        withContext(Dispatchers.IO) {
 
-        val notBackedUpMilkCollections = repository.getMilkCollection
-            .map { milkCollections ->
-                milkCollections.filter { !it.isBackedUp }
-            }
 
-        val totalNotBackedUp =
-            combine(notBackedUpEggCollections, notBackedUpMilkCollections) { eggs, milk ->
-                eggs.size + milk.size
-            }
+            val notBackedUpEggCollections = repository.getEggCollections
+                .map { eggCollections ->
+                    eggCollections.filter { !it.isBackedUp }
+                }
 
-        val total = totalNotBackedUp.first()
-        _totalNotBackedUpCount.value = total
+            val notBackedUpMilkCollections = repository.getMilkCollection
+                .map { milkCollections ->
+                    milkCollections.filter { !it.isBackedUp }
+                }
+
+            val totalNotBackedUp =
+                combine(notBackedUpEggCollections, notBackedUpMilkCollections) { eggs, milk ->
+                    eggs.size + milk.size
+                }
+
+            val total = totalNotBackedUp.first()
+            _totalNotBackedUpCount.value = total
+        }
+
+
     }
 
     fun refreshNotBackedUpCollections() {

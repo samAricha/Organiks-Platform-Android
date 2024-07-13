@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.feature_records.production.remoteRecords
+package teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords
 
 
 import androidx.compose.runtime.mutableStateOf
@@ -66,9 +66,11 @@ class RemoteRecordsViewModel @Inject constructor(
     }
 
     private fun viewModelInitialization(){
-        fetchAllEggRecords()
-//        fetchAllMilkCollections()
-        fetchAllFruitCollections()
+        viewModelScope.launch {
+            fetchAllEggRecords()
+            fetchAllMilkCollections()
+            fetchAllFruitCollections()
+        }
     }
 
 
@@ -86,7 +88,6 @@ class RemoteRecordsViewModel @Inject constructor(
 
             } catch (e: Exception) {
                 _errorMessage.value = e.message
-
             } finally {
                 _isLoading.value = false
             }
@@ -100,7 +101,7 @@ class RemoteRecordsViewModel @Inject constructor(
             try {
                 fruitsRecordsRepository.getAllFruitCollections().collect { fruits ->
                     _fruitCollections.value = fruits
-                    Timber.tag(">>>EGGS LIST").d(fruits.toString())
+                    Timber.tag(">>>FRUIT LIST").d(fruits.toString())
                 }
                 _successMessage.value = "Data Fetched successfully"
 
@@ -119,7 +120,7 @@ class RemoteRecordsViewModel @Inject constructor(
             try {
                 milkRecordsRepository.getAllMilkCollections().collect { milk ->
                     _milkCollections.value = milk
-                    Timber.tag(">>>EGGS LIST").d(milk.toString())
+                    Timber.tag(">>>MILK LIST").d(milk.toString())
                 }
                 _successMessage.value = "Data Fetched successfully"
 

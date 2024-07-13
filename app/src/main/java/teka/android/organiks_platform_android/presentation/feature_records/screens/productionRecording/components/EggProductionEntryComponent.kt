@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.feature_records.production.components
+package teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import teka.android.organiks_platform_android.data.room.models.EggType
 import teka.android.organiks_platform_android.navigation.AppScreens
-import teka.android.organiks_platform_android.presentation.feature_records.production.productionRecording.ProductionRecordingState
+import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.ProductionRecordingState
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.theme.Poppins
 import teka.android.organiks_platform_android.ui.theme.Shapes

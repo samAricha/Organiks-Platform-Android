@@ -37,8 +37,7 @@ import teka.android.organiks_platform_android.util.components.PiechartWithSliceL
 import teka.android.organiks_platform_android.util.components.SingleLineChartWithGridLines
 
 @Composable
-fun DashboardScreen(
-) {
+fun DashboardScreen() {
 
     val viewModel : DashboardViewModel = hiltViewModel()
 
