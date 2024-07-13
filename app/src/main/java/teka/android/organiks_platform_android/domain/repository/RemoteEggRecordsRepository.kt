@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.flow
 import teka.android.organiks_platform_android.data.remote.dtos.ApiResponseHandler
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.data.remote.services.EggCollectionService
+import teka.android.organiks_platform_android.domain.repository.utils.retryApiRequestWithDelay
 import timber.log.Timber
 
 class RemoteEggRecordsRepository(
@@ -15,7 +16,7 @@ class RemoteEggRecordsRepository(
     suspend fun getAllEggCollections(): Flow<List<EggCollectionResult>> {
         return flow {
             try {
-                val response: ApiResponseHandler<List<EggCollectionResult>> = retryWithDelay(
+                val response: ApiResponseHandler<List<EggCollectionResult>> = retryApiRequestWithDelay(
                     retries = 3,
                     delayMillis = 2000
                 ) {
@@ -34,26 +35,7 @@ class RemoteEggRecordsRepository(
 
 
 
-    private suspend fun <T> retryWithDelay(
-        retries: Int,
-        delayMillis: Long,
-        block: suspend () -> T
-    ): T {
-        var attempt = 0
-        var lastException: Exception? = null
-        while (attempt < retries) {
-            try {
-                return block()
-            } catch (e: Exception) {
-                lastException = e
-                attempt++
-                if (attempt < retries) {
-                    delay(delayMillis)
-                }
-            }
-        }
-        throw lastException ?: RuntimeException("Unknown error")
-    }
+
 
 
 }
