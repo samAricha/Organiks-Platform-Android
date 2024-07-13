@@ -22,13 +22,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import co.yml.charts.common.utils.DataUtils
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.presentation.feature_dashborad.components.BarchartWithSolidBarsWidget
 import teka.android.organiks_platform_android.presentation.feature_dashborad.components.PiechartWithSliceLablesWidget
+import teka.android.organiks_platform_android.presentation.feature_dashborad.components.SingleLineChartWithGridLinesWidget
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
 import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
-import teka.android.organiks_platform_android.util.components.PiechartWithSliceLables
-import teka.android.organiks_platform_android.util.components.SingleLineChartWithGridLines
 
 @Composable
 fun DashboardScreen() {
@@ -51,6 +50,11 @@ fun DashboardScreen() {
     val context = LocalContext.current
 
     val remoteEggCollectionList by viewModel.remoteEggCollections.collectAsState()
+
+
+    val isLoading by viewModel.isLoading.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
+    val successMessage by viewModel.successMessage.collectAsState()
 
 
 
@@ -135,14 +139,20 @@ fun DashboardScreen() {
                 Text(
                     text = "Bar Chart",
                     fontSize = 14.sp,
-                    color = Color.Gray, // Or any other color you prefer
+                    color = Color.Gray,
                     modifier = Modifier.padding(start = 4.dp),
                     fontWeight = FontWeight.Normal,
                     textDecoration = TextDecoration.Underline
                 )
-                teka.android.organiks_platform_android.presentation.feature_dashborad.components.BarchartWithSolidBars(
-                    remoteEggCollectionList
-                )
+
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    BarchartWithSolidBarsWidget(
+                        remoteEggCollectionList,
+                        isLoading
+                    )
+                }
 
 //                BarchartWithSolidBars()
             }
@@ -153,37 +163,49 @@ fun DashboardScreen() {
                 Text(
                     text = "Pie Chart",
                     fontSize = 14.sp,
-                    color = Color.Gray, // Or any other color you prefer
+                    color = Color.Gray,
                     modifier = Modifier.padding(start = 4.dp),
                     fontWeight = FontWeight.Normal,
                     textDecoration = TextDecoration.Underline
                 )
 //                PiechartWithSliceLables(context = context)
-                PiechartWithSliceLablesWidget(
-                    context,
-                    eggCollectionResults
-                )
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    PiechartWithSliceLablesWidget(
+                        context,
+                        eggCollectionResults,
+                        isLoading
+                    )
+                }
 
-            }
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
             }
             item {
                 Text(
                     text = "Line Chart",
                     fontSize = 14.sp,
-                    color = Color.Gray, // Or any other color you prefer
+                    color = Color.Gray,
                     modifier = Modifier.padding(start = 4.dp),
                     fontWeight = FontWeight.Normal,
                     textDecoration = TextDecoration.Underline
                 )
-                SingleLineChartWithGridLines(
-                    DataUtils.getLineChartData(
-                        100,
-                        start = 50,
-                        maxRange = 100
+                Box(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    SingleLineChartWithGridLinesWidget(
+                        remoteEggCollectionList,
+                        isLoading
                     )
-                )
+                }
+
+
+//                SingleLineChartWithGridLines(
+//                    DataUtils.getLineChartData(
+//                        100,
+//                        start = 50,
+//                        maxRange = 100
+//                    )
+//                )
             }
 
 

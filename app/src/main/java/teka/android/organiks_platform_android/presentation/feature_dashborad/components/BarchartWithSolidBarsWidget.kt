@@ -13,10 +13,13 @@ import teka.android.organiks_platform_android.navigation.ProgressIndicator
 import teka.android.organiks_platform_android.presentation.feature_dashborad.utils.getBarChartDataFromEggCollection
 
 @Composable
-fun BarchartWithSolidBars(eggCollectionResults: List<EggCollectionResult>) {
+fun BarchartWithSolidBarsWidget(
+    eggCollectionResults: List<EggCollectionResult>,
+    isLoading: Boolean
+) {
 
     // Check if data is loaded and not empty
-    if (eggCollectionResults.isNotEmpty()) {
+    if (eggCollectionResults.isNotEmpty() && !isLoading) {
         val maxRange = 50
         val barData = getBarChartDataFromEggCollection(eggCollectionResults)
         val yStepSize = 10

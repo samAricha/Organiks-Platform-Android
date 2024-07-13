@@ -16,36 +16,46 @@ import co.yml.charts.ui.piechart.charts.PieChart
 import co.yml.charts.ui.piechart.models.PieChartConfig
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.presentation.feature_dashborad.utils.getPieChartDataFromEggCollection
+import teka.android.organiks_platform_android.util.components.ProgressIndicatorWidget
 
 @Composable
 fun PiechartWithSliceLablesWidget(
     context: Context,
-    eggCollectionResults: List<EggCollectionResult>
+    eggCollectionResults: List<EggCollectionResult>,
+    isLoading: Boolean
 ) {
-    val pieChartData = getPieChartDataFromEggCollection(eggCollectionResults)
+    if (eggCollectionResults.isNotEmpty() && !isLoading){
 
-    val pieChartConfig = PieChartConfig(
-        activeSliceAlpha = .9f,
-        isEllipsizeEnabled = true,
-        sliceLabelEllipsizeAt = TextUtils.TruncateAt.MIDDLE,
-        sliceLabelTypeface = Typeface.defaultFromStyle(Typeface.ITALIC),
-        isAnimationEnable = true,
-        chartPadding = 20,
-        showSliceLabels = true,
-        labelVisible = true
-    )
+        val pieChartData = getPieChartDataFromEggCollection(eggCollectionResults)
 
-    Column(modifier = Modifier.height(500.dp)) {
-        Legends(legendsConfig = DataUtils.getLegendsConfigFromPieChartData(pieChartData, 3))
-        PieChart(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(400.dp),
-            pieChartData,
-            pieChartConfig
-        ) { slice ->
-            Toast.makeText(context, slice.label, Toast.LENGTH_SHORT).show()
+        val pieChartConfig = PieChartConfig(
+            activeSliceAlpha = .9f,
+            isEllipsizeEnabled = true,
+            sliceLabelEllipsizeAt = TextUtils.TruncateAt.MIDDLE,
+            sliceLabelTypeface = Typeface.defaultFromStyle(Typeface.ITALIC),
+            isAnimationEnable = true,
+            chartPadding = 20,
+            showSliceLabels = true,
+            labelVisible = true
+        )
+
+        Column(modifier = Modifier.height(500.dp)) {
+            Legends(legendsConfig = DataUtils.getLegendsConfigFromPieChartData(pieChartData, 3))
+            PieChart(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(400.dp),
+                pieChartData,
+                pieChartConfig
+            ) { slice ->
+                Toast.makeText(context, slice.label, Toast.LENGTH_SHORT).show()
+            }
         }
+
+    }else{
+        ProgressIndicatorWidget()
     }
+
+
 }
 
