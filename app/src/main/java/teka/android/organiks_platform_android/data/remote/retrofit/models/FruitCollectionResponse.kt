@@ -14,7 +14,7 @@ data class FruitCollectionResponse(
 @Serializable
 data class FruitCollectionDto(
     val uuid: String,
-    val qty: String,
+    val quantity: String,
     val fruitTypeId: Int,
     val date: Long,  // Date as a timestamp
 )
@@ -22,7 +22,7 @@ data class FruitCollectionDto(
 fun FruitCollectionDto.toFruitCollectionEntity(): FruitCollectionEntity {
     return FruitCollectionEntity(
         uuid = this.uuid,
-        qty = this.qty,
+        qty = this.quantity,
         fruitTypeId = this.fruitTypeId,
         date = this.date
     )

@@ -42,29 +42,15 @@ fun EggsListItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){
-//            val icon = if (eggCollection.isBackedUp) {
-//                painterResource(R.drawable.checkmark) // "Backed Up" icon
-//            } else {
-//                painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
-//            }
-
-//            Column(modifier = Modifier.padding(0.dp)) {
-//                Image(
-//                    painter = icon,
-//                    modifier = Modifier.size(24.dp),
-//                    contentDescription = if (eggCollection.isBackedUp) "Backed Up" else "Not Backed Up"
-//                )
-//            }
-
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
                     text = "Kienyeji",
                     fontFamily = PoppinsLight
                 )
-                Text(text = "Total: ${eggCollection.quantity} Eggs",
+                Text(text = "Total: ${eggCollection.quantity ?: 0} Eggs",
                     fontFamily = PoppinsLight
                 )
-                Text(text = "Cracked: ${eggCollection.cracked} Eggs",
+                Text(text = "Cracked: ${eggCollection.cracked ?: 0} Eggs",
                     fontFamily = PoppinsLight
                 )
             }

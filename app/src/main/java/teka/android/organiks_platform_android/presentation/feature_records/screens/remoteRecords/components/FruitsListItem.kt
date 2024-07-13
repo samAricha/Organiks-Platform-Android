@@ -38,31 +38,16 @@ fun FruitsListItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-//            val icon = if (fruitCollection.isBackedUp) {
-//                painterResource(R.drawable.checkmark) // "Backed Up" icon
-//            } else {
-//                painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
-//            }
-
-//            Column(modifier = Modifier.padding(0.dp)) {
-//                Image(
-//                    painter = icon,
-//                    modifier = Modifier.size(24.dp),
-//                    contentDescription = if (fruitCollection.isBackedUp) "Backed Up" else "Not Backed Up"
-//                )
-//            }
 
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
-                    text = "Fruits", // You can customize the text as needed
+                    text = "Fruits",
                     fontFamily = PoppinsLight
                 )
                 Text(
-//                    text = "Qty: ${fruitCollection.qty} litres",
-                    text = "Qty: ${fruitCollection.qty} litres",
+                    text = "Qty: ${fruitCollection.quantity ?: 0} kgs",
                     fontFamily = PoppinsLight
                 )
-                // Add more properties as needed
             }
 
             Spacer(modifier = Modifier.weight(1f))

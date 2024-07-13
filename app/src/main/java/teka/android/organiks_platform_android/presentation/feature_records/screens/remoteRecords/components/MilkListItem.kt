@@ -37,27 +37,14 @@ fun MilkListItem(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-//            val icon = if (milkCollection.isBackedUp) {
-//                painterResource(R.drawable.checkmark) // "Backed Up" icon
-//            } else {
-//                painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
-//            }
-
-//            Column(modifier = Modifier.padding(0.dp)) {
-//                Image(
-//                    painter = icon,
-//                    modifier = Modifier.size(24.dp),
-//                    contentDescription = if (milkCollection.isBackedUp) "Backed Up" else "Not Backed Up"
-//                )
-//            }
 
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
-                    text = "Milk", // You can customize the text as needed
+                    text = "Milk",
                     fontFamily = PoppinsLight
                 )
                 Text(
-                    text = "Qty: ${milkCollection.qty} litres",
+                    text = "Qty: ${milkCollection.quantity ?: 0} litres",
                     fontFamily = PoppinsLight
                 )
                 // Add more properties as needed

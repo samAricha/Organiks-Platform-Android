@@ -14,14 +14,14 @@ data class MilkCollectionResponse(
 @Serializable
 data class MilkCollectionResult(
     val uuid: String,
-    val qty: String,
+    val quantity: String,
     val date: Long,
 )
 
 fun MilkCollectionResult.toMilkCollection(): MilkCollection {
     return MilkCollection(
         uuid = this.uuid,
-        qty = this.qty,
+        qty = this.quantity,
         date = this.date,
     )
 }
