@@ -238,7 +238,7 @@ class GeminiAIViewModel @Inject constructor(
 
     private fun getModel(key: String, vision: Boolean = false) =
         GenerativeModel(
-            modelName = if (vision) "gemini-pro-vision" else "gemini-pro",
+            modelName = if (vision) "gemini-1.5-flash" else "gemini-pro",
             apiKey = key,
             safetySettings = listOf(
                 SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
@@ -270,7 +270,9 @@ class GeminiAIViewModel @Inject constructor(
         return history
     }
 
-    private fun convertToSnapshotStateList(messages: List<Message>): SnapshotStateList<Message> {
+    private fun convertToSnapshotStateList(
+        messages: List<Message>
+    ): SnapshotStateList<Message> {
         return mutableStateListOf(*messages.toTypedArray())
     }
 
@@ -280,14 +282,14 @@ class GeminiAIViewModel @Inject constructor(
 
     private val geminiService = GeminiService()
 
-    fun generateDocumentContent(message: String, images: List<ByteArray> = emptyList()) {
+    fun generateDocumentContent(
+        message: String,
+        images: List<ByteArray> = emptyList()
+    ) {
         viewModelScope.launch {
 //            val response = geminiRepository.generate(message, images)
 
             val response = geminiService.generateContentWithFiles(message, images)
-
-
-
 
         }
     }
