@@ -45,7 +45,8 @@ fun MultiTurnScreen() {
 
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
-    val apiTypeState = remember { mutableStateOf(ApiType.DOCUMENT_CHAT) }
+//    val apiTypeState = remember { mutableStateOf(ApiType.DOCUMENT_CHAT) }
+    val apiTypeState = remember { mutableStateOf(ApiType.MULTI_CHAT) }
 
 
 
@@ -59,7 +60,8 @@ fun MultiTurnScreen() {
         if (bitmaps.isNotEmpty()) {
             apiTypeState.value = ApiType.IMAGE_CHAT
         } else {
-            apiTypeState.value = ApiType.DOCUMENT_CHAT
+//            apiTypeState.value = ApiType.DOCUMENT_CHAT
+            apiTypeState.value = ApiType.MULTI_CHAT
         }
         println("BITMAPS CHANGED2: ${apiTypeState.value}")
     }
