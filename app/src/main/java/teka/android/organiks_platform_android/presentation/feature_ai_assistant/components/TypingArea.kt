@@ -67,7 +67,7 @@ fun TypingArea(
 
     val isGenerating: Boolean? = when (apiType) {
         ApiType.MULTI_CHAT -> viewModel.conversationList.observeAsState().value?.lastOrNull()?.isGenerating
-        ApiType.SINGLE_CHAT -> TODO()
+        ApiType.SINGLE_CHAT -> viewModel.singleResponse.observeAsState().value?.lastOrNull()?.isGenerating
         ApiType.IMAGE_CHAT -> viewModel.imageResponse.observeAsState().value?.lastOrNull()?.isGenerating
         ApiType.DOCUMENT_CHAT -> viewModel.documentResponse.observeAsState().value?.lastOrNull()?.isGenerating
     }
@@ -250,11 +250,12 @@ fun TypingArea(
                                                 text.text.trim()
                                             )
 
-                                            ApiType.IMAGE_CHAT ->  viewModel.makeImageQuery(
+                                            ApiType.IMAGE_CHAT -> viewModel.makeImageQuery(
                                                 context,
                                                 text.text.trim(),
                                                 bitmaps!!
                                             )
+
                                             ApiType.DOCUMENT_CHAT -> viewModel.makeDocumentQuery(
                                                 text.text.trim(),
                                             )

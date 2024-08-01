@@ -18,6 +18,7 @@ import com.google.ai.client.generativeai.type.content
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.BuildConfig
+import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Message
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.MessageDao
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Mode
@@ -31,6 +32,8 @@ import javax.inject.Inject
 class GeminiAIViewModel @Inject constructor(
     private val dao: MessageDao
 ) : ViewModel() {
+    private val _singleResponse = MutableLiveData(mutableStateListOf<Message>())
+    val singleResponse: LiveData<SnapshotStateList<Message>> = _singleResponse
 
     private val _conversationList = MutableLiveData(mutableStateListOf<Message>())
     val conversationList: LiveData<SnapshotStateList<Message>> = _conversationList
@@ -55,6 +58,28 @@ class GeminiAIViewModel @Inject constructor(
                 _conversationList.postValue(snapshotStateList)
             }
         }
+    }
+
+    fun makeSingleTurnQuery(context: Context, prompt: String) {
+        _singleResponse.value?.clear()
+        _singleResponse.value?.add(Message(text = prompt, mode = Mode.USER))
+        _singleResponse.value?.add(
+            Message(
+                text = "Generating",
+                mode = Mode.GEMINI,
+                isGenerating = true
+            )
+        )
+        if (model == null) {
+            viewModelScope.launch {
+                model = getModel(key = BuildConfig.GEMINI_API_KEY)
+            }
+        }
+        makeGeneralQuery(
+            ApiType.SINGLE_CHAT,
+            _singleResponse,
+            prompt
+        )
     }
 
     fun makeMultiTurnQuery(context: Context, prompt: String) {

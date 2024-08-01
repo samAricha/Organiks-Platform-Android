@@ -1,4 +1,4 @@
-package com.teka.geminichatsdk.spacee_gemini.components
+package teka.android.organiks_platform_android.presentation.feature_ai_assistant.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,7 +20,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.MessageItem
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Message
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ApiType
@@ -35,7 +34,7 @@ fun ConversationArea(
 ) {
     val response: List<Message>? = when (apiType) {
         ApiType.MULTI_CHAT -> viewModel.conversationList.observeAsState().value?.toList()
-        ApiType.SINGLE_CHAT -> TODO()
+        ApiType.SINGLE_CHAT -> viewModel.singleResponse.observeAsState().value?.toList()
         ApiType.IMAGE_CHAT -> viewModel.imageResponse.observeAsState().value?.toList()
         ApiType.DOCUMENT_CHAT -> viewModel.documentResponse.observeAsState().value?.toList()
     }

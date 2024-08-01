@@ -27,7 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.request.ImageRequest
-import com.teka.geminichatsdk.spacee_gemini.components.ConversationArea
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.ConversationArea
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.SelectedImageArea
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.GeminiAIViewModel
 import kotlinx.coroutines.launch
@@ -42,7 +42,6 @@ import teka.android.organiks_platform_android.presentation.feature_ai_assistant.
 fun MultiTurnScreen() {
 
     val viewModel: GeminiAIViewModel = hiltViewModel();
-
 
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
