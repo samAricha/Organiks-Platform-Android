@@ -18,6 +18,12 @@ class AppNavigationActions(
         }
     }
 
+    fun navigateToGeminiAnalystScreen() {
+        navController.navigate(AppScreens.GeminiAnalystAppScreens.route) {
+            popUpTo(AppScreens.GeminiAnalystAppScreens.route)
+        }
+    }
+
     fun navigateToRemoteRecordsScreen() {
         navController.navigate(AppScreens.RemoteRecordsScreens.route) {
             popUpTo(AppScreens.RemoteRecordsScreens.route)

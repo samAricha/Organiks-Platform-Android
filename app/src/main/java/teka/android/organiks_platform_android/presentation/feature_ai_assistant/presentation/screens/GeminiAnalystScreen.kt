@@ -27,11 +27,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.request.ImageRequest
-import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.ConversationArea
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.SelectedImageArea
-import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAIViewModel
 import kotlinx.coroutines.launch
-import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.TypingArea
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.AnalystConversationArea
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.AnalystTypingArea
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAnalystViewModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ApiType
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ImageHelper
 
@@ -39,13 +39,12 @@ import teka.android.organiks_platform_android.presentation.feature_ai_assistant.
 @ExperimentalComposeUiApi
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun MultiTurnScreen() {
+fun GeminiAnalystScreen() {
 
-    val viewModel: GeminiAIViewModel = hiltViewModel();
+    val viewModel: GeminiAnalystViewModel = hiltViewModel();
 
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
-//    val apiTypeState = remember { mutableStateOf(ApiType.DOCUMENT_CHAT) }
     val apiTypeState = remember { mutableStateOf(ApiType.MULTI_CHAT) }
 
 
@@ -127,19 +126,16 @@ fun MultiTurnScreen() {
             Box(
                 modifier = Modifier.weight(1f)
             ) {
-                ConversationArea(
+                AnalystConversationArea(
                     viewModel = viewModel,
                     apiType = apiTypeState.value
                 )
             }
             SelectedImageArea(bitmaps = bitmaps)
-            TypingArea(
+            AnalystTypingArea(
                 viewModel = viewModel,
                 apiType = apiTypeState.value,
                 bitmaps = bitmaps,
-                galleryLauncher = galleryLauncher,
-                documentLauncher = documentLauncher,
-                permissionLauncher = permissionLauncher
             )
         }
     }

@@ -25,7 +25,6 @@ import teka.android.organiks_platform_android.presentation.feature_nav_drawer.Na
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 
 
-@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainAppScreen(appState: AppState) {

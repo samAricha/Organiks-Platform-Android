@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.screens.MultiTurnScreen
 import teka.android.organiks_platform_android.presentation.aiadvice.AiAdviceScreen
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.screens.GeminiAnalystScreen
 import teka.android.organiks_platform_android.presentation.feature_dashborad.DashboardScreen
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionHome.ProductionHomeScreen
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.ProductionRecordingScreen
@@ -138,6 +139,24 @@ fun MainNavGraph(
         ){
 //            GeminiChatScreen()
             MultiTurnScreen()
+        }
+
+        composable(
+            route = AppScreens.GeminiAnalystAppScreens.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            GeminiAnalystScreen()
         }
         composable(
             route = AppScreens.AiSearchAppScreens.route,

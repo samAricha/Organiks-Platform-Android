@@ -8,6 +8,7 @@ data class Message(
     val text: String,
     val isGenerating: Boolean = false,
     val mode: Mode,
+    val displayable: Boolean = true,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 )

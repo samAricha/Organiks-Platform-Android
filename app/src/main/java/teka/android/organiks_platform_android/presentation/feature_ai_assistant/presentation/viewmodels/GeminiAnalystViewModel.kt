@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation
+package teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -18,7 +18,6 @@ import com.google.ai.client.generativeai.type.content
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.BuildConfig
-import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Message
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.MessageDao
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Mode
@@ -29,7 +28,7 @@ import teka.android.organiks_platform_android.presentation.feature_ai_assistant.
 import javax.inject.Inject
 
 @HiltViewModel
-class GeminiAIViewModel @Inject constructor(
+class GeminiAnalystViewModel @Inject constructor(
     private val dao: MessageDao
 ) : ViewModel() {
     private val _singleResponse = MutableLiveData(mutableStateListOf<Message>())

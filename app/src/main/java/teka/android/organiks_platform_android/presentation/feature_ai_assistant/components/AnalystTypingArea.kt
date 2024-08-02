@@ -1,6 +1,5 @@
 package teka.android.organiks_platform_android.presentation.feature_ai_assistant.components
 
-import android.Manifest
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -47,19 +46,16 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ApiType
-import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAIViewModel
 import teka.android.organiks_platform_android.R
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAnalystViewModel
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.PrimaryLight
 
 @Composable
-fun TypingArea(
-    viewModel: GeminiAIViewModel,
+fun AnalystTypingArea(
+    viewModel: GeminiAnalystViewModel,
     apiType: ApiType,
     bitmaps: SnapshotStateList<Bitmap>? = null,
-    galleryLauncher: ManagedActivityResultLauncher<String, List<@JvmSuppressWildcards Uri>>? = null,
-    documentLauncher: ManagedActivityResultLauncher<String, List<@JvmSuppressWildcards Uri>>? = null,
-    permissionLauncher: ManagedActivityResultLauncher<String, Boolean>? = null
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -97,70 +93,6 @@ fun TypingArea(
             modifier = Modifier
                 .background(colorScheme.background)
         ) {
-            DropdownMenuItem(
-                modifier = Modifier
-                    .background(colorScheme.background),
-                onClick = {
-                    expanded = false
-                    permissionLauncher?.launch(Manifest.permission.CAMERA)
-                }
-            ) {
-                Icon(
-                    modifier = Modifier.size(25.dp),
-                    painter = painterResource(id = R.drawable.add_camera_icon),
-                    tint = PrimaryColor,
-                    contentDescription = "camera"
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    color = PrimaryColor,
-                    text = "Camera", fontSize = 15.sp, fontWeight = FontWeight.W600
-                )
-            }
-
-            DropdownMenuItem(
-                modifier = Modifier.background(colorScheme.background),
-                onClick = {
-                    expanded = false
-                    galleryLauncher?.launch("image/*")
-                }
-            ) {
-                Icon(
-                    modifier = Modifier.size(25.dp),
-                    painter = painterResource(id = R.drawable.add_gallery_icon),
-                    tint = PrimaryColor,
-                    contentDescription = "gallery"
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    color = PrimaryColor,
-                    text = "Gallery", fontSize = 15.sp, fontWeight = FontWeight.W600
-                )
-            }
-
-            DropdownMenuItem(
-                modifier = Modifier
-                    .background(colorScheme.background),
-                onClick = {
-                    expanded = false
-                    documentLauncher?.launch("application/*")
-//                    galleryLauncher?.launch("application/pdf")
-                }
-            ) {
-                Icon(
-                    modifier = Modifier.size(25.dp),
-                    painter = painterResource(id = R.drawable.document_icon),
-                    tint = PrimaryColor,
-                    contentDescription = "document"
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    color = PrimaryColor,
-                    text = "Document",
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.W600
-                )
-            }
 
             DropdownMenuItem(
                 modifier = Modifier.background(colorScheme.background),

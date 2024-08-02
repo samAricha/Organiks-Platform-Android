@@ -23,13 +23,13 @@ import androidx.compose.ui.unit.sp
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Message
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ApiType
-import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAIViewModel
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAnalystViewModel
 import teka.android.organiks_platform_android.ui.theme.SecondaryColor
 import teka.android.organiks_platform_android.ui.theme.quicksand
 
 @Composable
-fun ConversationArea(
-    viewModel: GeminiAIViewModel,
+fun AnalystConversationArea(
+    viewModel: GeminiAnalystViewModel,
     apiType: ApiType
 ) {
     val response: List<Message>? = when (apiType) {
