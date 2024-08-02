@@ -1,8 +1,6 @@
 package teka.android.organiks_platform_android.presentation.feature_ai_assistant.components
 
 import android.graphics.Bitmap
-import android.net.Uri
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -63,9 +61,9 @@ fun AnalystTypingArea(
 
     val isGenerating: Boolean? = when (apiType) {
         ApiType.MULTI_CHAT -> viewModel.conversationList.observeAsState().value?.lastOrNull()?.isGenerating
-        ApiType.SINGLE_CHAT -> viewModel.singleResponse.observeAsState().value?.lastOrNull()?.isGenerating
-        ApiType.IMAGE_CHAT -> viewModel.imageResponse.observeAsState().value?.lastOrNull()?.isGenerating
-        ApiType.DOCUMENT_CHAT -> viewModel.documentResponse.observeAsState().value?.lastOrNull()?.isGenerating
+        ApiType.SINGLE_CHAT -> TODO()
+        ApiType.IMAGE_CHAT -> TODO()
+        ApiType.DOCUMENT_CHAT -> TODO()
     }
     val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) }
@@ -178,20 +176,13 @@ fun AnalystTypingArea(
                                         when (apiType) {
                                             ApiType.SINGLE_CHAT -> TODO()
 
-                                            ApiType.MULTI_CHAT -> viewModel.makeMultiTurnQuery(
+                                            ApiType.MULTI_CHAT -> viewModel.makeMultiTurnAnalyticalQuery(
                                                 context,
                                                 text.text.trim()
                                             )
 
-                                            ApiType.IMAGE_CHAT -> viewModel.makeImageQuery(
-                                                context,
-                                                text.text.trim(),
-                                                bitmaps!!
-                                            )
-
-                                            ApiType.DOCUMENT_CHAT -> viewModel.makeDocumentQuery(
-                                                text.text.trim(),
-                                            )
+                                            ApiType.IMAGE_CHAT -> TODO()
+                                            ApiType.DOCUMENT_CHAT -> TODO()
                                         }
                                         text = TextFieldValue("")
                                     }

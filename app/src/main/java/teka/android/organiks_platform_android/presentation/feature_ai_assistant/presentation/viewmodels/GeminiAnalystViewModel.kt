@@ -1,7 +1,6 @@
 package teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels
 
 import android.content.Context
-import android.graphics.Bitmap
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.LiveData
@@ -18,6 +17,7 @@ import com.google.ai.client.generativeai.type.content
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.BuildConfig
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.AnalystMessage
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Message
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.MessageDao
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Mode
@@ -31,17 +31,9 @@ import javax.inject.Inject
 class GeminiAnalystViewModel @Inject constructor(
     private val dao: MessageDao
 ) : ViewModel() {
-    private val _singleResponse = MutableLiveData(mutableStateListOf<Message>())
-    val singleResponse: LiveData<SnapshotStateList<Message>> = _singleResponse
 
-    private val _conversationList = MutableLiveData(mutableStateListOf<Message>())
-    val conversationList: LiveData<SnapshotStateList<Message>> = _conversationList
-
-    private val _imageResponse = MutableLiveData(mutableStateListOf<Message>())
-    val imageResponse: LiveData<SnapshotStateList<Message>> = _imageResponse
-
-    private val _documentResponse = MutableLiveData(mutableStateListOf<Message>())
-    val documentResponse: LiveData<SnapshotStateList<Message>> = _documentResponse
+    private val _conversationList = MutableLiveData(mutableStateListOf<AnalystMessage>())
+    val conversationList: LiveData<SnapshotStateList<AnalystMessage>> = _conversationList
 
 
 
@@ -51,40 +43,19 @@ class GeminiAnalystViewModel @Inject constructor(
     private var chat: Chat? = null
 
     init {
-        dao.getAllMessage().observeForever { allMessages ->
+        dao.getAllAnalystMessage().observeForever { allMessages ->
             if (allMessages != null) {
-                val snapshotStateList = convertToSnapshotStateList(allMessages)
+                val snapshotStateList = convertAnalystMessageToSnapshotStateList(allMessages)
                 _conversationList.postValue(snapshotStateList)
             }
         }
     }
 
-    fun makeSingleTurnQuery(context: Context, prompt: String) {
-        _singleResponse.value?.clear()
-        _singleResponse.value?.add(Message(text = prompt, mode = Mode.USER))
-        _singleResponse.value?.add(
-            Message(
-                text = "Generating",
-                mode = Mode.GEMINI,
-                isGenerating = true
-            )
-        )
-        if (model == null) {
-            viewModelScope.launch {
-                model = getModel(key = BuildConfig.GEMINI_API_KEY)
-            }
-        }
-        makeGeneralQuery(
-            ApiType.SINGLE_CHAT,
-            _singleResponse,
-            prompt
-        )
-    }
 
-    fun makeMultiTurnQuery(context: Context, prompt: String) {
-        _conversationList.value?.add(Message(text = prompt, mode = Mode.USER))
+    fun makeMultiTurnAnalyticalQuery(context: Context, prompt: String) {
+        _conversationList.value?.add(AnalystMessage(text = prompt, mode = Mode.USER))
         _conversationList.value?.add(
-            Message(
+            AnalystMessage(
                 text = "generating...",
                 mode = Mode.GEMINI,
                 isGenerating = true
@@ -102,68 +73,9 @@ class GeminiAnalystViewModel @Inject constructor(
             chat = getChat()
         }
 
-        makeGeneralQuery(
+        makeAnalyticalQuery(
             apiType = ApiType.MULTI_CHAT,
             result = _conversationList,
-            feed = prompt
-        )
-    }
-
-    fun makeImageQuery(context: Context, prompt: String, bitmaps: List<Bitmap>) {
-        _imageResponse.value?.clear()
-        _imageResponse.value?.add(Message(text = prompt, mode = Mode.USER))
-        _imageResponse.value?.add(
-            Message(
-                text = "Generating",
-                mode = Mode.GEMINI,
-                isGenerating = true
-            )
-        )
-        if (visionModel == null) {
-            viewModelScope.launch {
-                visionModel = getModel(key = BuildConfig.GEMINI_API_KEY, vision = true)
-            }
-        }
-        val inputContent = content {
-            bitmaps.take(4).forEach {
-                image(it)
-            }
-            text(prompt)
-        }
-        makeGeneralQuery(
-            apiType = ApiType.IMAGE_CHAT,
-            result = _imageResponse,
-            feed = inputContent
-        )
-    }
-
-
-    fun makeDocumentQuery(prompt: String) {
-        println("DOCUMENT MODEL=========>")
-        _documentResponse.value?.clear()
-        _documentResponse.value?.add(Message(text = prompt, mode = Mode.USER))
-        _documentResponse.value?.add(
-            Message(
-                text = "Generating.......",
-                mode = Mode.GEMINI,
-                isGenerating = true
-            )
-        )
-        if (documentModel == null) {
-            viewModelScope.launch {
-                documentModel = getGeminiProModel(key = BuildConfig.GEMINI_API_KEY)
-            }
-        }
-
-        val inputContent = content {
-            text(prompt)
-        }
-
-
-
-        makeGeneralQuery(
-            apiType = ApiType.DOCUMENT_CHAT,
-            result = _documentResponse,
             feed = prompt
         )
     }
@@ -179,9 +91,9 @@ class GeminiAnalystViewModel @Inject constructor(
     }
 
 
-    private fun makeGeneralQuery(
+    private fun makeAnalyticalQuery(
         apiType: ApiType,
-        result: MutableLiveData<SnapshotStateList<Message>>,
+        result: MutableLiveData<SnapshotStateList<AnalystMessage>>,
         feed: Any
     ) {
         viewModelScope.launch {
@@ -199,13 +111,13 @@ class GeminiAnalystViewModel @Inject constructor(
                     output.trimStart()
                     result.value?.set(
                         result.value!!.lastIndex,
-                        Message(text = output, mode = Mode.GEMINI, isGenerating = true)
+                        AnalystMessage(text = output, mode = Mode.GEMINI, isGenerating = true)
                     )
                 }
 
                 result.value?.set(
                     result.value!!.lastIndex,
-                    Message(text = output, mode = Mode.GEMINI, isGenerating = false)
+                    AnalystMessage(text = output, mode = Mode.GEMINI, isGenerating = false)
                 )
 
                 if (apiType == ApiType.MULTI_CHAT) {
@@ -221,7 +133,7 @@ class GeminiAnalystViewModel @Inject constructor(
             } catch (e: Exception) {
                 result.value?.set(
                     result.value!!.lastIndex,
-                    Message(
+                    AnalystMessage(
                         text = e.message.toString(),
                         mode = Mode.GEMINI,
                         isGenerating = false
@@ -269,9 +181,9 @@ class GeminiAnalystViewModel @Inject constructor(
         return history
     }
 
-    private fun convertToSnapshotStateList(
-        messages: List<Message>
-    ): SnapshotStateList<Message> {
+    private fun convertAnalystMessageToSnapshotStateList(
+        messages: List<AnalystMessage>
+    ): SnapshotStateList<AnalystMessage> {
         return mutableStateListOf(*messages.toTypedArray())
     }
 
