@@ -51,7 +51,7 @@ fun AnalystConversationArea(
             Image(
                 modifier = Modifier.size(100.dp),
                 painter = painterResource(id = R.drawable.organiks_analytics_chat),
-                contentDescription = "no message"
+                contentDescription = "no analytical message"
             )
             Text(
                 color = SecondaryColor,

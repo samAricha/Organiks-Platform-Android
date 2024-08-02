@@ -15,8 +15,17 @@ import com.google.ai.client.generativeai.type.HarmCategory
 import com.google.ai.client.generativeai.type.SafetySetting
 import com.google.ai.client.generativeai.type.content
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.BuildConfig
+import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionDto
+import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionResult
+import teka.android.organiks_platform_android.domain.repository.RemoteEggRecordsRepository
+import teka.android.organiks_platform_android.domain.repository.RemoteFruitRecordsRepository
+import teka.android.organiks_platform_android.domain.repository.RemoteMilkRecordsRepository
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.AnalystMessage
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Message
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.MessageDao
@@ -25,15 +34,38 @@ import teka.android.organiks_platform_android.presentation.feature_ai_assistant.
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.domain.GeminiRepositoryImpl
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.domain.GeminiService
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ApiType
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class GeminiAnalystViewModel @Inject constructor(
-    private val dao: MessageDao
+    private val dao: MessageDao,
+    private val eggRecordsRepository: RemoteEggRecordsRepository,
+    private val milkRecordsRepository: RemoteMilkRecordsRepository,
+    private val fruitsRecordsRepository: RemoteFruitRecordsRepository,
 ) : ViewModel() {
 
     private val _conversationList = MutableLiveData(mutableStateListOf<AnalystMessage>())
     val conversationList: LiveData<SnapshotStateList<AnalystMessage>> = _conversationList
+
+    private val _eggCollections = MutableStateFlow<List<EggCollectionResult>>(emptyList())
+    val eggCollections: StateFlow<List<EggCollectionResult>> = _eggCollections.asStateFlow()
+
+    private val _milkCollections = MutableStateFlow<List<MilkCollectionResult>>(emptyList())
+    val milkCollections: StateFlow<List<MilkCollectionResult>> = _milkCollections.asStateFlow()
+
+    private val _fruitCollections = MutableStateFlow<List<FruitCollectionDto>>(emptyList())
+    val fruitCollections: StateFlow<List<FruitCollectionDto>> = _fruitCollections.asStateFlow()
+
+    // State for loading indicator and error states
+    private val _isFarmDataLoading = MutableStateFlow(false)
+    val isFarmDataLoading: StateFlow<Boolean> get() = _isFarmDataLoading
+
+    private val _farmDataErrorMessage = MutableStateFlow<String?>(null)
+    val farmDataErrorMessage: StateFlow<String?> = _farmDataErrorMessage
+
+    private val _farmDataSuccessMessage = MutableStateFlow<String?>(null)
+    val farmDataSuccessMessage: StateFlow<String?> = _farmDataSuccessMessage
 
 
 
@@ -48,6 +80,9 @@ class GeminiAnalystViewModel @Inject constructor(
                 val snapshotStateList = convertAnalystMessageToSnapshotStateList(allMessages)
                 _conversationList.postValue(snapshotStateList)
             }
+        }
+        viewModelScope.launch {
+            remoteFarmDataInitialization()
         }
     }
 
@@ -159,18 +194,6 @@ class GeminiAnalystViewModel @Inject constructor(
             )
         )
 
-    private fun getGeminiProModel(key: String) =
-        GenerativeModel(
-            modelName = "gemini-1.5-pro-latest",
-            apiKey = key,
-            safetySettings = listOf(
-                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
-                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
-                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.NONE),
-                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
-            )
-        )
-
     private fun generatePreviousChats(): List<Content> {
         val history = mutableListOf<Content>()
         for (message in conversationList.value.orEmpty()) {
@@ -202,6 +225,76 @@ class GeminiAnalystViewModel @Inject constructor(
 
             val response = geminiService.generateContentWithFiles(message, images)
 
+        }
+    }
+
+
+
+    private fun remoteFarmDataInitialization(){
+        viewModelScope.launch {
+            fetchAllEggRecords()
+            fetchAllMilkCollections()
+            fetchAllFruitCollections()
+        }
+    }
+
+
+
+
+    private fun fetchAllEggRecords() {
+        viewModelScope.launch {
+            _isFarmDataLoading.value = true
+            try {
+                eggRecordsRepository.getAllEggCollections().collect { eggs ->
+                    _eggCollections.value = eggs
+                    Timber.tag(">>>EGGS LIST").d(eggs.toString())
+                }
+                _farmDataSuccessMessage.value = "Data Fetched successfully"
+
+            } catch (e: Exception) {
+                _farmDataErrorMessage.value = e.message
+            } finally {
+                _isFarmDataLoading.value = false
+            }
+        }
+    }
+
+
+    private fun fetchAllFruitCollections() {
+        viewModelScope.launch {
+            _isFarmDataLoading.value = true
+            try {
+                fruitsRecordsRepository.getAllFruitCollections().collect { fruits ->
+                    _fruitCollections.value = fruits
+                    Timber.tag(">>>FRUIT LIST").d(fruits.toString())
+                }
+                _farmDataSuccessMessage.value = "Data Fetched successfully"
+
+            } catch (e: Exception) {
+                _farmDataErrorMessage.value = e.message
+
+            } finally {
+                _isFarmDataLoading.value = false
+            }
+        }
+    }
+
+    private fun fetchAllMilkCollections() {
+        viewModelScope.launch {
+            _isFarmDataLoading.value = true
+            try {
+                milkRecordsRepository.getAllMilkCollections().collect { milk ->
+                    _milkCollections.value = milk
+                    Timber.tag(">>>MILK LIST").d(milk.toString())
+                }
+                _farmDataSuccessMessage.value = "Data Fetched successfully"
+
+            } catch (e: Exception) {
+                _farmDataErrorMessage.value = e.message
+
+            } finally {
+                _isFarmDataLoading.value = false
+            }
         }
     }
 }
