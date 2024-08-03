@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "374604567554",
+    "project_id": "organiks-platform",
+    "storage_bucket": "organiks-platform.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374604567554:android:cde2104d3a81f6a90ec31b",
+        "android_client_info": {
+          "package_name": "teka.android.organiks_platform_android"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeG5SKTtMd4Xyl56TNoE2Vt5oS9DsdA7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
