@@ -26,6 +26,7 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.daksh.mdparserkit.core.parseMarkdown
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Mode
 import teka.android.organiks_platform_android.ui.theme.DecentBlue
@@ -52,7 +53,9 @@ fun MessageItem(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Image(
                     modifier = Modifier
                         .size(30.dp)
@@ -61,7 +64,8 @@ fun MessageItem(
                     painter = when (mode) {
                         Mode.GEMINI -> painterResource(id = R.drawable.gemini)
                         Mode.USER -> painterResource(id = R.drawable.user)
-                    }, contentDescription = "logo"
+                    },
+                    contentDescription = "logo"
                 )
 
                 Text(
@@ -69,7 +73,7 @@ fun MessageItem(
                     fontSize = 12.sp,
                     fontWeight = FontWeight.W600, text = when (mode) {
                         Mode.GEMINI -> "GEMINI"
-                        Mode.USER -> "YOU"
+                        Mode.USER -> "FARMER"
                     }
                 )
             }
@@ -95,12 +99,28 @@ fun MessageItem(
             }
         }
         SelectionContainer {
-            Text(
-                modifier = Modifier.padding(start = 35.dp),
-                fontWeight = FontWeight.W500,
-                fontSize = 15.sp,
-                text = text
-            )
+            if(mode == Mode.GEMINI){
+                //display text with markdown support
+                Text(
+                    modifier = Modifier.padding(start = 35.dp),
+                    fontWeight = FontWeight.W500,
+                    fontSize = 15.sp,
+                    text = parseMarkdown(text),
+                )
+            }else{
+                Text(
+                    modifier = Modifier.padding(start = 35.dp),
+                    fontWeight = FontWeight.W500,
+                    fontSize = 15.sp,
+                    text = text
+                )
+            }
+//            Text(
+//                modifier = Modifier.padding(start = 35.dp),
+//                fontWeight = FontWeight.W500,
+//                fontSize = 15.sp,
+//                text = text
+//            )
         }
     }
 }

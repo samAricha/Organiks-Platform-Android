@@ -69,7 +69,10 @@ fun AnalystConversationArea(
             .padding(5.dp)
     ) {
         items(response!!.reversed()) { message ->
-            MessageItem(text = message.text, mode = message.mode)
+            MessageItem(
+                text = message.text,
+                mode = message.mode
+            )
         }
     }
 }
