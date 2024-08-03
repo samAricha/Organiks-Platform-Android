@@ -3,13 +3,6 @@ package teka.android.organiks_platform_android.data.remote.retrofit.models
 import kotlinx.serialization.Serializable
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 
-@Serializable
-data class FruitCollectionResponse(
-    val page: Int? = null,
-    val results: List<EggCollectionResult>,
-    val total_pages: Int,
-    val total_results: Int
-)
 
 @Serializable
 data class FruitCollectionDto(

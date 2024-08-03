@@ -15,4 +15,13 @@ interface MessageDao {
 
     @Query("DELETE FROM message")
     suspend fun deleteAllMessages()
+
+    @Upsert
+    suspend fun upsertAnalystMessage(message: AnalystMessage)
+
+    @Query("SELECT * FROM analystmessage")
+    fun getAllAnalystMessage(): LiveData<List<AnalystMessage>>
+
+    @Query("DELETE FROM analystmessage")
+    suspend fun deleteAllAnalystMessages()
 }

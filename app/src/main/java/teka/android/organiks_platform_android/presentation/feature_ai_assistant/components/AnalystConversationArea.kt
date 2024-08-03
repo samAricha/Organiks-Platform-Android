@@ -21,22 +21,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import teka.android.organiks_platform_android.R
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.AnalystMessage
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Message
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ApiType
-import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAIViewModel
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAnalystViewModel
 import teka.android.organiks_platform_android.ui.theme.SecondaryColor
 import teka.android.organiks_platform_android.ui.theme.quicksand
 
 @Composable
-fun ConversationArea(
-    viewModel: GeminiAIViewModel,
+fun AnalystConversationArea(
+    viewModel: GeminiAnalystViewModel,
     apiType: ApiType
 ) {
-    val response: List<Message>? = when (apiType) {
+    val response: List<AnalystMessage>? = when (apiType) {
         ApiType.MULTI_CHAT -> viewModel.conversationList.observeAsState().value?.toList()
-        ApiType.SINGLE_CHAT -> viewModel.singleResponse.observeAsState().value?.toList()
-        ApiType.IMAGE_CHAT -> viewModel.imageResponse.observeAsState().value?.toList()
-        ApiType.DOCUMENT_CHAT -> viewModel.documentResponse.observeAsState().value?.toList()
+        ApiType.SINGLE_CHAT -> TODO()
+        ApiType.IMAGE_CHAT -> TODO()
+        ApiType.DOCUMENT_CHAT -> TODO()
     }
 
     Column(
@@ -49,12 +50,12 @@ fun ConversationArea(
         if ((response != null) && response.isEmpty()) {
             Image(
                 modifier = Modifier.size(100.dp),
-                painter = painterResource(id = R.drawable.chat_logo),
-                contentDescription = "no message"
+                painter = painterResource(id = R.drawable.organiks_analytics_chat),
+                contentDescription = "no analytical message"
             )
             Text(
                 color = SecondaryColor,
-                text = "Ask and Gemini shall answer!",
+                text = "Ask and Gemini Analyst shall answer!",
                 fontWeight = FontWeight.W500,
                 fontFamily = quicksand,
                 fontSize = 15.sp
@@ -68,7 +69,10 @@ fun ConversationArea(
             .padding(5.dp)
     ) {
         items(response!!.reversed()) { message ->
-            MessageItem(text = message.text, mode = message.mode)
+            MessageItem(
+                text = message.text,
+                mode = message.mode
+            )
         }
     }
 }

@@ -1,9 +1,6 @@
 package teka.android.organiks_platform_android.presentation.feature_ai_assistant.components
 
-import android.Manifest
 import android.graphics.Bitmap
-import android.net.Uri
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +23,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -47,29 +45,28 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ApiType
-import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAIViewModel
 import teka.android.organiks_platform_android.R
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAnalystViewModel
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.PrimaryLight
 
 @Composable
-fun TypingArea(
-    viewModel: GeminiAIViewModel,
+fun AnalystTypingArea(
+    viewModel: GeminiAnalystViewModel,
     apiType: ApiType,
     bitmaps: SnapshotStateList<Bitmap>? = null,
-    galleryLauncher: ManagedActivityResultLauncher<String, List<@JvmSuppressWildcards Uri>>? = null,
-    documentLauncher: ManagedActivityResultLauncher<String, List<@JvmSuppressWildcards Uri>>? = null,
-    permissionLauncher: ManagedActivityResultLauncher<String, Boolean>? = null
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     var text by remember { mutableStateOf(TextFieldValue("")) }
+    val remoteEggCollections by viewModel.eggCollections.collectAsState()
+
 
     val isGenerating: Boolean? = when (apiType) {
         ApiType.MULTI_CHAT -> viewModel.conversationList.observeAsState().value?.lastOrNull()?.isGenerating
-        ApiType.SINGLE_CHAT -> viewModel.singleResponse.observeAsState().value?.lastOrNull()?.isGenerating
-        ApiType.IMAGE_CHAT -> viewModel.imageResponse.observeAsState().value?.lastOrNull()?.isGenerating
-        ApiType.DOCUMENT_CHAT -> viewModel.documentResponse.observeAsState().value?.lastOrNull()?.isGenerating
+        ApiType.SINGLE_CHAT -> TODO()
+        ApiType.IMAGE_CHAT -> TODO()
+        ApiType.DOCUMENT_CHAT -> TODO()
     }
     val context = LocalContext.current
     var expanded by remember { mutableStateOf(false) }
@@ -97,70 +94,6 @@ fun TypingArea(
             modifier = Modifier
                 .background(colorScheme.background)
         ) {
-            DropdownMenuItem(
-                modifier = Modifier
-                    .background(colorScheme.background),
-                onClick = {
-                    expanded = false
-                    permissionLauncher?.launch(Manifest.permission.CAMERA)
-                }
-            ) {
-                Icon(
-                    modifier = Modifier.size(25.dp),
-                    painter = painterResource(id = R.drawable.add_camera_icon),
-                    tint = PrimaryColor,
-                    contentDescription = "camera"
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    color = PrimaryColor,
-                    text = "Camera", fontSize = 15.sp, fontWeight = FontWeight.W600
-                )
-            }
-
-            DropdownMenuItem(
-                modifier = Modifier.background(colorScheme.background),
-                onClick = {
-                    expanded = false
-                    galleryLauncher?.launch("image/*")
-                }
-            ) {
-                Icon(
-                    modifier = Modifier.size(25.dp),
-                    painter = painterResource(id = R.drawable.add_gallery_icon),
-                    tint = PrimaryColor,
-                    contentDescription = "gallery"
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    color = PrimaryColor,
-                    text = "Gallery", fontSize = 15.sp, fontWeight = FontWeight.W600
-                )
-            }
-
-            DropdownMenuItem(
-                modifier = Modifier
-                    .background(colorScheme.background),
-                onClick = {
-                    expanded = false
-                    documentLauncher?.launch("application/*")
-//                    galleryLauncher?.launch("application/pdf")
-                }
-            ) {
-                Icon(
-                    modifier = Modifier.size(25.dp),
-                    painter = painterResource(id = R.drawable.document_icon),
-                    tint = PrimaryColor,
-                    contentDescription = "document"
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    color = PrimaryColor,
-                    text = "Document",
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.W600
-                )
-            }
 
             DropdownMenuItem(
                 modifier = Modifier.background(colorScheme.background),
@@ -246,20 +179,14 @@ fun TypingArea(
                                         when (apiType) {
                                             ApiType.SINGLE_CHAT -> TODO()
 
-                                            ApiType.MULTI_CHAT -> viewModel.makeMultiTurnQuery(
-                                                context,
-                                                text.text.trim()
+                                            ApiType.MULTI_CHAT -> viewModel.makeMultiTurnAnalyticalQuery(
+                                                context = context,
+                                                prompt =text.text.trim(),
+                                                supportingText = remoteEggCollections.toString()
                                             )
 
-                                            ApiType.IMAGE_CHAT -> viewModel.makeImageQuery(
-                                                context,
-                                                text.text.trim(),
-                                                bitmaps!!
-                                            )
-
-                                            ApiType.DOCUMENT_CHAT -> viewModel.makeDocumentQuery(
-                                                text.text.trim(),
-                                            )
+                                            ApiType.IMAGE_CHAT -> TODO()
+                                            ApiType.DOCUMENT_CHAT -> TODO()
                                         }
                                         text = TextFieldValue("")
                                     }

@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation
+package teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -31,6 +31,8 @@ import javax.inject.Inject
 class GeminiAIViewModel @Inject constructor(
     private val dao: MessageDao
 ) : ViewModel() {
+    private val _singleResponse = MutableLiveData(mutableStateListOf<Message>())
+    val singleResponse: LiveData<SnapshotStateList<Message>> = _singleResponse
 
     private val _conversationList = MutableLiveData(mutableStateListOf<Message>())
     val conversationList: LiveData<SnapshotStateList<Message>> = _conversationList
@@ -55,6 +57,28 @@ class GeminiAIViewModel @Inject constructor(
                 _conversationList.postValue(snapshotStateList)
             }
         }
+    }
+
+    fun makeSingleTurnQuery(context: Context, prompt: String) {
+        _singleResponse.value?.clear()
+        _singleResponse.value?.add(Message(text = prompt, mode = Mode.USER))
+        _singleResponse.value?.add(
+            Message(
+                text = "Generating",
+                mode = Mode.GEMINI,
+                isGenerating = true
+            )
+        )
+        if (model == null) {
+            viewModelScope.launch {
+                model = getModel(key = BuildConfig.GEMINI_API_KEY)
+            }
+        }
+        makeGeneralQuery(
+            ApiType.SINGLE_CHAT,
+            _singleResponse,
+            prompt
+        )
     }
 
     fun makeMultiTurnQuery(context: Context, prompt: String) {
@@ -213,7 +237,7 @@ class GeminiAIViewModel @Inject constructor(
 
     private fun getModel(key: String, vision: Boolean = false) =
         GenerativeModel(
-            modelName = if (vision) "gemini-pro-vision" else "gemini-pro",
+            modelName = if (vision) "gemini-1.5-flash" else "gemini-pro",
             apiKey = key,
             safetySettings = listOf(
                 SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
@@ -245,7 +269,9 @@ class GeminiAIViewModel @Inject constructor(
         return history
     }
 
-    private fun convertToSnapshotStateList(messages: List<Message>): SnapshotStateList<Message> {
+    private fun convertToSnapshotStateList(
+        messages: List<Message>
+    ): SnapshotStateList<Message> {
         return mutableStateListOf(*messages.toTypedArray())
     }
 
@@ -255,14 +281,14 @@ class GeminiAIViewModel @Inject constructor(
 
     private val geminiService = GeminiService()
 
-    fun generateDocumentContent(message: String, images: List<ByteArray> = emptyList()) {
+    fun generateDocumentContent(
+        message: String,
+        images: List<ByteArray> = emptyList()
+    ) {
         viewModelScope.launch {
 //            val response = geminiRepository.generate(message, images)
 
             val response = geminiService.generateContentWithFiles(message, images)
-
-
-
 
         }
     }

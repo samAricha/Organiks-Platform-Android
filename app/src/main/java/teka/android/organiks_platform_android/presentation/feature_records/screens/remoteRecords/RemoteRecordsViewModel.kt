@@ -9,6 +9,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionDto
 import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionResult
@@ -76,17 +78,24 @@ class RemoteRecordsViewModel @Inject constructor(
 
 
 
-    fun fetchAllEggRecords() {
+    private fun fetchAllEggRecords() {
         viewModelScope.launch {
             _isLoading.value = true
             try {
                 eggRecordsRepository.getAllEggCollections().collect { eggs ->
                     _eggCollections.value = eggs
                     Timber.tag(">>>EGGS LIST").d(eggs.toString())
+
+                    // Serialize to JSON
+//                    val jsonString = Json.encodeToString(eggs)
+//                    Timber.tag(">>>serialized eggs").d(jsonString)
                 }
+
                 _successMessage.value = "Data Fetched successfully"
 
             } catch (e: Exception) {
+                Timber.tag("Error fetching egg records: ${e.localizedMessage}")
+
                 _errorMessage.value = e.message
             } finally {
                 _isLoading.value = false

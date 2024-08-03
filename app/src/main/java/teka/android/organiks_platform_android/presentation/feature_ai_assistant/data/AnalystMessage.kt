@@ -4,11 +4,14 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Message(
+data class AnalystMessage(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val text: String,
+    val obfuscatedText: String = "",
+    val alternateText: String = "",
     val isGenerating: Boolean = false,
+    val containsObfuscating: Boolean = false,
     val mode: Mode,
     val displayable: Boolean = true,
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0
 )

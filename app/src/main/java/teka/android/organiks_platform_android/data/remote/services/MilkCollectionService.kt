@@ -4,7 +4,6 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import teka.android.organiks_platform_android.data.remote.dtos.ApiResponseHandler
-import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionResponse
 import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionRequest
 import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionResult
 import teka.android.organiks_platform_android.data.room_remote_sync.models.RemoteMilkCollectionResponse

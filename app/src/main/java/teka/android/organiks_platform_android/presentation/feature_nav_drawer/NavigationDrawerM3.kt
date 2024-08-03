@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
@@ -114,7 +115,7 @@ fun NavigationDrawerM3(
         ),
         DrawerItem(
             icon = Icons.Default.VoiceChat,
-            label = "AiAssistant",
+            label = "Assistant",
             secondaryLabel = "Chat",
             route = AppScreens.GeminiChatAppScreens.route,
             onItemClick = {
@@ -122,7 +123,20 @@ fun NavigationDrawerM3(
                 scope.launch {
                     drawerState.close()
                 }
-                Toast.makeText(context, "AiAssistant", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Gemini Assistant", Toast.LENGTH_SHORT).show()
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.Analytics,
+            label = "Analyst",
+            secondaryLabel = "Gemini Analysis",
+            route = AppScreens.GeminiAnalystAppScreens.route,
+            onItemClick = {
+                navigationActions.navigateToGeminiAnalystScreen()
+                scope.launch {
+                    drawerState.close()
+                }
+                Toast.makeText(context, "Gemini Analyst", Toast.LENGTH_SHORT).show()
             }
         ),
         DrawerItem(
@@ -154,7 +168,7 @@ fun NavigationDrawerM3(
                     drawerState.close()
                 }
                 showDialog.value = true
-                Toast.makeText(context, "This is a Log Out Toast. Yay!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "This is a Log Out Toast. Yay!!", Toast.LENGTH_SHORT).show()
 //               authViewModel.logout()
             }
         ),

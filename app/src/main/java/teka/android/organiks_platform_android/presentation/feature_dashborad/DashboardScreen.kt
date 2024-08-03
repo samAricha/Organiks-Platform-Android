@@ -57,9 +57,6 @@ fun DashboardScreen() {
     val successMessage by viewModel.successMessage.collectAsState()
 
 
-
-
-
     LaunchedEffect(viewModel) {
         viewModel.viewModelInitialization()
     }
@@ -122,7 +119,7 @@ fun DashboardScreen() {
                     Text(
                         text = "(Demo Data)",
                         fontSize = 14.sp,
-                        color = Color.Gray, // Or any other color you prefer
+                        color = Color.Gray,
                         modifier = Modifier.padding(start = 4.dp),
                         fontWeight = FontWeight.Normal
                     )

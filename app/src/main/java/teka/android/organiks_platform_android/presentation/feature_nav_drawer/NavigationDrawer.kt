@@ -33,7 +33,6 @@ fun DrawerHeader() {
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DrawerBody(
     items: List<MenuItem>,
