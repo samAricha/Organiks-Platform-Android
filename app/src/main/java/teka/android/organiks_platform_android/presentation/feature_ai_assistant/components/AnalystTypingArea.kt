@@ -180,8 +180,9 @@ fun AnalystTypingArea(
                                             ApiType.SINGLE_CHAT -> TODO()
 
                                             ApiType.MULTI_CHAT -> viewModel.makeMultiTurnAnalyticalQuery(
-                                                context,
-                                                text.text.trim() + " $remoteEggCollections"
+                                                context = context,
+                                                prompt =text.text.trim(),
+                                                supportingText = remoteEggCollections.toString()
                                             )
 
                                             ApiType.IMAGE_CHAT -> TODO()

@@ -45,8 +45,6 @@ fun GeminiAnalystScreen() {
 
     val viewModel: GeminiAnalystViewModel = hiltViewModel();
 
-    val remoteEggCollections by viewModel.eggCollections.collectAsState()
-
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     val apiTypeState = remember { mutableStateOf(ApiType.MULTI_CHAT) }

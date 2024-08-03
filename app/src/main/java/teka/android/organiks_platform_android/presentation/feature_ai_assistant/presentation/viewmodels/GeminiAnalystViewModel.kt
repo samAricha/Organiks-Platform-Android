@@ -89,9 +89,11 @@ class GeminiAnalystViewModel @Inject constructor(
 
     fun makeMultiTurnAnalyticalQuery(
         context: Context,
-        prompt: String
+        prompt: String,
+        supportingText: String? = null,
+        alternativeSupportingText: String? = ": FARMER DATA",
     ) {
-        _conversationList.value?.add(AnalystMessage(text = prompt, mode = Mode.USER))
+        _conversationList.value?.add(AnalystMessage(text = prompt+alternativeSupportingText, mode = Mode.USER))
         _conversationList.value?.add(
             AnalystMessage(
                 text = "generating...",
@@ -114,7 +116,9 @@ class GeminiAnalystViewModel @Inject constructor(
         makeAnalyticalQuery(
             apiType = ApiType.MULTI_CHAT,
             result = _conversationList,
-            feed = prompt
+            feed = prompt,
+            supportingText = supportingText,
+            alternativeSupportingText = alternativeSupportingText
         )
     }
 
@@ -132,14 +136,16 @@ class GeminiAnalystViewModel @Inject constructor(
     private fun makeAnalyticalQuery(
         apiType: ApiType,
         result: MutableLiveData<SnapshotStateList<AnalystMessage>>,
-        feed: Any
+        feed: Any,
+        supportingText: Any?,
+        alternativeSupportingText: String?
     ) {
         viewModelScope.launch {
             var output = ""
             try {
                 val stream = when (apiType) {
-                    ApiType.SINGLE_CHAT -> model?.generateContentStream(feed as String)
-                    ApiType.MULTI_CHAT -> chat?.sendMessageStream(feed as String)
+                    ApiType.SINGLE_CHAT -> model?.generateContentStream(feed as String + supportingText as String)
+                    ApiType.MULTI_CHAT -> chat?.sendMessageStream(feed as String + supportingText as String)
                     ApiType.IMAGE_CHAT -> visionModel?.generateContentStream(feed as Content)
                     ApiType.DOCUMENT_CHAT -> documentModel?.generateContentStream(feed as String)
                 }
@@ -161,10 +167,20 @@ class GeminiAnalystViewModel @Inject constructor(
                 if (apiType == ApiType.MULTI_CHAT) {
                     viewModelScope.launch {
                         dao.upsertAnalystMessage(
-                            AnalystMessage(text = feed as String, mode = Mode.USER, isGenerating = false)
+                            AnalystMessage(
+                                text = feed as String + alternativeSupportingText as String,
+                                mode = Mode.USER,
+                                isGenerating = false,
+                                obfuscatedText = supportingText.toString(),
+                                alternateText = alternativeSupportingText ?: ""
+                            )
                         )
                         dao.upsertAnalystMessage(
-                            AnalystMessage(text = output, mode = Mode.GEMINI, isGenerating = false)
+                            AnalystMessage(
+                                text = output,
+                                mode = Mode.GEMINI,
+                                isGenerating = false
+                            )
                         )
                     }
                 }
