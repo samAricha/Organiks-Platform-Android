@@ -23,6 +23,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -58,6 +59,8 @@ fun AnalystTypingArea(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     var text by remember { mutableStateOf(TextFieldValue("")) }
+    val remoteEggCollections by viewModel.eggCollections.collectAsState()
+
 
     val isGenerating: Boolean? = when (apiType) {
         ApiType.MULTI_CHAT -> viewModel.conversationList.observeAsState().value?.lastOrNull()?.isGenerating
@@ -178,7 +181,7 @@ fun AnalystTypingArea(
 
                                             ApiType.MULTI_CHAT -> viewModel.makeMultiTurnAnalyticalQuery(
                                                 context,
-                                                text.text.trim()
+                                                text.text.trim() + " $remoteEggCollections"
                                             )
 
                                             ApiType.IMAGE_CHAT -> TODO()

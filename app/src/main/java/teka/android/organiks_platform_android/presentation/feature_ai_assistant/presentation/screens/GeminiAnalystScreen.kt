@@ -16,6 +16,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +45,8 @@ fun GeminiAnalystScreen() {
 
     val viewModel: GeminiAnalystViewModel = hiltViewModel();
 
+    val remoteEggCollections by viewModel.eggCollections.collectAsState()
+
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     val apiTypeState = remember { mutableStateOf(ApiType.MULTI_CHAT) }
@@ -65,51 +69,6 @@ fun GeminiAnalystScreen() {
         println("BITMAPS CHANGED2: ${apiTypeState.value}")
     }
 
-    val imageRequestBuilder = ImageRequest.Builder(context)
-    val imageLoader = ImageLoader.Builder(context).build()
-
-
-
-    //our various launchers
-    val cameraLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.TakePicturePreview()
-    ) {
-        if (it != null) {
-            bitmaps.add(it)
-        }
-    }
-
-    val permissionLauncher = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        if (isGranted) {
-            cameraLauncher.launch()
-        }
-    }
-
-    val galleryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetMultipleContents(),
-    ) {
-        it.forEach { uri ->
-            coroutineScope.launch {
-                ImageHelper.scaleDownBitmap(uri, imageRequestBuilder, imageLoader)?.let { bitmap ->
-                    bitmaps.add(bitmap)
-                }
-            }
-        }
-    }
-
-    val documentLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetMultipleContents(),
-    ) {
-        it.forEach { uri ->
-            coroutineScope.launch {
-//                ImageHelper.scaleDownBitmap(uri, imageRequestBuilder, imageLoader)?.let { bitmap ->
-//                    bitmaps.add(bitmap)
-//                }
-            }
-        }
-    }
 
     Scaffold(
         topBar = {
@@ -121,7 +80,9 @@ fun GeminiAnalystScreen() {
                 .padding(top = it.calculateTopPadding())
                 .fillMaxSize()
                 .fillMaxHeight(1f)
-                .background(MaterialTheme.colorScheme.background)
+                .background(
+                    MaterialTheme.colorScheme.background
+                )
         ) {
             Box(
                 modifier = Modifier.weight(1f)
