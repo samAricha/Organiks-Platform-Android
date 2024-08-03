@@ -87,7 +87,10 @@ class GeminiAnalystViewModel @Inject constructor(
     }
 
 
-    fun makeMultiTurnAnalyticalQuery(context: Context, prompt: String) {
+    fun makeMultiTurnAnalyticalQuery(
+        context: Context,
+        prompt: String
+    ) {
         _conversationList.value?.add(AnalystMessage(text = prompt, mode = Mode.USER))
         _conversationList.value?.add(
             AnalystMessage(
@@ -157,11 +160,11 @@ class GeminiAnalystViewModel @Inject constructor(
 
                 if (apiType == ApiType.MULTI_CHAT) {
                     viewModelScope.launch {
-                        dao.upsertMessage(
-                            Message(text = feed as String, mode = Mode.USER, isGenerating = false)
+                        dao.upsertAnalystMessage(
+                            AnalystMessage(text = feed as String, mode = Mode.USER, isGenerating = false)
                         )
-                        dao.upsertMessage(
-                            Message(text = output, mode = Mode.GEMINI, isGenerating = false)
+                        dao.upsertAnalystMessage(
+                            AnalystMessage(text = output, mode = Mode.GEMINI, isGenerating = false)
                         )
                     }
                 }
