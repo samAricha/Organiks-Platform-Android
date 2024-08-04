@@ -21,6 +21,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ViewModelProvider
@@ -52,14 +55,9 @@ import teka.android.organiks_platform_android.util.components.SetBarColor
 class MainActivity : ComponentActivity() {
 
     private lateinit var splashViewModel: SplashViewModel
-    private val userState by viewModels<AuthViewModel>()
+    private val authViewModel by viewModels<AuthViewModel>()
 
-    private val googleAuthUiClient by lazy {
-        GoogleAuthUiClient(
-            context = applicationContext,
-            oneTapClient = Identity.getSignInClient(applicationContext)
-        )
-    }
+
 
 
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "WrongConstant")
@@ -71,124 +69,173 @@ class MainActivity : ComponentActivity() {
         // Create an instance of the ViewModel manually
         splashViewModel = ViewModelProvider(this)[SplashViewModel::class.java]
         splashViewModel.init(DataStoreRepository(context = applicationContext))
-        val startDestination by splashViewModel.startDestination
+//        val startDestination by splashViewModel.startDestination
         splashViewModel.startDestination.value?.let { Log.d("TAG3", it) }
-        splashScreen.setKeepOnScreenCondition{ startDestination.isNullOrEmpty() }
-        setContent {
-
-            OrganiksPlatformAndroidTheme {
-
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    //            color = colors.background
-                ) {
-                    val navController = rememberNavController()
-                    NavHost(
-                        navController = navController,
-                        startDestination = "sign_in"
-                    ) {
-                        composable("sign_in") {
-                            val viewModel = viewModel<SignInViewModel>()
-                            val state by viewModel.state.collectAsStateWithLifecycle()
-
-                            LaunchedEffect(key1 = Unit) {
-                                if (googleAuthUiClient.getSignedInUser() != null) {
-                                    navController.navigate("profile")
-                                }
-                            }
-
-                            val launcher = rememberLauncherForActivityResult(
-                                contract = ActivityResultContracts.StartIntentSenderForResult(),
-                                onResult = { result ->
-                                    if (result.resultCode == RESULT_OK) {
-                                        lifecycleScope.launch {
-                                            val signInResult = googleAuthUiClient.signInWithIntent(
-                                                intent = result.data ?: return@launch
-                                            )
-                                            viewModel.onSignInResult(signInResult)
-                                        }
-                                    }
-                                }
-                            )
-
-                            LaunchedEffect(key1 = state.isSignInSuccessful) {
-                                if (state.isSignInSuccessful) {
-                                    Toast.makeText(
-                                        applicationContext,
-                                        "Sign in successful",
-                                        Toast.LENGTH_LONG
-                                    ).show()
-
-                                    navController.navigate("profile")
-                                    viewModel.resetState()
-                                }
-                            }
-
-                            SignInScreen(
-                                state = state,
-                                onSignInClick = {
-                                    lifecycleScope.launch {
-                                        val signInIntentSender = googleAuthUiClient.signIn()
-                                        launcher.launch(
-                                            IntentSenderRequest.Builder(
-                                                signInIntentSender ?: return@launch
-                                            ).build()
-                                        )
-                                    }
-                                }
-                            )
-                        }
-                        composable("profile") {
-                            ProfileScreen(
-                                userData = googleAuthUiClient.getSignedInUser(),
-                                onSignOut = {
-                                    lifecycleScope.launch {
-                                        googleAuthUiClient.signOut()
-                                        Toast.makeText(
-                                            applicationContext,
-                                            "Signed out",
-                                            Toast.LENGTH_LONG
-                                        ).show()
-
-                                        navController.popBackStack()
-                                    }
-                                }
-                            )
-                        }
-                    }
-                }
-            }
-        }
+//        splashScreen.setKeepOnScreenCondition{ startDestination.isNullOrEmpty() }
 
 
-
-
-
-
-
-
-
-
-
-
+        //firebase auth screens
 //        setContent {
-////            val imeiState = rememberImeState()
-//            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
-//            splashViewModel.startDestination.value?.let { Log.d("TAG3", it) }
-//
-//            CompositionLocalProvider(UserState provides userState) {
+//            CompositionLocalProvider(
+//                UserState provides authViewModel
+//            ) {
 //                OrganiksPlatformAndroidTheme {
-//                    SetBarColor(color = MaterialTheme.colorScheme.background)
+//                    Surface(
+//                        modifier = Modifier.fillMaxSize(),
+//                        //            color = colors.background
+//                    ) {
+//                        val navController = rememberNavController()
 //
-//                    startDestination?.let {
-//                        RootNavGraph(
-//                            navController = rememberNavController(),
-//                            startDestination = it
-//                        )
+//
+//                        // State to keep track of whether navigation is performed
+//                        var isNavigationDone by remember { mutableStateOf(false) }
+//
+//                        // LaunchedEffect to handle initial navigation based on auth status
+//                        LaunchedEffect(key1 = Unit) {
+//                            // Check if the user is signed in
+//                            val isSignedIn = authViewModel.googleAuthUiClient.getSignedInUser() != null
+//                            // Navigate based on auth status if not done yet
+//                            if (!isNavigationDone) {
+//                                if (isSignedIn) {
+//                                    navController.navigate("profile") {
+//                                        // Clear back stack to prevent returning to sign-in
+//                                        popUpTo("sign_in") { inclusive = true }
+//                                    }
+//                                } else {
+//                                    navController.navigate("sign_in") {
+//                                        // Clear back stack to prevent returning to profile
+//                                        popUpTo("profile") { inclusive = true }
+//                                    }
+//                                }
+//                                isNavigationDone = true
+//                            }
+//                        }
+//
+//                        NavHost(
+//                            navController = navController,
+//                            startDestination = "sign_in"
+//                        ) {
+//
+//                            composable("sign_in") {
+//                                val authViewModel: AuthViewModel = UserState.current
+//
+//                                val viewModel = viewModel<SignInViewModel>()
+//                                val state by viewModel.state.collectAsStateWithLifecycle()
+//
+//                                LaunchedEffect(key1 = Unit) {
+//                                    if (authViewModel.googleAuthUiClient.getSignedInUser() != null) {
+//                                        navController.navigate("profile")
+//                                    }
+//                                }
+//
+//                                val launcher = rememberLauncherForActivityResult(
+//                                    contract = ActivityResultContracts.StartIntentSenderForResult(),
+//                                    onResult = { result ->
+//                                        if (result.resultCode == RESULT_OK) {
+//                                            lifecycleScope.launch {
+//                                                val signInResult =
+//                                                    authViewModel.googleAuthUiClient.signInWithIntent(
+//                                                        intent = result.data ?: return@launch
+//                                                    )
+//                                                viewModel.onSignInResult(signInResult)
+//                                            }
+//                                        }
+//                                    }
+//                                )
+//
+//                                LaunchedEffect(key1 = state.isSignInSuccessful) {
+//                                    if (state.isSignInSuccessful) {
+//                                        Toast.makeText(
+//                                            applicationContext,
+//                                            "Sign in successful",
+//                                            Toast.LENGTH_LONG
+//                                        ).show()
+//
+//                                        navController.navigate("profile")
+//                                        viewModel.resetState()
+//                                    }
+//                                }
+//
+//                                SignInScreen(
+//                                    state = state,
+//                                    onSignInClick = {
+//                                        lifecycleScope.launch {
+//                                            val signInIntentSender = authViewModel.googleAuthUiClient.signIn()
+//                                            launcher.launch(
+//                                                IntentSenderRequest.Builder(
+//                                                    signInIntentSender ?: return@launch
+//                                                ).build()
+//                                            )
+//                                        }
+//                                    }
+//                                )
+//                            }
+//
+//
+//                            composable("profile") {
+//                                ProfileScreen(
+//                                    userData = authViewModel.googleAuthUiClient.getSignedInUser(),
+//                                    onSignOut = {
+//                                        lifecycleScope.launch {
+//                                            authViewModel.googleAuthUiClient.signOut()
+//                                            Toast.makeText(
+//                                                applicationContext,
+//                                                "Signed out",
+//                                                Toast.LENGTH_LONG
+//                                            ).show()
+//
+//                                            navController.popBackStack()
+//                                        }
+//                                    }
+//                                )
+//                            }
+//                        }
 //                    }
 //                }
 //            }
-//
 //        }
+
+
+
+
+
+
+
+
+
+
+
+
+        setContent {
+//            val imeiState = rememberImeState()
+            window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+            splashViewModel.startDestination.value?.let { Log.d("TAG3", it) }
+
+            var startDestination by remember { mutableStateOf<String?>(null) }
+
+            // Check authentication status and determine the start destination
+            LaunchedEffect(key1 = Unit) {
+                val user = authViewModel.googleAuthUiClient.getSignedInUser()
+                // Determine the start destination based on the user's authentication status
+//                startDestination = if (user != null) To_MAIN_GRAPH_ROUTE else AUTH_GRAPH_ROUTE
+                startDestination = if (user != null) To_MAIN_GRAPH_ROUTE else AUTH_GRAPH_ROUTE
+            }
+
+            CompositionLocalProvider(
+                UserState provides authViewModel
+            ) {
+                OrganiksPlatformAndroidTheme {
+                    SetBarColor(color = MaterialTheme.colorScheme.background)
+
+                    startDestination?.let {
+                        RootNavGraph(
+                            navController = rememberNavController(),
+                            startDestination = it
+                        )
+                    }
+                }
+            }
+
+        }
     }
 }

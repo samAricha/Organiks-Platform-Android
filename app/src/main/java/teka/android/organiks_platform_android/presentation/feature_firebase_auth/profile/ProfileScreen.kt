@@ -1,10 +1,12 @@
 package teka.android.organiks_platform_android.presentation.feature_firebase_auth.profile
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -13,14 +15,23 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import kotlinx.coroutines.launch
+import teka.android.organiks_platform_android.presentation.feature_auth.AuthViewModel
+import teka.android.organiks_platform_android.presentation.feature_auth.UserState
 import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.UserData
 
 @Composable
 fun ProfileScreen(
-    userData: UserData?,
-    onSignOut: () -> Unit
+    navController : NavHostController
 ) {
+    val authViewModel: AuthViewModel = UserState.current
+    val coroutineScope = rememberCoroutineScope()
+    val userData: UserData? = authViewModel.googleAuthUiClient.getSignedInUser()
+
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -46,7 +57,19 @@ fun ProfileScreen(
             )
             Spacer(modifier = Modifier.height(16.dp))
         }
-        Button(onClick = onSignOut) {
+        Button(
+            onClick = {
+                coroutineScope.launch {
+                    authViewModel.googleAuthUiClient.signOut()
+                    Toast.makeText(
+                        authViewModel.applicationContext,
+                        "Signed out",
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    navController.popBackStack()
+                }
+            }) {
             Text(text = "Sign out")
         }
     }

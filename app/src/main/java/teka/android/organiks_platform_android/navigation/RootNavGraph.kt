@@ -22,9 +22,12 @@ fun RootNavGraph(
     val appState = rememberAppState(navHostController = navController)
 
 
-    NavHost(navController = navController,
+    NavHost(
+        navController = navController,
         startDestination = startDestination,
-        route = ROOT_GRAPH_ROUTE){
+        route = ROOT_GRAPH_ROUTE
+    ){
+
 
 
         authNavGraph(navController = navController)
