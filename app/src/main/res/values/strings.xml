@@ -20,4 +20,6 @@
     <string name="strThePhoneNumberShouldBeContentJustDigit">The phone number should be content just digit</string>
     <string name="strThePhoneMustBeEqualTo10">The phone number should be 10 digits</string>
 
+    <string name="web_client_id">374604567554-p55fa21hkt44t2dkj99jbq2ri2rg502d.apps.googleusercontent.com</string>
+
 </resources>

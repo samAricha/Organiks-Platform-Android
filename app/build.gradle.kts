@@ -84,6 +84,8 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose-android:2.8.4")
     val compose_ui_version = "1.6.8"
     implementation ("androidx.core:core-ktx:1.13.1")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
