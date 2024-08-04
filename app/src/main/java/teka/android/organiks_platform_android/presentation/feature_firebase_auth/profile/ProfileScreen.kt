@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import kotlinx.coroutines.launch
+import teka.android.organiks_platform_android.navigation.AUTH_GRAPH_ROUTE
 import teka.android.organiks_platform_android.presentation.feature_auth.AuthViewModel
 import teka.android.organiks_platform_android.presentation.feature_auth.UserState
 import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.UserData
@@ -60,14 +61,13 @@ fun ProfileScreen(
         Button(
             onClick = {
                 coroutineScope.launch {
-                    authViewModel.googleAuthUiClient.signOut()
+//                    authViewModel.googleAuthUiClient.signOut()
+                    authViewModel.firebaseUsersignOut()
                     Toast.makeText(
                         authViewModel.applicationContext,
                         "Signed out",
                         Toast.LENGTH_LONG
                     ).show()
-
-                    navController.popBackStack()
                 }
             }) {
             Text(text = "Sign out")

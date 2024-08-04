@@ -30,11 +30,13 @@ fun MainNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = "profile",
+        startDestination = AppScreens.DashboardAppScreens.route,
         route = MAIN_GRAPH_ROUTE
     ) {
 
-       composable("profile") {
+       composable(
+           route = AppScreens.FirebaseProfileAppScreens.route,
+       ) {
            ProfileScreen(navController = navController)
        }
 

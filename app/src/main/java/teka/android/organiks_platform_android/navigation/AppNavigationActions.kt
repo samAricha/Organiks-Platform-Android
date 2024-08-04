@@ -37,6 +37,13 @@ class AppNavigationActions(
         }
     }
 
+    fun navigateToFirebaseProfileScreen() {
+        navController.navigate(AppScreens.FirebaseProfileAppScreens.route) {
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
     fun logoutNav() {
         navController.navigate(AUTH_GRAPH_ROUTE) {
             popUpTo(AppScreens.Login.route)

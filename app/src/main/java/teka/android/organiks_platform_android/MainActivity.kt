@@ -20,6 +20,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,6 +43,7 @@ import teka.android.organiks_platform_android.navigation.*
 import teka.android.organiks_platform_android.presentation.feature_auth.AuthViewModel
 import teka.android.organiks_platform_android.presentation.feature_auth.UserState
 import teka.android.organiks_platform_android.domain.repository.DataStoreRepository
+import teka.android.organiks_platform_android.presentation.feature_firebase_auth.FirebaseAuthViewModel
 import teka.android.organiks_platform_android.presentation.feature_firebase_auth.profile.ProfileScreen
 import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.GoogleAuthUiClient
 import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.SignInScreen
@@ -56,6 +58,8 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var splashViewModel: SplashViewModel
     private val authViewModel by viewModels<AuthViewModel>()
+    private val firebaseAuthViewModel by viewModels<FirebaseAuthViewModel>()
+
 
 
 
@@ -74,138 +78,6 @@ class MainActivity : ComponentActivity() {
 //        splashScreen.setKeepOnScreenCondition{ startDestination.isNullOrEmpty() }
 
 
-        //firebase auth screens
-//        setContent {
-//            CompositionLocalProvider(
-//                UserState provides authViewModel
-//            ) {
-//                OrganiksPlatformAndroidTheme {
-//                    Surface(
-//                        modifier = Modifier.fillMaxSize(),
-//                        //            color = colors.background
-//                    ) {
-//                        val navController = rememberNavController()
-//
-//
-//                        // State to keep track of whether navigation is performed
-//                        var isNavigationDone by remember { mutableStateOf(false) }
-//
-//                        // LaunchedEffect to handle initial navigation based on auth status
-//                        LaunchedEffect(key1 = Unit) {
-//                            // Check if the user is signed in
-//                            val isSignedIn = authViewModel.googleAuthUiClient.getSignedInUser() != null
-//                            // Navigate based on auth status if not done yet
-//                            if (!isNavigationDone) {
-//                                if (isSignedIn) {
-//                                    navController.navigate("profile") {
-//                                        // Clear back stack to prevent returning to sign-in
-//                                        popUpTo("sign_in") { inclusive = true }
-//                                    }
-//                                } else {
-//                                    navController.navigate("sign_in") {
-//                                        // Clear back stack to prevent returning to profile
-//                                        popUpTo("profile") { inclusive = true }
-//                                    }
-//                                }
-//                                isNavigationDone = true
-//                            }
-//                        }
-//
-//                        NavHost(
-//                            navController = navController,
-//                            startDestination = "sign_in"
-//                        ) {
-//
-//                            composable("sign_in") {
-//                                val authViewModel: AuthViewModel = UserState.current
-//
-//                                val viewModel = viewModel<SignInViewModel>()
-//                                val state by viewModel.state.collectAsStateWithLifecycle()
-//
-//                                LaunchedEffect(key1 = Unit) {
-//                                    if (authViewModel.googleAuthUiClient.getSignedInUser() != null) {
-//                                        navController.navigate("profile")
-//                                    }
-//                                }
-//
-//                                val launcher = rememberLauncherForActivityResult(
-//                                    contract = ActivityResultContracts.StartIntentSenderForResult(),
-//                                    onResult = { result ->
-//                                        if (result.resultCode == RESULT_OK) {
-//                                            lifecycleScope.launch {
-//                                                val signInResult =
-//                                                    authViewModel.googleAuthUiClient.signInWithIntent(
-//                                                        intent = result.data ?: return@launch
-//                                                    )
-//                                                viewModel.onSignInResult(signInResult)
-//                                            }
-//                                        }
-//                                    }
-//                                )
-//
-//                                LaunchedEffect(key1 = state.isSignInSuccessful) {
-//                                    if (state.isSignInSuccessful) {
-//                                        Toast.makeText(
-//                                            applicationContext,
-//                                            "Sign in successful",
-//                                            Toast.LENGTH_LONG
-//                                        ).show()
-//
-//                                        navController.navigate("profile")
-//                                        viewModel.resetState()
-//                                    }
-//                                }
-//
-//                                SignInScreen(
-//                                    state = state,
-//                                    onSignInClick = {
-//                                        lifecycleScope.launch {
-//                                            val signInIntentSender = authViewModel.googleAuthUiClient.signIn()
-//                                            launcher.launch(
-//                                                IntentSenderRequest.Builder(
-//                                                    signInIntentSender ?: return@launch
-//                                                ).build()
-//                                            )
-//                                        }
-//                                    }
-//                                )
-//                            }
-//
-//
-//                            composable("profile") {
-//                                ProfileScreen(
-//                                    userData = authViewModel.googleAuthUiClient.getSignedInUser(),
-//                                    onSignOut = {
-//                                        lifecycleScope.launch {
-//                                            authViewModel.googleAuthUiClient.signOut()
-//                                            Toast.makeText(
-//                                                applicationContext,
-//                                                "Signed out",
-//                                                Toast.LENGTH_LONG
-//                                            ).show()
-//
-//                                            navController.popBackStack()
-//                                        }
-//                                    }
-//                                )
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-
-
-
-
-
-
-
-
-
-
-
-
         setContent {
 //            val imeiState = rememberImeState()
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -213,13 +85,22 @@ class MainActivity : ComponentActivity() {
 
             var startDestination by remember { mutableStateOf<String?>(null) }
 
-            // Check authentication status and determine the start destination
-            LaunchedEffect(key1 = Unit) {
-                val user = authViewModel.googleAuthUiClient.getSignedInUser()
-                // Determine the start destination based on the user's authentication status
-//                startDestination = if (user != null) To_MAIN_GRAPH_ROUTE else AUTH_GRAPH_ROUTE
-                startDestination = if (user != null) To_MAIN_GRAPH_ROUTE else AUTH_GRAPH_ROUTE
-            }
+
+
+            //firebase and Google Authentication
+//            val googleAuthUiClient by lazy {
+//                GoogleAuthUiClient(
+//                    context = applicationContext,
+//                    oneTapClient = Identity.getSignInClient(applicationContext)
+//                )
+//            }
+
+            val viewModel = viewModel<SignInViewModel>()
+            val state by viewModel.state.collectAsStateWithLifecycle()
+
+
+
+
 
             CompositionLocalProvider(
                 UserState provides authViewModel
@@ -227,10 +108,19 @@ class MainActivity : ComponentActivity() {
                 OrganiksPlatformAndroidTheme {
                     SetBarColor(color = MaterialTheme.colorScheme.background)
 
+                    val isUserSignedIn by authViewModel.isUserSignedIn.collectAsState()
+                    val currentUser = firebaseAuthViewModel.currentUser.collectAsState().value
+
+                    LaunchedEffect(currentUser) {
+                        startDestination = if (currentUser != null) To_MAIN_GRAPH_ROUTE else AUTH_GRAPH_ROUTE
+                    }
+
+
                     startDestination?.let {
                         RootNavGraph(
                             navController = rememberNavController(),
-                            startDestination = it
+                            startDestination = it,
+                            authViewModel = authViewModel
                         )
                     }
                 }

@@ -48,13 +48,28 @@ class AuthViewModel @Inject constructor(
     ) : ViewModel() {
 
 
-        //firebase and Google Authentication
-        val googleAuthUiClient by lazy {
-            GoogleAuthUiClient(
-                context = applicationContext,
-                oneTapClient = Identity.getSignInClient(applicationContext)
-            )
+
+    //firebase and Google Authentication
+    val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            context = applicationContext,
+            oneTapClient = Identity.getSignInClient(applicationContext)
+        )
+    }
+
+    private val _isUserSignedIn = MutableStateFlow(googleAuthUiClient.getSignedInUser() != null)
+    val isUserSignedIn: StateFlow<Boolean> get() = _isUserSignedIn
+
+    fun firebaseUsersignOut() {
+        viewModelScope.launch {
+            googleAuthUiClient.signOut()
+            _isUserSignedIn.value = false
         }
+    }
+
+    fun checkFirebaseSignInStatus() {
+        _isUserSignedIn.value = googleAuthUiClient.getSignedInUser() != null
+    }
 
 
 

@@ -34,12 +34,12 @@ fun NavGraphBuilder.authNavGraph(
 
     navigation(
 //        startDestination = AppScreens.Welcome.route,
-        startDestination = "sign_in",
+        startDestination = AppScreens.FirebaseSignInAppScreens.route,
         route = AUTH_GRAPH_ROUTE
     ){
 
 
-        composable("sign_in") {
+        composable(AppScreens.FirebaseSignInAppScreens.route) {
             SignInScreen(
                 navController = navController,
             )

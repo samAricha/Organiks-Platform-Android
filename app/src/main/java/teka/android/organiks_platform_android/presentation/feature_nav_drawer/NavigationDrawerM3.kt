@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Analytics
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.PermIdentity
 import androidx.compose.material.icons.filled.Receipt
 import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material.icons.filled.VoiceChat
@@ -156,6 +157,19 @@ fun NavigationDrawerM3(
             onItemClick = {
                 Toast.makeText(context, "This is a Notifications Toast. Yay!", Toast.LENGTH_SHORT).show()
 //                navHostController.navigate(Screen.ProductionHome.route)
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.PermIdentity,
+            label = "Profile",
+            secondaryLabel = "12",
+            route = null,
+            onItemClick = {
+                navigationActions.navigateToFirebaseProfileScreen()
+                scope.launch {
+                    drawerState.close()
+                }
+                Toast.makeText(context, "profile screen", Toast.LENGTH_SHORT).show()
             }
         ),
         DrawerItem(
