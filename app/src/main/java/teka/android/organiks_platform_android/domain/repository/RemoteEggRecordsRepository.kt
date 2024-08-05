@@ -59,10 +59,7 @@ class RemoteEggRecordsRepository(
                             }
                     }
                 }
-
                 emit(result)
-
-
             } catch (e: Exception) {
                 Timber.tag(">>>EGG LIST ERROR").e(e)
                 emit(emptyList())

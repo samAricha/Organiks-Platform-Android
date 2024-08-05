@@ -93,7 +93,7 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
 //                    }
 
                     val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-                    val dbMilkCollections: CollectionReference = db.collection("MIlkCollections")
+                    val dbMilkCollections: CollectionReference = db.collection("MilkCollections")
 
 
                     dbMilkCollections.add(milkCollectionRequest).addOnSuccessListener {

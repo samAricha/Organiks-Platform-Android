@@ -6,10 +6,10 @@ import teka.android.organiks_platform_android.data.room.models.FruitCollectionEn
 
 @Serializable
 data class FruitCollectionDto(
-    val uuid: String,
-    val quantity: String,
-    val fruitTypeId: Int,
-    val date: Long,  // Date as a timestamp
+    val uuid: String = "",
+    val quantity: String = "",
+    val fruitTypeId: Int = 0,
+    val date: Long = 0L
 )
 
 fun FruitCollectionDto.toFruitCollectionEntity(): FruitCollectionEntity {
