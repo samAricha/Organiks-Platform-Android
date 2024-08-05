@@ -24,4 +24,6 @@ sealed class AppScreens(
     data object ProfileAppScreens: AppScreens(route = "profile_screen", title = "Profile")
     data object FirebaseProfileAppScreens: AppScreens(route = "firebase_profile_screen", title = "Firebase Profile")
     data object FirebaseSignInAppScreens: AppScreens(route = "firebase_signin_screen", title = "Firebase SignIn")
+    data object HomeScreen : AppScreens(route = "app_home_screen", title = "Home Screen")
+
 }
