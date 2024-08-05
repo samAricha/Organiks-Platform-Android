@@ -3,8 +3,13 @@ package teka.android.organiks_platform_android.data.room_remote_sync
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.CoroutineScope
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import teka.android.organiks_platform_android.data.remote.retrofit.RetrofitProvider
 import teka.android.organiks_platform_android.data.remote.retrofit.models.toEggCollectionRequest
@@ -34,15 +39,36 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
                 eggCollections.forEach { eggCollection ->
                     val eggCollectionRequest = eggCollection.toEggCollectionRequest()
 
-                        val response = RetrofitProvider.createEggCollectionService().createRemoteEggCollection(eggCollectionRequest)
-                    if (response.success){
+//                        val response = RetrofitProvider.createEggCollectionService().createRemoteEggCollection(eggCollectionRequest)
+
+//                    if (response.success){
+//                        eggCollection.isBackedUp = true
+//                        repository.updateEggCollection(eggCollection)
+////                        Toast.makeText(appContext, "Sync successful.", Toast.LENGTH_SHORT).show()
+//                         UpdateResult.Success("Data updated successfully.")
+//                    }else{
+//                        Toast.makeText(appContext, "Sync failed. Please try again.", Toast.LENGTH_SHORT).show()
+//                    }
+
+
+                    val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+                    val dbEggCollections: CollectionReference = db.collection("EggCollections")
+
+                    dbEggCollections.add(eggCollectionRequest).addOnSuccessListener {
                         eggCollection.isBackedUp = true
-                        repository.updateEggCollection(eggCollection)
-//                        Toast.makeText(appContext, "Sync successful.", Toast.LENGTH_SHORT).show()
-                         UpdateResult.Success("Data updated successfully.")
-                    }else{
-                        Toast.makeText(appContext, "Sync failed. Please try again.", Toast.LENGTH_SHORT).show()
+                        CoroutineScope(Dispatchers.IO).launch {
+                            repository.updateEggCollection(eggCollection)
+                        }
+                        Toast.makeText(
+                            appContext,
+                            "Your EggCollection has been added to Firebase Firestore",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }.addOnFailureListener { e ->
+                        Toast.makeText(appContext, "Fail to add egg collection to Cloud \n$e", Toast.LENGTH_SHORT).show()
                     }
+
                 }
                 UpdateResult.Success("Data updated successfully.")
             }
