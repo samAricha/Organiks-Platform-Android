@@ -86,12 +86,31 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
                 milkCollections.forEach { milkCollection ->
                     val milkCollectionRequest = milkCollection.toMilkCollectionRequest()
 
-                    val response = RetrofitProvider.createMilkCollectionService().createRemoteMilkCollection(milkCollectionRequest)
+//                    val response = RetrofitProvider.createMilkCollectionService().createRemoteMilkCollection(milkCollectionRequest)
+//                    if (response.success){
+//                        milkCollection.isBackedUp = true
+//                        repository.updateMilkCollection(milkCollection)
+//                    }
 
-                    if (response.success){
+                    val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+                    val dbMilkCollections: CollectionReference = db.collection("MIlkCollections")
+
+
+                    dbMilkCollections.add(milkCollectionRequest).addOnSuccessListener {
                         milkCollection.isBackedUp = true
-                        repository.updateMilkCollection(milkCollection)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            repository.updateMilkCollection(milkCollection)
+                        }
+                        Toast.makeText(
+                            appContext,
+                            "Your MilkCollection has been added to Firebase Firestore",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }.addOnFailureListener { e ->
+                        Toast.makeText(appContext, "Fail to add milk collection to Cloud \n$e", Toast.LENGTH_SHORT).show()
                     }
+
                 }
                 UpdateResult.Success("Data updated successfully.")
             }
@@ -107,14 +126,34 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
                 fruitCollections.forEach { fruitCollection ->
                     val fruitCollectionRequest = fruitCollection.toFruitCollectionRequest()
 
-                    val response = RetrofitProvider
-                        .createFruitCollectionService()
-                        .createRemoteFruitCollection(fruitCollectionRequest)
+//                    val response = RetrofitProvider
+//                        .createFruitCollectionService()
+//                        .createRemoteFruitCollection(fruitCollectionRequest)
+//
+//                    if (response.success){
+//                        fruitCollection.isBackedUp = true
+//                        repository.updateFruitCollection(fruitCollection)
+//                    }
 
-                    if (response.success){
+                    val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+                    val dbFruitCollections: CollectionReference = db.collection("FruitCollections")
+
+                    dbFruitCollections.add(fruitCollectionRequest).addOnSuccessListener {
                         fruitCollection.isBackedUp = true
-                        repository.updateFruitCollection(fruitCollection)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            repository.updateFruitCollection(fruitCollection)
+                        }
+                        Toast.makeText(
+                            appContext,
+                            "Your FruitCollection has been added to Firebase Firestore",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }.addOnFailureListener { e ->
+                        Toast.makeText(appContext, "Fail to add fruit collection to Cloud \n$e", Toast.LENGTH_SHORT).show()
                     }
+
+
                 }
                 UpdateResult.Success("Data updated successfully.")
             }
