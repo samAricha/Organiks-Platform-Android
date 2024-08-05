@@ -5,16 +5,17 @@ import kotlinx.serialization.Serializable
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 
 
-@Serializable
 data class EggCollectionResult(
     @SerialName("collection_uuid")
-    val uuid: String,
-    val quantity: String,
-    val cracked: String,
+    val uuid: String = "",
+    val quantity: String = "",
+    val cracked: String = "",
     @SerialName("egg_type_id")
-    val eggTypeId: Int,
-    val date: Long,
+    val eggTypeId: Int = 0,
+    @SerialName("collection_date")
+    val date: Long = 0L
 )
+
 
 fun EggCollectionResult.toEggCollection(): EggCollection {
     return EggCollection(
