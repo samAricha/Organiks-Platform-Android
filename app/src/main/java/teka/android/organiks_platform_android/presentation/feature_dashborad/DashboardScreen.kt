@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.presentation.feature_dashborad.components.BarchartWithSolidBarsWidget
+import teka.android.organiks_platform_android.presentation.feature_dashborad.components.DashboardCard
 import teka.android.organiks_platform_android.presentation.feature_dashborad.components.PiechartWithSliceLablesWidget
 import teka.android.organiks_platform_android.presentation.feature_dashborad.components.SingleLineChartWithGridLinesWidget
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
@@ -194,45 +195,5 @@ fun DashboardScreen() {
     }
 }
 
-@Composable
-fun DashboardCard(
-    title: String,
-    value: String,
-    iconResId: Int,
-    color: Color,
-    modifier: Modifier = Modifier
-) {
-    val iconPainter = painterResource(id = iconResId)
-
-    Card(
-        modifier = modifier
-            .padding(end = 8.dp),
-        elevation = 4.dp
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(
-                painter = iconPainter,
-                contentDescription = null,
-                tint = color,
-                modifier = Modifier.size(48.dp)
-            )
-            Text(
-                text = title,
-                modifier = Modifier.padding(top = 8.dp),
-                fontFamily = PoppinsLight
-            )
-            Text(
-                text = value,
-                style = TextStyle(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(top = 8.dp),
-                fontFamily = PoppinsLight
-            )
-        }
-    }
-}
 
 

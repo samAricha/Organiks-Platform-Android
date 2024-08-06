@@ -21,9 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import teka.android.organiks_platform_android.R
-import teka.android.organiks_platform_android.presentation.feature_dashborad.DashboardCard
+import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.presentation.feature_dashborad.DashboardViewModel
+import teka.android.organiks_platform_android.presentation.feature_home.components.HomeInfoCard
+import teka.android.organiks_platform_android.presentation.feature_home.components.HomeInfoCardData
+import teka.android.organiks_platform_android.ui.theme.DecentGreen
+import teka.android.organiks_platform_android.ui.theme.LightBlue
 import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
+import teka.android.organiks_platform_android.ui.theme.SecondaryColor
 
 
 @Composable
@@ -56,29 +61,46 @@ fun HomeScreen(
 
 
     val cards = listOf(
-        DashboardCardData(
-            title = "Egg Collections",
+        HomeInfoCardData(
+            title = "Gemini Chat Assistant",
             value = "$totalEggsCollected Eggs",
-            iconResId = R.drawable.ic_egg_collection,
-            color = PrimaryVariant
+            iconResId = R.drawable.gemini_transparent,
+            color = PrimaryVariant,
+            onClick = {
+                navController.navigate(route = AppScreens.GeminiChatAppScreens.route)
+            }
         ),
-        DashboardCardData(
-            title = "Milk Collection",
+        HomeInfoCardData(
+            title = "Gemini Data Analyst",
             value = "$totalMilkCollected Litres",
-            iconResId = R.drawable.ic_milk_can,
-            color = Color.Gray
+            iconResId = R.drawable.gemini_transparent,
+            color = SecondaryColor,
+            onClick = {
+                navController.navigate(route = AppScreens.GeminiAnalystAppScreens.route)
+            }
         ),
-        DashboardCardData(
-            title = "Not Backed up",
+        HomeInfoCardData(
+            title = "Back Up Data",
             value = "$totalNotBackedUpCount Records",
-            iconResId = R.drawable.baseline_sync_problem_24,
-            color = Color(0xFFE57373)
+            iconResId = R.drawable.cloud_upload,
+            color = LightBlue,
+            onClick = {
+
+            }
+        ),
+        HomeInfoCardData(
+            title = "Backed Up Data",
+            value = "$totalNotBackedUpCount Records",
+            iconResId = R.drawable.cloud_done,
+            color = DecentGreen,
+            onClick = {
+                navController.navigate(route = AppScreens.RemoteRecordsScreens.route)
+            }
         )
+
+
     )
 
-//    LaunchedEffect(homeScreenViewModel) {
-//        homeScreenViewModel.getMemberCount()
-//    }
     Scaffold(
 
     ) { padding ->
@@ -114,12 +136,13 @@ fun HomeScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         rowItems.forEach { cardData ->
-                            DashboardCard(
+                            HomeInfoCard(
                                 title = cardData.title,
                                 value = cardData.value,
                                 iconResId = cardData.iconResId,
                                 color = cardData.color,
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(1f),
+                                onClick = cardData.onClick
                             )
                         }
                         if (rowItems.size == 1) {

@@ -46,11 +46,11 @@ fun FeaturedBox(
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Image(
-                painter = painterResource(id = R.drawable.green_economy_jar),
+                painter = painterResource(id = R.drawable.perfect100),
                 modifier = Modifier
                     .padding(start = 30.dp),
 //                contentScale = ContentScale.FillBounds,
-                contentDescription = "green economy jar image"
+                contentDescription = "perfect mascot"
             )
         }
 
@@ -71,7 +71,7 @@ fun FeaturedBox(
                 Spacer(modifier = Modifier.size(0.05.dp))
                 Text(
                     modifier = Modifier.padding(horizontal = 5.dp),
-                    text = "Record keeping + AI = Efficiency",
+                    text = "Farmers Choice + Gemini",
                     color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Light,

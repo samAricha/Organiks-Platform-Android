@@ -73,7 +73,7 @@ class DashboardViewModel  @Inject constructor(
 
     }
 
-    fun fetchAllRemoteEggRecords() {
+    private fun fetchAllRemoteEggRecords() {
         viewModelScope.launch(Dispatchers.IO) {
             _isLoading.value = true
             try {
