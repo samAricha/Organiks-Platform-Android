@@ -1,15 +1,33 @@
 package teka.android.organiks_platform_android.presentation.feature_auth.login
 
-import android.util.Log
+import android.app.Activity.RESULT_OK
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.TabRowDefaults.Divider
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,6 +42,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
@@ -32,31 +52,72 @@ import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 import teka.android.organiks_platform_android.presentation.feature_auth.AuthViewModel
-
+import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.SignInViewModel
 import teka.android.organiks_platform_android.ui.theme.*
 import teka.android.organiks_platform_android.util.UiEvents
 
 
 @Composable
 fun LoginScreen(
-    navController: NavController,
-    ) {
+    navController: NavController
+) {
     val context = LocalContext.current
     val loginViewModel:LoginViewModel = hiltViewModel()
     val authViewModel: AuthViewModel = hiltViewModel()
-    Log.d("lscrn", "inside login screen")
-//    var email by remember { mutableStateOf("") }
-//    var password by remember { mutableStateOf("") }
     val usernameState = authViewModel.usernameState.value
     val passwordState = authViewModel.passwordState.value
     val rememberMeState = authViewModel.rememberMeState.value
     var isPasswordOpen by remember { mutableStateOf(false) }
     val isLoggedIn by authViewModel.isLoggedIn.collectAsState(false)
-
-
     val loginState = authViewModel.loginState.value
     val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
+    val coroutineScope = rememberCoroutineScope()
+
+    //firebase login
+    val signInViewModel = viewModel<SignInViewModel>()
+    val state by signInViewModel.state.collectAsStateWithLifecycle()
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            coroutineScope.launch {
+                val intent = result.data ?: return@launch
+                try {
+                    val signInResult = authViewModel.googleAuthUiClient.signInWithIntent(intent)
+                    signInViewModel.onSignInResult(signInResult)
+                } catch (e: Exception) {
+                    // Handle exception
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(key1 = state.isSignInSuccessful) {
+        if (state.isSignInSuccessful) {
+            Toast.makeText(
+                authViewModel.applicationContext,
+                "Sign in successful",
+                Toast.LENGTH_LONG
+            ).show()
+
+            navController.navigate(To_MAIN_GRAPH_ROUTE)
+            signInViewModel.resetState()
+        }
+    }
+    LaunchedEffect(key1 = state.signInError) {
+        state.signInError?.let { error ->
+            Toast.makeText(
+                context,
+                error,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
+
+
 
     val keyboardController = LocalSoftwareKeyboardController.current
 
@@ -65,7 +126,7 @@ fun LoginScreen(
         authViewModel.loginEventFlow.collectLatest { event ->
             when (event) {
                 is UiEvents.SnackbarEvent -> {
-                    scope.launch {
+                    coroutineScope.launch {
                         snackbarHostState.showSnackbar(
                             message = event.message,
 //                            actionLabel = "Click me",
@@ -74,7 +135,7 @@ fun LoginScreen(
                     }
                 }
                 is UiEvents.NavigateEvent -> {
-                    scope.launch {
+                    coroutineScope.launch {
                         snackbarHostState.showSnackbar(
                             message = "Successfully Logged In",
 //                            actionLabel = "Click me",
@@ -96,7 +157,6 @@ fun LoginScreen(
         loginViewModel.saveOnBoardingState(completed = true)
         navController.popBackStack()
         navController.navigate(To_MAIN_GRAPH_ROUTE)
-//        onClick
         Toast.makeText(context, "Login successful.", Toast.LENGTH_SHORT).show()
     }
         Box(
@@ -106,8 +166,10 @@ fun LoginScreen(
                 Card(
                     modifier = Modifier
                         .fillMaxSize(),
-                    backgroundColor = Color.White,
-                    elevation = 0.dp,
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    ),
+                    elevation = CardDefaults.cardElevation(0.dp) ,
                     shape = BottomBoxShape.medium
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally,
@@ -147,14 +209,14 @@ fun LoginScreen(
                                 .padding(horizontal = 20.dp)
                                 .padding(top = 10.dp),
 
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                            colors = OutlinedTextFieldDefaults.colors(
                                 unfocusedBorderColor = Color.Gray,
-                                textColor = Color.Black,
+                                focusedTextColor = Color.Black,
+                                unfocusedTextColor = GrayColor,
                                 unfocusedLabelColor = Color.Gray,
                                 focusedLabelColor = PrimaryColor,
                                 cursorColor = Color.Black,
-                                leadingIconColor = Color.LightGray
-                            ),
+                                ),
                             keyboardOptions = KeyboardOptions(
                                 keyboardType =
                                 KeyboardType.Email
@@ -183,14 +245,12 @@ fun LoginScreen(
                                 .fillMaxWidth()
                                 .padding(horizontal = 20.dp)
                                 .padding(top = 10.dp),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
+                            colors = OutlinedTextFieldDefaults.colors(
                                 unfocusedBorderColor = Color.Gray,
-                                textColor = Color.Black,
+                                focusedTextColor = Color.Black,
                                 unfocusedLabelColor = Color.Gray,
                                 focusedLabelColor = PrimaryColor,
                                 cursorColor = Color.Black,
-                                leadingIconColor = Color.LightGray,
-                                trailingIconColor = Color.LightGray
                             ),
                             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                             singleLine = true,
@@ -236,20 +296,18 @@ fun LoginScreen(
                                 .padding(horizontal = 20.dp)
                                 .padding(top = 20.dp),
                             colors = ButtonDefaults.buttonColors(
-                                backgroundColor = PrimaryColor,
+                                containerColor = PrimaryColor,
                                 contentColor = Color.White
                             ),
                             contentPadding = PaddingValues(vertical = 14.dp),
                             shape = Shapes.large,
                         ) {
                             Text(text = "Login", fontFamily = Poppins)
-
                         }
 
 
                         TextButton(
                             onClick = {},
-                            contentPadding = PaddingValues(vertical = 0.dp)
                         ) {
                             Text(
                                 text = "Forgot Password ?",
@@ -273,8 +331,89 @@ fun LoginScreen(
                             )
                         }
                         Spacer(modifier = Modifier.height(20.dp))
+
+                        //bottom section
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Divider(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f),
+                                thickness = 1.dp,
+                                color = GrayColor
+                            )
+                            Text(
+                                text = "Or",
+                                modifier = Modifier.padding(10.dp),
+                                fontSize = 20.sp,
+                                fontFamily = Poppins,
+                                )
+                            Divider(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .weight(1f),
+                                thickness = 1.dp,
+                                color = GrayColor
+                            )
+                        }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Button(
+                                onClick = {
+                                    coroutineScope.launch {
+                                        val signInIntentSender = authViewModel.googleAuthUiClient.signIn()
+                                        launcher.launch(
+                                            IntentSenderRequest.Builder(
+                                                signInIntentSender ?: return@launch
+                                            ).build()
+                                        )
+                                    }
+                                },
+                                colors = ButtonDefaults.buttonColors(Color.Transparent),
+                                modifier = Modifier
+                                    .padding(4.dp)
+                                    .border(
+                                        width = 2.dp,
+                                        color = Color(android.graphics.Color.parseColor("#d2d2d2")),
+                                        shape = RoundedCornerShape(20.dp)
+                                    )
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.google_svg),
+                                    contentDescription = "Google Logo",
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                )
+                            }
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Button(
+                                onClick = { /*TODO*/ },
+                                colors = ButtonDefaults.buttonColors(Color.Transparent),
+                                modifier = Modifier
+                                    .padding(4.dp)
+                                    .border(
+                                        width = 2.dp,
+                                        color = Color(android.graphics.Color.parseColor("#d2d2d2")),
+                                        shape = RoundedCornerShape(20.dp)
+                                    )
+                            ) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.facebook_svg),
+                                    contentDescription = "Google Logo",
+                                    modifier = Modifier
+                                        .size(30.dp)
+                                )
+                            }
+                        }
                     }
                 }
+
 
         }
 

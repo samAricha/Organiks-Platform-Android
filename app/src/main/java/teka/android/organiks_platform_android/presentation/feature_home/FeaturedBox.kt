@@ -2,19 +2,15 @@ package teka.android.organiks_platform_android.presentation.feature_home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.absolutePadding
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,8 +30,9 @@ import teka.android.organiks_platform_android.ui.theme.quicksand
 
 @Composable
 fun FeaturedBox(
-    totalMembers : String,
-    totalChamaaAccounts: String
+    totalEggsCollected : String,
+    totalMilkCollected: String,
+    totalFruitCollected: String
 ){
     Box(
         modifier = Modifier
@@ -49,11 +46,11 @@ fun FeaturedBox(
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Image(
-                painter = painterResource(id = R.drawable.green_economy_jar),
+                painter = painterResource(id = R.drawable.perfect100),
                 modifier = Modifier
                     .padding(start = 30.dp),
 //                contentScale = ContentScale.FillBounds,
-                contentDescription = "green economy jar image"
+                contentDescription = "perfect mascot"
             )
         }
 
@@ -65,7 +62,7 @@ fun FeaturedBox(
             ) {
                 Text(
                     modifier = Modifier.padding(horizontal = 5.dp),
-                    text = "Table Banking",
+                    text = "Farmers Assistant",
                     color = Color.White,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.SemiBold,
@@ -74,7 +71,7 @@ fun FeaturedBox(
                 Spacer(modifier = Modifier.size(0.05.dp))
                 Text(
                     modifier = Modifier.padding(horizontal = 5.dp),
-                    text = "Banking our own way",
+                    text = "Farmers Choice + GEMINI",
                     color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Light,
@@ -90,15 +87,20 @@ fun FeaturedBox(
                     ) {
                         Column {
                             Text(
-                                text = "Members : $totalMembers",
+                                text = "Eggs : $totalEggsCollected",
                                 color = MainWhiteColor,
                                 fontSize = 14.sp,
                                 )
                             Text(
-                                text = "Accounts : $totalChamaaAccounts",
+                                text = "Milk : $totalMilkCollected",
                                 color = MainWhiteColor,
                                 fontSize = 14.sp,
                                 )
+                            Text(
+                                text = "Fruits : $totalFruitCollected",
+                                color = MainWhiteColor,
+                                fontSize = 14.sp,
+                            )
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                     }
@@ -112,5 +114,9 @@ fun FeaturedBox(
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview(){
-    FeaturedBox(totalMembers = "6", totalChamaaAccounts = "2")
+    FeaturedBox(
+        totalEggsCollected = "6",
+        totalMilkCollected = "2",
+        totalFruitCollected = "2"
+    )
 }

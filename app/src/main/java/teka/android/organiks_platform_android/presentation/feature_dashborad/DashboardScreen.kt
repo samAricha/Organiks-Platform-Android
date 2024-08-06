@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.presentation.feature_dashborad.components.BarchartWithSolidBarsWidget
+import teka.android.organiks_platform_android.presentation.feature_dashborad.components.DashboardCard
 import teka.android.organiks_platform_android.presentation.feature_dashborad.components.PiechartWithSliceLablesWidget
 import teka.android.organiks_platform_android.presentation.feature_dashborad.components.SingleLineChartWithGridLinesWidget
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
@@ -33,10 +34,6 @@ import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
 fun DashboardScreen() {
 
     val viewModel : DashboardViewModel = hiltViewModel()
-
-
-//    val totalEggs by rememberUpdatedState(newValue = viewModel.totalEggsCollected)
-//    val totalMilk by rememberUpdatedState(newValue = viewModel.totalMilkCollected)
 
     val eggs by viewModel.eggCollections.collectAsState()
     val totalEggsCollected = eggs.sumOf { it.qty.toInt() }
@@ -117,7 +114,7 @@ fun DashboardScreen() {
                         style = MaterialTheme.typography.h6
                     )
                     Text(
-                        text = "(Demo Data)",
+                        text = "(Egg Collection Data)",
                         fontSize = 14.sp,
                         color = Color.Gray,
                         modifier = Modifier.padding(start = 4.dp),
@@ -165,7 +162,6 @@ fun DashboardScreen() {
                     fontWeight = FontWeight.Normal,
                     textDecoration = TextDecoration.Underline
                 )
-//                PiechartWithSliceLables(context = context)
                 Box(
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -193,63 +189,11 @@ fun DashboardScreen() {
                         isLoading
                     )
                 }
-
-
-//                SingleLineChartWithGridLines(
-//                    DataUtils.getLineChartData(
-//                        100,
-//                        start = 50,
-//                        maxRange = 100
-//                    )
-//                )
             }
 
-
-
         }
     }
 }
 
-@Composable
-fun DashboardCard(
-    title: String,
-    value: String,
-    iconResId: Int, // Resource ID for the icon drawable
-    color: Color
-) {
-    // Load the drawable resource and convert it to a Painter
-    val iconPainter = painterResource(id = iconResId)
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(end = 8.dp),
-        elevation = 4.dp
-    ) {
-        Column(
-            modifier = Modifier
-                .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Icon(
-                painter = iconPainter, // Use the loaded drawable
-                contentDescription = null,
-                tint = color,
-                modifier = Modifier.size(48.dp)
-            )
-            Text(
-                text = title,
-                modifier = Modifier.padding(top = 8.dp),
-                fontFamily = PoppinsLight
-            )
-            Text(
-                text = value,
-                style = TextStyle(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(top = 8.dp),
-                fontFamily = PoppinsLight
-            )
-        }
-    }
-}
 
 

@@ -10,7 +10,7 @@ enum class BottomBarRoutes(
     val routes: String,
     @DrawableRes val icon: Int
 ) {
-    DASHBOARD(1, R.string.dashboard, AppScreens.DashboardAppScreens.route, R.drawable.home),
+    HOME_SCREEN(1, R.string.home, AppScreens.HomeScreen.route, R.drawable.home),
     PRODUCTION_HOME(
         2,
         R.string.productionHome, AppScreens.ProductionHome.route, R.drawable.monitoring

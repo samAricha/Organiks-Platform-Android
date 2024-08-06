@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Analytics
+import androidx.compose.material.icons.filled.Dashboard
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
@@ -97,7 +98,20 @@ fun NavigationDrawerM3(
                 scope.launch {
                     drawerState.close()
                 }
-                Toast.makeText(context, "This is a Home Toast. Yay!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Home. Yay!", Toast.LENGTH_SHORT).show()
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.Dashboard,
+            label = "Dashboard",
+            secondaryLabel = "64",
+            route = AppScreens.DashboardAppScreens.route,
+            onItemClick = {
+                navigationActions.navigateToDashboard()
+                scope.launch {
+                    drawerState.close()
+                }
+                Toast.makeText(context, "Dashboard. Yay!", Toast.LENGTH_SHORT).show()
             }
         ),
         DrawerItem(
@@ -186,15 +200,15 @@ fun NavigationDrawerM3(
             }
         ),
     )
-    val selectedItem by remember { mutableStateOf(items[0]) }
-
-
 
 
     if(showDialog.value)
-        CustomDialog(value = "", setShowDialog = {
-            showDialog.value = it
-        }) {
+        CustomDialog(
+            value = "",
+            setShowDialog = {
+                showDialog.value = it
+            }
+        ) {
             Log.i("HomePage","HomePage : $it")
         }
 

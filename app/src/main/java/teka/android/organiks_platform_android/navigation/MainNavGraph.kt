@@ -31,7 +31,7 @@ fun MainNavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = AppScreens.DashboardAppScreens.route,
+        startDestination = AppScreens.HomeScreen.route,
         route = MAIN_GRAPH_ROUTE
     ) {
 

@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,6 +27,8 @@ import teka.android.organiks_platform_android.presentation.feature_firebase_auth
 import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.SignInViewModel
 import teka.android.organiks_platform_android.presentation.feature_splash_screen.presentation.WelcomeScreen
 import teka.android.organiks_platform_android.presentation.feature_splash_screen.presentation.WelcomeViewModel
+import teka.android.organiks_platform_android.ui.animations.scaleIntoContainer
+import teka.android.organiks_platform_android.ui.animations.scaleOutOfContainer
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalPagerApi::class)
 fun NavGraphBuilder.authNavGraph(
@@ -33,20 +36,50 @@ fun NavGraphBuilder.authNavGraph(
 ){
 
     navigation(
-//        startDestination = AppScreens.Welcome.route,
-        startDestination = AppScreens.FirebaseSignInAppScreens.route,
+        startDestination = AppScreens.Welcome.route,
+//        startDestination = AppScreens.FirebaseSignInAppScreens.route,
         route = AUTH_GRAPH_ROUTE
     ){
 
 
-        composable(AppScreens.FirebaseSignInAppScreens.route) {
+        composable(
+            route = AppScreens.FirebaseSignInAppScreens.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+
+        ) {
             SignInScreen(
                 navController = navController,
             )
         }
 
 
-        composable(route = AppScreens.Welcome.route) {
+        composable(
+            route = AppScreens.Welcome.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+
+        ) {
             val welcomeViewModel: WelcomeViewModel = hiltViewModel()
             WelcomeScreen(
                 navController = navController,
@@ -56,7 +89,20 @@ fun NavGraphBuilder.authNavGraph(
 
 
         composable(
-            route = AppScreens.Login.route
+            route = AppScreens.Login.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+
         ) {
             LoginScreen(
                 navController = navController
@@ -64,7 +110,19 @@ fun NavGraphBuilder.authNavGraph(
         }
 
         composable(
-            route = AppScreens.Registration.route
+            route = AppScreens.Registration.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
         ) {
             RegisterScreen(
                 navController = navController,

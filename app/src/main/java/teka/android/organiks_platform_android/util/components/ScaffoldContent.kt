@@ -61,25 +61,25 @@ fun ScaffoldContent(
                         val currentRoute = navBackStackEntry?.destination?.route
 
                         BottomNavigationItem(
-                            selected = currentRoute == AppScreens.DashboardAppScreens.route,
+                            selected = currentRoute == AppScreens.HomeScreen.route,
                             onClick = {
-                                navHostController.navigate(AppScreens.DashboardAppScreens.route) {
+                                navHostController.navigate(AppScreens.HomeScreen.route) {
                                     launchSingleTop = true
                                 }
                             },
                             icon = {
                                 Icon(
-                                    painter = painterResource(if (currentRoute == AppScreens.DashboardAppScreens.route) R.drawable.home else R.drawable.outline_home_24),
+                                    painter = painterResource(if (currentRoute == AppScreens.HomeScreen.route) R.drawable.home else R.drawable.outline_home_24),
                                     contentDescription = "Home",
                                     modifier = Modifier.size(20.dp),
-                                    tint = if (currentRoute == AppScreens.DashboardAppScreens.route) PrimaryColor else Color.Gray
+                                    tint = if (currentRoute == AppScreens.HomeScreen.route) PrimaryColor else Color.Gray
                                 )
                             },
                             label = {
                                 androidx.compose.material.Text(
                                     text = "Home",
                                     fontSize = 10.sp,
-                                    color = if (currentRoute == AppScreens.DashboardAppScreens.route) PrimaryColor else Color.Gray
+                                    color = if (currentRoute == AppScreens.HomeScreen.route) PrimaryColor else Color.Gray
                                 )
                             }
                         )
