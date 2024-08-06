@@ -1,62 +1,52 @@
 <p align="center"><img src="art/app_logo.png" alt="MealTime" height="150px"></p>
 
 # Organiks
-Organiks Platform combines Compose Multiplatform app(Android, Desktop) + KTOR server + Gemini AI aimed at being the digitizing tool for the Agricultural Sector which has been neglected
-in terms of Technology here in Africa which.
+Organiks Platform combines Android + Firebase(for Auth and Storage) + GEMINI AI(multi-modal), Organiks is aimed at being the Digitizing tool and an Affordable Farmers Assistant for the Agricultural Sector which has been neglected
+in terms of Technology here in Africa.
 
-Organiks is a story of two friends with a Love for Agriculture, one a MicroBiologist and the other a Techie in love with Compose.
+Organiks is a story of two friends from Nakuru, Kenya with a Love for Agriculture, one a MicroBiologist and the other a Techie in love with Coding. Boys who small-scale farming had fed and schooled them.
+
+When we heard of GEMINI AI API late last year(2023), we thought of ideas and ways that this AI could be used to lower the losses that farmers(just like their parents) incur due to loss of their poultry, animals and even plants to diseases.
+And that is when project 'Mkulima na Gemini' started brewing in our heads, why? because we could use Gemini LLM on our own without knowledge of AI or ML and bring all the advantages GEMINI has to offer to the 
+farmers at almost no extra cost.
 
 The Platform aims at being a Farmers Offline First tool to store their farm records even when offline and when
 they have access to Internet Connection they can backup their data(i.e Offline First) to
-the backend Server also within the project.
+the Cloud(i.e Firebase) also within the project.
 
-In combination with Offline First Record Keeping, Organiks has implemented the Gemini AI LLM which acts as a farmers assistant whether they might have doubts
-whether their birds, animals or plants have been attacked by diseases inline with Googles promise of "a world responsibly empowered by AI".
+In combination with Offline First Record Keeping, Organiks has implemented the Gemini AI LLM which acts as a farmers assistant, in two ways as a chat assistant and Data Analyst, whether they might have doubts
+whether their birds, animals or plants have been attacked by diseases inline with Googles promise of "A world responsibly empowered by AI".
 
 ## 🛠️ Prerequisites 🛠️
 #### IDE
 You can either use [IntelliJ IDEA](https://www.jetbrains.com/idea/) or [Android Studio](https://developer.android.com/studio/).
 
 
-
 > For Gemini AI Assistant.
 #### Gemini Api Key
-You can get your key here [Google AI Studio](https://makersuite.google.com/app/prompts/new_freeform) and replace it in GeminiApi.kt file
-in this folder structure(change folder structure to Project from Android) Shared>Src>commonMain>kotlin>com>teka>organiks>feature>ai_assistant>GeminiApi.kt
+You can get your key here [Google AI Studio](https://makersuite.google.com/app/prompts/new_freeform) and replace it in envVariables.properties file
+in this folder structure(change folder structure to Project from Android) envVariables.properties
 
 
-
-> For KTOR Server.
-#### Mysql for running 
-1. In order to save data to db from KTOR Server you will have to install MySQL on your machine and get the 
-user-name and password after which you replace them in Data.kt plugin file in the following structure
-Server>Src>main>kotlin>com>teka>organiks>plugins>Data.kt
-
-2. In your Mysql Server you will require a database named organiks
-
-3. In order to access you running backend server remotely in your Android or Desktop you can use [Ngrok](https://ngrok.com/) using the following instructions [Ngrok Setup](https://ngrok.com/docs/getting-started/?os=macos)
-  - After setting up your Ngrok and getting your URL, you will have to replace the test_url under HttpClientProvider in the following structure
-    Shared>Src>commonMain>kotlin>com>teka>organiks>core>data>remote>HttpClientProvider
+> For Firebase.
+#### Firebase
+You can get your Web client secret here [Firebase Console](https://console.firebase.google.com/) > authentication and replace it in res>values>strings.xml file
+- N:B ==> This is required for your authentication with Google in the app.
 
 
 ## Screenshots
 ### Android
 <img src="art/android_screen1.jpeg"  width="250"/>  <img src="art/android_screen2.jpeg"  width="250"/>  <img src="art/android_screen3.jpeg" width="250"/>  <img src="art/android_screen4.jpeg" width="250"/>
 
-### Desktop
-<img src="art/dsk_screen1.png"/> <img src="art/dsk_screen2.png"/>  <img src="art/dsk_screen3.png"/>  <img src="art/dsk_screen4.png"/>
 
 ## Architecture
-The app is shared between Android, Desktop with Compose Multiplatform and Server with Ktor within the same project.
-### Modules
-- shared:
-  - contains all the shared code between the platforms
-- android:
-  - contains the android app
-- desktop:
-  - contains the desktop app
-- server:
-  - contains the backend ktor app
+- Authentication:
+  - The apps authentication is done with the support of Firebase.
+- Storage:
+  - The app is offline-first using ROOM with capabilities to backup the data to cloud i.e Firebase.
+- GEMINI assistant and analyst:
+  - The app also utilizes GEMINI AI API, with multi-modal, markdown and chat support for providing context to the farmers in-case of follow-up questions.
+
 
 ## Built with
 - [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) - The Kotlin Multiplatform technology is designed to simplify the development of cross-platform projects.
@@ -76,14 +66,6 @@ The app is shared between Android, Desktop with Compose Multiplatform and Server
 To run the application on android device/emulator:
 - open project in Android Studio and run imported android run configuration
 
-### Desktop
-Run the desktop application: `./gradlew :desktop:run`
-
-### Server
-To run the KTOR Server:
-- open project and access the Application.kt file under Server Folder 
-- run the main method in the Application.kt file
-- N:B ==> In order to run Ktor Server you will require MySQL installed on your machine and have a DB named organiks
 
 
 ## License
