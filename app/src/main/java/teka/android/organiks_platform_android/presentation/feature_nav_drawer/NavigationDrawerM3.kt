@@ -91,14 +91,13 @@ fun NavigationDrawerM3(
             icon = Icons.Default.Home,
             label = "Home",
             secondaryLabel = "64",
-            route = AppScreens.DashboardAppScreens.route,
+            route = AppScreens.HomeScreen.route,
             onItemClick = {
                 navigationActions.navigateToHome()
                 scope.launch {
                     drawerState.close()
                 }
                 Toast.makeText(context, "This is a Home Toast. Yay!", Toast.LENGTH_SHORT).show()
-//                navHostController.navigate(Screen.Home.route)
             }
         ),
         DrawerItem(

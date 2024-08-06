@@ -7,6 +7,12 @@ class AppNavigationActions(
 ) {
 
     fun navigateToHome() {
+        navController.navigate(AppScreens.HomeScreen.route) {
+            popUpTo(AppScreens.Home.route)
+        }
+    }
+
+    fun navigateToDashboard() {
         navController.navigate(AppScreens.DashboardAppScreens.route) {
             popUpTo(AppScreens.Home.route)
         }
