@@ -14,7 +14,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionDto
 import teka.android.organiks_platform_android.data.room.models.EggCollection
+import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.domain.repository.DbRepository
 import teka.android.organiks_platform_android.domain.repository.RemoteEggRecordsRepository
@@ -33,6 +35,9 @@ class DashboardViewModel  @Inject constructor(
 
     private val _milkCollections = MutableStateFlow<List<MilkCollection>>(emptyList())
     val milkCollections: StateFlow<List<MilkCollection>> = _milkCollections.asStateFlow()
+
+    private val _fruitCollections = MutableStateFlow<List<FruitCollectionEntity>>(emptyList())
+    val fruitCollections: StateFlow<List<FruitCollectionEntity>> = _fruitCollections.asStateFlow()
 
     private val _isSyncing = MutableStateFlow(false)
     val isSyncing: StateFlow<Boolean> = _isSyncing
@@ -100,6 +105,14 @@ class DashboardViewModel  @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             repository.getMilkCollection.collectLatest { milkCollections ->
                 _milkCollections.value = milkCollections
+            }
+        }
+    }
+
+    private fun fetchFruitCollections() {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.getFruitCollections.collectLatest { fruitCollections ->
+                _fruitCollections.value = fruitCollections
             }
         }
     }

@@ -34,10 +34,6 @@ fun DashboardScreen() {
 
     val viewModel : DashboardViewModel = hiltViewModel()
 
-
-//    val totalEggs by rememberUpdatedState(newValue = viewModel.totalEggsCollected)
-//    val totalMilk by rememberUpdatedState(newValue = viewModel.totalMilkCollected)
-
     val eggs by viewModel.eggCollections.collectAsState()
     val totalEggsCollected = eggs.sumOf { it.qty.toInt() }
     val totalEggsCracked = eggs.sumOf { it.cracked.toInt() }
@@ -117,7 +113,7 @@ fun DashboardScreen() {
                         style = MaterialTheme.typography.h6
                     )
                     Text(
-                        text = "(Demo Data)",
+                        text = "(Egg Collection Data)",
                         fontSize = 14.sp,
                         color = Color.Gray,
                         modifier = Modifier.padding(start = 4.dp),
@@ -192,18 +188,7 @@ fun DashboardScreen() {
                         isLoading
                     )
                 }
-
-
-//                SingleLineChartWithGridLines(
-//                    DataUtils.getLineChartData(
-//                        100,
-//                        start = 50,
-//                        maxRange = 100
-//                    )
-//                )
             }
-
-
 
         }
     }
@@ -230,7 +215,7 @@ fun DashboardCard(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
-                painter = iconPainter, // Use the loaded drawable
+                painter = iconPainter,
                 contentDescription = null,
                 tint = color,
                 modifier = Modifier.size(48.dp)

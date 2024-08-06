@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,11 +16,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Add
+import androidx.compose.material.icons.rounded.Dashboard
 import androidx.compose.material.icons.rounded.MonetizationOn
 import androidx.compose.material.icons.rounded.PersonAddAlt1
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,23 +34,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.ui.theme.Cream2
 import teka.android.organiks_platform_android.ui.theme.GreenStart
 import teka.android.organiks_platform_android.ui.theme.OrangeStart
 import teka.android.organiks_platform_android.ui.theme.quicksand
 
-val financeList = listOf(
-    Finance(
-        icon = Icons.Rounded.MonetizationOn,
-        name = "Add\nContribution",
+val quickAccessList = listOf(
+    QuickAccessDto(
+        icon = Icons.Rounded.Dashboard,
+        name = "Dashboard",
         background = GreenStart,
-        route = "AppScreens.AddContributionScreen.route"
+        route = AppScreens.DashboardAppScreens.route
     ),
-    Finance(
-        icon = Icons.Rounded.PersonAddAlt1,
-        name = "Add\nMember",
+    QuickAccessDto(
+        icon = Icons.Rounded.Add,
+        name = "Add Record",
         background = OrangeStart,
-        route = "AppScreens.AddMemberScreen.route"
+        route = "${AppScreens.ProductionRecording.route}?id=-1"
     ),
 
 )
@@ -79,16 +80,13 @@ fun QuickAccessSection(
 
             FlowRow(
                 modifier = Modifier
-                    .background(Color.White)
-                    .padding(8.dp),
-//                mainAxisSpacing = 8.dp,
-//                crossAxisSpacing = 8.dp
             ) {
-                financeList.forEach {
+                quickAccessList.forEach {
                     QuickAccessItem(
-                        finance = it,
+                        quickAccessItem = it,
                         navController = navController,
-                        modifier = Modifier.width(IntrinsicSize.Max)
+//                        modifier = Modifier.width(IntrinsicSize.Max)
+                        modifier = Modifier.weight(1f),
                     )
                 }
             }
@@ -96,19 +94,20 @@ fun QuickAccessSection(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun QuickAccessItem(
-    finance: Finance,
+    quickAccessItem: QuickAccessDto,
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
 
+
     Box(
         modifier = modifier
             .background(Color.White)
-            .padding(end = 6.dp)
-    ) {
+            .fillMaxWidth()
+            .padding(end = 8.dp),
+        ) {
         Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(25.dp))
@@ -120,7 +119,7 @@ fun QuickAccessItem(
         ) {
 
             Card(
-                onClick = { navController.navigate(finance.route) },
+                onClick = { navController.navigate(quickAccessItem.route) },
                 colors = CardDefaults.cardColors(
                     containerColor = Cream2,
                 ),
@@ -135,24 +134,24 @@ fun QuickAccessItem(
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(16.dp))
-                            .background(finance.background)
+                            .background(quickAccessItem.background)
                             .padding(6.dp)
 
                     ) {
                         Icon(
-                            imageVector = finance.icon,
-                            contentDescription = finance.name,
+                            imageVector = quickAccessItem.icon,
+                            contentDescription = quickAccessItem.name,
                             tint = Color.White
                         )
                     }
-                    
+
                     Spacer(modifier = Modifier.width(5.dp))
 
                     Text(
-                        text = finance.name,
+                        text = quickAccessItem.name,
                         color = MaterialTheme.colorScheme.onSecondaryContainer,
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = 15.sp,
+                        fontSize = 13.sp,
                         fontFamily = quicksand
                     )
                 }
