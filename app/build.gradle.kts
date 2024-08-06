@@ -6,6 +6,7 @@ plugins {
     kotlin("kapt") version "1.9.20"
     kotlin("plugin.serialization") version "1.9.20"
     id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
 }
 
 
@@ -83,6 +84,8 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-compose-android:2.8.4")
     val compose_ui_version = "1.6.8"
     implementation ("androidx.core:core-ktx:1.13.1")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
@@ -181,6 +184,11 @@ dependencies {
     //markdown support
     implementation("io.github.dakshsemwal:mdparserkitcore:1.0.1")
 
+    //firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
 
 
     testImplementation ("junit:junit:4.13.2")

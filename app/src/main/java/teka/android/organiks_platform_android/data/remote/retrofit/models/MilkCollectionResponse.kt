@@ -6,9 +6,9 @@ import teka.android.organiks_platform_android.data.room.models.MilkCollection
 
 @Serializable
 data class MilkCollectionResult(
-    val uuid: String,
-    val quantity: String,
-    val date: Long,
+    val uuid: String = "",
+    val quantity: String = "",
+    val date: Long = 0L
 )
 
 fun MilkCollectionResult.toMilkCollection(): MilkCollection {

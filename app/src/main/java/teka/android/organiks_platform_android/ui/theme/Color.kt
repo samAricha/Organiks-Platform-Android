@@ -13,6 +13,13 @@ val LightPrimaryColor = Color(0xFFFFF6EE)
 
 val PrimaryLight = Color(0x449E804B)
 
+val GreenStart = Color(0xFF11B114)
+val GreenEnd = Color(0xFF52DB59)
+val MainWhiteColor = Color(0xFFF4F4F4)
+val GrayColor = Color(0xFFBBB2A7)
+val OrangeStart = Color(0xFFFF8400)
+val OrangeEnd = Color(0xFFFDA35F)
+
 val Cream1 = Color(0xFFedeef5)
 val Cream2 = Color(0xfff4f0ed)
 val Gray400 = Color(0XFFE5E6E9)

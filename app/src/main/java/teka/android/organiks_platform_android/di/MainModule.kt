@@ -3,6 +3,7 @@ package teka.android.organiks_platform_android.di
 import android.content.Context
 import androidx.room.Room
 import androidx.work.WorkManager
+import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,6 +21,8 @@ import teka.android.organiks_platform_android.domain.repository.DbRepository
 import teka.android.organiks_platform_android.domain.repository.RemoteEggRecordsRepository
 import teka.android.organiks_platform_android.domain.repository.RemoteFruitRecordsRepository
 import teka.android.organiks_platform_android.domain.repository.RemoteMilkRecordsRepository
+import teka.android.organiks_platform_android.presentation.feature_firebase_auth.FirebaseAuthRepository
+import teka.android.organiks_platform_android.presentation.feature_firebase_auth.FirebaseAuthRepositoryImpl
 import javax.inject.Singleton
 
 @Module
@@ -33,6 +36,13 @@ object MainModule {
     ): Context {
         return appContext
     }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth() = FirebaseAuth.getInstance()
+
+    @Provides
+    fun provideAuthRepository(impl: FirebaseAuthRepositoryImpl): FirebaseAuthRepository = impl
 
     @Singleton
     @Provides

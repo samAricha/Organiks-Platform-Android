@@ -13,6 +13,8 @@ import teka.android.organiks_platform_android.presentation.feature_ai_assistant.
 import teka.android.organiks_platform_android.presentation.aiadvice.AiAdviceScreen
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.screens.GeminiAnalystScreen
 import teka.android.organiks_platform_android.presentation.feature_dashborad.DashboardScreen
+import teka.android.organiks_platform_android.presentation.feature_firebase_auth.profile.ProfileScreen
+import teka.android.organiks_platform_android.presentation.feature_home.HomeScreen
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionHome.ProductionHomeScreen
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.ProductionRecordingScreen
 import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.RemoteRecordsScreen
@@ -32,6 +34,34 @@ fun MainNavGraph(
         startDestination = AppScreens.DashboardAppScreens.route,
         route = MAIN_GRAPH_ROUTE
     ) {
+
+       composable(
+           route = AppScreens.FirebaseProfileAppScreens.route,
+       ) {
+           ProfileScreen(navController = navController)
+       }
+
+        composable(
+            route = AppScreens.HomeScreen.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+
+        ){
+            HomeScreen(
+                navController = navController
+            )
+        }
+
 
         composable(
             route = AppScreens.ProductionHome.route,
@@ -193,6 +223,5 @@ fun MainNavGraph(
             ){
             SettingsScreen()
         }
-
     }
 }

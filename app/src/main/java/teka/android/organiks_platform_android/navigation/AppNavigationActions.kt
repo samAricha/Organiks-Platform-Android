@@ -7,6 +7,12 @@ class AppNavigationActions(
 ) {
 
     fun navigateToHome() {
+        navController.navigate(AppScreens.HomeScreen.route) {
+            popUpTo(AppScreens.Home.route)
+        }
+    }
+
+    fun navigateToDashboard() {
         navController.navigate(AppScreens.DashboardAppScreens.route) {
             popUpTo(AppScreens.Home.route)
         }
@@ -32,6 +38,13 @@ class AppNavigationActions(
 
     fun navigateToProductsHome() {
         navController.navigate(AppScreens.ProductionHome.route) {
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
+    fun navigateToFirebaseProfileScreen() {
+        navController.navigate(AppScreens.FirebaseProfileAppScreens.route) {
             launchSingleTop = true
             restoreState = true
         }

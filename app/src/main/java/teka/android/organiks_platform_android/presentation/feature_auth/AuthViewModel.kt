@@ -1,12 +1,14 @@
 package teka.android.organiks_platform_android.presentation.feature_auth
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.android.gms.auth.api.identity.Identity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -28,6 +30,7 @@ import teka.android.organiks_platform_android.presentation.feature_auth.core.uti
 import teka.android.organiks_platform_android.presentation.feature_auth.core.util.RegistrationResult
 import teka.android.organiks_platform_android.presentation.feature_auth.core.util.models.UserRoleDto
 import teka.android.organiks_platform_android.domain.repository.DataStoreRepository
+import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.GoogleAuthUiClient
 import teka.android.organiks_platform_android.util.UiEvents
 import teka.android.organiks_platform_android.util.data.ResultResource
 import timber.log.Timber
@@ -40,8 +43,37 @@ data class LoginState(
 @HiltViewModel
 class AuthViewModel @Inject constructor(
     private val authManager: AuthManager,
-    private val dataStoreRepository: DataStoreRepository
+    private val dataStoreRepository: DataStoreRepository,
+    val applicationContext: Context,
     ) : ViewModel() {
+
+
+
+    //firebase and Google Authentication
+    val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            context = applicationContext,
+            oneTapClient = Identity.getSignInClient(applicationContext)
+        )
+    }
+
+    private val _isUserSignedIn = MutableStateFlow(googleAuthUiClient.getSignedInUser() != null)
+    val isUserSignedIn: StateFlow<Boolean> get() = _isUserSignedIn
+
+    fun firebaseUsersignOut() {
+        viewModelScope.launch {
+            googleAuthUiClient.signOut()
+            _isUserSignedIn.value = false
+        }
+    }
+
+    fun checkFirebaseSignInStatus() {
+        _isUserSignedIn.value = googleAuthUiClient.getSignedInUser() != null
+    }
+
+
+
+
 
     //Data from DataStore
     var isLoggedInState: Flow<Boolean> = dataStoreRepository.readLoggedInState()
