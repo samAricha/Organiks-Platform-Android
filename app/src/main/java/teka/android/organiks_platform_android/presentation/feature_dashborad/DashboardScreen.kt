@@ -165,7 +165,6 @@ fun DashboardScreen() {
                     fontWeight = FontWeight.Normal,
                     textDecoration = TextDecoration.Underline
                 )
-//                PiechartWithSliceLables(context = context)
                 Box(
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -214,15 +213,14 @@ fun DashboardScreen() {
 fun DashboardCard(
     title: String,
     value: String,
-    iconResId: Int, // Resource ID for the icon drawable
-    color: Color
+    iconResId: Int,
+    color: Color,
+    modifier: Modifier = Modifier
 ) {
-    // Load the drawable resource and convert it to a Painter
     val iconPainter = painterResource(id = iconResId)
 
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .padding(end = 8.dp),
         elevation = 4.dp
     ) {

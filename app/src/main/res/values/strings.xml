@@ -11,6 +11,7 @@
     <string name="productionHome">ProductionHome</string>
     <string name="productionRecording">ProductionRecording</string>
     <string name="dashboard">DashboardScreen</string>
+    <string name="home">HomeScreen</string>
 
 
     <string name="strThePasswordNeedsToConsistOfAtLeastEightCharacters">The password needs to consist of at least 8 characters</string>
