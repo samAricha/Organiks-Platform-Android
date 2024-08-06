@@ -19,10 +19,10 @@ whether their birds, animals or plants have been attacked by diseases inline wit
 
 ## 🛠️ Prerequisites 🛠️
 #### IDE
-You can either use [IntelliJ IDEA](https://www.jetbrains.com/idea/) or [Android Studio](https://developer.android.com/studio/).
+You can use [Android Studio](https://developer.android.com/studio/) developed by Google.
 
 
-> For Gemini AI Assistant.
+> For Gemini AI Assistant and Analyst.
 #### Gemini Api Key
 You can get your key here [Google AI Studio](https://makersuite.google.com/app/prompts/new_freeform) and replace it in envVariables.properties file
 in this folder structure(change folder structure to Project from Android) envVariables.properties
@@ -44,20 +44,18 @@ You can get your Web client secret here [Firebase Console](https://console.fireb
   - The apps authentication is done with the support of Firebase.
 - Storage:
   - The app is offline-first using ROOM with capabilities to backup the data to cloud i.e Firebase.
-- GEMINI assistant and analyst:
+- GEMINI Assistant and Analyst:
   - The app also utilizes GEMINI AI API, with multi-modal, markdown and chat support for providing context to the farmers in-case of follow-up questions.
 
 
 ## Built with
-- [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) - The Kotlin Multiplatform technology is designed to simplify the development of cross-platform projects.
-- [Compose Multiplatform](https://www.jetbrains.com/lp/compose-multiplatform/) -  a modern UI framework for Kotlin that makes building performant and beautiful user interfaces easy and enjoyable.
-- [Ktor Server](https://ktor.io/docs/intellij-idea.html) -  Ktor is an asynchronous framework for creating microservices, web applications.
-- [Ktor Client](https://ktor.io/docs/getting-started-ktor-client.html) -  a multiplatform asynchronous HTTP client, which allows you to make requests and handle responses.
+- [Android Framework](https://developer.android.com/guide/platform/) - a set of software components that provide the foundation for building Android applications developed by Google.
+- [Kotlin Language](https://kotlinlang.org/) - A programming language that makes coding concise, cross-platform, and fun developed by JetBrains
+- [Jetpack Compose](https://developer.android.com/compose/) - Android’s recommended modern toolkit for building native UI. It is an open-source Kotlin-based declarative UI framework for Android developed by Google.
 - [Gemini AI](https://deepmind.google/technologies/gemini) - a multi-modal large language model(LLM) developed by Google DeepMind.
-- [SQLDelight](https://github.com/cashapp/sqldelight) - SQLDelight is an open-source library developed by Cash App (formerly Square, Inc.) for working with SQL databases in Kotlin-based Android and multi-platform applications.
-- [Multiplatform Settings](https://github.com/russhwolf/multiplatform-settings) - A Kotlin Multiplatform library for saving simple key-value data.
-- [Koin](https://insert-koin.io/) - The pragmatic Kotlin & Kotlin Multiplatform Dependency Injection framework.
-- [Voyager](https://voyager.adriel.cafe/) - A multiplatform navigation library.
+- [Ktor Client](https://ktor.io/docs/getting-started-ktor-client.html) -  a multiplatform asynchronous HTTP client, which allows you to make requests and handle responses.
+- [ROOM DB](https://developer.android.com/jetpack/androidx/releases/room) - a library that provides an abstraction layer over SQLite to allow for more robust database access while harnessing the full power of SQLite.
+- [Dagger Hilt](https://dagger.dev/hilt/) - Kotlin Dependency Injection framework.
 - [Kotlinx-datetime](https://github.com/Kotlin/kotlinx-datetime) - KotlinX multiplatform date/time library.
 - [Kotlinx-serilization](https://github.com/Kotlin/kotlinx.serialization) - Kotlin multiplatform / multi-format serialization.
 
