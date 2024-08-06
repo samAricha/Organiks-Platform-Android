@@ -71,7 +71,7 @@ fun FeaturedBox(
                 Spacer(modifier = Modifier.size(0.05.dp))
                 Text(
                     modifier = Modifier.padding(horizontal = 5.dp),
-                    text = "Farmers Choice + Gemini",
+                    text = "Farmers Choice + GEMINI",
                     color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Light,

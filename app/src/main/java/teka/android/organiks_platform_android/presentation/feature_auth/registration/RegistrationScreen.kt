@@ -1,19 +1,27 @@
 package teka.android.organiks_platform_android.presentation.feature_auth.registration
 
+import android.app.Activity.RESULT_OK
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
@@ -22,6 +30,7 @@ import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.TextFieldDefaults
@@ -31,6 +40,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,12 +54,17 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 import teka.android.organiks_platform_android.presentation.feature_auth.AuthViewModel
+import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.SignInViewModel
 import teka.android.organiks_platform_android.ui.theme.BottomBoxShape
+import teka.android.organiks_platform_android.ui.theme.GrayColor
 import teka.android.organiks_platform_android.ui.theme.LightTextColor
 import teka.android.organiks_platform_android.ui.theme.Poppins
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
@@ -88,6 +103,52 @@ fun RegisterScreen(
 
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
+
+    //firebase login
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val signInViewModel = viewModel<SignInViewModel>()
+    val state by signInViewModel.state.collectAsStateWithLifecycle()
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartIntentSenderForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            coroutineScope.launch {
+                val intent = result.data ?: return@launch
+                try {
+                    val signInResult = authViewModel.googleAuthUiClient.signInWithIntent(intent)
+                    signInViewModel.onSignInResult(signInResult)
+                } catch (e: Exception) {
+                    // Handle exception
+                    e.printStackTrace()
+                }
+            }
+        }
+    }
+
+    LaunchedEffect(key1 = state.isSignInSuccessful) {
+        if (state.isSignInSuccessful) {
+            Toast.makeText(
+                authViewModel.applicationContext,
+                "Sign in successful",
+                Toast.LENGTH_LONG
+            ).show()
+
+            navController.navigate(To_MAIN_GRAPH_ROUTE)
+            signInViewModel.resetState()
+        }
+    }
+    LaunchedEffect(key1 = state.signInError) {
+        state.signInError?.let { error ->
+            Toast.makeText(
+                context,
+                error,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
+
 
 
 
@@ -439,6 +500,86 @@ fun RegisterScreen(
                     )
                 }
                 Spacer(modifier = Modifier.height(20.dp))
+
+                //bottom section
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f),
+                        thickness = 1.dp,
+                        color = GrayColor
+                    )
+                    androidx.compose.material3.Text(
+                        text = "Or",
+                        modifier = Modifier.padding(10.dp),
+                        fontSize = 20.sp,
+                        fontFamily = Poppins,
+                        )
+                    Divider(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f),
+                        thickness = 1.dp,
+                        color = GrayColor
+                    )
+                }
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    androidx.compose.material3.Button(
+                        onClick = {
+                            coroutineScope.launch {
+                                val signInIntentSender = authViewModel.googleAuthUiClient.signIn()
+                                launcher.launch(
+                                    IntentSenderRequest.Builder(
+                                        signInIntentSender ?: return@launch
+                                    ).build()
+                                )
+                            }
+                        },
+                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(Color.Transparent),
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .border(
+                                width = 2.dp,
+                                color = Color(android.graphics.Color.parseColor("#d2d2d2")),
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.google_svg),
+                            contentDescription = "Google Logo",
+                            modifier = Modifier
+                                .size(30.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(10.dp))
+                    androidx.compose.material3.Button(
+                        onClick = { /*TODO*/ },
+                        colors = androidx.compose.material3.ButtonDefaults.buttonColors(Color.Transparent),
+                        modifier = Modifier
+                            .padding(4.dp)
+                            .border(
+                                width = 2.dp,
+                                color = Color(android.graphics.Color.parseColor("#d2d2d2")),
+                                shape = RoundedCornerShape(20.dp)
+                            )
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.facebook_svg),
+                            contentDescription = "Google Logo",
+                            modifier = Modifier
+                                .size(30.dp)
+                        )
+                    }
+                }
             }
         }
     }

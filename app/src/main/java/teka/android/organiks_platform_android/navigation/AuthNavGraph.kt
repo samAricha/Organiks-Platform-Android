@@ -33,8 +33,8 @@ fun NavGraphBuilder.authNavGraph(
 ){
 
     navigation(
-//        startDestination = AppScreens.Welcome.route,
-        startDestination = AppScreens.FirebaseSignInAppScreens.route,
+        startDestination = AppScreens.Welcome.route,
+//        startDestination = AppScreens.FirebaseSignInAppScreens.route,
         route = AUTH_GRAPH_ROUTE
     ){
 
