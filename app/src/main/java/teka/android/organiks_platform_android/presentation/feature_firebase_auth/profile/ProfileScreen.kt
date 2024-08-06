@@ -61,7 +61,6 @@ fun ProfileScreen(
         Button(
             onClick = {
                 coroutineScope.launch {
-//                    authViewModel.googleAuthUiClient.signOut()
                     authViewModel.firebaseUsersignOut()
                     Toast.makeText(
                         authViewModel.applicationContext,
@@ -69,7 +68,8 @@ fun ProfileScreen(
                         Toast.LENGTH_LONG
                     ).show()
                 }
-            }) {
+            }
+        ) {
             Text(text = "Sign out")
         }
     }

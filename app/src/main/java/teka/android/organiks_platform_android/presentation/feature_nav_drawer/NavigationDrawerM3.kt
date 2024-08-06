@@ -200,15 +200,15 @@ fun NavigationDrawerM3(
             }
         ),
     )
-    val selectedItem by remember { mutableStateOf(items[0]) }
-
-
 
 
     if(showDialog.value)
-        CustomDialog(value = "", setShowDialog = {
-            showDialog.value = it
-        }) {
+        CustomDialog(
+            value = "",
+            setShowDialog = {
+                showDialog.value = it
+            }
+        ) {
             Log.i("HomePage","HomePage : $it")
         }
 

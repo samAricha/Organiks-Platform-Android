@@ -23,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,21 +33,30 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.presentation.feature_auth.AuthViewModel
+import teka.android.organiks_platform_android.ui.theme.GreenStart
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.ReemKufi
 import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
 
 @Composable
-fun CustomDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (String) -> Unit) {
+fun CustomDialog(
+    value: String,
+    setShowDialog: (Boolean) -> Unit,
+    setValue: (String) -> Unit
+) {
 
     val txtFieldError = remember { mutableStateOf("") }
     val txtField = remember { mutableStateOf(value) }
-    val negativeButtonColor: Color = Color(0xFF35898F)
+    val negativeButtonColor: Color = GreenStart
     val positiveButtonColor: Color = PrimaryColor
     val spaceBetweenElements: Dp = 18.dp
     val context: Context = LocalContext.current.applicationContext
     val authViewModel: AuthViewModel = hiltViewModel()
+
+    val coroutineScope = rememberCoroutineScope()
+
 
     Dialog(onDismissRequest = { setShowDialog(false) }) {
         Surface(
@@ -96,10 +106,11 @@ fun CustomDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (Str
                         DialogButton(
                             buttonColor = negativeButtonColor,
                             cornerRadiusPercent = 40,
-                            buttonText = "No") {
+                            buttonText = "No"
+                        ) {
                             Toast.makeText(
                                 context,
-                                "No Click",
+                                "No Clicked, Yay!!",
                                 Toast.LENGTH_SHORT
                             ).show()
                             setShowDialog(false)
@@ -109,10 +120,21 @@ fun CustomDialog(value: String, setShowDialog: (Boolean) -> Unit, setValue: (Str
                             cornerRadiusPercent = 40,
                             buttonText = "Yes"
                         ) {
-                            Toast
-                                .makeText(context, "Logging Out", Toast.LENGTH_SHORT)
-                                .show()
-                            authViewModel.logout()
+                            coroutineScope.launch {
+                                authViewModel.firebaseUsersignOut()
+                                Toast.makeText(
+                                    authViewModel.applicationContext,
+                                    "Signed out",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                            }
+
+
+
+//                            Toast
+//                                .makeText(context, "Logging Out", Toast.LENGTH_SHORT)
+//                                .show()
+//                            authViewModel.logout()
                             setShowDialog(false)
                         }
                     }
