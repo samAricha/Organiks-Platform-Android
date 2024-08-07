@@ -95,8 +95,6 @@ fun EggProductionEntryComponent(
             horizontalArrangement = Arrangement.End
         ) {
 
-            //Text("Selected Item: ${selectedEggTypeItem.name}")
-
             Row(modifier = Modifier
                 .width(200.dp)
                 .height(40.dp)
@@ -135,71 +133,6 @@ fun EggProductionEntryComponent(
                     }
                 }
             }
-
-
-//            TextField(
-//                value = state.eggTypeName,
-//                onValueChange = {
-//                    if (isNewEnabled) onEggTypeChange.invoke(it)
-//                },
-//                modifier = Modifier.weight(1f),
-//                colors = TextFieldDefaults.textFieldColors(
-//                    unfocusedIndicatorColor = Color.Transparent,
-//                    focusedIndicatorColor = Color.Transparent
-//                ),
-//                shape = Shapes.large,
-//                label = { Text(text = "Egg Type") },
-//                leadingIcon = {
-//                    Icon(
-//                        imageVector = Icons.Default.KeyboardArrowDown,
-//                        contentDescription = null,
-//                        modifier = Modifier.clickable {
-//                            onDialogDismissed.invoke(!state.isScreenDialogDismissed)
-//                        }
-//
-//
-//                    )
-//                }
-//            )
-
-//            if (!state.isScreenDialogDismissed) {
-//                Popup(
-//                    onDismissRequest = {
-//                        onDialogDismissed.invoke(
-//                            !state.isScreenDialogDismissed
-//                        )
-//                    }
-//                ) {
-//                    Surface(modifier = Modifier.padding(16.dp)) {
-//                        Column {
-//                            state.eggTypes.forEach {
-//                                Text(
-//                                    text = it.name,
-//                                    modifier = Modifier
-//                                        .padding(8.dp)
-//                                        .clickable {
-//                                            onEggTypeChange.invoke(it.name)
-//                                            onDialogDismissed(!state.isScreenDialogDismissed)
-//                                        }
-//                                )
-//                            }
-//                        }
-//
-//                    }
-//
-//                }
-//            }
-
-//            TextButton(onClick = {
-//                isNewEnabled = if (isNewEnabled) {
-//                    onSaveEggType.invoke()
-//                    !isNewEnabled
-//                } else {
-//                    !isNewEnabled
-//                }
-//            }) {
-//                Text(text = if (isNewEnabled) "Save" else "New")
-//            }
         }
 
 

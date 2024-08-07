@@ -2,7 +2,9 @@ package teka.android.organiks_platform_android.presentation.feature_ai_assistant
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,10 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.BlockThreshold
 import com.google.ai.client.generativeai.type.Content
-import com.google.ai.client.generativeai.type.HarmCategory
-import com.google.ai.client.generativeai.type.SafetySetting
 import com.google.ai.client.generativeai.type.content
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -44,6 +43,10 @@ class GeminiAIViewModel @Inject constructor(
     val documentResponse: LiveData<SnapshotStateList<Message>> = _documentResponse
 
 
+    private val _selectedLanguageOption = mutableStateOf("")
+    val selectedLanguageOption: State<String> get() = _selectedLanguageOption
+
+
 
     private var model: GenerativeModel? = null
     private var visionModel: GenerativeModel? = null
@@ -57,6 +60,10 @@ class GeminiAIViewModel @Inject constructor(
                 _conversationList.postValue(snapshotStateList)
             }
         }
+    }
+
+    fun onLanguageOptionChange(newValue: String){
+        _selectedLanguageOption.value = newValue
     }
 
     fun makeSingleTurnQuery(context: Context, prompt: String) {
@@ -114,7 +121,7 @@ class GeminiAIViewModel @Inject constructor(
         _imageResponse.value?.add(Message(text = prompt, mode = Mode.USER))
         _imageResponse.value?.add(
             Message(
-                text = "Generating",
+                text = "Generating...",
                 mode = Mode.GEMINI,
                 isGenerating = true
             )
@@ -125,7 +132,10 @@ class GeminiAIViewModel @Inject constructor(
             }
         }
         val inputContent = content {
-            bitmaps.take(4).forEach {
+//            bitmaps.take(4).forEach {
+//                image(it)
+//            }
+            bitmaps.forEach {
                 image(it)
             }
             text(prompt)
@@ -240,10 +250,10 @@ class GeminiAIViewModel @Inject constructor(
             modelName = if (vision) "gemini-1.5-flash" else "gemini-pro",
             apiKey = key,
             safetySettings = listOf(
-                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
-                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
-                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.MEDIUM_AND_ABOVE),
-                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
+//                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
+//                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
+//                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.MEDIUM_AND_ABOVE),
+//                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
             )
         )
 
@@ -252,10 +262,10 @@ class GeminiAIViewModel @Inject constructor(
             modelName = "gemini-1.5-pro-latest",
             apiKey = key,
             safetySettings = listOf(
-                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
-                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
-                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.NONE),
-                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
+//                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
+//                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
+//                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.NONE),
+//                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
             )
         )
 

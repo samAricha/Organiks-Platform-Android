@@ -117,6 +117,7 @@ fun ProductionRecording(
 
 
 
+@SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
 fun CategoryItem(
     @DrawableRes iconRes:Int,
