@@ -1,7 +1,9 @@
 package teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels
 
 import android.content.Context
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -67,6 +69,8 @@ class GeminiAnalystViewModel @Inject constructor(
     private val _farmDataSuccessMessage = MutableStateFlow<String?>(null)
     val farmDataSuccessMessage: StateFlow<String?> = _farmDataSuccessMessage
 
+    private val _selectedLanguageOption = mutableStateOf("")
+    val selectedLanguageOption: State<String> get() = _selectedLanguageOption
 
 
     private var model: GenerativeModel? = null
@@ -84,6 +88,10 @@ class GeminiAnalystViewModel @Inject constructor(
         viewModelScope.launch {
             remoteFarmDataInitialization()
         }
+    }
+
+    fun onLanguageOptionChange(newValue: String){
+        _selectedLanguageOption.value = newValue
     }
 
 
