@@ -71,6 +71,8 @@ class GeminiAnalystViewModel @Inject constructor(
 
     private val _selectedLanguageOption = MutableStateFlow("")
     val selectedLanguageOption: StateFlow<String> get() = _selectedLanguageOption
+    private val _selectedFarmerDataOption = MutableStateFlow("")
+    val selectedFarmerDataOption: StateFlow<String> get() = _selectedFarmerDataOption
 
 
     private var model: GenerativeModel? = null
@@ -92,6 +94,10 @@ class GeminiAnalystViewModel @Inject constructor(
 
     fun onLanguageOptionChange(newValue: String){
         _selectedLanguageOption.value = newValue
+    }
+
+    fun onFarmerDataOptionChange(newValue: String){
+        _selectedFarmerDataOption.value = newValue
     }
 
 

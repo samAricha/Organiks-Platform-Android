@@ -2,9 +2,6 @@ package teka.android.organiks_platform_android.presentation.feature_ai_assistant
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.launch
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +25,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -39,20 +35,15 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.ImageLoader
-import coil.request.ImageRequest
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.SelectedImageArea
-import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.AnalystConversationArea
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.AnalystTypingArea
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.LanguageOptionModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAnalystViewModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ApiType
-import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ImageHelper
 import teka.android.organiks_platform_android.ui.theme.PlaceholderColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
 
@@ -91,9 +82,16 @@ fun GeminiAnalystScreen() {
         LanguageOptionModel(2, "Swahili"),
         LanguageOptionModel(3, "French")
     )
+    val farmerDataOptionItems = listOf(
+        LanguageOptionModel(1, "Eggs Data"),
+        LanguageOptionModel(2, "Milk Data"),
+        LanguageOptionModel(3, "Fruit Data")
+    )
     var selectedLanguageOptionItem by remember { mutableStateOf(languageOptionItems[0]) }
+    var selectedFarmerDataOptionItem by remember { mutableStateOf(farmerDataOptionItems[0]) }
 
-    var expanded by remember { mutableStateOf(false) }
+    var languageDropDownExpanded by remember { mutableStateOf(false) }
+    var farmerDataDropDropDownExpanded by remember { mutableStateOf(false) }
 
 
 
@@ -113,8 +111,52 @@ fun GeminiAnalystScreen() {
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
+                Column(
+                    horizontalAlignment = Alignment.Start
+                ) {
+
+                    Row(
+                        modifier = Modifier
+                            .width(140.dp)
+                            .height(40.dp)
+                            .background(PlaceholderColor, Shapes.large)
+                            .clickable { farmerDataDropDropDownExpanded = true },
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        Text(
+                            text = selectedFarmerDataOptionItem.name,
+                            modifier = Modifier
+                                .padding(horizontal = 12.dp)
+                                .align(Alignment.CenterVertically),
+                        )
+                        Icon(
+                            imageVector = Icons.Default.ArrowDropDown,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .padding(end = 1.dp)
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = farmerDataDropDropDownExpanded,
+                        onDismissRequest = { farmerDataDropDropDownExpanded = false }
+                    ) {
+                        farmerDataOptionItems.forEach { item ->
+                            DropdownMenuItem(
+                                onClick = {
+                                    viewModel.onFarmerDataOptionChange(item.name)
+                                    selectedFarmerDataOptionItem = item
+                                    farmerDataDropDropDownExpanded = false
+                                }
+                            ) {
+                                Text(item.name)
+                            }
+                        }
+                    }
+                }
                 Column(
                     horizontalAlignment = Alignment.End
                 ) {
@@ -124,7 +166,7 @@ fun GeminiAnalystScreen() {
                             .width(120.dp)
                             .height(40.dp)
                             .background(PlaceholderColor, Shapes.large)
-                            .clickable { expanded = true },
+                            .clickable { languageDropDownExpanded = true },
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text(
@@ -132,7 +174,6 @@ fun GeminiAnalystScreen() {
                             modifier = Modifier
                                 .padding(horizontal = 12.dp)
                                 .align(Alignment.CenterVertically),
-
                             )
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
@@ -144,15 +185,17 @@ fun GeminiAnalystScreen() {
                     }
 
                     DropdownMenu(
-                        expanded = expanded,
-                        onDismissRequest = { expanded = false }
+                        expanded = languageDropDownExpanded,
+                        onDismissRequest = { languageDropDownExpanded = false }
                     ) {
                         languageOptionItems.forEach { item ->
-                            DropdownMenuItem(onClick = {
-                                viewModel.onLanguageOptionChange(item.name)
-                                selectedLanguageOptionItem = item
-                                expanded = false
-                            }) {
+                            DropdownMenuItem(
+                                onClick = {
+                                    viewModel.onLanguageOptionChange(item.name)
+                                    selectedLanguageOptionItem = item
+                                    languageDropDownExpanded = false
+                                }
+                            ) {
                                 Text(item.name)
                             }
                         }
