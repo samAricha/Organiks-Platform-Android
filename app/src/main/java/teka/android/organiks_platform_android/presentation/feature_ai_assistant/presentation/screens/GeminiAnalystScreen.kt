@@ -41,6 +41,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.SelectedImageArea
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.AnalystConversationArea
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.AnalystTypingArea
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.DataCollectionOptionModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.LanguageOptionModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAnalystViewModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ApiType
@@ -51,7 +52,9 @@ import teka.android.organiks_platform_android.ui.theme.Shapes
 @ExperimentalComposeUiApi
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun GeminiAnalystScreen() {
+fun GeminiAnalystScreen(
+    farmerDataId:Int
+) {
 
     val viewModel: GeminiAnalystViewModel = hiltViewModel();
 
@@ -83,15 +86,23 @@ fun GeminiAnalystScreen() {
         LanguageOptionModel(3, "French")
     )
     val farmerDataOptionItems = listOf(
-        LanguageOptionModel(1, "Eggs Data"),
-        LanguageOptionModel(2, "Milk Data"),
-        LanguageOptionModel(3, "Fruit Data")
+        DataCollectionOptionModel(1, "Eggs Data"),
+        DataCollectionOptionModel(2, "Milk Data"),
+        DataCollectionOptionModel(3, "Fruit Data")
     )
     var selectedLanguageOptionItem by remember { mutableStateOf(languageOptionItems[0]) }
     var selectedFarmerDataOptionItem by remember { mutableStateOf(farmerDataOptionItems[0]) }
 
     var languageDropDownExpanded by remember { mutableStateOf(false) }
     var farmerDataDropDropDownExpanded by remember { mutableStateOf(false) }
+
+    // Set initial farmer data option based on farmerDataId
+    LaunchedEffect(farmerDataId) {
+        val initialOption = farmerDataOptionItems.find { it.id == farmerDataId }
+        if (initialOption != null) {
+            selectedFarmerDataOptionItem = initialOption
+        }
+    }
 
 
 

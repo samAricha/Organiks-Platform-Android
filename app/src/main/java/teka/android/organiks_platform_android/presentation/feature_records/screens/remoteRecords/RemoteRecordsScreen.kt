@@ -110,7 +110,7 @@ fun RemoteRecordsScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(AppScreens.GeminiAnalystAppScreens.route)
+                    navController.navigate(route = AppScreens.GeminiAnalystAppScreens.createRoute(1))
                 },
                 modifier = Modifier
                     .padding(16.dp)

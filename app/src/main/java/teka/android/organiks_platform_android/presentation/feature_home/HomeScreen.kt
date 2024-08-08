@@ -76,7 +76,7 @@ fun HomeScreen(
             iconResId = R.drawable.gemini_transparent,
             color = SecondaryColor,
             onClick = {
-                navController.navigate(route = AppScreens.GeminiAnalystAppScreens.route)
+                navController.navigate(route = AppScreens.GeminiAnalystAppScreens.createRoute(1))
             }
         ),
         HomeInfoCardData(

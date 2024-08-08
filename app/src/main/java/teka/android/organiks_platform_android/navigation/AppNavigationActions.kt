@@ -25,7 +25,11 @@ class AppNavigationActions(
     }
 
     fun navigateToGeminiAnalystScreen() {
-        navController.navigate(AppScreens.GeminiAnalystAppScreens.route) {
+//        navController.navigate(AppScreens.GeminiAnalystAppScreens.route) {
+//            popUpTo(AppScreens.GeminiAnalystAppScreens.route)
+//        }
+
+        navController.navigate(route = AppScreens.GeminiAnalystAppScreens.createRoute(1)){
             popUpTo(AppScreens.GeminiAnalystAppScreens.route)
         }
     }

@@ -12,7 +12,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.BlockThreshold
 import com.google.ai.client.generativeai.type.Content
+import com.google.ai.client.generativeai.type.HarmCategory
+import com.google.ai.client.generativeai.type.SafetySetting
 import com.google.ai.client.generativeai.type.content
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -289,10 +292,10 @@ class GeminiAIViewModel @Inject constructor(
             modelName = if (vision) "gemini-1.5-flash" else "gemini-pro",
             apiKey = key,
             safetySettings = listOf(
-//                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
-//                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
-//                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.MEDIUM_AND_ABOVE),
-//                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
+                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
+                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
+                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.MEDIUM_AND_ABOVE),
+                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
             )
         )
 
@@ -301,10 +304,10 @@ class GeminiAIViewModel @Inject constructor(
             modelName = "gemini-1.5-pro-latest",
             apiKey = key,
             safetySettings = listOf(
-//                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
-//                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
-//                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.NONE),
-//                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
+                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
+                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
+                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.NONE),
+                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
             )
         )
 

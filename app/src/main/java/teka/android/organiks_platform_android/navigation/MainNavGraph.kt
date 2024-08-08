@@ -188,10 +188,16 @@ fun MainNavGraph(
             },
             popExitTransition = {
                 scaleOutOfContainer()
-            }
-        ){
-            GeminiAnalystScreen()
+            },
+            arguments = listOf(navArgument("farmerDataId") { type = NavType.IntType })
+        ){ backStackEntry ->
+            val farmerDataId = backStackEntry.arguments?.getInt("farmerDataId") ?: 1
+
+            GeminiAnalystScreen(
+                farmerDataId = farmerDataId
+            )
         }
+
         composable(
             route = AppScreens.ProfileAppScreens.route,
             enterTransition = {

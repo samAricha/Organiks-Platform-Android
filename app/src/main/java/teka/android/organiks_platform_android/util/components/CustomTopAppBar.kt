@@ -64,9 +64,11 @@ fun CustomTopAppBar(
                     )
                 }
             } else {
-                IconButton(onClick = {
-                    scope.launch { drawerState.open() }
-                }) {
+                IconButton(
+                    onClick = {
+                        scope.launch { drawerState.open() }
+                    }
+                ) {
                     Icon(
                         imageVector = Icons.Default.Menu,
                         contentDescription = "Toggle drawer",
