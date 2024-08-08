@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -23,6 +22,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
 import androidx.compose.foundation.Canvas
+import androidx.compose.material3.FabPosition
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
@@ -42,7 +48,7 @@ import teka.android.organiks_platform_android.util.components.LoadingAnimation
 import teka.android.organiks_platform_android.util.components.ProgressIndicatorWidget
 
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun RemoteRecordsScreen(
     onNavigate:(Int) -> Unit,
@@ -60,13 +66,13 @@ fun RemoteRecordsScreen(
     val errorMessage by remoteRecordsViewModel.errorMessage.collectAsState()
     val successMessage by remoteRecordsViewModel.successMessage.collectAsState()
 
-    val scaffoldState = rememberScaffoldState()
+    val snackbarHostState = remember { SnackbarHostState() }
 
     val snackbarData by remoteRecordsViewModel.snackbarData.collectAsState()
 
     if (snackbarData != null) {
         LaunchedEffect(snackbarData) {
-            scaffoldState.snackbarHostState.showSnackbar(snackbarData!!.message)
+            snackbarHostState.showSnackbar(snackbarData!!.message)
             remoteRecordsViewModel.clearSnackbar()
         }
     }
@@ -106,7 +112,6 @@ fun RemoteRecordsScreen(
 
     Scaffold(
         floatingActionButtonPosition = FabPosition.End,
-        isFloatingActionButtonDocked = false,
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
@@ -115,18 +120,20 @@ fun RemoteRecordsScreen(
                 modifier = Modifier
                     .padding(16.dp)
                     .size(54.dp),
-                backgroundColor = BackgroundColor
+                containerColor = BackgroundColor,
+
             ) {
-                androidx.compose.material3.Icon(
+                Icon(
                     painter = painterResource(id = R.drawable.gemini_transparent),
                     contentDescription = "Add",
-                    tint = DecentBlue
+                    tint = DecentBlue,
+                    modifier = Modifier.size(35.dp)
                 )
             }
         },
         snackbarHost = {
             SnackbarHost(
-                hostState = scaffoldState.snackbarHostState,
+                hostState = snackbarHostState,
                 modifier = Modifier.padding(16.dp)
             ) { snackbarData ->
                 Snackbar(

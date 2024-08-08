@@ -8,6 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
@@ -229,9 +230,11 @@ fun DashboardScreen(
             Icon(
                 painter = painterResource(id = R.drawable.gemini_transparent),
                 contentDescription = "Add",
-                tint = DecentBlue
+                tint = DecentBlue,
+                modifier = Modifier.size(35.dp)
             )
         }
+
 
     }
 
