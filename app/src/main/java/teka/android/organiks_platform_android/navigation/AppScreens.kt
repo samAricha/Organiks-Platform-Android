@@ -18,7 +18,6 @@ sealed class AppScreens(
     data object ProductionRecording: AppScreens(route = "production_recording", title = "Recording")
     data object DashboardAppScreens: AppScreens(route = "dashboard_screen", title = "Dashboard")
     data object RemoteRecordsScreens: AppScreens(route = "remote_records_screen", title = "RemoteRecords")
-    data object AiSearchAppScreens: AppScreens(route = "ai_search_screen", title = "Ai Search")
     data object GeminiChatAppScreens: AppScreens(route = "gemini_chat_screen", title = "Gemini Assistant")
     data object GeminiAnalystAppScreens: AppScreens(route = "gemini_analyst_screen", title = "Gemini Analyst")
     data object ProfileAppScreens: AppScreens(route = "profile_screen", title = "Profile")

@@ -10,7 +10,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.screens.MultiTurnScreen
-import teka.android.organiks_platform_android.presentation.aiadvice.AiAdviceScreen
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.screens.GeminiAnalystScreen
 import teka.android.organiks_platform_android.presentation.feature_dashborad.DashboardScreen
 import teka.android.organiks_platform_android.presentation.feature_firebase_auth.profile.ProfileScreen
@@ -192,24 +191,6 @@ fun MainNavGraph(
             }
         ){
             GeminiAnalystScreen()
-        }
-        composable(
-            route = AppScreens.AiSearchAppScreens.route,
-            enterTransition = {
-                scaleIntoContainer()
-            },
-            exitTransition = {
-                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
-            },
-            popEnterTransition = {
-                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
-            },
-            popExitTransition = {
-                scaleOutOfContainer()
-            }
-
-            ){
-            AiAdviceScreen()
         }
         composable(
             route = AppScreens.ProfileAppScreens.route,
