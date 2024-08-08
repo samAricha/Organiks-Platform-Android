@@ -61,6 +61,8 @@ fun AnalystTypingArea(
     var text by remember { mutableStateOf(TextFieldValue("")) }
     val remoteEggCollections by viewModel.eggCollections.collectAsState()
     val currentLanguage by viewModel.selectedLanguageOption.collectAsState()
+    val selectedFarmData by viewModel.requestOptionData.collectAsState()
+
 
 
     val isGenerating: Boolean? = when (apiType) {
@@ -121,7 +123,8 @@ fun AnalystTypingArea(
         }
 
 
-           IconButton(onClick = { expanded = true }
+           IconButton(
+               onClick = { expanded = true }
             ) {
                 Icon(
                     modifier = Modifier.size(30.dp),
@@ -183,7 +186,7 @@ fun AnalystTypingArea(
                                             ApiType.MULTI_CHAT -> viewModel.makeMultiTurnAnalyticalQuery(
                                                 context = context,
                                                 prompt =text.text.trim(),
-                                                supportingText = "$remoteEggCollections : please provide response in $currentLanguage Language",
+                                                supportingText = "$selectedFarmData : please provide response in $currentLanguage Language",
                                             )
 
                                             ApiType.IMAGE_CHAT -> TODO()

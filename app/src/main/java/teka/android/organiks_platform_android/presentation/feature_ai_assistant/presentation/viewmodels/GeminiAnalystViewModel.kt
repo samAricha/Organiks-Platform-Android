@@ -74,6 +74,9 @@ class GeminiAnalystViewModel @Inject constructor(
     private val _selectedFarmerDataOption = MutableStateFlow("")
     val selectedFarmerDataOption: StateFlow<String> get() = _selectedFarmerDataOption
 
+    private val _requestOptionData = MutableStateFlow<Any>(emptyList<Any>())
+    val requestOptionData: StateFlow<Any> get() = _requestOptionData
+
 
     private var model: GenerativeModel? = null
     private var visionModel: GenerativeModel? = null
@@ -89,6 +92,16 @@ class GeminiAnalystViewModel @Inject constructor(
         }
         viewModelScope.launch {
             remoteFarmDataInitialization()
+        }
+        viewModelScope.launch {
+            _selectedFarmerDataOption.collect { selectedOption ->
+                when (selectedOption) {
+                    "Eggs Data" -> _requestOptionData.value = _eggCollections.value
+                    "Milk Data" -> _requestOptionData.value = _milkCollections.value
+                    "Fruit Data" -> _requestOptionData.value = _fruitCollections.value
+                    else -> _requestOptionData.value = emptyList<Any>()
+                }
+            }
         }
     }
 
