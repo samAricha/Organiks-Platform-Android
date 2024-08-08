@@ -2,7 +2,9 @@ package teka.android.organiks_platform_android.presentation.feature_ai_assistant
 
 import android.content.Context
 import android.graphics.Bitmap
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -10,12 +12,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.BlockThreshold
 import com.google.ai.client.generativeai.type.Content
-import com.google.ai.client.generativeai.type.HarmCategory
-import com.google.ai.client.generativeai.type.SafetySetting
 import com.google.ai.client.generativeai.type.content
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.BuildConfig
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Message
@@ -44,6 +45,10 @@ class GeminiAIViewModel @Inject constructor(
     val documentResponse: LiveData<SnapshotStateList<Message>> = _documentResponse
 
 
+    private val _selectedLanguageOption = MutableStateFlow("")
+    val selectedLanguageOption: StateFlow<String> get() = _selectedLanguageOption
+
+
 
     private var model: GenerativeModel? = null
     private var visionModel: GenerativeModel? = null
@@ -57,6 +62,10 @@ class GeminiAIViewModel @Inject constructor(
                 _conversationList.postValue(snapshotStateList)
             }
         }
+    }
+
+    fun onLanguageOptionChange(newValue: String){
+        _selectedLanguageOption.value = newValue
     }
 
     fun makeSingleTurnQuery(context: Context, prompt: String) {
@@ -75,13 +84,20 @@ class GeminiAIViewModel @Inject constructor(
             }
         }
         makeGeneralQuery(
-            ApiType.SINGLE_CHAT,
-            _singleResponse,
-            prompt
+            apiType = ApiType.SINGLE_CHAT,
+            result = _singleResponse,
+            feed = prompt,
+            supportingText = "in English",
+            alternativeSupportingText = "in English"
         )
     }
 
-    fun makeMultiTurnQuery(context: Context, prompt: String) {
+    fun makeMultiTurnQuery(
+        context: Context,
+        prompt: String,
+        supportingText: String? = null,
+        alternativeSupportingText: String? = ": English ",
+    ) {
         _conversationList.value?.add(Message(text = prompt, mode = Mode.USER))
         _conversationList.value?.add(
             Message(
@@ -105,16 +121,22 @@ class GeminiAIViewModel @Inject constructor(
         makeGeneralQuery(
             apiType = ApiType.MULTI_CHAT,
             result = _conversationList,
-            feed = prompt
+            feed = prompt,
+            supportingText = ": give response in $supportingText Language",
+            alternativeSupportingText = alternativeSupportingText
         )
     }
 
-    fun makeImageQuery(context: Context, prompt: String, bitmaps: List<Bitmap>) {
+    fun makeImageQuery(
+        context: Context,
+        prompt: String,
+        bitmaps: List<Bitmap>
+    ) {
         _imageResponse.value?.clear()
         _imageResponse.value?.add(Message(text = prompt, mode = Mode.USER))
         _imageResponse.value?.add(
             Message(
-                text = "Generating",
+                text = "Generating...",
                 mode = Mode.GEMINI,
                 isGenerating = true
             )
@@ -125,7 +147,10 @@ class GeminiAIViewModel @Inject constructor(
             }
         }
         val inputContent = content {
-            bitmaps.take(4).forEach {
+//            bitmaps.take(4).forEach {
+//                image(it)
+//            }
+            bitmaps.forEach {
                 image(it)
             }
             text(prompt)
@@ -133,7 +158,9 @@ class GeminiAIViewModel @Inject constructor(
         makeGeneralQuery(
             apiType = ApiType.IMAGE_CHAT,
             result = _imageResponse,
-            feed = inputContent
+            feed = inputContent,
+            supportingText = "in English",
+            alternativeSupportingText = "in English"
         )
     }
 
@@ -164,7 +191,9 @@ class GeminiAIViewModel @Inject constructor(
         makeGeneralQuery(
             apiType = ApiType.DOCUMENT_CHAT,
             result = _documentResponse,
-            feed = prompt
+            feed = prompt,
+            supportingText = "in English",
+            alternativeSupportingText = "in English"
         )
     }
 
@@ -182,14 +211,16 @@ class GeminiAIViewModel @Inject constructor(
     private fun makeGeneralQuery(
         apiType: ApiType,
         result: MutableLiveData<SnapshotStateList<Message>>,
-        feed: Any
+        feed: Any,
+        supportingText: Any?,
+        alternativeSupportingText: String?
     ) {
         viewModelScope.launch {
             var output = ""
             try {
                 val stream = when (apiType) {
-                    ApiType.SINGLE_CHAT -> model?.generateContentStream(feed as String)
-                    ApiType.MULTI_CHAT -> chat?.sendMessageStream(feed as String)
+                    ApiType.SINGLE_CHAT -> model?.generateContentStream(feed as String + supportingText as String)
+                    ApiType.MULTI_CHAT -> chat?.sendMessageStream(feed as String + supportingText as String)
                     ApiType.IMAGE_CHAT -> visionModel?.generateContentStream(feed as Content)
                     ApiType.DOCUMENT_CHAT -> documentModel?.generateContentStream(feed as String)
                 }
@@ -199,22 +230,40 @@ class GeminiAIViewModel @Inject constructor(
                     output.trimStart()
                     result.value?.set(
                         result.value!!.lastIndex,
-                        Message(text = output, mode = Mode.GEMINI, isGenerating = true)
+                        Message(
+                            text = output,
+                            mode = Mode.GEMINI,
+                            isGenerating = true
+                        )
                     )
                 }
 
                 result.value?.set(
                     result.value!!.lastIndex,
-                    Message(text = output, mode = Mode.GEMINI, isGenerating = false)
+                    Message(
+                        text = output,
+                        mode = Mode.GEMINI,
+                        isGenerating = false
+                    )
                 )
 
                 if (apiType == ApiType.MULTI_CHAT) {
                     viewModelScope.launch {
                         dao.upsertMessage(
-                            Message(text = feed as String, mode = Mode.USER, isGenerating = false)
+                            Message(
+                                text = feed as String,
+                                mode = Mode.USER,
+                                isGenerating = false,
+                                obfuscatedText = supportingText.toString(),
+                                alternateText = alternativeSupportingText ?: ""
+                            )
                         )
                         dao.upsertMessage(
-                            Message(text = output, mode = Mode.GEMINI, isGenerating = false)
+                            Message(
+                                text = output,
+                                mode = Mode.GEMINI,
+                                isGenerating = false
+                            )
                         )
                     }
                 }
@@ -240,10 +289,10 @@ class GeminiAIViewModel @Inject constructor(
             modelName = if (vision) "gemini-1.5-flash" else "gemini-pro",
             apiKey = key,
             safetySettings = listOf(
-                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
-                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
-                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.MEDIUM_AND_ABOVE),
-                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
+//                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
+//                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
+//                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.MEDIUM_AND_ABOVE),
+//                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
             )
         )
 
@@ -252,10 +301,10 @@ class GeminiAIViewModel @Inject constructor(
             modelName = "gemini-1.5-pro-latest",
             apiKey = key,
             safetySettings = listOf(
-                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
-                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
-                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.NONE),
-                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
+//                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
+//                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
+//                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.NONE),
+//                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
             )
         )
 

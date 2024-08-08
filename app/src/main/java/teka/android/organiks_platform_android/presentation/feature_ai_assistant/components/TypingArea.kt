@@ -26,6 +26,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -64,6 +65,7 @@ fun TypingArea(
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
     var text by remember { mutableStateOf(TextFieldValue("")) }
+    val currentLanguage by viewModel.selectedLanguageOption.collectAsState()
 
     val isGenerating: Boolean? = when (apiType) {
         ApiType.MULTI_CHAT -> viewModel.conversationList.observeAsState().value?.lastOrNull()?.isGenerating
@@ -248,7 +250,8 @@ fun TypingArea(
 
                                             ApiType.MULTI_CHAT -> viewModel.makeMultiTurnQuery(
                                                 context,
-                                                text.text.trim()
+                                                text.text.trim(),
+                                                supportingText = currentLanguage
                                             )
 
                                             ApiType.IMAGE_CHAT -> viewModel.makeImageQuery(

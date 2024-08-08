@@ -6,11 +6,23 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -22,10 +34,14 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
 import coil.request.ImageRequest
@@ -33,9 +49,12 @@ import teka.android.organiks_platform_android.presentation.feature_ai_assistant.
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.AnalystConversationArea
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.AnalystTypingArea
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.LanguageOptionModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAnalystViewModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ApiType
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ImageHelper
+import teka.android.organiks_platform_android.ui.theme.PlaceholderColor
+import teka.android.organiks_platform_android.ui.theme.Shapes
 
 @ExperimentalMaterial3Api
 @ExperimentalComposeUiApi
@@ -67,6 +86,16 @@ fun GeminiAnalystScreen() {
         println("BITMAPS CHANGED2: ${apiTypeState.value}")
     }
 
+    val languageOptionItems = listOf(
+        LanguageOptionModel(1, "English"),
+        LanguageOptionModel(2, "Swahili"),
+        LanguageOptionModel(3, "French")
+    )
+    var selectedLanguageOptionItem by remember { mutableStateOf(languageOptionItems[0]) }
+
+    var expanded by remember { mutableStateOf(false) }
+
+
 
     Scaffold(
         topBar = {
@@ -82,6 +111,54 @@ fun GeminiAnalystScreen() {
                     MaterialTheme.colorScheme.background
                 )
         ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.End
+                ) {
+
+                    Row(
+                        modifier = Modifier
+                            .width(120.dp)
+                            .height(40.dp)
+                            .background(PlaceholderColor, Shapes.large)
+                            .clickable { expanded = true },
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        Text(
+                            text = selectedLanguageOptionItem.name,
+                            modifier = Modifier
+                                .padding(horizontal = 12.dp)
+                                .align(Alignment.CenterVertically),
+
+                            )
+                        Icon(
+                            imageVector = Icons.Default.ArrowDropDown,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .align(Alignment.CenterVertically)
+                                .padding(end = 1.dp)
+                        )
+                    }
+
+                    DropdownMenu(
+                        expanded = expanded,
+                        onDismissRequest = { expanded = false }
+                    ) {
+                        languageOptionItems.forEach { item ->
+                            DropdownMenuItem(onClick = {
+                                viewModel.onLanguageOptionChange(item.name)
+                                selectedLanguageOptionItem = item
+                                expanded = false
+                            }) {
+                                Text(item.name)
+                            }
+                        }
+                    }
+                }
+            }
             Box(
                 modifier = Modifier.weight(1f)
             ) {
