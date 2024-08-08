@@ -13,9 +13,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -103,23 +103,24 @@ fun AnalystTypingArea(
                 onClick = {
                     expanded = false
                     viewModel.clearContext()
+                },
+                text = {
+                    Text(
+                        color = PrimaryColor,
+                        text = "Refresh",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.W600
+                    )
+                },
+                leadingIcon = {
+                    Icon(
+                        modifier = Modifier.size(25.dp),
+                        painter = painterResource(id = R.drawable.refresh),
+                        tint = PrimaryColor,
+                        contentDescription = "refresh"
+                    )
                 }
-            ) {
-                Icon(
-                    modifier = Modifier.size(25.dp),
-                    painter = painterResource(id = R.drawable.refresh),
-                    tint = PrimaryColor,
-                    contentDescription = "refresh"
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    color = PrimaryColor,
-                    text = "Refresh",
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.W600
-                )
-            }
-
+            )
         }
 
 

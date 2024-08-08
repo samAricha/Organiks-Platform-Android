@@ -106,7 +106,7 @@ fun RemoteRecordsScreen(
             val fruitCollectionsState by remoteRecordsViewModel.fruitCollections.collectAsState()
             fruitCollectionsState
         }
-        else -> emptyList() // Handle other categories as needed
+        else -> emptyList()
     }
 
 
@@ -115,7 +115,7 @@ fun RemoteRecordsScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(route = AppScreens.GeminiAnalystAppScreens.createRoute(1))
+                    navController.navigate(route = AppScreens.GeminiAnalystAppScreens.createRoute(farmerDataId = selectedCategory.id+1))
                 },
                 modifier = Modifier
                     .padding(16.dp)

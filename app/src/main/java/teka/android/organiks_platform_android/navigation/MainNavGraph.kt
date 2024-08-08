@@ -189,12 +189,18 @@ fun MainNavGraph(
             popExitTransition = {
                 scaleOutOfContainer()
             },
-            arguments = listOf(navArgument("farmerDataId") { type = NavType.IntType })
+            arguments = listOf(
+                navArgument("farmerDataId") { type = NavType.IntType },
+                navArgument("autoGenerate") { type = NavType.BoolType; defaultValue = false }
+            )
         ){ backStackEntry ->
             val farmerDataId = backStackEntry.arguments?.getInt("farmerDataId") ?: 1
+            val autoGenerate = backStackEntry.arguments?.getBoolean("autoGenerate") ?: false
+
 
             GeminiAnalystScreen(
-                farmerDataId = farmerDataId
+                farmerDataId = farmerDataId,
+                autoGenerate = autoGenerate
             )
         }
 

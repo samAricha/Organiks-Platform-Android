@@ -20,10 +20,11 @@ sealed class AppScreens(
     data object RemoteRecordsScreens: AppScreens(route = "remote_records_screen", title = "RemoteRecords")
     data object GeminiChatAppScreens: AppScreens(route = "gemini_chat_screen", title = "Gemini Assistant")
     data object GeminiAnalystAppScreens: AppScreens(
-        route = "gemini_analyst_screen/{farmerDataId}",
+        route = "gemini_analyst_screen/{farmerDataId}?autoGenerate={autoGenerate}",
         title = "Gemini Analyst"
     ){
-        fun createRoute(farmerDataId: Int) = "gemini_analyst_screen/$farmerDataId"
+        fun createRoute(farmerDataId: Int, autoGenerate: Boolean = false) =
+            "gemini_analyst_screen/$farmerDataId?autoGenerate=$autoGenerate"
     }
     data object ProfileAppScreens: AppScreens(route = "profile_screen", title = "Profile")
     data object FirebaseProfileAppScreens: AppScreens(route = "firebase_profile_screen", title = "Firebase Profile")

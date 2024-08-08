@@ -14,15 +14,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -53,7 +53,8 @@ import teka.android.organiks_platform_android.ui.theme.Shapes
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun GeminiAnalystScreen(
-    farmerDataId:Int
+    farmerDataId:Int,
+    autoGenerate: Boolean = false
 ) {
 
     val viewModel: GeminiAnalystViewModel = hiltViewModel();
@@ -161,10 +162,9 @@ fun GeminiAnalystScreen(
                                     viewModel.onFarmerDataOptionChange(item.name)
                                     selectedFarmerDataOptionItem = item
                                     farmerDataDropDropDownExpanded = false
-                                }
-                            ) {
-                                Text(item.name)
-                            }
+                                },
+                                text = { Text(item.name) }
+                            )
                         }
                     }
                 }
@@ -205,10 +205,9 @@ fun GeminiAnalystScreen(
                                     viewModel.onLanguageOptionChange(item.name)
                                     selectedLanguageOptionItem = item
                                     languageDropDownExpanded = false
-                                }
-                            ) {
-                                Text(item.name)
-                            }
+                                },
+                                text = { Text(item.name) }
+                            )
                         }
                     }
                 }
