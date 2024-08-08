@@ -69,8 +69,8 @@ class GeminiAnalystViewModel @Inject constructor(
     private val _farmDataSuccessMessage = MutableStateFlow<String?>(null)
     val farmDataSuccessMessage: StateFlow<String?> = _farmDataSuccessMessage
 
-    private val _selectedLanguageOption = mutableStateOf("")
-    val selectedLanguageOption: State<String> get() = _selectedLanguageOption
+    private val _selectedLanguageOption = MutableStateFlow("")
+    val selectedLanguageOption: StateFlow<String> get() = _selectedLanguageOption
 
 
     private var model: GenerativeModel? = null

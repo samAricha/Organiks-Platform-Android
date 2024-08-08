@@ -251,7 +251,8 @@ fun TypingArea(
                                             ApiType.MULTI_CHAT -> viewModel.makeMultiTurnQuery(
                                                 context,
                                                 text.text.trim(),
-                                                supportingText = currentLanguage
+                                                supportingText = currentLanguage,
+                                                alternativeSupportingText = currentLanguage
                                             )
 
                                             ApiType.IMAGE_CHAT -> viewModel.makeImageQuery(

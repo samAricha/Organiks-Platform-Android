@@ -60,6 +60,7 @@ fun AnalystTypingArea(
     val focusManager = LocalFocusManager.current
     var text by remember { mutableStateOf(TextFieldValue("")) }
     val remoteEggCollections by viewModel.eggCollections.collectAsState()
+    val currentLanguage by viewModel.selectedLanguageOption.collectAsState()
 
 
     val isGenerating: Boolean? = when (apiType) {
@@ -182,7 +183,7 @@ fun AnalystTypingArea(
                                             ApiType.MULTI_CHAT -> viewModel.makeMultiTurnAnalyticalQuery(
                                                 context = context,
                                                 prompt =text.text.trim(),
-                                                supportingText = remoteEggCollections.toString()
+                                                supportingText = "$remoteEggCollections : please provide response in $currentLanguage Language",
                                             )
 
                                             ApiType.IMAGE_CHAT -> TODO()
