@@ -100,11 +100,14 @@ fun MainNavGraph(
             }
 
         ){
-            RemoteRecordsScreen(onNavigate = { id ->
-                navController.navigate(
-                    route = "${AppScreens.ProductionRecording.route}?id=$id"
-                )
-            })
+            RemoteRecordsScreen(
+                onNavigate = { id ->
+                    navController.navigate(
+                        route = "${AppScreens.ProductionRecording.route}?id=$id"
+                    )
+                },
+                navController = navController
+            )
         }
 
         composable(

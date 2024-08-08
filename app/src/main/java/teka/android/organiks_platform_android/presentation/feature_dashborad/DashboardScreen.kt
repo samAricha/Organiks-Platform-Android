@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.presentation.feature_dashborad
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -31,6 +32,8 @@ import teka.android.organiks_platform_android.presentation.feature_dashborad.com
 import teka.android.organiks_platform_android.presentation.feature_dashborad.components.DashboardCard
 import teka.android.organiks_platform_android.presentation.feature_dashborad.components.PiechartWithSliceLablesWidget
 import teka.android.organiks_platform_android.presentation.feature_dashborad.components.SingleLineChartWithGridLinesWidget
+import teka.android.organiks_platform_android.ui.theme.BackgroundColor
+import teka.android.organiks_platform_android.ui.theme.DecentBlue
 import teka.android.organiks_platform_android.ui.theme.OrangeEnd
 import teka.android.organiks_platform_android.ui.theme.OrangeStart
 import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
@@ -220,11 +223,13 @@ fun DashboardScreen(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .padding(16.dp)
-                .size(48.dp)
+                .size(54.dp),
+            containerColor = BackgroundColor
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.gemini_transparent),
-                contentDescription = "Add"
+                contentDescription = "Add",
+                tint = DecentBlue
             )
         }
 

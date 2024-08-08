@@ -24,13 +24,19 @@ import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
 import androidx.compose.foundation.Canvas
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.res.painterResource
+import androidx.navigation.NavController
+import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionDto
 import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionResult
+import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components.CategoryRowItem
 import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components.EggsListItem
 import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components.FruitsListItem
 import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components.MilkListItem
+import teka.android.organiks_platform_android.ui.theme.BackgroundColor
+import teka.android.organiks_platform_android.ui.theme.DecentBlue
 import teka.android.organiks_platform_android.util.CustomContextProvider
 import teka.android.organiks_platform_android.util.components.LoadingAnimation
 import teka.android.organiks_platform_android.util.components.ProgressIndicatorWidget
@@ -39,7 +45,8 @@ import teka.android.organiks_platform_android.util.components.ProgressIndicatorW
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun RemoteRecordsScreen(
-    onNavigate:(Int) -> Unit
+    onNavigate:(Int) -> Unit,
+    navController: NavController
 ){
     var selectedCategory by remember { mutableStateOf(Utils.productionCategory[0]) }
     val remoteRecordsViewModel : RemoteRecordsViewModel = hiltViewModel()
@@ -100,6 +107,23 @@ fun RemoteRecordsScreen(
     Scaffold(
         floatingActionButtonPosition = FabPosition.End,
         isFloatingActionButtonDocked = false,
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    navController.navigate(AppScreens.GeminiAnalystAppScreens.route)
+                },
+                modifier = Modifier
+                    .padding(16.dp)
+                    .size(54.dp),
+                backgroundColor = BackgroundColor
+            ) {
+                androidx.compose.material3.Icon(
+                    painter = painterResource(id = R.drawable.gemini_transparent),
+                    contentDescription = "Add",
+                    tint = DecentBlue
+                )
+            }
+        },
         snackbarHost = {
             SnackbarHost(
                 hostState = scaffoldState.snackbarHostState,
