@@ -149,7 +149,9 @@ fun MainNavGraph(
             }
 
             ){
-            DashboardScreen()
+            DashboardScreen(
+                navController = navController
+            )
         }
 
         composable(
