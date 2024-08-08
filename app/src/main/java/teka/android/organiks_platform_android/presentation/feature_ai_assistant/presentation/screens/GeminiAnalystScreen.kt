@@ -53,6 +53,7 @@ import teka.android.organiks_platform_android.presentation.feature_ai_assistant.
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAnalystViewModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ApiType
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ImageHelper
+import teka.android.organiks_platform_android.ui.theme.PlaceholderColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
 
 @ExperimentalMaterial3Api
@@ -120,9 +121,9 @@ fun GeminiAnalystScreen() {
 
                     Row(
                         modifier = Modifier
-                            .width(200.dp)
+                            .width(120.dp)
                             .height(40.dp)
-                            .background(Color.LightGray, Shapes.large)
+                            .background(PlaceholderColor, Shapes.large)
                             .clickable { expanded = true },
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
@@ -138,7 +139,7 @@ fun GeminiAnalystScreen() {
                             contentDescription = null,
                             modifier = Modifier
                                 .align(Alignment.CenterVertically)
-                                .padding(end = 8.dp)
+                                .padding(end = 1.dp)
                         )
                     }
 

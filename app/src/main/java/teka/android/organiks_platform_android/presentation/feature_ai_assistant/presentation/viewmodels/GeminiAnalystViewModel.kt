@@ -163,7 +163,11 @@ class GeminiAnalystViewModel @Inject constructor(
                     output.trimStart()
                     result.value?.set(
                         result.value!!.lastIndex,
-                        AnalystMessage(text = output, mode = Mode.GEMINI, isGenerating = true)
+                        AnalystMessage(
+                            text = output,
+                            mode = Mode.GEMINI,
+                            isGenerating = true
+                        )
                     )
                 }
 
