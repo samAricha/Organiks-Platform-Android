@@ -126,14 +126,14 @@ fun AnalystTypingArea(
 
            IconButton(
                onClick = { expanded = true }
-            ) {
+           ) {
                 Icon(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(id = R.drawable.add_icon),
                     tint = PrimaryColor,
                     contentDescription = "add"
                 )
-            }
+           }
 
 
         OutlinedTextField(
@@ -185,7 +185,6 @@ fun AnalystTypingArea(
                                             ApiType.SINGLE_CHAT -> TODO()
 
                                             ApiType.MULTI_CHAT -> viewModel.makeMultiTurnAnalyticalQuery(
-                                                context = context,
                                                 prompt =text.text.trim(),
                                                 supportingText = "$selectedFarmData : please provide response in $currentLanguage Language",
                                             )

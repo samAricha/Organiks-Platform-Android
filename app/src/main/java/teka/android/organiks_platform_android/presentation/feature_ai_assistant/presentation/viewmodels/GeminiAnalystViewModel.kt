@@ -1,9 +1,6 @@
 package teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels
 
-import android.content.Context
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -29,7 +26,8 @@ import teka.android.organiks_platform_android.domain.repository.RemoteEggRecords
 import teka.android.organiks_platform_android.domain.repository.RemoteFruitRecordsRepository
 import teka.android.organiks_platform_android.domain.repository.RemoteMilkRecordsRepository
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.AnalystMessage
-import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Message
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.DataCollectionOptionModel
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.LanguageOptionModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.MessageDao
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Mode
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.domain.GeminiRepository
@@ -46,6 +44,18 @@ class GeminiAnalystViewModel @Inject constructor(
     private val milkRecordsRepository: RemoteMilkRecordsRepository,
     private val fruitsRecordsRepository: RemoteFruitRecordsRepository,
 ) : ViewModel() {
+
+
+    val languageOptionItems = listOf(
+        LanguageOptionModel(1, "English"),
+        LanguageOptionModel(2, "Swahili"),
+        LanguageOptionModel(3, "French")
+    )
+    val farmerDataOptionItems = listOf(
+        DataCollectionOptionModel(1, "Eggs Data"),
+        DataCollectionOptionModel(2, "Milk Data"),
+        DataCollectionOptionModel(3, "Fruit Data")
+    )
 
     private val _conversationList = MutableLiveData(mutableStateListOf<AnalystMessage>())
     val conversationList: LiveData<SnapshotStateList<AnalystMessage>> = _conversationList
@@ -69,9 +79,9 @@ class GeminiAnalystViewModel @Inject constructor(
     private val _farmDataSuccessMessage = MutableStateFlow<String?>(null)
     val farmDataSuccessMessage: StateFlow<String?> = _farmDataSuccessMessage
 
-    private val _selectedLanguageOption = MutableStateFlow("")
+    private val _selectedLanguageOption = MutableStateFlow("English")
     val selectedLanguageOption: StateFlow<String> get() = _selectedLanguageOption
-    private val _selectedFarmerDataOption = MutableStateFlow("")
+    private val _selectedFarmerDataOption = MutableStateFlow("Eggs Data")
     val selectedFarmerDataOption: StateFlow<String> get() = _selectedFarmerDataOption
 
     private val _requestOptionData = MutableStateFlow<Any>(emptyList<Any>())
@@ -105,17 +115,74 @@ class GeminiAnalystViewModel @Inject constructor(
         }
     }
 
-    fun onLanguageOptionChange(newValue: String){
+
+    private val _isDataFetched = MutableStateFlow(false)
+    val isDataFetched: StateFlow<Boolean> get() = _isDataFetched
+    fun fetchDataBasedOnId(farmerDataId: Int) {
+        viewModelScope.launch {
+            _isFarmDataLoading.value = true
+            try {
+                when (farmerDataId) {
+                    1 -> {
+                        eggRecordsRepository.getAllEggCollections().collect { eggs ->
+                            _eggCollections.value = eggs
+                            Timber.tag(">>>EGGS LIST").d(eggs.toString())
+                            println(">>>EGGS LIST${eggs.toString()}")
+
+                            makeMultiTurnAnalyticalQuery(
+                                prompt = "What are your suggestions from the following farm data: ",
+                                supportingText = "$eggs"
+                            )
+
+                        }
+                    }
+                    2 -> {
+                        milkRecordsRepository.getAllMilkCollections().collect { milk ->
+                            _milkCollections.value = milk
+                            Timber.tag(">>>MILK LIST").d(milk.toString())
+
+                            makeMultiTurnAnalyticalQuery(
+                                prompt = "What are the analytical results from the following farm data: ",
+                                supportingText = "${milkCollections.value} "
+                            )
+                        }
+
+
+                    }
+                    3 -> {
+                        fruitsRecordsRepository.getAllFruitCollections().collect { fruits ->
+                            _fruitCollections.value = fruits
+                            Timber.tag(">>>FRUIT LIST").d(fruits.toString())
+
+                            makeMultiTurnAnalyticalQuery(
+                                prompt = "What are the analytical results from the following farm data: ",
+                                supportingText = "${fruitCollections.value}"
+                            )
+                        }
+
+                    }
+                    else -> {}
+                }
+                _isDataFetched.value = true
+            } catch (e: Exception) {
+                _isDataFetched.value = false
+                _farmDataErrorMessage.value = e.message
+            } finally {
+                _isFarmDataLoading.value = false
+            }
+        }
+    }
+
+    fun updateSelectedLanguageOption(newValue: String){
         _selectedLanguageOption.value = newValue
     }
 
-    fun onFarmerDataOptionChange(newValue: String){
+    fun updateSelectedFarmerDataOption(newValue: String){
         _selectedFarmerDataOption.value = newValue
     }
 
 
     fun makeMultiTurnAnalyticalQuery(
-        context: Context,
         prompt: String,
         supportingText: String? = null,
         alternativeSupportingText: String? = ": FARMER DATA",
@@ -155,7 +222,7 @@ class GeminiAnalystViewModel @Inject constructor(
         _conversationList.value?.clear()
         chat = getChat()
         viewModelScope.launch {
-            dao.deleteAllMessages()
+            dao.deleteAllAnalystMessages()
         }
     }
 

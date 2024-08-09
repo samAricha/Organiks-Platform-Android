@@ -25,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -41,8 +42,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.SelectedImageArea
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.AnalystConversationArea
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.AnalystTypingArea
-import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.DataCollectionOptionModel
-import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.LanguageOptionModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAnalystViewModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ApiType
 import teka.android.organiks_platform_android.ui.theme.PlaceholderColor
@@ -54,58 +53,41 @@ import teka.android.organiks_platform_android.ui.theme.Shapes
 @Composable
 fun GeminiAnalystScreen(
     farmerDataId:Int,
-    autoGenerate: Boolean = false
+    autoGenerate: Boolean = false,
+    viewModel: GeminiAnalystViewModel = hiltViewModel()
 ) {
-
-    val viewModel: GeminiAnalystViewModel = hiltViewModel();
-
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     val apiTypeState = remember { mutableStateOf(ApiType.MULTI_CHAT) }
-
-
-
     val bitmaps: SnapshotStateList<Bitmap> = remember {
         mutableStateListOf()
     }
 
+    val languageOptions = viewModel.languageOptionItems
+    val farmerDataOptions = viewModel.farmerDataOptionItems
+    val selectedLanguage by viewModel.selectedLanguageOption.collectAsState()
+    val selectedFarmerData by viewModel.selectedFarmerDataOption.collectAsState()
 
-    LaunchedEffect(bitmaps.size) {
-        println("BITMAPS CHANGED1: ${apiTypeState.value} ${bitmaps.isNotEmpty()}")
-        if (bitmaps.isNotEmpty()) {
-            apiTypeState.value = ApiType.IMAGE_CHAT
-        } else {
-//            apiTypeState.value = ApiType.DOCUMENT_CHAT
-            apiTypeState.value = ApiType.MULTI_CHAT
-        }
-        println("BITMAPS CHANGED2: ${apiTypeState.value}")
-    }
-
-    val languageOptionItems = listOf(
-        LanguageOptionModel(1, "English"),
-        LanguageOptionModel(2, "Swahili"),
-        LanguageOptionModel(3, "French")
-    )
-    val farmerDataOptionItems = listOf(
-        DataCollectionOptionModel(1, "Eggs Data"),
-        DataCollectionOptionModel(2, "Milk Data"),
-        DataCollectionOptionModel(3, "Fruit Data")
-    )
-    var selectedLanguageOptionItem by remember { mutableStateOf(languageOptionItems[0]) }
-    var selectedFarmerDataOptionItem by remember { mutableStateOf(farmerDataOptionItems[0]) }
 
     var languageDropDownExpanded by remember { mutableStateOf(false) }
     var farmerDataDropDropDownExpanded by remember { mutableStateOf(false) }
 
+
     // Set initial farmer data option based on farmerDataId
     LaunchedEffect(farmerDataId) {
-        val initialOption = farmerDataOptionItems.find { it.id == farmerDataId }
+        val initialOption = farmerDataOptions.find { it.id == farmerDataId }
         if (initialOption != null) {
-            selectedFarmerDataOptionItem = initialOption
+            viewModel.updateSelectedFarmerDataOption(initialOption.name)
         }
     }
 
 
+    // Fetch data based on autoGenerate and farmerDataId
+    LaunchedEffect(autoGenerate) {
+        if (autoGenerate) {
+            viewModel.fetchDataBasedOnId(farmerDataId)
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -138,7 +120,7 @@ fun GeminiAnalystScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text(
-                            text = selectedFarmerDataOptionItem.name,
+                            text = selectedFarmerData,
                             modifier = Modifier
                                 .padding(horizontal = 12.dp)
                                 .align(Alignment.CenterVertically),
@@ -156,11 +138,10 @@ fun GeminiAnalystScreen(
                         expanded = farmerDataDropDropDownExpanded,
                         onDismissRequest = { farmerDataDropDropDownExpanded = false }
                     ) {
-                        farmerDataOptionItems.forEach { item ->
+                        farmerDataOptions.forEach { item ->
                             DropdownMenuItem(
                                 onClick = {
-                                    viewModel.onFarmerDataOptionChange(item.name)
-                                    selectedFarmerDataOptionItem = item
+                                    viewModel.updateSelectedFarmerDataOption(item.name)
                                     farmerDataDropDropDownExpanded = false
                                 },
                                 text = { Text(item.name) }
@@ -181,7 +162,7 @@ fun GeminiAnalystScreen(
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
                         Text(
-                            text = selectedLanguageOptionItem.name,
+                            text = selectedLanguage,
                             modifier = Modifier
                                 .padding(horizontal = 12.dp)
                                 .align(Alignment.CenterVertically),
@@ -199,11 +180,10 @@ fun GeminiAnalystScreen(
                         expanded = languageDropDownExpanded,
                         onDismissRequest = { languageDropDownExpanded = false }
                     ) {
-                        languageOptionItems.forEach { item ->
+                        languageOptions.forEach { item ->
                             DropdownMenuItem(
                                 onClick = {
-                                    viewModel.onLanguageOptionChange(item.name)
-                                    selectedLanguageOptionItem = item
+                                    viewModel.updateSelectedLanguageOption(item.name)
                                     languageDropDownExpanded = false
                                 },
                                 text = { Text(item.name) }

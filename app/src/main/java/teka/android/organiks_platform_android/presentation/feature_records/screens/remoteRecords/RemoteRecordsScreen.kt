@@ -115,13 +115,15 @@ fun RemoteRecordsScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    navController.navigate(route = AppScreens.GeminiAnalystAppScreens.createRoute(farmerDataId = selectedCategory.id+1))
+                    navController.navigate(route = AppScreens.GeminiAnalystAppScreens.createRoute(
+                        farmerDataId = selectedCategory.id+1,
+                        autoGenerate = true
+                    ))
                 },
                 modifier = Modifier
                     .padding(16.dp)
                     .size(54.dp),
                 containerColor = BackgroundColor,
-
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.gemini_transparent),
