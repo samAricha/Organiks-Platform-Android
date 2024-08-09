@@ -31,32 +31,3 @@ import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 fun MainAppScreen(appState: AppState) {
     NavigationDrawerM3(appState)
 }
-
-//to be used in refactoring the code
-data class BottomNavigationItem(
-    val route: String,
-    val icon: Int,
-    val contentDescription: String,
-    val label: String
-)
-
-val bottomNavigationItems = listOf(
-    BottomNavigationItem(
-        route = AppScreens.ProductionHome.route,
-        icon = R.drawable.monitoring,
-        contentDescription = "Send SMS",
-        label = "Send SMS"
-    ),
-    BottomNavigationItem(
-        route = AppScreens.ProductionHome.route,
-        icon = R.drawable.monitoring,
-        contentDescription = "Add Contact List",
-        label = "Recipients"
-    ),
-    BottomNavigationItem(
-        route = AppScreens.ProductionHome.route,
-        icon = R.drawable.monitoring,
-        contentDescription = "Contact List",
-        label = "Other Screen"
-    )
-)

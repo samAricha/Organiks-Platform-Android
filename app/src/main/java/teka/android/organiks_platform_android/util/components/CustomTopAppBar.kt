@@ -10,12 +10,16 @@ import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -25,12 +29,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import teka.android.organiks_platform_android.ui.theme.quicksand
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTopAppBar(
     modifier: Modifier = Modifier,
-    title: String = "",
+    title: String = "Organiks",
     hasBackNavigation: Boolean = false,
     backNavigationIcon: ImageVector = Icons.Filled.ArrowBack,
     onBackNavigationClick: () -> Unit,
@@ -38,9 +43,17 @@ fun CustomTopAppBar(
     scope: CoroutineScope,
     actions: @Composable RowScope.() -> Unit = {},
     colors: TopAppBarColors = TopAppBarDefaults.mediumTopAppBarColors(
-        containerColor = MaterialTheme.colorScheme.background,
-    ),
-) {
+//        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = Color.White,
+    )
+    ) {
+
+    val iconToShow = if (hasBackNavigation) {
+        backNavigationIcon
+    } else {
+        Icons.Default.Menu
+    }
+
     TopAppBar(
         modifier = modifier,
         title = {
@@ -51,30 +64,26 @@ fun CustomTopAppBar(
                 textAlign = TextAlign.Center,
                 text = title,
                 fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = quicksand
             )
         },
         actions = {  },
         navigationIcon = {
-            if (hasBackNavigation) {
-                IconButton(onClick = onBackNavigationClick) {
-                    Icon(
-                        imageVector = backNavigationIcon,
-                        contentDescription = "Back"
-                    )
-                }
-            } else {
-                IconButton(
-                    onClick = {
+            IconButton(
+                onClick = {
+                    if (hasBackNavigation) {
+                        onBackNavigationClick()
+                    } else {
                         scope.launch { drawerState.open() }
                     }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Menu,
-                        contentDescription = "Toggle drawer",
-                        tint = Color.Gray
-                    )
                 }
+            ) {
+                Icon(
+                    imageVector = iconToShow,
+                    contentDescription = if (hasBackNavigation) "Back" else "Toggle drawer",
+                    tint = if (!hasBackNavigation) Color.Gray else Color.Unspecified
+                )
             }
         },
         colors = colors,

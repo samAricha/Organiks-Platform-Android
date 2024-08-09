@@ -80,11 +80,6 @@ fun DashboardScreen(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            Text(
-                text = "Dashboard",
-                modifier = Modifier.padding(bottom = 8.dp),
-                style = MaterialTheme.typography.h6
-            )
             LazyColumn {
                 item {
                     LazyRow {
