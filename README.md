@@ -27,6 +27,8 @@ You can use [Android Studio](https://developer.android.com/studio/) developed by
 You can get your key here [Google AI Studio](https://makersuite.google.com/app/prompts/new_freeform) and replace it in envVariables.properties file
 in this folder structure(change folder structure to Project from Android) envVariables.properties
 
+You can get Gemini API Docs here [Gemini API Docs](https://ai.google.dev/docs)
+
 
 > For Firebase.
 #### Firebase
@@ -40,6 +42,8 @@ You can get your Web client secret here [Firebase Console](https://console.fireb
 
 
 ## Architecture
+ MVVM Architecture.
+
 - Authentication:
   - The apps authentication is done with the support of Firebase.
 - Storage:
@@ -53,6 +57,7 @@ You can get your Web client secret here [Firebase Console](https://console.fireb
 - [Kotlin Language](https://kotlinlang.org/) - A programming language that makes coding concise, cross-platform, and fun developed by JetBrains
 - [Jetpack Compose](https://developer.android.com/compose/) - Android’s recommended modern toolkit for building native UI. It is an open-source Kotlin-based declarative UI framework for Android developed by Google.
 - [Gemini AI](https://deepmind.google/technologies/gemini) - a multi-modal large language model(LLM) developed by Google DeepMind.
+- [Firebase](https://firebase.google.com/) - An open source framework for building AI-powered apps with familiar code-centric patterns.
 - [Ktor Client](https://ktor.io/docs/getting-started-ktor-client.html) -  a multiplatform asynchronous HTTP client, which allows you to make requests and handle responses.
 - [ROOM DB](https://developer.android.com/jetpack/androidx/releases/room) - a library that provides an abstraction layer over SQLite to allow for more robust database access while harnessing the full power of SQLite.
 - [Dagger Hilt](https://dagger.dev/hilt/) - Kotlin Dependency Injection framework.

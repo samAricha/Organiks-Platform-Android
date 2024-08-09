@@ -36,7 +36,9 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.SelectedImageArea
@@ -46,6 +48,7 @@ import teka.android.organiks_platform_android.presentation.feature_ai_assistant.
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ApiType
 import teka.android.organiks_platform_android.ui.theme.PlaceholderColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
+import teka.android.organiks_platform_android.ui.theme.quicksand
 
 @ExperimentalMaterial3Api
 @ExperimentalComposeUiApi
@@ -100,7 +103,7 @@ fun GeminiAnalystScreen(
                 .fillMaxSize()
                 .fillMaxHeight(1f)
                 .background(
-                    MaterialTheme.colorScheme.background
+                    Color.White
                 )
         ) {
             Row(
@@ -114,7 +117,7 @@ fun GeminiAnalystScreen(
                     Row(
                         modifier = Modifier
                             .width(140.dp)
-                            .height(40.dp)
+                            .height(30.dp)
                             .background(PlaceholderColor, Shapes.large)
                             .clickable { farmerDataDropDropDownExpanded = true },
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -124,6 +127,8 @@ fun GeminiAnalystScreen(
                             modifier = Modifier
                                 .padding(horizontal = 12.dp)
                                 .align(Alignment.CenterVertically),
+                            fontWeight = FontWeight.ExtraLight,
+                            fontFamily = quicksand
                         )
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
@@ -144,7 +149,13 @@ fun GeminiAnalystScreen(
                                     viewModel.updateSelectedFarmerDataOption(item.name)
                                     farmerDataDropDropDownExpanded = false
                                 },
-                                text = { Text(item.name) }
+                                text = {
+                                    Text(
+                                        item.name,
+                                        fontWeight = FontWeight.ExtraLight,
+                                        fontFamily = quicksand
+                                    )
+                                }
                             )
                         }
                     }
@@ -156,7 +167,7 @@ fun GeminiAnalystScreen(
                     Row(
                         modifier = Modifier
                             .width(120.dp)
-                            .height(40.dp)
+                            .height(30.dp)
                             .background(PlaceholderColor, Shapes.large)
                             .clickable { languageDropDownExpanded = true },
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -166,7 +177,9 @@ fun GeminiAnalystScreen(
                             modifier = Modifier
                                 .padding(horizontal = 12.dp)
                                 .align(Alignment.CenterVertically),
-                            )
+                            fontWeight = FontWeight.ExtraLight,
+                            fontFamily = quicksand
+                        )
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
                             contentDescription = null,
@@ -186,7 +199,13 @@ fun GeminiAnalystScreen(
                                     viewModel.updateSelectedLanguageOption(item.name)
                                     languageDropDownExpanded = false
                                 },
-                                text = { Text(item.name) }
+                                text = {
+                                    Text(
+                                        item.name,
+                                        fontWeight = FontWeight.ExtraLight,
+                                        fontFamily = quicksand
+                                    )
+                                }
                             )
                         }
                     }

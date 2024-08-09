@@ -258,7 +258,9 @@ fun TypingArea(
                                             ApiType.IMAGE_CHAT -> viewModel.makeImageQuery(
                                                 context,
                                                 text.text.trim(),
-                                                bitmaps!!
+                                                bitmaps!!,
+                                                supportingText = currentLanguage,
+                                                alternativeSupportingText = currentLanguage
                                             )
 
                                             ApiType.DOCUMENT_CHAT -> viewModel.makeDocumentQuery(
