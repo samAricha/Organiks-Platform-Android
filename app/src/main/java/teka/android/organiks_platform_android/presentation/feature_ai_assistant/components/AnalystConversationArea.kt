@@ -55,7 +55,7 @@ fun AnalystConversationArea(
             )
             Text(
                 color = SecondaryColor,
-                text = "Ask and Gemini Analyst shall answer!",
+                text = "Ask and Gemini shall analyze!",
                 fontWeight = FontWeight.W500,
                 fontFamily = quicksand,
                 fontSize = 15.sp
