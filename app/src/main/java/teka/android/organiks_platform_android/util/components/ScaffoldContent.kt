@@ -177,7 +177,7 @@ fun ScaffoldContent(
         }
     ) {
         if (showBottomBar){
-            Box() {
+            Box(modifier = Modifier.padding(bottom = 39.dp)) {
                 MainNavGraph(appState.navHostController,)
             }
         }else{

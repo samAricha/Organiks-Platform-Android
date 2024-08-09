@@ -64,7 +64,7 @@ fun HomeScreen(
         HomeInfoCardData(
             title = "Gemini Chat Assistant",
             value = "$totalEggsCollected Eggs",
-            iconResId = R.drawable.gemini_transparent,
+            iconResId = R.drawable.gemini_chat_nobg,
             color = PrimaryVariant,
             onClick = {
                 navController.navigate(route = AppScreens.GeminiChatAppScreens.route)
@@ -73,7 +73,7 @@ fun HomeScreen(
         HomeInfoCardData(
             title = "Gemini Data Analyst",
             value = "$totalMilkCollected Litres",
-            iconResId = R.drawable.gemini_transparent,
+            iconResId = R.drawable.gemini_analytics2_no_bg,
             color = SecondaryColor,
             onClick = {
                 navController.navigate(route = AppScreens.GeminiAnalystAppScreens.createRoute(1))

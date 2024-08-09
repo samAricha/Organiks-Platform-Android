@@ -50,7 +50,7 @@ fun AnalystConversationArea(
         if ((response != null) && response.isEmpty()) {
             Image(
                 modifier = Modifier.size(100.dp),
-                painter = painterResource(id = R.drawable.organiks_analytics_chat),
+                painter = painterResource(id = R.drawable.gemini_analytics2_no_bg),
                 contentDescription = "no analytical message"
             )
             Text(

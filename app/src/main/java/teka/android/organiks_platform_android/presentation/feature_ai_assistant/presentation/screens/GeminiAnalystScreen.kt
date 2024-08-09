@@ -92,140 +92,134 @@ fun GeminiAnalystScreen(
         }
     }
 
-    Scaffold(
-        topBar = {
-
-        }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .fillMaxHeight(1f)
+            .background(
+                Color.White
+            )
     ) {
-        Column(
-            modifier = Modifier
-                .padding(top = it.calculateTopPadding())
-                .fillMaxSize()
-                .fillMaxHeight(1f)
-                .background(
-                    Color.White
-                )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+            Column(
+                horizontalAlignment = Alignment.Start
             ) {
-                Column(
-                    horizontalAlignment = Alignment.Start
+
+                Row(
+                    modifier = Modifier
+                        .width(140.dp)
+                        .height(30.dp)
+                        .background(PlaceholderColor, Shapes.large)
+                        .clickable { farmerDataDropDropDownExpanded = true },
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-
-                    Row(
+                    Text(
+                        text = selectedFarmerData,
                         modifier = Modifier
-                            .width(140.dp)
-                            .height(30.dp)
-                            .background(PlaceholderColor, Shapes.large)
-                            .clickable { farmerDataDropDropDownExpanded = true },
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                    ) {
-                        Text(
-                            text = selectedFarmerData,
-                            modifier = Modifier
-                                .padding(horizontal = 12.dp)
-                                .align(Alignment.CenterVertically),
-                            fontWeight = FontWeight.ExtraLight,
-                            fontFamily = quicksand
-                        )
-                        Icon(
-                            imageVector = Icons.Default.ArrowDropDown,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically)
-                                .padding(end = 1.dp)
-                        )
-                    }
-
-                    DropdownMenu(
-                        expanded = farmerDataDropDropDownExpanded,
-                        onDismissRequest = { farmerDataDropDropDownExpanded = false }
-                    ) {
-                        farmerDataOptions.forEach { item ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    viewModel.updateSelectedFarmerDataOption(item.name)
-                                    farmerDataDropDropDownExpanded = false
-                                },
-                                text = {
-                                    Text(
-                                        item.name,
-                                        fontWeight = FontWeight.ExtraLight,
-                                        fontFamily = quicksand
-                                    )
-                                }
-                            )
-                        }
-                    }
+                            .padding(horizontal = 12.dp)
+                            .align(Alignment.CenterVertically),
+                        fontWeight = FontWeight.ExtraLight,
+                        fontFamily = quicksand
+                    )
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .padding(end = 1.dp)
+                    )
                 }
-                Column(
-                    horizontalAlignment = Alignment.End
+
+                DropdownMenu(
+                    expanded = farmerDataDropDropDownExpanded,
+                    onDismissRequest = { farmerDataDropDropDownExpanded = false }
                 ) {
-
-                    Row(
-                        modifier = Modifier
-                            .width(120.dp)
-                            .height(30.dp)
-                            .background(PlaceholderColor, Shapes.large)
-                            .clickable { languageDropDownExpanded = true },
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                    ) {
-                        Text(
-                            text = selectedLanguage,
-                            modifier = Modifier
-                                .padding(horizontal = 12.dp)
-                                .align(Alignment.CenterVertically),
-                            fontWeight = FontWeight.ExtraLight,
-                            fontFamily = quicksand
+                    farmerDataOptions.forEach { item ->
+                        DropdownMenuItem(
+                            onClick = {
+                                viewModel.updateSelectedFarmerDataOption(item.name)
+                                farmerDataDropDropDownExpanded = false
+                            },
+                            text = {
+                                Text(
+                                    item.name,
+                                    fontWeight = FontWeight.ExtraLight,
+                                    fontFamily = quicksand
+                                )
+                            }
                         )
-                        Icon(
-                            imageVector = Icons.Default.ArrowDropDown,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .align(Alignment.CenterVertically)
-                                .padding(end = 1.dp)
-                        )
-                    }
-
-                    DropdownMenu(
-                        expanded = languageDropDownExpanded,
-                        onDismissRequest = { languageDropDownExpanded = false }
-                    ) {
-                        languageOptions.forEach { item ->
-                            DropdownMenuItem(
-                                onClick = {
-                                    viewModel.updateSelectedLanguageOption(item.name)
-                                    languageDropDownExpanded = false
-                                },
-                                text = {
-                                    Text(
-                                        item.name,
-                                        fontWeight = FontWeight.ExtraLight,
-                                        fontFamily = quicksand
-                                    )
-                                }
-                            )
-                        }
                     }
                 }
             }
-            Box(
-                modifier = Modifier.weight(1f)
+            Column(
+                horizontalAlignment = Alignment.End
             ) {
-                AnalystConversationArea(
-                    viewModel = viewModel,
-                    apiType = apiTypeState.value
-                )
+
+                Row(
+                    modifier = Modifier
+                        .width(120.dp)
+                        .height(30.dp)
+                        .background(PlaceholderColor, Shapes.large)
+                        .clickable { languageDropDownExpanded = true },
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(
+                        text = selectedLanguage,
+                        modifier = Modifier
+                            .padding(horizontal = 12.dp)
+                            .align(Alignment.CenterVertically),
+                        fontWeight = FontWeight.ExtraLight,
+                        fontFamily = quicksand
+                    )
+                    Icon(
+                        imageVector = Icons.Default.ArrowDropDown,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .padding(end = 1.dp)
+                    )
+                }
+
+                DropdownMenu(
+                    expanded = languageDropDownExpanded,
+                    onDismissRequest = { languageDropDownExpanded = false }
+                ) {
+                    languageOptions.forEach { item ->
+                        DropdownMenuItem(
+                            onClick = {
+                                viewModel.updateSelectedLanguageOption(item.name)
+                                languageDropDownExpanded = false
+                            },
+                            text = {
+                                Text(
+                                    item.name,
+                                    fontWeight = FontWeight.ExtraLight,
+                                    fontFamily = quicksand
+                                )
+                            }
+                        )
+                    }
+                }
             }
-            SelectedImageArea(bitmaps = bitmaps)
-            AnalystTypingArea(
+        }
+        Box(
+            modifier = Modifier.weight(1f)
+        ) {
+            AnalystConversationArea(
                 viewModel = viewModel,
-                apiType = apiTypeState.value,
-                bitmaps = bitmaps,
+                apiType = apiTypeState.value
             )
         }
+        SelectedImageArea(bitmaps = bitmaps)
+        AnalystTypingArea(
+            viewModel = viewModel,
+            apiType = apiTypeState.value,
+            bitmaps = bitmaps,
+        )
     }
+
 
 }
