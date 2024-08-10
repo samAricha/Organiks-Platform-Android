@@ -37,8 +37,20 @@ You can get your Web client secret here [Firebase Console](https://console.fireb
 
 
 ## Screenshots
-### Android
-<img src="art/android_screen1.jpeg"  width="250"/>  <img src="art/android_screen2.jpeg"  width="250"/>  <img src="art/android_screen3.jpeg" width="250"/>  <img src="art/android_screen4.jpeg" width="250"/>
+### Gemini
+<img src="art/remote_records.jpeg"  width="250"/> <img src="art/gemini_assistant1.jpeg"  width="250"/>  <img src="art/gemini_assistant2.jpeg"  width="250"/>  <img src="art/gemini_assistant3.jpeg" width="250"/>  <img src="art/gemini_chat1.jpeg" width="250"/>
+
+### Firebase
+<img src="art/login1.jpeg"  width="250"/>  <img src="art/login2.jpeg"  width="250"/>  <img src="art/login3.jpeg" width="250"/>  <img src="art/registration1.jpeg" width="250"/> <img src="art/logout_dialog.jpeg" width="250"/>
+
+### Home
+<img src="art/home.jpeg"  width="250"/> <img src="art/nav_drawer.jpeg"  width="250"/>
+
+### Record Keeping
+<img src="art/record1.jpeg"  width="250"/>  <img src="art/local_records.jpeg"  width="250"/>  <img src="art/remote_records.jpeg" width="250"/>  <img src="art/dashboard.jpeg" width="250"/>
+
+### OnBoarding
+<img src="art/onboarding1.jpeg"  width="250"/>  <img src="art/onboarding2.jpeg"  width="250"/>  <img src="art/onboarding3.jpeg" width="250"/>
 
 
 ## Architecture
@@ -53,11 +65,11 @@ You can get your Web client secret here [Firebase Console](https://console.fireb
 
 
 ## Built with
-- [Android Framework](https://developer.android.com/guide/platform/) - a set of software components that provide the foundation for building Android applications developed by Google.
+- [Android Framework](https://developer.android.com/guide/platform) - a set of software components that provide the foundation for building Android applications developed by Google.
 - [Kotlin Language](https://kotlinlang.org/) - A programming language that makes coding concise, cross-platform, and fun developed by JetBrains
 - [Jetpack Compose](https://developer.android.com/compose/) - Android’s recommended modern toolkit for building native UI. It is an open-source Kotlin-based declarative UI framework for Android developed by Google.
 - [Gemini AI](https://deepmind.google/technologies/gemini) - a multi-modal large language model(LLM) developed by Google DeepMind.
-- [Firebase](https://firebase.google.com/) - An open source framework for building AI-powered apps with familiar code-centric patterns.
+- [Firebase](https://firebase.google.com) - An open source framework for building AI-powered apps with familiar code-centric patterns.
 - [Ktor Client](https://ktor.io/docs/getting-started-ktor-client.html) -  a multiplatform asynchronous HTTP client, which allows you to make requests and handle responses.
 - [ROOM DB](https://developer.android.com/jetpack/androidx/releases/room) - a library that provides an abstraction layer over SQLite to allow for more robust database access while harnessing the full power of SQLite.
 - [Dagger Hilt](https://dagger.dev/hilt/) - Kotlin Dependency Injection framework.
