@@ -1,7 +1,7 @@
-<p align="center" style="display: flex; align-items: center; justify-content: center;">
+<p align="center">
   <img src="art/app_logo.png" alt="MealTime" height="150px">
-  <span style="font-size: 50px; margin: 0 20px;">+</span>
-  <img src="art/gemini.png" alt="MealTime" height="150px">
+  <span style="font-size: 50px; line-height: 150px; vertical-align: middle;">+</span>
+  <img src="art/gemini.png" alt="Gemini" height="150px">
 </p>
 
 
