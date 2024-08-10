@@ -34,6 +34,7 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
@@ -81,8 +82,8 @@ fun NavigationDrawerM3(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val appState = rememberAppState(navHostController = navHostController)
-    val currentRoute = appState.currentRoute
-    val screenTitle = getCurrentScreenTitle(currentRoute)
+//    val currentRoute = appState.currentRoute
+    val currentRoute by appState.currentRoute.collectAsState()
 
 
 

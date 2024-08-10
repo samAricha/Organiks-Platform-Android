@@ -46,13 +46,15 @@ fun FeaturedBox(
             .background(getGradient(GreenStart, GreenEnd))
     ) {
         Row(
-            modifier = Modifier.matchParentSize()
+            modifier = Modifier.matchParentSize(),
+            verticalAlignment = Alignment.Bottom
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Image(
                 painter = painterResource(id = R.drawable.perfect100),
                 modifier = Modifier
-                    .padding(start = 30.dp),
+                    .padding(start = 30.dp)
+                    .size(120.dp),
 //                contentScale = ContentScale.FillBounds,
                 contentDescription = "perfect mascot"
             )

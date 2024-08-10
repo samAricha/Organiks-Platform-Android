@@ -58,8 +58,9 @@ fun ScaffoldContent(
 
     //observering app state
     appState.ObserveNavigationState()
-    val currentRoute = appState.currentRoute
+    val currentRoute by appState.currentRoute.collectAsState()
     val screenTitle = getCurrentScreenTitle(currentRoute)
+
     val showBottomBar by appState.shouldShowBottomBar.collectAsState()
 
     val contextProvider = CustomContextProvider()

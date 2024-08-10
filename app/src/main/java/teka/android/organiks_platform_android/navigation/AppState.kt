@@ -43,17 +43,22 @@ class AppState(
     private val _shouldShowBottomBar = MutableStateFlow(true)
     val shouldShowBottomBar: StateFlow<Boolean> get() = _shouldShowBottomBar
 
+    private val _currentRoute = MutableStateFlow<String>("Organiks")
+    val currentRoute: StateFlow<String> get() = _currentRoute
 
-    val currentRoute: String?
-        get() = navHostController.currentDestination?.route
+
+//    val currentRoute: String?
+//        get() = navHostController.currentDestination?.route
 
     @Composable
     fun ObserveNavigationState() {
         val navBackStackEntry by navHostController.currentBackStackEntryAsState()
         LaunchedEffect(navBackStackEntry) {
             _shouldShowBottomBar.value = navBackStackEntry?.destination?.route in bottomBarRoutes
+            _currentRoute.value = navBackStackEntry?.destination?.route.toString()
         }
     }
+
 }
 
 
