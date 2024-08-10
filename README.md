@@ -58,6 +58,38 @@ You can get your Web client secret here [Firebase Console](https://console.fireb
 <img src="art/onboarding1.jpeg"  width="250"/>  <img src="art/onboarding2.jpeg"  width="250"/>  <img src="art/onboarding3.jpeg" width="250"/>
 
 
+
+## How It Works
+
+*Organiks* is designed to be an offline-first tool for farmers, integrating advanced AI capabilities(from *GEMINI*) with user-friendly features. Below is a detailed breakdown of how each component of the app works:
+
+### 1. **Gemini AI Assistant**
+- **Chat Assistant**: Provides farmers with instant advice on various farming queries.
+- **Data Analyst**: Analyzes farm data and suggests actionable insights to improve productivity.
+
+### 2. **Record Keeping**
+- **Offline-First**: Farmers can record their data offline, and it will sync to the cloud when an internet connection is available.
+- **Cloud Backup**: Data is securely backed up using Firebase, ensuring that farmers never lose their valuable records.
+
+### 3. **User Authentication**
+- **Secure Login**: Uses Firebase Authentication to provide secure access to the app.
+- **Easy Setup**: Users can quickly sign up and log in with their Google accounts.
+
+### 4. **Dashboard**
+- **Farm Statistics**: Displays key metrics and trends in farming activities.
+- **Customizable Views**: Users can personalize their dashboard to focus on the data that matters most to them.
+
+Here's a video showing how the *GEMINI* section works:
+
+<video width="600" controls>
+  <source src="art/gemini_ai_video.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+
+
+
+
 ## Architecture
  MVVM Architecture.
 
