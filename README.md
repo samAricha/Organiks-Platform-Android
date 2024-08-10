@@ -44,8 +44,10 @@ You can get your Web client secret here [Firebase Console](https://console.fireb
 
 #### DEMOS
 
-Here's a video showing how the *GEMINI* section works:
-<video src="https://github.com/user-attachments/assets/f4a7f665-3709-4c20-87e0-810257d84bac"></video>
+Here are 2 videos showing how the *GEMINI* section works:
+Gemini Assistant | Gemini Analyst
+:-: | :-:
+<video src="https://github.com/user-attachments/assets/f4a7f665-3709-4c20-87e0-810257d84bac"></video> | <video src="https://github.com/user-attachments/assets/0ffcacd5-8c22-4569-8bc8-e016b1228033"></video>
 
 
 
