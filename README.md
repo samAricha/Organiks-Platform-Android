@@ -42,6 +42,13 @@ You can get your Web client secret here [Firebase Console](https://console.fireb
 - N:B ==> This is required for your authentication with Google in the app.
 
 
+#### DEMOS
+
+Here's a video showing how the *GEMINI* section works:
+<video src="https://github.com/user-attachments/assets/f4a7f665-3709-4c20-87e0-810257d84bac"></video>
+
+
+
 ## Screenshots
 ### Gemini
 <img src="art/remote_records.jpeg"  width="250"/> <img src="art/gemini_assistant1.jpeg"  width="250"/>  <img src="art/gemini_assistant2.jpeg"  width="250"/>  <img src="art/gemini_assistant3.jpeg" width="250"/>  <img src="art/gemini_chat1.jpeg" width="250"/>
@@ -79,13 +86,6 @@ You can get your Web client secret here [Firebase Console](https://console.fireb
 ### 4. **Dashboard**
 - **Farm Statistics**: Displays key metrics and trends in farming activities.
 - **Customizable Views**: Users can personalize their dashboard to focus on the data that matters most to them.
-
-Here's a video showing how the *GEMINI* section works:
-
-<video width="600" controls>
-  <source src="art/gemini_ai_video.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
 
 
 
