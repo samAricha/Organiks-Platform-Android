@@ -34,6 +34,7 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
@@ -56,6 +57,7 @@ import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.navigation.AppNavigationActions
 import teka.android.organiks_platform_android.navigation.AppState
 import teka.android.organiks_platform_android.navigation.AppScreens
+import teka.android.organiks_platform_android.navigation.getCurrentScreenTitle
 import teka.android.organiks_platform_android.navigation.rememberAppState
 import teka.android.organiks_platform_android.presentation.feature_auth.AuthViewModel
 import teka.android.organiks_platform_android.ui.theme.NoShapes
@@ -66,6 +68,7 @@ import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
 import teka.android.organiks_platform_android.ui.theme.SecondaryColor
 import teka.android.organiks_platform_android.ui.widgets.CustomDialog
 import teka.android.organiks_platform_android.util.components.ScaffoldContent
+import timber.log.Timber
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
@@ -79,6 +82,9 @@ fun NavigationDrawerM3(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val appState = rememberAppState(navHostController = navHostController)
+//    val currentRoute = appState.currentRoute
+    val currentRoute by appState.currentRoute.collectAsState()
+
 
 
     val navigationActions = remember(appState.navHostController) {
@@ -209,7 +215,7 @@ fun NavigationDrawerM3(
                 showDialog.value = it
             }
         ) {
-            Log.i("HomePage","HomePage : $it")
+            Timber.tag("HomePage").i("HomePage : %s", it)
         }
 
 
@@ -218,8 +224,8 @@ fun NavigationDrawerM3(
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
-            val navBackStackEntry by appState.navHostController.currentBackStackEntryAsState()
-            val currentRoute = navBackStackEntry?.destination?.route
+//            val navBackStackEntry by appState.navHostController.currentBackStackEntryAsState()
+//            val currentRoute = navBackStackEntry?.destination?.route
             ModalDrawerSheet(
                 modifier = Modifier.width(280.dp),
                 drawerContainerColor = Color.White,
@@ -228,12 +234,12 @@ fun NavigationDrawerM3(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp) // Adjust the height to your preference
+                        .height(200.dp)
                         .background(
                             brush = Brush.verticalGradient(
                                 colors = listOf(PrimaryColor, SecondaryColor),
                                 startY = 0f,
-                                endY = 200f // Adjust the endY to match the height
+                                endY = 200f
                             ),
                             shape = RoundedCornerShape(bottomEnd = 16.dp)
                         ),
@@ -280,6 +286,7 @@ fun NavigationDrawerM3(
                 navHostController = appState.navHostController,
                 scaffoldState = scaffoldState,
                 scope = scope,
+                drawerState = drawerState,
                 onDrawerIconClick = { scope.launch { drawerState.open() } },
                 appState = appState
             )

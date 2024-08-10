@@ -20,7 +20,8 @@ fun AppBar(
         title = {
             Text(
                 text = stringResource(id = R.string.app_name),
-                color = Color.Gray)
+                color = Color.Gray
+            )
         },
         backgroundColor = Color.White,
         contentColor = Color.Black,

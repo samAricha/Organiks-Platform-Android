@@ -49,7 +49,7 @@ fun ConversationArea(
         if ((response != null) && response.isEmpty()) {
             Image(
                 modifier = Modifier.size(100.dp),
-                painter = painterResource(id = R.drawable.chat_logo),
+                painter = painterResource(id = R.drawable.gemini_chat_nobg),
                 contentDescription = "no message"
             )
             Text(

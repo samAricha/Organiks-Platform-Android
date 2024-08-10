@@ -50,12 +50,12 @@ fun AnalystConversationArea(
         if ((response != null) && response.isEmpty()) {
             Image(
                 modifier = Modifier.size(100.dp),
-                painter = painterResource(id = R.drawable.organiks_analytics_chat),
+                painter = painterResource(id = R.drawable.gemini_analytics2_no_bg),
                 contentDescription = "no analytical message"
             )
             Text(
                 color = SecondaryColor,
-                text = "Ask and Gemini Analyst shall answer!",
+                text = "Ask and Gemini shall analyze!",
                 fontWeight = FontWeight.W500,
                 fontFamily = quicksand,
                 fontSize = 15.sp

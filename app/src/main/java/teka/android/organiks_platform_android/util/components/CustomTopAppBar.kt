@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.util.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,12 +26,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import teka.android.organiks_platform_android.ui.theme.quicksand
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CustomTopAppBar(
-    modifier: Modifier = Modifier,
-    title: String = "",
+    title: String = "Organiks",
     hasBackNavigation: Boolean = false,
     backNavigationIcon: ImageVector = Icons.Filled.ArrowBack,
     onBackNavigationClick: () -> Unit,
@@ -38,11 +39,18 @@ fun CustomTopAppBar(
     scope: CoroutineScope,
     actions: @Composable RowScope.() -> Unit = {},
     colors: TopAppBarColors = TopAppBarDefaults.mediumTopAppBarColors(
-        containerColor = MaterialTheme.colorScheme.background,
-    ),
-) {
+//        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = Color.White,
+    )
+    ) {
+
+    val iconToShow = if (hasBackNavigation) {
+        backNavigationIcon
+    } else {
+        Icons.Default.Menu
+    }
+
     TopAppBar(
-        modifier = modifier,
         title = {
             Text(
                 modifier = Modifier
@@ -50,29 +58,26 @@ fun CustomTopAppBar(
                     .padding(end = 24.dp),
                 textAlign = TextAlign.Center,
                 text = title,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
+                fontFamily = quicksand
             )
         },
         actions = {  },
         navigationIcon = {
-            if (hasBackNavigation) {
-                IconButton(onClick = onBackNavigationClick) {
-                    Icon(
-                        imageVector = backNavigationIcon,
-                        contentDescription = "Back"
-                    )
+            IconButton(
+                onClick = {
+                    if (hasBackNavigation) {
+                        onBackNavigationClick()
+                    } else {
+                        scope.launch { drawerState.open() }
+                    }
                 }
-            } else {
-                IconButton(onClick = {
-                    scope.launch { drawerState.open() }
-                }) {
-                    Icon(
-                        imageVector = Icons.Default.Menu,
-                        contentDescription = "Toggle drawer",
-                        tint = Color.Gray
-                    )
-                }
+            ) {
+                Icon(
+                    imageVector = iconToShow,
+                    contentDescription = if (hasBackNavigation) "Back" else "Toggle drawer",
+                    tint = if (!hasBackNavigation) Color.Gray else Color.Unspecified
+                )
             }
         },
         colors = colors,

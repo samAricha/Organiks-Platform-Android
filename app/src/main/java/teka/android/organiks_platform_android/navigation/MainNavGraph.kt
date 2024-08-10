@@ -10,7 +10,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.screens.MultiTurnScreen
-import teka.android.organiks_platform_android.presentation.aiadvice.AiAdviceScreen
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.screens.GeminiAnalystScreen
 import teka.android.organiks_platform_android.presentation.feature_dashborad.DashboardScreen
 import teka.android.organiks_platform_android.presentation.feature_firebase_auth.profile.ProfileScreen
@@ -100,11 +99,14 @@ fun MainNavGraph(
             }
 
         ){
-            RemoteRecordsScreen(onNavigate = { id ->
-                navController.navigate(
-                    route = "${AppScreens.ProductionRecording.route}?id=$id"
-                )
-            })
+            RemoteRecordsScreen(
+                onNavigate = { id ->
+                    navController.navigate(
+                        route = "${AppScreens.ProductionRecording.route}?id=$id"
+                    )
+                },
+                navController = navController
+            )
         }
 
         composable(
@@ -149,7 +151,9 @@ fun MainNavGraph(
             }
 
             ){
-            DashboardScreen()
+            DashboardScreen(
+                navController = navController
+            )
         }
 
         composable(
@@ -184,28 +188,22 @@ fun MainNavGraph(
             },
             popExitTransition = {
                 scaleOutOfContainer()
-            }
-        ){
-            GeminiAnalystScreen()
-        }
-        composable(
-            route = AppScreens.AiSearchAppScreens.route,
-            enterTransition = {
-                scaleIntoContainer()
             },
-            exitTransition = {
-                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
-            },
-            popEnterTransition = {
-                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
-            },
-            popExitTransition = {
-                scaleOutOfContainer()
-            }
+            arguments = listOf(
+                navArgument("farmerDataId") { type = NavType.IntType },
+                navArgument("autoGenerate") { type = NavType.BoolType; defaultValue = false }
+            )
+        ){ backStackEntry ->
+            val farmerDataId = backStackEntry.arguments?.getInt("farmerDataId") ?: 1
+            val autoGenerate = backStackEntry.arguments?.getBoolean("autoGenerate") ?: false
 
-            ){
-            AiAdviceScreen()
+
+            GeminiAnalystScreen(
+                farmerDataId = farmerDataId,
+                autoGenerate = autoGenerate
+            )
         }
+
         composable(
             route = AppScreens.ProfileAppScreens.route,
             enterTransition = {

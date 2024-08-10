@@ -18,7 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,6 +29,7 @@ import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.ui.theme.GreenEnd
 import teka.android.organiks_platform_android.ui.theme.GreenStart
 import teka.android.organiks_platform_android.ui.theme.MainWhiteColor
+import teka.android.organiks_platform_android.ui.theme.PoppinsLight
 import teka.android.organiks_platform_android.ui.theme.quicksand
 
 @Composable
@@ -42,13 +46,15 @@ fun FeaturedBox(
             .background(getGradient(GreenStart, GreenEnd))
     ) {
         Row(
-            modifier = Modifier.matchParentSize()
+            modifier = Modifier.matchParentSize(),
+            verticalAlignment = Alignment.Bottom
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Image(
                 painter = painterResource(id = R.drawable.perfect100),
                 modifier = Modifier
-                    .padding(start = 30.dp),
+                    .padding(start = 30.dp)
+                    .size(120.dp),
 //                contentScale = ContentScale.FillBounds,
                 contentDescription = "perfect mascot"
             )
@@ -71,7 +77,12 @@ fun FeaturedBox(
                 Spacer(modifier = Modifier.size(0.05.dp))
                 Text(
                     modifier = Modifier.padding(horizontal = 5.dp),
-                    text = "Farmers Choice + GEMINI",
+                    text = buildAnnotatedString {
+                        append("Farmers Choice + ")
+                        withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
+                            append("GEMINI")
+                        }
+                    },
                     color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Light,
@@ -90,16 +101,22 @@ fun FeaturedBox(
                                 text = "Eggs : $totalEggsCollected",
                                 color = MainWhiteColor,
                                 fontSize = 14.sp,
-                                )
+                                fontWeight = FontWeight.ExtraLight,
+                                fontFamily = PoppinsLight
+                            )
                             Text(
                                 text = "Milk : $totalMilkCollected",
                                 color = MainWhiteColor,
                                 fontSize = 14.sp,
-                                )
+                                fontWeight = FontWeight.ExtraLight,
+                                fontFamily = PoppinsLight
+                            )
                             Text(
                                 text = "Fruits : $totalFruitCollected",
                                 color = MainWhiteColor,
                                 fontSize = 14.sp,
+                                fontWeight = FontWeight.ExtraLight,
+                                fontFamily = PoppinsLight
                             )
                         }
                         Spacer(modifier = Modifier.height(8.dp))

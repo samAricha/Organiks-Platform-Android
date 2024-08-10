@@ -12,9 +12,9 @@ fun getCurrentScreenTitle(currentRoute: String?): String {
         AppScreens.ProductionHome.route -> AppScreens.ProductionHome.title
         AppScreens.ProductionRecording.route -> AppScreens.ProductionRecording.title
         AppScreens.DashboardAppScreens.route -> AppScreens.DashboardAppScreens.title
-        AppScreens.AiSearchAppScreens.route -> AppScreens.AiSearchAppScreens.title
         AppScreens.GeminiChatAppScreens.route -> AppScreens.GeminiChatAppScreens.title
+        AppScreens.GeminiAnalystAppScreens.route -> AppScreens.GeminiAnalystAppScreens.title
         AppScreens.ProfileAppScreens.route -> AppScreens.ProfileAppScreens.title
-        else -> "Unknown"
+        else -> "Organiks"
     }
 }

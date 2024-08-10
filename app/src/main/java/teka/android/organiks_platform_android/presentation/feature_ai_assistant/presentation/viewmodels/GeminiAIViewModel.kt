@@ -2,9 +2,7 @@ package teka.android.organiks_platform_android.presentation.feature_ai_assistant
 
 import android.content.Context
 import android.graphics.Bitmap
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,13 +10,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.ai.client.generativeai.Chat
 import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.BlockThreshold
 import com.google.ai.client.generativeai.type.Content
+import com.google.ai.client.generativeai.type.HarmCategory
+import com.google.ai.client.generativeai.type.SafetySetting
 import com.google.ai.client.generativeai.type.content
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.BuildConfig
+import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.LanguageOptionModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Message
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.MessageDao
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.Mode
@@ -45,9 +47,13 @@ class GeminiAIViewModel @Inject constructor(
     val documentResponse: LiveData<SnapshotStateList<Message>> = _documentResponse
 
 
-    private val _selectedLanguageOption = MutableStateFlow("")
+    val languageOptionItems = listOf(
+        LanguageOptionModel(1, "English"),
+        LanguageOptionModel(2, "Swahili"),
+        LanguageOptionModel(3, "French")
+    )
+    private val _selectedLanguageOption = MutableStateFlow("English")
     val selectedLanguageOption: StateFlow<String> get() = _selectedLanguageOption
-
 
 
     private var model: GenerativeModel? = null
@@ -64,7 +70,7 @@ class GeminiAIViewModel @Inject constructor(
         }
     }
 
-    fun onLanguageOptionChange(newValue: String){
+    fun updateSelectedLanguageOption(newValue: String){
         _selectedLanguageOption.value = newValue
     }
 
@@ -130,7 +136,9 @@ class GeminiAIViewModel @Inject constructor(
     fun makeImageQuery(
         context: Context,
         prompt: String,
-        bitmaps: List<Bitmap>
+        bitmaps: List<Bitmap>,
+        supportingText: String? = null,
+        alternativeSupportingText: String? = ": English ",
     ) {
         _imageResponse.value?.clear()
         _imageResponse.value?.add(Message(text = prompt, mode = Mode.USER))
@@ -153,14 +161,14 @@ class GeminiAIViewModel @Inject constructor(
             bitmaps.forEach {
                 image(it)
             }
-            text(prompt)
+            text("$prompt: in $supportingText")
         }
         makeGeneralQuery(
             apiType = ApiType.IMAGE_CHAT,
             result = _imageResponse,
             feed = inputContent,
-            supportingText = "in English",
-            alternativeSupportingText = "in English"
+            supportingText = ": give response in $supportingText Language",
+            alternativeSupportingText = alternativeSupportingText
         )
     }
 
@@ -289,10 +297,10 @@ class GeminiAIViewModel @Inject constructor(
             modelName = if (vision) "gemini-1.5-flash" else "gemini-pro",
             apiKey = key,
             safetySettings = listOf(
-//                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
-//                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
-//                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.MEDIUM_AND_ABOVE),
-//                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
+                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
+                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
+                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.MEDIUM_AND_ABOVE),
+                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
             )
         )
 
@@ -301,10 +309,10 @@ class GeminiAIViewModel @Inject constructor(
             modelName = "gemini-1.5-pro-latest",
             apiKey = key,
             safetySettings = listOf(
-//                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
-//                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
-//                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.NONE),
-//                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
+                SafetySetting(HarmCategory.HARASSMENT, BlockThreshold.NONE),
+                SafetySetting(HarmCategory.DANGEROUS_CONTENT, BlockThreshold.NONE),
+                SafetySetting(HarmCategory.HATE_SPEECH, BlockThreshold.NONE),
+                SafetySetting(HarmCategory.SEXUALLY_EXPLICIT, BlockThreshold.NONE),
             )
         )
 

@@ -27,6 +27,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -37,8 +38,8 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.ImageLoader
@@ -48,11 +49,11 @@ import teka.android.organiks_platform_android.presentation.feature_ai_assistant.
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.presentation.viewmodels.GeminiAIViewModel
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.components.TypingArea
-import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.LanguageOptionModel
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ApiType
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.utils.ImageHelper
 import teka.android.organiks_platform_android.ui.theme.PlaceholderColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
+import teka.android.organiks_platform_android.ui.theme.quicksand
 
 @ExperimentalMaterial3Api
 @ExperimentalComposeUiApi
@@ -67,6 +68,8 @@ fun MultiTurnScreen() {
 //    val apiTypeState = remember { mutableStateOf(ApiType.DOCUMENT_CHAT) }
     val apiTypeState = remember { mutableStateOf(ApiType.MULTI_CHAT) }
 
+    val languageOptions = viewModel.languageOptionItems
+    val selectedLanguage by viewModel.selectedLanguageOption.collectAsState()
 
 
     val bitmaps: SnapshotStateList<Bitmap> = remember {
@@ -87,8 +90,6 @@ fun MultiTurnScreen() {
 
     val imageRequestBuilder = ImageRequest.Builder(context)
     val imageLoader = ImageLoader.Builder(context).build()
-
-
 
     //our various launchers
     val cameraLauncher = rememberLauncherForActivityResult(
@@ -131,30 +132,16 @@ fun MultiTurnScreen() {
         }
     }
 
-    val languageOptionItems = listOf(
-        LanguageOptionModel(1, "English"),
-        LanguageOptionModel(2, "Swahili"),
-        LanguageOptionModel(3, "French")
-    )
-    var selectedLanguageOptionItem by remember { mutableStateOf(languageOptionItems[0]) }
 
     var expanded by remember { mutableStateOf(false) }
 
 
-//    Scaffold(
-//        topBar = {
-//
-//        }
-//    ) {
         Column(
             modifier = Modifier
-//                .padding(top = 16.dp)
                 .fillMaxSize()
                 .fillMaxHeight(1f)
                 .background(MaterialTheme.colorScheme.background)
         ) {
-
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
@@ -166,18 +153,19 @@ fun MultiTurnScreen() {
                     Row(
                         modifier = Modifier
                             .width(120.dp)
-                            .height(40.dp)
+                            .height(30.dp)
                             .background(PlaceholderColor, Shapes.large)
                             .clickable { expanded = true },
                         horizontalArrangement = Arrangement.SpaceBetween,
                         ) {
                         Text(
-                            text = selectedLanguageOptionItem.name,
+                            text = selectedLanguage,
                             modifier = Modifier
                                 .padding(horizontal = 12.dp)
                                 .align(Alignment.CenterVertically),
-
-                            )
+                            fontWeight = FontWeight.ExtraLight,
+                            fontFamily = quicksand
+                        )
                         Icon(
                             imageVector = Icons.Default.ArrowDropDown,
                             contentDescription = null,
@@ -191,13 +179,16 @@ fun MultiTurnScreen() {
                         expanded = expanded,
                         onDismissRequest = { expanded = false }
                     ) {
-                        languageOptionItems.forEach { item ->
+                        languageOptions.forEach { item ->
                             DropdownMenuItem(onClick = {
-                                viewModel.onLanguageOptionChange(item.name)
-                                selectedLanguageOptionItem = item
+                                viewModel.updateSelectedLanguageOption(item.name)
                                 expanded = false
                             }) {
-                                Text(item.name)
+                                Text(
+                                    item.name,
+                                    fontWeight = FontWeight.ExtraLight,
+                                    fontFamily = quicksand
+                                )
                             }
                         }
                     }
@@ -222,6 +213,5 @@ fun MultiTurnScreen() {
                 permissionLauncher = permissionLauncher
             )
         }
-//    }
 
 }

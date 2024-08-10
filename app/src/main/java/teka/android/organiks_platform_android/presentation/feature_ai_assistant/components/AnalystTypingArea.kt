@@ -13,9 +13,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -60,6 +60,9 @@ fun AnalystTypingArea(
     val focusManager = LocalFocusManager.current
     var text by remember { mutableStateOf(TextFieldValue("")) }
     val remoteEggCollections by viewModel.eggCollections.collectAsState()
+    val currentLanguage by viewModel.selectedLanguageOption.collectAsState()
+    val selectedFarmData by viewModel.requestOptionData.collectAsState()
+
 
 
     val isGenerating: Boolean? = when (apiType) {
@@ -76,8 +79,7 @@ fun AnalystTypingArea(
         modifier = Modifier
             .fillMaxWidth()
             .padding(
-                top = 10.dp,
-                bottom = 10.dp,
+                bottom = 3.dp,
                 end = 10.dp,
                 start = 10.dp
             )
@@ -100,35 +102,37 @@ fun AnalystTypingArea(
                 onClick = {
                     expanded = false
                     viewModel.clearContext()
+                },
+                text = {
+                    Text(
+                        color = PrimaryColor,
+                        text = "Refresh",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.W600
+                    )
+                },
+                leadingIcon = {
+                    Icon(
+                        modifier = Modifier.size(25.dp),
+                        painter = painterResource(id = R.drawable.refresh),
+                        tint = PrimaryColor,
+                        contentDescription = "refresh"
+                    )
                 }
-            ) {
-                Icon(
-                    modifier = Modifier.size(25.dp),
-                    painter = painterResource(id = R.drawable.refresh),
-                    tint = PrimaryColor,
-                    contentDescription = "refresh"
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    color = PrimaryColor,
-                    text = "Refresh",
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.W600
-                )
-            }
-
+            )
         }
 
 
-           IconButton(onClick = { expanded = true }
-            ) {
+           IconButton(
+               onClick = { expanded = true }
+           ) {
                 Icon(
                     modifier = Modifier.size(30.dp),
                     painter = painterResource(id = R.drawable.add_icon),
                     tint = PrimaryColor,
                     contentDescription = "add"
                 )
-            }
+           }
 
 
         OutlinedTextField(
@@ -180,9 +184,8 @@ fun AnalystTypingArea(
                                             ApiType.SINGLE_CHAT -> TODO()
 
                                             ApiType.MULTI_CHAT -> viewModel.makeMultiTurnAnalyticalQuery(
-                                                context = context,
                                                 prompt =text.text.trim(),
-                                                supportingText = remoteEggCollections.toString()
+                                                supportingText = "$selectedFarmData : please provide response in $currentLanguage Language",
                                             )
 
                                             ApiType.IMAGE_CHAT -> TODO()
