@@ -1,8 +1,8 @@
 
 <p align="center">
-  <img src="art/app_logo.png" alt="MealTime" height="200px">
-  <img src="art/plus_sign.png" alt="Plus Sign" height="150px">
-  <img src="art/gemini.png" alt="Gemini" height="200px">
+  <img src="art/app_logo.png" alt="MealTime" height="100px">
+  <img src="art/plus_sign.png" alt="Plus Sign" height="75px">
+  <img src="art/gemini.png" alt="Gemini" height="100px">
 </p>
 
 
