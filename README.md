@@ -1,10 +1,15 @@
-<p align="center"><img src="art/app_logo.png" alt="MealTime" height="150px"></p>
+<p align="center" style="display: flex; align-items: center; justify-content: center;">
+  <img src="art/app_logo.png" alt="MealTime" height="150px">
+  <span style="font-size: 50px; margin: 0 20px;">+</span>
+  <img src="art/gemini.png" alt="MealTime" height="150px">
+</p>
+
 
 # Organiks
-Organiks Platform combines Android + Firebase(for Auth and Storage) + GEMINI AI(multi-modal), Organiks is aimed at being the Digitizing tool and an Affordable Farmers Assistant for the Agricultural Sector which has been neglected
+Organiks Platform combines Android + GEMINI AI(multi-modal) + Firebase(for Auth and Storage), Organiks is aimed at being the Digitizing tool and an Affordable Farmers Assistant for the Agricultural Sector which has been neglected
 in terms of Technology here in Africa.
 
-Organiks is a story of two friends from Nakuru, Kenya with a Love for Agriculture, one a MicroBiologist and the other a Techie in love with Coding. Boys who small-scale farming had fed and schooled them.
+Organiks is a story of two friends from Nakuru, Kenya in Africa with a Love for Agriculture; one a MicroBiologist and the other a Techie in love with Coding. Boys who small-scale farming had fed and schooled them.
 
 When we heard of GEMINI AI API late last year(2023), we thought of ideas and ways that this AI could be used to lower the losses that farmers(just like their parents) incur due to loss of their poultry, animals and even plants to diseases.
 And that is when project 'Mkulima na Gemini' started brewing in our heads, why? because we could use Gemini LLM on our own without knowledge of AI or ML and bring all the advantages GEMINI has to offer to the 
