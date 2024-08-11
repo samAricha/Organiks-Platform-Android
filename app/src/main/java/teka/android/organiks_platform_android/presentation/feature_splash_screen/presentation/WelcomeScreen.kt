@@ -42,7 +42,7 @@ fun WelcomeScreen(
 
     Column(modifier = Modifier.fillMaxSize()) {
         HorizontalPager(
-            modifier = Modifier.weight(10f),
+            modifier = Modifier.weight(8f),
             count = 3,
             state = pagerState,
             verticalAlignment = Alignment.Top
@@ -56,7 +56,7 @@ fun WelcomeScreen(
             pagerState = pagerState
         )
         FinishButton(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).fillMaxWidth().padding(vertical = 6.dp),
             pagerState = pagerState
         ) {
 //            welcomeViewModel.saveOnBoardingState(completed = true)
@@ -89,7 +89,6 @@ fun PagerScreen(onBoardingPage: OnBoardingPage) {
             modifier = Modifier
                 .padding(top = 65.dp),
             verticalArrangement = Arrangement.Bottom
-
         ){
 
             Text(
@@ -123,8 +122,6 @@ fun FinishButton(
     modifier: Modifier,
     pagerState: PagerState,
     onClick: () -> Unit,
-//navController: NavHostController,
-//    welcomeViewModel: WelcomeViewModel,
 ) {
     Row(
         modifier = modifier
@@ -140,15 +137,17 @@ fun FinishButton(
                 onClick = onClick,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 18.dp)
-                    .padding(top = 18.dp),
+                    .padding(top = 8.dp),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = PrimaryColor,
                     contentColor = Color.White
                 ),
                 shape = Shapes.large
             ) {
-                Text(text = "Finish", fontFamily = Poppins)
+                Text(
+                    text = "Finish",
+                    fontFamily = Poppins
+                )
             }
         }
     }
