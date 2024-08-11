@@ -159,30 +159,32 @@ fun LoginScreen(
         navController.navigate(To_MAIN_GRAPH_ROUTE)
         Toast.makeText(context, "Login successful.", Toast.LENGTH_SHORT).show()
     }
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-                Card(
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+            Card(
+                modifier = Modifier
+                    .fillMaxSize(),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                elevation = CardDefaults.cardElevation(0.dp) ,
+                shape = BottomBoxShape.medium
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
-                        .fillMaxSize(),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.White
-                    ),
-                    elevation = CardDefaults.cardElevation(0.dp) ,
-                    shape = BottomBoxShape.medium
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(top = 25.dp),
                 ) {
-                    Column(horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center,
-                        modifier = Modifier.verticalScroll(rememberScrollState())
+                    // Top Section
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.unlock2),
-                            contentDescription = "Access image",
-                            modifier = Modifier
-                                .size(100.dp),
-                            contentScale = ContentScale.Fit
-                        )
                         Text(
                             text = "Organiks",
                             fontFamily = ReemKufiBold,
@@ -196,144 +198,18 @@ fun LoginScreen(
                         )
                         Spacer(modifier = Modifier.height(20.dp))
 
-                        OutlinedTextField(
-                            value = usernameState.text,
-                            onValueChange = {
-                                authViewModel.setUsername(it)
-                            },
-                            label = {
-                                Text(text = "Email / Phone")
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 20.dp)
-                                .padding(top = 10.dp),
-
-                            colors = OutlinedTextFieldDefaults.colors(
-                                unfocusedBorderColor = Color.Gray,
-                                focusedTextColor = Color.Black,
-                                unfocusedTextColor = GrayColor,
-                                unfocusedLabelColor = Color.Gray,
-                                focusedLabelColor = PrimaryColor,
-                                cursorColor = Color.Black,
-                                ),
-                            keyboardOptions = KeyboardOptions(
-                                keyboardType =
-                                KeyboardType.Email
-                            ),
-                            singleLine = true,
-                            leadingIcon = {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.ic_user),
-                                    contentDescription = "",
-                                    modifier = Modifier.size(24.dp),
-                                    tint = PrimaryColor,
-                                )
-                            },
-                            shape = Shapes.large,
+                        Image(
+                            painter = painterResource(id = R.drawable.organiks_gemini_plus_slogan),
+                            contentDescription = "Access image",
+                            modifier = Modifier.size(350.dp),
+                            contentScale = ContentScale.Fit
                         )
+                    }
 
-                        OutlinedTextField(
-                            value = passwordState.text,
-                            onValueChange = {
-                                authViewModel.setPassword(it)
-                            },
-                            label = {
-                                Text(text = "Password")
-                            },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 20.dp)
-                                .padding(top = 10.dp),
-                            colors = OutlinedTextFieldDefaults.colors(
-                                unfocusedBorderColor = Color.Gray,
-                                focusedTextColor = Color.Black,
-                                unfocusedLabelColor = Color.Gray,
-                                focusedLabelColor = PrimaryColor,
-                                cursorColor = Color.Black,
-                            ),
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-                            singleLine = true,
-                            visualTransformation = if (!isPasswordOpen) PasswordVisualTransformation() else VisualTransformation.None,
-                            leadingIcon = {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.outline_lock_24),
-                                    contentDescription = "",
-                                    modifier = Modifier.size(24.dp),
-                                    tint = PrimaryColor,
-                                )
-                            },
-                            trailingIcon = {
-                                IconButton(onClick = { isPasswordOpen = !isPasswordOpen }) {
-                                    if (!isPasswordOpen) {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.ic_eye_open),
-                                            contentDescription = "",
-                                            modifier = Modifier.size(24.dp),
-                                            tint = PrimaryColor,
-                                        )
-                                    } else {
-                                        Icon(
-                                            painter = painterResource(id = R.drawable.ic_eye_close),
-                                            contentDescription = "",
-                                            modifier = Modifier.size(24.dp),
-                                            tint = PrimaryColor,
-                                        )
-                                    }
-                                }
-                            },
-                            shape = Shapes.large,
-                        )
-
-                        Button(
-                            onClick = {
-                                keyboardController?.hide()
-                                authViewModel.login(username = usernameState.text, password = passwordState.text)
-                            },
-                            enabled = !loginState.isLoading,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(horizontal = 20.dp)
-                                .padding(top = 20.dp),
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = PrimaryColor,
-                                contentColor = Color.White
-                            ),
-                            contentPadding = PaddingValues(vertical = 14.dp),
-                            shape = Shapes.large,
-                        ) {
-                            Text(text = "Login", fontFamily = Poppins)
-                        }
-
-
-                        TextButton(
-                            onClick = {},
-                        ) {
-                            Text(
-                                text = "Forgot Password ?",
-                                color = LightTextColor,
-                                fontFamily = Poppins,
-                                fontSize = 12.sp,
-                                modifier = Modifier.padding(top = 26.dp)
-                            )
-                        }
-                        TextButton(
-                            onClick = {
-                                      navController.navigate(AppScreens.Registration.route)
-                            },
-                            contentPadding = PaddingValues(vertical = 0.dp)
-                        ) {
-                            Text(
-                                text = "Don't have an Account ? Sign Up",
-                                color = LightTextColor,
-                                fontFamily = Poppins,
-                                fontSize = 12.sp,
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(20.dp))
-
-                        //bottom section
-                        Spacer(modifier = Modifier.height(10.dp))
+                    // Bottom Section
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             verticalAlignment = Alignment.CenterVertically
@@ -345,12 +221,7 @@ fun LoginScreen(
                                 thickness = 1.dp,
                                 color = GrayColor
                             )
-                            Text(
-                                text = "Or",
-                                modifier = Modifier.padding(10.dp),
-                                fontSize = 20.sp,
-                                fontFamily = Poppins,
-                                )
+                            Spacer(modifier = Modifier.size(5.dp))
                             Divider(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -359,62 +230,278 @@ fun LoginScreen(
                                 color = GrayColor
                             )
                         }
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.Center
+                        Spacer(modifier = Modifier.size(10.dp))
+
+                        Button(
+                            onClick = {
+                                coroutineScope.launch {
+                                    val signInIntentSender = authViewModel.googleAuthUiClient.signIn()
+                                    launcher.launch(
+                                        IntentSenderRequest.Builder(
+                                            signInIntentSender ?: return@launch
+                                        ).build()
+                                    )
+                                }
+                            },
+                            colors = ButtonDefaults.buttonColors(Color.Transparent),
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .border(
+                                    width = 2.dp,
+                                    color = Color(android.graphics.Color.parseColor("#d2d2d2")),
+                                    shape = RoundedCornerShape(20.dp)
+                                )
                         ) {
-                            Button(
-                                onClick = {
-                                    coroutineScope.launch {
-                                        val signInIntentSender = authViewModel.googleAuthUiClient.signIn()
-                                        launcher.launch(
-                                            IntentSenderRequest.Builder(
-                                                signInIntentSender ?: return@launch
-                                            ).build()
-                                        )
-                                    }
-                                },
-                                colors = ButtonDefaults.buttonColors(Color.Transparent),
-                                modifier = Modifier
-                                    .padding(4.dp)
-                                    .border(
-                                        width = 2.dp,
-                                        color = Color(android.graphics.Color.parseColor("#d2d2d2")),
-                                        shape = RoundedCornerShape(20.dp)
-                                    )
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.google_svg),
-                                    contentDescription = "Google Logo",
-                                    modifier = Modifier
-                                        .size(30.dp)
-                                )
-                            }
-                            Spacer(modifier = Modifier.width(10.dp))
-                            Button(
-                                onClick = { /*TODO*/ },
-                                colors = ButtonDefaults.buttonColors(Color.Transparent),
-                                modifier = Modifier
-                                    .padding(4.dp)
-                                    .border(
-                                        width = 2.dp,
-                                        color = Color(android.graphics.Color.parseColor("#d2d2d2")),
-                                        shape = RoundedCornerShape(20.dp)
-                                    )
-                            ) {
-                                Image(
-                                    painter = painterResource(id = R.drawable.facebook_svg),
-                                    contentDescription = "Google Logo",
-                                    modifier = Modifier
-                                        .size(30.dp)
-                                )
-                            }
+                            Image(
+                                painter = painterResource(id = R.drawable.google_svg),
+                                contentDescription = "Google Logo",
+                                modifier = Modifier.size(30.dp)
+                            )
+                            Text(
+                                text = "Sign in with Google",
+                                modifier = Modifier.padding(6.dp),
+                                color = Color.Black.copy(alpha = 0.5f)
+                            )
                         }
                     }
+
+
+
+
+
+
+
+                    /*OutlinedTextField(
+                        value = usernameState.text,
+                        onValueChange = {
+                            authViewModel.setUsername(it)
+                        },
+                        label = {
+                            Text(text = "Email / Phone")
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp)
+                            .padding(top = 10.dp),
+
+                        colors = OutlinedTextFieldDefaults.colors(
+                            unfocusedBorderColor = Color.Gray,
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = GrayColor,
+                            unfocusedLabelColor = Color.Gray,
+                            focusedLabelColor = PrimaryColor,
+                            cursorColor = Color.Black,
+                            ),
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType =
+                            KeyboardType.Email
+                        ),
+                        singleLine = true,
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_user),
+                                contentDescription = "",
+                                modifier = Modifier.size(24.dp),
+                                tint = PrimaryColor,
+                            )
+                        },
+                        shape = Shapes.large,
+                    )
+
+                    OutlinedTextField(
+                        value = passwordState.text,
+                        onValueChange = {
+                            authViewModel.setPassword(it)
+                        },
+                        label = {
+                            Text(text = "Password")
+                        },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp)
+                            .padding(top = 10.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            unfocusedBorderColor = Color.Gray,
+                            focusedTextColor = Color.Black,
+                            unfocusedLabelColor = Color.Gray,
+                            focusedLabelColor = PrimaryColor,
+                            cursorColor = Color.Black,
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+                        singleLine = true,
+                        visualTransformation = if (!isPasswordOpen) PasswordVisualTransformation() else VisualTransformation.None,
+                        leadingIcon = {
+                            Icon(
+                                painter = painterResource(id = R.drawable.outline_lock_24),
+                                contentDescription = "",
+                                modifier = Modifier.size(24.dp),
+                                tint = PrimaryColor,
+                            )
+                        },
+                        trailingIcon = {
+                            IconButton(onClick = { isPasswordOpen = !isPasswordOpen }) {
+                                if (!isPasswordOpen) {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_eye_open),
+                                        contentDescription = "",
+                                        modifier = Modifier.size(24.dp),
+                                        tint = PrimaryColor,
+                                    )
+                                } else {
+                                    Icon(
+                                        painter = painterResource(id = R.drawable.ic_eye_close),
+                                        contentDescription = "",
+                                        modifier = Modifier.size(24.dp),
+                                        tint = PrimaryColor,
+                                    )
+                                }
+                            }
+                        },
+                        shape = Shapes.large,
+                    )
+
+                    Button(
+                        onClick = {
+                            keyboardController?.hide()
+                            authViewModel.login(username = usernameState.text, password = passwordState.text)
+                        },
+                        enabled = !loginState.isLoading,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 20.dp)
+                            .padding(top = 20.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = PrimaryColor,
+                            contentColor = Color.White
+                        ),
+                        contentPadding = PaddingValues(vertical = 14.dp),
+                        shape = Shapes.large,
+                    ) {
+                        Text(text = "Login", fontFamily = Poppins)
+                    }
+
+
+                    TextButton(
+                        onClick = {},
+                    ) {
+                        Text(
+                            text = "Forgot Password ?",
+                            color = LightTextColor,
+                            fontFamily = Poppins,
+                            fontSize = 12.sp,
+                            modifier = Modifier.padding(top = 26.dp)
+                        )
+                    }
+                    TextButton(
+                        onClick = {
+                                  navController.navigate(AppScreens.Registration.route)
+                        },
+                        contentPadding = PaddingValues(vertical = 0.dp)
+                    ) {
+                        Text(
+                            text = "Don't have an Account ? Sign Up",
+                            color = LightTextColor,
+                            fontFamily = Poppins,
+                            fontSize = 12.sp,
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    */
+
+
+
+
+
+
+
+
+
+                  /*  Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        Button(
+                            onClick = {
+                                coroutineScope.launch {
+                                    val signInIntentSender = authViewModel.googleAuthUiClient.signIn()
+                                    launcher.launch(
+                                        IntentSenderRequest.Builder(
+                                            signInIntentSender ?: return@launch
+                                        ).build()
+                                    )
+                                }
+                            },
+                            colors = ButtonDefaults.buttonColors(Color.Transparent),
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .border(
+                                    width = 2.dp,
+                                    color = Color(android.graphics.Color.parseColor("#d2d2d2")),
+                                    shape = RoundedCornerShape(20.dp)
+                                )
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.google_svg),
+                                contentDescription = "Google Logo",
+                                modifier = Modifier
+                                    .size(30.dp)
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Button(
+                            onClick = { /*TODO*/ },
+                            colors = ButtonDefaults.buttonColors(Color.Transparent),
+                            modifier = Modifier
+                                .padding(4.dp)
+                                .border(
+                                    width = 2.dp,
+                                    color = Color(android.graphics.Color.parseColor("#d2d2d2")),
+                                    shape = RoundedCornerShape(20.dp)
+                                )
+                        ) {
+                            Image(
+                                painter = painterResource(id = R.drawable.facebook_svg),
+                                contentDescription = "Google Logo",
+                                modifier = Modifier
+                                    .size(30.dp)
+                            )
+                        }
+                    } */
+
+
+
+
+
+                   /* Button(
+                        onClick = {
+                            // TODO: Sign in with Google
+//                            authViewModel.oneTapSignIn()
+                        },
+                        modifier = Modifier
+                            .size(width = 300.dp, height = 50.dp)
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.White
+                        )
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_google_logo),
+                            contentDescription = ""
+                        )
+                        Text(
+                            text = "Sign in with Google",
+                            modifier = Modifier.padding(6.dp),
+                            color = Color.Black.copy(alpha = 0.5f)
+                        )
+                    }*/
                 }
+            }
 
 
-        }
+    }
 
 }
