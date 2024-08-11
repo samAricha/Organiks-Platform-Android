@@ -1,4 +1,4 @@
-package com.teka.geminichatsdk.spacee_gemini.components
+package teka.android.organiks_platform_android.presentation.feature_ai_assistant.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
