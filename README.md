@@ -53,19 +53,29 @@ Gemini Assistant | Gemini Analyst
 
 ## Screenshots
 ### Gemini
-<img src="art/remote_records.jpeg"  width="250"/> <img src="art/gemini_assistant1.jpeg"  width="250"/>  <img src="art/gemini_assistant2.jpeg"  width="250"/>  <img src="art/gemini_assistant3.jpeg" width="250"/>  <img src="art/gemini_chat1.jpeg" width="250"/>
+| Screenshot 1 | Screenshot 2 | Screenshot 3 | Screenshot 4 | Screenshot 5 |
+| :-: | :-: | :-: | :-: | :-: |
+<img src="art/remote_records.jpeg"  width="250"/> | <img src="art/gemini_assistant1.jpeg"  width="250"/> | <img src="art/gemini_assistant2.jpeg"  width="250"/> | <img src="art/gemini_assistant3.jpeg" width="250"/> | <img src="art/gemini_chat1.jpeg" width="250"/>
 
 ### Firebase
-<img src="art/login1.jpeg"  width="250"/>  <img src="art/login2.jpeg"  width="250"/>  <img src="art/login3.jpeg" width="250"/>  <img src="art/registration1.jpeg" width="250"/> <img src="art/logout_dialog.jpeg" width="250"/>
+| Screenshot 1 | Screenshot 2 | Screenshot 3 | Screenshot 4 | Screenshot 5 |
+| :-: | :-: | :-: | :-: | :-: |
+<img src="art/login1.jpeg"  width="250"/> | <img src="art/login2.jpeg"  width="250"/> | <img src="art/login3.jpeg" width="250"/> | <img src="art/registration1.jpeg" width="250"/> | <img src="art/logout_dialog.jpeg" width="250"/>
 
 ### Home
-<img src="art/home.jpeg"  width="250"/> <img src="art/nav_drawer.jpeg"  width="250"/>
+| Screenshot 1 | Screenshot 2 |
+| :-: | :-: |
+<img src="art/home.jpeg"  width="250"/> | <img src="art/nav_drawer.jpeg"  width="250"/>
 
 ### Record Keeping
-<img src="art/record1.jpeg"  width="250"/>  <img src="art/local_records.jpeg"  width="250"/>  <img src="art/remote_records.jpeg" width="250"/>  <img src="art/dashboard.jpeg" width="250"/>
+| Screenshot 1 | Screenshot 2 | Screenshot 3 | Screenshot 4 | 
+| :-: | :-: | :-: | :-: |
+<img src="art/record1.jpeg"  width="250"/> | <img src="art/local_records.jpeg"  width="250"/> | <img src="art/remote_records.jpeg" width="250"/> | <img src="art/dashboard.jpeg" width="250"/>
 
 ### OnBoarding
-<img src="art/onboarding1.jpeg"  width="250"/>  <img src="art/onboarding2.jpeg"  width="250"/>  <img src="art/onboarding3.jpeg" width="250"/>
+| Screenshot 1 | Screenshot 2 | Screenshot 3 | 
+| :-: | :-: | :-: |
+<img src="art/onboarding1.jpeg"  width="250"/> | <img src="art/onboarding2.jpeg"  width="250"/> | <img src="art/onboarding3.jpeg" width="250"/>
 
 
 
