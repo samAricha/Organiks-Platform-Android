@@ -203,7 +203,7 @@ fun RemoteRecordsScreen(
 
                         FilledTonalButton(
                             onClick = {
-//                                navController.navigate(AppScreens.AddMemberScreen.route)
+                                navController.navigate(route = "${AppScreens.ProductionRecording.route}?id=-1")
                             },
                             colors = ButtonDefaults.filledTonalButtonColors(
                                 containerColor = PrimaryColor

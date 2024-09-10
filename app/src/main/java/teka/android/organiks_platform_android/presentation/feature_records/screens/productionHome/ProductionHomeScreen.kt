@@ -47,15 +47,18 @@ import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
+import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.navigation.ProgressIndicator
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ProductionHomeScreen(
-    onNavigate:(Int) -> Unit
+    onNavigate:(Int) -> Unit,
+    navController: NavController
 ){
     var selectedCategory by remember { mutableStateOf(Utils.productionCategory[0]) }
     val productionHomeViewModel : ProductionHomeViewModel = hiltViewModel()
@@ -164,7 +167,7 @@ fun ProductionHomeScreen(
 
                     FilledTonalButton(
                         onClick = {
-//                                navController.navigate(AppScreens.AddMemberScreen.route)
+                            navController.navigate(route = "${AppScreens.ProductionRecording.route}?id=-1")
                         },
                         colors = ButtonDefaults.filledTonalButtonColors(
                             containerColor = PrimaryColor

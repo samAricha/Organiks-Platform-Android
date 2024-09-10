@@ -78,9 +78,12 @@ fun MainNavGraph(
             }
 
         ){
-            ProductionHomeScreen(onNavigate = { id ->
-                navController.navigate(route = "${AppScreens.ProductionRecording.route}?id=$id")
-            })
+            ProductionHomeScreen(
+                navController = navController,
+                onNavigate = { id ->
+                    navController.navigate(route = "${AppScreens.ProductionRecording.route}?id=$id")
+                }
+            )
         }
 
         composable(
