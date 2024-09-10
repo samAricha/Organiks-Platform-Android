@@ -112,8 +112,8 @@ class MainActivity : ComponentActivity() {
                     val currentUser = firebaseAuthViewModel.currentUser.collectAsState().value
 
                     LaunchedEffect(currentUser) {
-//                        startDestination = if (currentUser != null) To_MAIN_GRAPH_ROUTE else AUTH_GRAPH_ROUTE
-                        startDestination = To_MAIN_GRAPH_ROUTE
+                        startDestination = if (currentUser != null) To_MAIN_GRAPH_ROUTE else AUTH_GRAPH_ROUTE
+//                        startDestination = To_MAIN_GRAPH_ROUTE
                     }
 
 
