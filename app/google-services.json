@@ -7,12 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:374604567554:android:cde2104d3a81f6a90ec31b",
+        "mobilesdk_app_id": "1:374604567554:android:4f9f3f4fa637ef050ec31b",
         "android_client_info": {
-          "package_name": "teka.android.organiks_platform_android"
+          "package_name": "teka.android.organiks"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "374604567554-p55fa21hkt44t2dkj99jbq2ri2rg502d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCeG5SKTtMd4Xyl56TNoE2Vt5oS9DsdA7U"
@@ -20,7 +25,49 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374604567554-p55fa21hkt44t2dkj99jbq2ri2rg502d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374604567554:android:cde2104d3a81f6a90ec31b",
+        "android_client_info": {
+          "package_name": "teka.android.organiks_platform_android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374604567554-812kqvhrl3hujrhskj76gv5qlc6amrqt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "teka.android.organiks_platform_android",
+            "certificate_hash": "7c024e5acacc37b6f4be8bd03f3dc8299ab3b0a3"
+          }
+        },
+        {
+          "client_id": "374604567554-p55fa21hkt44t2dkj99jbq2ri2rg502d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeG5SKTtMd4Xyl56TNoE2Vt5oS9DsdA7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374604567554-p55fa21hkt44t2dkj99jbq2ri2rg502d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

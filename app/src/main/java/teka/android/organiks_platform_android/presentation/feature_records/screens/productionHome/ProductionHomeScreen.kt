@@ -39,7 +39,14 @@ import teka.android.organiks_platform_android.ui.theme.Shapes
 import java.text.SimpleDateFormat
 import java.util.Locale
 import androidx.compose.foundation.Canvas
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 import teka.android.organiks_platform_android.navigation.ProgressIndicator
@@ -116,51 +123,116 @@ fun ProductionHomeScreen(
         }
     }) {
         Box(
-            modifier = Modifier.fillMaxSize().padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 50.dp)
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 50.dp)
         ){
-            LazyColumn {
-                item {
-                    LazyRow(Modifier.padding(bottom = 16.dp)) {
-                        items(Utils.productionCategory) { category: Category ->
-                            CategoryItem(
-                                iconRes = category.resId,
-                                title = category.title,
-                                selected = category == selectedCategory
-                            ) {
-                                selectedCategory = category
+            if (collections.isEmpty()){
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight()
+                        .align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .size(150.dp)
+                            .align(Alignment.CenterHorizontally),
+                        painter = painterResource(id = R.drawable.amazed100),
+                        contentDescription = null,
+
+                        )
+                    Spacer(modifier = Modifier.height(24.dp))
+                    Text(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.CenterHorizontally),
+                        style = MaterialTheme.typography.subtitle2.copy(
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Bold,
+                        ),
+                        text = if (collections.isEmpty()) {
+                            "Add your first record."
+                        } else {
+                            ""
+                        },
+                        textAlign = TextAlign.Center,
+                    )
+
+
+                    FilledTonalButton(
+                        onClick = {
+//                                navController.navigate(AppScreens.AddMemberScreen.route)
+                        },
+                        colors = ButtonDefaults.filledTonalButtonColors(
+                            containerColor = PrimaryColor
+                        )
+                    ) {
+                        Row {
+                            Icon(
+                                imageVector = Icons.Default.Add,
+                                contentDescription = "Add record",
+                                tint = Color.White
+                            )
+                            Text(
+                                text = "Add A Record",
+                                color = Color.White
+                            )
+                        }
+
+                    }
+                }
+            }else {
+                LazyColumn {
+                    item {
+                        LazyRow(Modifier.padding(bottom = 16.dp)) {
+                            items(Utils.productionCategory) { category: Category ->
+                                CategoryItem(
+                                    iconRes = category.resId,
+                                    title = category.title,
+                                    selected = category == selectedCategory
+                                ) {
+                                    selectedCategory = category
+                                }
+                                Spacer(modifier = Modifier.size(16.dp))
                             }
-                            Spacer(modifier = Modifier.size(16.dp))
                         }
                     }
-                }
-                items(collections) { collection ->
-                    when (selectedCategory) {
-                        Utils.productionCategory[0] -> {
-                            EggCollectionItem(
-                                eggCollection = collection as EggCollection,
-                                onItemClick = { onNavigate.invoke(collection.id) }
-                            )
+                    items(collections) { collection ->
+                        when (selectedCategory) {
+                            Utils.productionCategory[0] -> {
+                                EggCollectionItem(
+                                    eggCollection = collection as EggCollection,
+                                    onItemClick = { onNavigate.invoke(collection.id) }
+                                )
+                            }
+
+                            Utils.productionCategory[1] -> {
+                                MilkCollectionItem(
+                                    milkCollection = collection as MilkCollection,
+                                    onItemClick = { onNavigate.invoke(collection.id) }
+                                )
+                            }
+
+                            Utils.productionCategory[2] -> {
+                                FruitCollectionItem(
+                                    fruitCollection = collection as FruitCollectionEntity,
+                                    onItemClick = { onNavigate.invoke(collection.id) }
+                                )
+                            }
+
                         }
-                        Utils.productionCategory[1] -> {
-                            MilkCollectionItem(
-                                milkCollection = collection as MilkCollection,
-                                onItemClick = { onNavigate.invoke(collection.id) }
-                            )
-                        }
-                        Utils.productionCategory[2] -> {
-                            FruitCollectionItem(
-                                fruitCollection = collection as FruitCollectionEntity,
-                                onItemClick = { onNavigate.invoke(collection.id) }
-                            )
-                        }
-                        // Handle other categories as needed
+
+
                     }
+
                 }
-            }
 
-
-            if (isSyncing) {
-                ProgressIndicator()
+                if (isSyncing) {
+                    ProgressIndicator()
+                }
             }
         }
     }
@@ -194,7 +266,9 @@ fun EggCollectionItem(
     ) {
 
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 3.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 3.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ){
@@ -255,7 +329,9 @@ fun MilkCollectionItem(
             .padding(top = 8.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 3.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 3.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -318,7 +394,9 @@ fun FruitCollectionItem(
             .padding(top = 8.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 3.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 3.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {

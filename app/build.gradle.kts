@@ -15,11 +15,11 @@ android {
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "teka.android.organiks_platform_android"
+        applicationId = "teka.android.organiks"
         minSdk = 26
         targetSdk = 34
-        versionCode = 5
-        versionName = "1.0-beta"
+        versionCode = 7
+        versionName = "2.0-beta"
 
 
 
