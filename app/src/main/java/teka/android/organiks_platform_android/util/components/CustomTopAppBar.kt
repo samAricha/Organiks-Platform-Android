@@ -64,6 +64,7 @@ fun CustomTopAppBar(
         },
         actions = {  },
         navigationIcon = {
+
             IconButton(
                 onClick = {
                     if (hasBackNavigation) {

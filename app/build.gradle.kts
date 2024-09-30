@@ -84,7 +84,6 @@ android {
 }
 
 dependencies {
-    implementation("com.google.android.gms:play-services-auth:21.2.0")
     implementation("androidx.lifecycle:lifecycle-runtime-compose-android:2.8.4")
     val compose_ui_version = "1.6.8"
     implementation ("androidx.core:core-ktx:1.13.1")
@@ -187,6 +186,8 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.android.gms:play-services-auth:21.2.0")
+
 
     // required to avoid crash on Android 12 API 31
     implementation("androidx.work:work-runtime-ktx:2.9.0")

@@ -72,9 +72,7 @@ import timber.log.Timber
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun NavigationDrawerM3(
-    appState: AppState
-) {
+fun NavigationDrawerM3() {
     val navHostController: NavHostController = rememberNavController()
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
@@ -82,8 +80,8 @@ fun NavigationDrawerM3(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val appState = rememberAppState(navHostController = navHostController)
-//    val currentRoute = appState.currentRoute
     val currentRoute by appState.currentRoute.collectAsState()
+    
 
 
 
@@ -224,8 +222,6 @@ fun NavigationDrawerM3(
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
-//            val navBackStackEntry by appState.navHostController.currentBackStackEntryAsState()
-//            val currentRoute = navBackStackEntry?.destination?.route
             ModalDrawerSheet(
                 modifier = Modifier.width(280.dp),
                 drawerContainerColor = Color.White,

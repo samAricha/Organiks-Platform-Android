@@ -70,8 +70,6 @@ fun ScaffoldContent(
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-//                 AppBar(onNavigationIconClick = onDrawerIconClick)
-
             CustomTopAppBar(
                 title = screenTitle,
                 hasBackNavigation = !showBottomBar,

@@ -156,7 +156,8 @@ fun RemoteRecordsScreen(
                     snackbarData = snackbarData
                 )
             }
-        }) {
+        }
+    ) {
 
             Box(
                 modifier = Modifier

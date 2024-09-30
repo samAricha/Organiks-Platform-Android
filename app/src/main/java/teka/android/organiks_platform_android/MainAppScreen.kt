@@ -29,5 +29,5 @@ import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainAppScreen(appState: AppState) {
-    NavigationDrawerM3(appState)
+    NavigationDrawerM3()
 }

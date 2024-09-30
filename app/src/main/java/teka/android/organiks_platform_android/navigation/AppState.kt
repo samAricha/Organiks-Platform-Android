@@ -35,10 +35,6 @@ class AppState(
 ) {
     private val bottomBarRoutes = BottomBarRoutes.entries.map { it.routes }
 
-//    val shouldShowBottomBar: Boolean
-//        @Composable get() =
-//            navHostController.currentBackStackEntryAsState().value?.destination?.route in bottomBarRoutes
-
     // StateFlow for shouldShowBottomBar with default value of true
     private val _shouldShowBottomBar = MutableStateFlow(true)
     val shouldShowBottomBar: StateFlow<Boolean> get() = _shouldShowBottomBar
@@ -46,9 +42,6 @@ class AppState(
     private val _currentRoute = MutableStateFlow<String>("Organiks")
     val currentRoute: StateFlow<String> get() = _currentRoute
 
-
-//    val currentRoute: String?
-//        get() = navHostController.currentDestination?.route
 
     @Composable
     fun ObserveNavigationState() {

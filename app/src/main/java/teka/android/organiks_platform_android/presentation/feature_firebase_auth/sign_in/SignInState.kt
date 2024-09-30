@@ -2,5 +2,6 @@ package teka.android.organiks_platform_android.presentation.feature_firebase_aut
 
 data class SignInState(
     val isSignInSuccessful: Boolean = false,
+    val isSigningStarted: Boolean = false,
     val signInError: String? = null
 )
