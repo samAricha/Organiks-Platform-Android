@@ -62,14 +62,6 @@ fun QuickAccessSection(
     navController: NavController
 ) {
     Column {
-//        Text(
-//            text = "Quick Access",
-//            fontSize = 22.sp,
-//            color = MaterialTheme.colorScheme.onBackground,
-//            fontWeight = FontWeight.Medium,
-//            modifier = Modifier.padding(top = 8.dp, start = 16.dp),
-//            fontFamily = quicksand
-//        )
 
         Column(
             modifier = Modifier
@@ -106,6 +98,7 @@ fun QuickAccessItem(
         modifier = modifier
             .background(Color.White)
             .fillMaxWidth()
+            .height(50.dp)
             .padding(end = 8.dp),
         ) {
         Column(
@@ -129,8 +122,6 @@ fun QuickAccessItem(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-
-
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(16.dp))

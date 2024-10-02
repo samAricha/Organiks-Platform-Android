@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -111,20 +114,18 @@ fun HomeScreen(
                 .padding(padding)
         ) {
 
-            LazyColumn(content = {
-                item {
-                    FeaturedBox(
-                        totalEggsCollected = "$totalEggsCollected Eggs",
-                        totalMilkCollected = "$totalMilkCollected Litres",
-                        totalFruitCollected = "$totalFruitsCollected Kgs"
-                    )
-                }
-                item {
-                    QuickAccessSection(navController = navController)
-                }
+            FeaturedBox(
+                totalEggsCollected = "$totalEggsCollected Eggs",
+                totalMilkCollected = "$totalMilkCollected Litres",
+                totalFruitCollected = "$totalFruitsCollected Kgs"
+            )
+            QuickAccessSection(navController = navController)
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+                content = {
                 items(
-                    cards.chunked(2)
-                ) { rowItems ->
+                    cards
+                ) { cardData ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -135,7 +136,7 @@ fun HomeScreen(
                             ),
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        rowItems.forEach { cardData ->
+//                        rowItems.forEach { cardData ->
                             HomeInfoCard(
                                 title = cardData.title,
                                 value = cardData.value,
@@ -144,10 +145,10 @@ fun HomeScreen(
                                 modifier = Modifier.weight(1f),
                                 onClick = cardData.onClick
                             )
-                        }
-                        if (rowItems.size == 1) {
-                            Spacer(modifier = Modifier.weight(1f))
-                        }
+//                        }
+//                        if (rowItems.size == 1) {
+//                            Spacer(modifier = Modifier.weight(1f))
+//                        }
                     }
                 }
             })
