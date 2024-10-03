@@ -43,7 +43,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledTonalButton
-import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
@@ -52,6 +51,7 @@ import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.navigation.ProgressIndicator
+import java.util.Date
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -62,11 +62,9 @@ fun ProductionHomeScreen(
 ){
     var selectedCategory by remember { mutableStateOf(Utils.productionCategory[0]) }
     val productionHomeViewModel : ProductionHomeViewModel = hiltViewModel()
-    val eggCollections by productionHomeViewModel.eggCollections.collectAsState()
-
 
     val isSyncing by productionHomeViewModel.isSyncing.collectAsState()
-    val fabClicked = remember { mutableStateOf(false) }
+    val fabClicked by productionHomeViewModel.fabClicked.collectAsState()
 
     val scaffoldState = rememberScaffoldState()
 
@@ -79,20 +77,15 @@ fun ProductionHomeScreen(
         }
     }
 
+    val eggCollectionsState by productionHomeViewModel.eggCollections.collectAsState()
+    val milkCollectionsState by productionHomeViewModel.milkCollections.collectAsState()
+    val fruitCollectionsState by productionHomeViewModel.fruitCollections.collectAsState()
+
 
     val collections = when (selectedCategory) {
-        Utils.productionCategory[0] -> {
-            val eggCollectionsState by productionHomeViewModel.eggCollections.collectAsState()
-            eggCollectionsState
-        }
-        Utils.productionCategory[1] -> {
-            val milkCollectionsState by productionHomeViewModel.milkCollections.collectAsState()
-            milkCollectionsState
-        }
-        Utils.productionCategory[2] -> {
-            val fruitCollectionsState by productionHomeViewModel.fruitCollections.collectAsState()
-            fruitCollectionsState
-        }
+        Utils.productionCategory[0] -> eggCollectionsState
+        Utils.productionCategory[1] -> milkCollectionsState
+        Utils.productionCategory[2] -> fruitCollectionsState
         else -> emptyList() // Handle other categories as needed
     }
 
@@ -102,10 +95,7 @@ fun ProductionHomeScreen(
         isFloatingActionButtonDocked = false,
         floatingActionButton = {
         FloatingActionButton(onClick = {
-            fabClicked.value = true
-            productionHomeViewModel.syncRoomDbToRemote()
-            fabClicked.value = false
-
+            productionHomeViewModel.onFabClicked()
         },
         backgroundColor = PrimaryColor) {
             Icon(painter = painterResource(R.drawable.cloud_upload),
@@ -130,107 +120,39 @@ fun ProductionHomeScreen(
                 .fillMaxSize()
                 .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 50.dp)
         ){
-            if (collections.isEmpty()){
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .fillMaxHeight()
-                        .align(Alignment.Center),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Image(
-                        modifier = Modifier
-                            .size(150.dp)
-                            .align(Alignment.CenterHorizontally),
-                        painter = painterResource(id = R.drawable.amazed100),
-                        contentDescription = null,
-
-                        )
-                    Spacer(modifier = Modifier.height(24.dp))
-                    Text(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.CenterHorizontally),
-                        style = MaterialTheme.typography.subtitle2.copy(
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Bold,
-                        ),
-                        text = if (collections.isEmpty()) {
-                            "Add your first record."
-                        } else {
-                            ""
-                        },
-                        textAlign = TextAlign.Center,
-                    )
-
-
-                    FilledTonalButton(
-                        onClick = {
-                            navController.navigate(route = "${AppScreens.ProductionRecording.route}?id=-1")
-                        },
-                        colors = ButtonDefaults.filledTonalButtonColors(
-                            containerColor = PrimaryColor
-                        )
-                    ) {
-                        Row {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = "Add record",
-                                tint = Color.White
-                            )
-                            Text(
-                                text = "Add A Record",
-                                color = Color.White
-                            )
-                        }
-
-                    }
-                }
+            if (collections.isEmpty()) {
+                EmptyCollectionViewState(navController)
             }else {
                 LazyColumn {
                     item {
-                        LazyRow(Modifier.padding(bottom = 16.dp)) {
-                            items(Utils.productionCategory) { category: Category ->
-                                CategoryItem(
-                                    iconRes = category.resId,
-                                    title = category.title,
-                                    selected = category == selectedCategory
-                                ) {
-                                    selectedCategory = category
-                                }
-                                Spacer(modifier = Modifier.size(16.dp))
-                            }
-                        }
+                        CategorySelection(
+                            categories = Utils.productionCategory,
+                            selectedCategory = selectedCategory,
+                            onCategorySelected = { selectedCategory = it }
+                        )
                     }
                     items(collections) { collection ->
                         when (selectedCategory) {
                             Utils.productionCategory[0] -> {
                                 EggCollectionItem(
                                     eggCollection = collection as EggCollection,
-                                    onItemClick = { onNavigate.invoke(collection.id) }
+                                    onItemClick = { onNavigate(collection.id) }
                                 )
                             }
-
                             Utils.productionCategory[1] -> {
                                 MilkCollectionItem(
                                     milkCollection = collection as MilkCollection,
-                                    onItemClick = { onNavigate.invoke(collection.id) }
+                                    onItemClick = { onNavigate(collection.id) }
                                 )
                             }
-
                             Utils.productionCategory[2] -> {
                                 FruitCollectionItem(
                                     fruitCollection = collection as FruitCollectionEntity,
-                                    onItemClick = { onNavigate.invoke(collection.id) }
+                                    onItemClick = { onNavigate(collection.id) }
                                 )
                             }
-
                         }
-
-
                     }
-
                 }
 
                 if (isSyncing) {
@@ -241,215 +163,153 @@ fun ProductionHomeScreen(
     }
 }
 
-//@Composable
-//fun ProgressIndicator(){
-//    Box(
-//        modifier = Modifier
-//            .fillMaxSize(),
-//        contentAlignment = Alignment.Center
-//    ) {
-//        CircularProgressIndicator(color = PrimaryColor)
-//    }
-//}
+@Composable
+fun CategorySelection(
+    categories: List<Category>,
+    selectedCategory: Category,
+    onCategorySelected: (Category) -> Unit
+) {
+    LazyRow(Modifier.padding(bottom = 16.dp)) {
+        items(categories) { category ->
+            CategoryItem(
+                iconRes = category.resId,
+                title = category.title,
+                selected = category == selectedCategory
+            ) {
+                onCategorySelected(category)
+            }
+            Spacer(modifier = Modifier.size(16.dp))
+        }
+    }
+}
+
+
+
+@Composable
+fun CollectionItem(
+    iconRes: Int,
+    title: String,
+    subtitle: String,
+    date: Long,
+    onItemClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onItemClick.invoke() }
+            .padding(top = 8.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 3.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(modifier = Modifier.padding(0.dp)) {
+                Image(
+                    painter = painterResource(iconRes),
+                    modifier = Modifier.size(24.dp),
+                    contentDescription = null
+                )
+            }
+            Column(modifier = Modifier.padding(8.dp)) {
+                Text(text = title, fontFamily = PoppinsLight)
+                Text(text = subtitle, fontFamily = PoppinsLight)
+            }
+            Box(modifier = Modifier.padding(8.dp).fillMaxSize()) {
+                val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(date)
+                Text(text = formattedDate, fontFamily = PoppinsExtraLight, modifier = Modifier.align(Alignment.BottomEnd))
+            }
+        }
+    }
+}
 
 
 @Composable
 fun EggCollectionItem(
     eggCollection: EggCollection,
     onItemClick: () -> Unit
-){
-
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable {
-                onItemClick.invoke()
-            }
-            .padding(top = 8.dp)
-    ) {
-
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 3.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ){
-            val icon = if (eggCollection.isBackedUp) {
-                painterResource(R.drawable.checkmark) // "Backed Up" icon
-            } else {
-                painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
-            }
-
-            Column(modifier = Modifier.padding(0.dp)) {
-                Image(
-                    painter = icon,
-                    modifier = Modifier.size(24.dp),
-                    contentDescription = if (eggCollection.isBackedUp) "Backed Up" else "Not Backed Up"
-                )
-            }
-
-            Column(modifier = Modifier.padding(8.dp)) {
-                Text(
-                    text = "Kienyeji",
-                    fontFamily = PoppinsLight
-                )
-                Text(text = "Total: ${eggCollection.qty} Eggs",
-                    fontFamily = PoppinsLight
-                )
-                Text(text = "Cracked: ${eggCollection.cracked} Eggs",
-                    fontFamily = PoppinsLight
-                )
-            }
-            Box(modifier = Modifier
-                .padding(8.dp)
-                .fillMaxSize()) {
-                // Date Text
-                val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-                    .format(eggCollection.date)
-                Text(text = formattedDate,
-                    fontFamily = PoppinsExtraLight,
-                    modifier = Modifier.align(Alignment.BottomEnd)
-                )
-            }
-
-        }
-
-    }
+) {
+    CollectionItem(
+        iconRes = if (eggCollection.isBackedUp) R.drawable.checkmark else R.drawable.cloud_not_done,
+        title = "Kienyeji",
+        subtitle = "Total: ${eggCollection.qty} Eggs\nCracked: ${eggCollection.cracked} Eggs",
+        date = eggCollection.date,
+        onItemClick = onItemClick
+    )
 }
-
-
 
 @Composable
 fun MilkCollectionItem(
     milkCollection: MilkCollection,
     onItemClick: () -> Unit
 ) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onItemClick)
-            .padding(top = 8.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 3.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            val icon = if (milkCollection.isBackedUp) {
-                painterResource(R.drawable.checkmark) // "Backed Up" icon
-            } else {
-                painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
-            }
-
-            Column(modifier = Modifier.padding(0.dp)) {
-                Image(
-                    painter = icon,
-                    modifier = Modifier.size(24.dp),
-                    contentDescription = if (milkCollection.isBackedUp) "Backed Up" else "Not Backed Up"
-                )
-            }
-
-            Column(modifier = Modifier.padding(8.dp)) {
-                Text(
-                    text = "Milk", // You can customize the text as needed
-                    fontFamily = PoppinsLight
-                )
-                Text(
-                    text = "Qty: ${milkCollection.qty} litres",
-                    fontFamily = PoppinsLight
-                )
-                // Add more properties as needed
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Box(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxSize(),
-            ) {
-                // Date Text
-                val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-                    .format(milkCollection.date)
-                Text(
-                    text = formattedDate,
-                    fontFamily = PoppinsExtraLight,
-                    modifier = Modifier.align(Alignment.BottomEnd)
-                )
-            }
-        }
-    }
+    CollectionItem(
+        iconRes = if (milkCollection.isBackedUp) R.drawable.checkmark else R.drawable.cloud_not_done,
+        title = "Milk",
+        subtitle = "Qty: ${milkCollection.qty} litres",
+        date = milkCollection.date,
+        onItemClick = onItemClick
+    )
 }
-
 
 @Composable
 fun FruitCollectionItem(
     fruitCollection: FruitCollectionEntity,
     onItemClick: () -> Unit
 ) {
-    Card(
+    CollectionItem(
+        iconRes = if (fruitCollection.isBackedUp) R.drawable.checkmark else R.drawable.cloud_not_done,
+        title = "Fruits",
+        subtitle = "Qty: ${fruitCollection.qty} kg",
+        date = fruitCollection.date,
+        onItemClick = onItemClick
+    )
+}
+
+
+@Composable
+fun EmptyCollectionViewState(navController: NavController) {
+    Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onItemClick)
-            .padding(top = 8.dp)
+            .fillMaxHeight(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 3.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+        Image(
+            modifier = Modifier.size(150.dp),
+            painter = painterResource(id = R.drawable.amazed100),
+            contentDescription = null
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            style = MaterialTheme.typography.subtitle2.copy(
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+            ),
+            text = "Add your first record.",
+            textAlign = TextAlign.Center
+        )
+        FilledTonalButton(
+            onClick = {
+                navController.navigate(route = "${AppScreens.ProductionRecording.route}?id=-1")
+            },
+            colors = ButtonDefaults.filledTonalButtonColors(containerColor = PrimaryColor)
         ) {
-            val icon = if (fruitCollection.isBackedUp) {
-                painterResource(R.drawable.checkmark) // "Backed Up" icon
-            } else {
-                painterResource(R.drawable.cloud_not_done) // "Not Backed Up" icon
-            }
-
-            Column(modifier = Modifier.padding(0.dp)) {
-                Image(
-                    painter = icon,
-                    modifier = Modifier.size(24.dp),
-                    contentDescription = if (fruitCollection.isBackedUp) "Backed Up" else "Not Backed Up"
+            Row {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = "Add record",
+                    tint = Color.White
                 )
-            }
-
-            Column(modifier = Modifier.padding(8.dp)) {
-                Text(
-                    text = "Fruits", // You can customize the text as needed
-                    fontFamily = PoppinsLight
-                )
-                Text(
-//                    text = "Qty: ${fruitCollection.qty} litres",
-                    text = "Qty: ${fruitCollection.qty} litres",
-                    fontFamily = PoppinsLight
-                )
-                // Add more properties as needed
-            }
-
-            Spacer(modifier = Modifier.weight(1f))
-
-            Box(
-                modifier = Modifier
-                    .padding(8.dp)
-                    .fillMaxSize(),
-            ) {
-                // Date Text
-                val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-                    .format(fruitCollection.date)
-                Text(
-                    text = formattedDate,
-                    fontFamily = PoppinsExtraLight,
-                    modifier = Modifier.align(Alignment.BottomEnd)
-                )
+                Text(text = "Add A Record", color = Color.White)
             }
         }
     }
 }
-
 
 
 @SuppressLint("UnrememberedMutableInteractionSource")
@@ -521,5 +381,13 @@ private fun DrawVerticalDashLine() {
     }
 }
 
-
+@Composable
+fun ProgressIndicator() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(color = PrimaryColor)
+    }
+}
 
