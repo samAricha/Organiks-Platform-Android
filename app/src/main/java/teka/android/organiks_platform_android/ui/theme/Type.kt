@@ -27,7 +27,7 @@ val quicksand = FontFamily(
 
 
 private val defaultTypography = Typography()
-val Typography = Typography(
+val AppTypography = Typography(
     displayLarge = defaultTypography.displayLarge.copy(fontFamily = quicksand),
     displayMedium = defaultTypography.displayMedium.copy(fontFamily = quicksand),
     displaySmall = defaultTypography.displaySmall.copy(fontFamily = quicksand),
@@ -47,4 +47,32 @@ val Typography = Typography(
     labelLarge = defaultTypography.labelLarge.copy(fontFamily = quicksand),
     labelMedium = defaultTypography.labelMedium.copy(fontFamily = quicksand),
     labelSmall = defaultTypography.labelSmall.copy(fontFamily = quicksand)
+)
+
+
+
+
+val defaultFontFamily = quicksand
+
+// Define your custom typography
+val AppTypography2 = Typography(
+    displayLarge = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Bold, fontSize = 34.sp),
+    displayMedium = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Bold, fontSize = 28.sp),
+    displaySmall = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Bold, fontSize = 24.sp),
+
+    headlineLarge = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Bold, fontSize = 20.sp),
+    headlineMedium = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Medium, fontSize = 18.sp),
+    headlineSmall = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Medium, fontSize = 16.sp),
+
+    titleLarge = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.SemiBold, fontSize = 16.sp),
+    titleMedium = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Medium, fontSize = 14.sp),
+    titleSmall = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Normal, fontSize = 12.sp),
+
+    bodyLarge = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Normal, fontSize = 16.sp),
+    bodyMedium = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Normal, fontSize = 14.sp),
+    bodySmall = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Normal, fontSize = 12.sp),
+
+    labelLarge = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Bold, fontSize = 14.sp),
+    labelMedium = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Normal, fontSize = 12.sp),
+    labelSmall = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Normal, fontSize = 10.sp)
 )

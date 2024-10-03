@@ -1,22 +1,27 @@
 package teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.Button
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -26,10 +31,11 @@ import teka.android.organiks_platform_android.domain.models.TextFieldState
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.ProductionRecordingState
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.ProductionRecordingViewModel
-import teka.android.organiks_platform_android.ui.theme.Poppins
+import teka.android.organiks_platform_android.ui.theme.MainWhiteColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
-import teka.android.organiks_platform_android.ui.theme.buttonShapes
+import teka.android.organiks_platform_android.ui.theme.quicksand
 import teka.android.organiks_platform_android.util.components.CustomDateBoxField
+import teka.android.organiks_platform_android.util.components.CustomInputTextField
 import java.util.*
 
 @Composable
@@ -114,13 +120,14 @@ fun FruitProductionEntryComponent(
                     onDismissRequest = { expanded = false }
                 ) {
                     fruitTypeItems.forEach { item ->
-                        DropdownMenuItem(onClick = {
-                            onFruitTypeChange(item.name)
-                            selectedFruitTypeItem = item
-                            expanded = false
-                        }) {
-                            Text(item.name)
-                        }
+                        DropdownMenuItem(
+                            onClick = {
+                                onFruitTypeChange(item.name)
+                                selectedFruitTypeItem = item
+                                expanded = false
+                            },
+                            text = { Text(item.name) }
+                        )
                     }
                 }
             }
@@ -130,21 +137,32 @@ fun FruitProductionEntryComponent(
 
         Spacer(modifier = Modifier.size(24.dp))
 
-
-        TextField(
-            value = state.fruitCollectionQty,
-            label = { Text(text = "Total Fruits Collected(Kgs)") },
+        CustomInputTextField(
+            modifier = Modifier.fillMaxWidth(),
+            maxLines = 3,
+            label = {
+                Text(
+                    text = "Total Fruits Collected(Kgs):",
+                    style = MaterialTheme.typography.titleSmall.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 16.sp,
+                        fontFamily = quicksand
+                    ),
+                )
+            },
+            value = TextFieldState(text = state.fruitCollectionQty),
             onValueChange = {onCollectionQuantityChange(it)},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier
-                .fillMaxWidth(),
-            colors = TextFieldDefaults.textFieldColors(
-                unfocusedIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
+            placeholder = {
+                Text(
+                    text = "Kgs of Fruits",
+                    style = MaterialTheme.typography.titleSmall,
+                )
+            },
+            keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number),
+            textStyle = MaterialTheme.typography.titleSmall.copy(
+                fontSize = 16.sp,
             ),
-            shape = Shapes.large
         )
-
 
         Spacer(modifier = Modifier.height(34.dp))
 
@@ -172,10 +190,7 @@ fun FruitProductionEntryComponent(
             horizontalArrangement = Arrangement.End
         ){
             Button(
-                modifier = Modifier
-                    .padding(horizontal = 4.dp)
-                    .width(155.dp),
-                onClick ={
+                onClick = {
                     when(state.isUpdatingItem){
                         true -> {
                             updateFruitCollectionQty.invoke()
@@ -184,13 +199,23 @@ fun FruitProductionEntryComponent(
                             onSaveFruitCollection.invoke()
                         }
                     }
-//                    navigateUp.invoke()
                     navController.navigate(AppScreens.ProductionHome.route)
                 },
+                modifier = Modifier
+                    .fillMaxWidth(),
                 enabled = state.fruitCollectionQty.isNotEmpty(),
-                shape = buttonShapes.large,
+                shape = MaterialTheme.shapes.extraLarge
             ) {
-                Text(text = buttonTitle, fontFamily = Poppins)
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(8.dp),
+                    textAlign = TextAlign.Center,
+                    text = buttonTitle,
+                    color = MainWhiteColor,
+                    fontFamily = quicksand,
+                    fontWeight = FontWeight.ExtraBold
+                )
             }
         }
     }

@@ -22,23 +22,12 @@ private val LightColorPalette = lightColorScheme(
     secondary = SecondaryColor,
     background = Color.White,
     surface = Color.White,
-
-
-    // Other default colors to override
-//    onPrimary = Color.White,
-//    onSecondary = Color.Black,
-//    onBackground = Color.Black,
-//    onSurface = Color.Black,
-
+    onPrimary = Color.White,
+    onSecondary = Color.Black,
+    onBackground = Color.Black,
+    onSurface = Color.Black,
 )
 
-
-private val LightColorScheme = lightColorScheme(
-    primary = PrimaryColor,
-    secondary = SecondaryColor,
-    background = Color.White,
-    surface = Color.White,
-)
 
 @Composable
 fun OrganiksPlatformAndroidTheme(
@@ -57,18 +46,9 @@ fun OrganiksPlatformAndroidTheme(
         else -> LightColorPalette
     }
 
-
-
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
-
-
     MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
+        colorScheme = LightColorPalette,
+        typography = AppTypography2,
         shapes = Shapes,
         content = content
     )
