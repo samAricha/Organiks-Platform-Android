@@ -2,28 +2,37 @@ package teka.android.organiks_platform_android.presentation.feature_records.scre
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import kotlinx.datetime.LocalDateTime
 import teka.android.organiks_platform_android.data.room.models.EggType
+import teka.android.organiks_platform_android.domain.models.TextFieldState
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.ProductionRecordingState
+import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.ProductionRecordingViewModel
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.theme.Poppins
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.ui.theme.buttonShapes
+import teka.android.organiks_platform_android.ui.theme.quicksand
+import teka.android.organiks_platform_android.util.components.CustomDateBoxField
 import java.util.*
 
 @Composable
@@ -38,8 +47,11 @@ fun EggProductionEntryComponent(
     onSaveEggType:() -> Unit,
     onSaveEggCollection: () -> Unit,
     updateEggCollectionQty:() -> Unit,
-    navController: NavController
+    navController: NavController,
+    viewModel: ProductionRecordingViewModel
 ){
+    val collectionDate = viewModel.collectionDate.collectAsState().value
+
 
     val eggTypeItems = listOf(
         EggType(1, "Kienyeji"),
@@ -58,6 +70,72 @@ fun EggProductionEntryComponent(
 
     Column(
     ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            CustomDateBoxField(
+                currentTextState = TextFieldState(
+                    text = collectionDate.date.toString(),
+                ),
+                onClick = { viewModel.setShowTaskDatePickerDialog(true) },
+                textStyle = MaterialTheme.typography.titleSmall.copy(
+                    fontSize = 16.sp,
+                ),
+                shape = Shapes.large
+            )
+
+            Row(modifier = Modifier
+                .height(40.dp)
+                .padding(horizontal = 3.dp)
+                .background(Color.White)
+                .border(
+                    width = 1.dp,
+                    color = if (expanded) {
+                        MaterialTheme.colorScheme.onBackground
+                    } else {
+                        MaterialTheme.colorScheme.onBackground.copy(alpha = .4f)
+                    },
+                    shape = Shapes.large,
+                )
+                .clickable { expanded = true },
+                horizontalArrangement = Arrangement.SpaceBetween,
+
+                ) {
+                Text(
+                    text = selectedEggTypeItem.name,
+                    modifier = Modifier
+                        .padding(horizontal = 12.dp)
+                        .align(Alignment.CenterVertically),
+
+                    )
+                Icon(
+                    imageVector = Icons.Default.ArrowDropDown,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .padding(end = 8.dp)
+                )
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false }
+                ) {
+                    eggTypeItems.forEach { item ->
+                        DropdownMenuItem(onClick = {
+                            onEggTypeChange(item.name)
+                            selectedEggTypeItem = item
+                            expanded = false
+                        }) {
+                            Text(item.name)
+                        }
+                    }
+                }
+            }
+
+
+        }
+
+        Spacer(modifier = Modifier.size(14.dp))
 
         TextField(
             value = state.eggCollectionQty,
@@ -90,53 +168,16 @@ fun EggProductionEntryComponent(
 
         Spacer(modifier = Modifier.size(24.dp))
 
-
         Row(
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ) {
 
-            Row(modifier = Modifier
-                .width(200.dp)
-                .height(40.dp)
-                .background(Color.LightGray, Shapes.large)
-                .clickable { expanded = true },
-                horizontalArrangement = Arrangement.SpaceBetween,
-
-            ) {
-                Text(
-                    text = selectedEggTypeItem.name,
-                    modifier = Modifier
-                        .padding(horizontal = 12.dp)
-                        .align(Alignment.CenterVertically),
-
-                )
-                Icon(
-                    imageVector = Icons.Default.ArrowDropDown,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                        .padding(end = 8.dp)
-                )
-            }
-
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                eggTypeItems.forEach { item ->
-                    DropdownMenuItem(onClick = {
-                        onEggTypeChange(item.name)
-                        selectedEggTypeItem = item
-                        expanded = false
-                    }) {
-                        Text(item.name)
-                    }
-                }
-            }
         }
 
 
         Spacer(modifier = Modifier.height(34.dp))
+
 
         Canvas(
             modifier = Modifier.fillMaxWidth()
@@ -153,6 +194,7 @@ fun EggProductionEntryComponent(
                 cap = StrokeCap.Round
             )
         }
+
         Spacer(modifier = Modifier.height(4.dp))
         val buttonTitle = if (state.isUpdatingItem) "Update"
         else "Save"

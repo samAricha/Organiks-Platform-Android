@@ -14,7 +14,10 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import kotlinx.datetime.Clock
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components.EggProductionEntryComponent
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components.FruitProductionEntryComponent
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components.MilkProductionEntryComponent
@@ -30,8 +34,10 @@ import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
+import teka.android.organiks_platform_android.util.components.JoiningDateDatePicker
 import java.util.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ProductionRecordingScreen(
@@ -39,6 +45,24 @@ fun ProductionRecordingScreen(
     navController: NavController
 ){
     val viewModel: ProductionRecordingViewModel = hiltViewModel()
+    val showTaskDatePickerDialog = viewModel.showTaskDatePickerDialog.collectAsState().value
+
+
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = Clock.System.now().toEpochMilliseconds(),
+    )
+    if (showTaskDatePickerDialog) {
+        JoiningDateDatePicker(
+            datePickerState = datePickerState,
+            dismiss = {
+                viewModel.setShowTaskDatePickerDialog(false)
+            },
+            onConfirmDate = {
+                viewModel.setContributionDate(it)
+                viewModel.setShowTaskDatePickerDialog(false)
+            },
+        )
+    }
 
     Scaffold() {
         ProductionRecording(
@@ -58,6 +82,10 @@ fun ProductionRecording(
     viewModel: ProductionRecordingViewModel,
     navController: NavController
 ) {
+
+
+
+
     Column(Modifier.padding(horizontal = 16.dp, vertical = 16.dp)) {
         // Production Category Section
         LazyRow {
@@ -89,7 +117,8 @@ fun ProductionRecording(
                     onSaveEggType = viewModel::addEggCollection,
                     updateEggCollectionQty = { viewModel::updateFruitCollection },
                     onSaveEggCollection = viewModel::onSaveEggCollection,
-                    navController = navController
+                    navController = navController,
+                    viewModel = viewModel
                 )
             }
             Utils.productionCategory[1] -> {

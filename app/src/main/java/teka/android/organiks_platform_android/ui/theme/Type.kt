@@ -1,6 +1,6 @@
 package teka.android.organiks_platform_android.ui.theme
 
-import androidx.compose.material.Typography
+import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -26,23 +26,25 @@ val quicksand = FontFamily(
 )
 
 
+private val defaultTypography = Typography()
 val Typography = Typography(
-    defaultFontFamily = quicksand,
-//    body1 = TextStyle(
-//        fontFamily = ReemKufi,
-//        fontWeight = FontWeight.Light,
-//        fontSize = 13.sp
-//    )
-    /* Other default text styles to override
-    button = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.W500,
-        fontSize = 14.sp
-    ),
-    caption = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
-    )
-    */
+    displayLarge = defaultTypography.displayLarge.copy(fontFamily = quicksand),
+    displayMedium = defaultTypography.displayMedium.copy(fontFamily = quicksand),
+    displaySmall = defaultTypography.displaySmall.copy(fontFamily = quicksand),
+
+    headlineLarge = defaultTypography.headlineLarge.copy(fontFamily = quicksand),
+    headlineMedium = defaultTypography.headlineMedium.copy(fontFamily = quicksand),
+    headlineSmall = defaultTypography.headlineSmall.copy(fontFamily = quicksand),
+
+    titleLarge = defaultTypography.titleLarge.copy(fontFamily = quicksand),
+    titleMedium = defaultTypography.titleMedium.copy(fontFamily = quicksand),
+    titleSmall = defaultTypography.titleSmall.copy(fontFamily = quicksand),
+
+    bodyLarge = defaultTypography.bodyLarge.copy(fontFamily = quicksand),
+    bodyMedium = defaultTypography.bodyMedium.copy(fontFamily = quicksand),
+    bodySmall = defaultTypography.bodySmall.copy(fontFamily = quicksand),
+
+    labelLarge = defaultTypography.labelLarge.copy(fontFamily = quicksand),
+    labelMedium = defaultTypography.labelMedium.copy(fontFamily = quicksand),
+    labelSmall = defaultTypography.labelSmall.copy(fontFamily = quicksand)
 )

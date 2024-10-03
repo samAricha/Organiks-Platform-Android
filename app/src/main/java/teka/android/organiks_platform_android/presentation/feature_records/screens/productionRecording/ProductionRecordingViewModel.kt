@@ -7,6 +7,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.models.EggCollection
@@ -17,6 +19,7 @@ import teka.android.organiks_platform_android.data.room.models.ProductionCategor
 import teka.android.organiks_platform_android.domain.repository.DbRepository
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
+import teka.android.organiks_platform_android.util.today
 import java.util.*
 import javax.inject.Inject
 
@@ -62,6 +65,18 @@ class ProductionRecordingViewModel @Inject constructor(
         }else{
             state.copy(isUpdatingItem = false)
         }
+    }
+
+    private val _showTaskDatePickerDialog = MutableStateFlow(false)
+    val showTaskDatePickerDialog = _showTaskDatePickerDialog.asStateFlow()
+    fun setShowTaskDatePickerDialog(show: Boolean) {
+        _showTaskDatePickerDialog.value = show
+    }
+
+    private val _collectionDate = MutableStateFlow(today())
+    val collectionDate = _collectionDate.asStateFlow()
+    fun setContributionDate(date: kotlinx.datetime.LocalDateTime) {
+        _collectionDate.value = date
     }
 
     val isFieldNotEmpty: Boolean
