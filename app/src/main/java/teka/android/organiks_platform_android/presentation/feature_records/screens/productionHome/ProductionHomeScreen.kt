@@ -120,43 +120,45 @@ fun ProductionHomeScreen(
                 .fillMaxSize()
                 .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 50.dp)
         ){
-            if (collections.isEmpty()) {
-                EmptyCollectionViewState(navController)
-            }else {
-                LazyColumn {
-                    item {
-                        CategorySelection(
-                            categories = Utils.productionCategory,
-                            selectedCategory = selectedCategory,
-                            onCategorySelected = { selectedCategory = it }
-                        )
-                    }
-                    items(collections) { collection ->
-                        when (selectedCategory) {
-                            Utils.productionCategory[0] -> {
-                                EggCollectionItem(
-                                    eggCollection = collection as EggCollection,
-                                    onItemClick = { onNavigate(collection.id) }
-                                )
-                            }
-                            Utils.productionCategory[1] -> {
-                                MilkCollectionItem(
-                                    milkCollection = collection as MilkCollection,
-                                    onItemClick = { onNavigate(collection.id) }
-                                )
-                            }
-                            Utils.productionCategory[2] -> {
-                                FruitCollectionItem(
-                                    fruitCollection = collection as FruitCollectionEntity,
-                                    onItemClick = { onNavigate(collection.id) }
-                                )
+            Column(modifier = Modifier.fillMaxSize()) {
+                CategorySelection(
+                    categories = Utils.productionCategory,
+                    selectedCategory = selectedCategory,
+                    onCategorySelected = { selectedCategory = it }
+                )
+                if (collections.isEmpty()) {
+                    EmptyCollectionViewState(navController)
+                } else {
+                    LazyColumn {
+                        items(collections) { collection ->
+                            when (selectedCategory) {
+                                Utils.productionCategory[0] -> {
+                                    EggCollectionItem(
+                                        eggCollection = collection as EggCollection,
+                                        onItemClick = { onNavigate(collection.id) }
+                                    )
+                                }
+
+                                Utils.productionCategory[1] -> {
+                                    MilkCollectionItem(
+                                        milkCollection = collection as MilkCollection,
+                                        onItemClick = { onNavigate(collection.id) }
+                                    )
+                                }
+
+                                Utils.productionCategory[2] -> {
+                                    FruitCollectionItem(
+                                        fruitCollection = collection as FruitCollectionEntity,
+                                        onItemClick = { onNavigate(collection.id) }
+                                    )
+                                }
                             }
                         }
                     }
-                }
 
-                if (isSyncing) {
-                    ProgressIndicator()
+                    if (isSyncing) {
+                        ProgressIndicator()
+                    }
                 }
             }
         }
@@ -327,7 +329,7 @@ fun CategoryItem(
             .selectable(
                 selected = selected,
                 interactionSource = MutableInteractionSource(),
-                indication = rememberRipple(),
+                indication = ripple(),
                 onClick = { onItemClick.invoke() }
             ),
         border = BorderStroke(

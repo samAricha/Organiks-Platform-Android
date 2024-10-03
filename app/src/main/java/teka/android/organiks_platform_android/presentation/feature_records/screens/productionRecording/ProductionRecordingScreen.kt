@@ -152,7 +152,7 @@ fun CategoryItem(
             .selectable(
                 selected = selected,
                 interactionSource = MutableInteractionSource(),
-                indication = rememberRipple(),
+                indication = ripple(),
                 onClick = { onItemClick.invoke() }
             ),
         border = BorderStroke(

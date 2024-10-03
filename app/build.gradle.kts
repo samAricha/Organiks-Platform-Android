@@ -84,28 +84,28 @@ android {
 }
 
 dependencies {
-    implementation("androidx.lifecycle:lifecycle-runtime-compose-android:2.8.4")
-    val compose_ui_version = "1.6.8"
+    implementation("androidx.lifecycle:lifecycle-runtime-compose-android:2.8.6")
+    val compose_ui_version = "1.7.3"
     implementation ("androidx.core:core-ktx:1.13.1")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.8.4")
-    implementation ("androidx.activity:activity-compose:1.9.1")
-    implementation ("androidx.compose.material:material:1.6.4")
+    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.8.6")
+    implementation ("androidx.activity:activity-compose:1.9.2")
+    implementation ("androidx.compose.material:material:1.7.3")
     implementation ("androidx.compose.ui:ui:$compose_ui_version")
     implementation ("androidx.compose.ui:ui-tooling-preview:$compose_ui_version")
 
-    implementation ("androidx.compose.runtime:runtime:1.6.8")
+    implementation ("androidx.compose.runtime:runtime:1.7.3")
 
     //material 3
-    val material3_version = "1.2.1"
+    val material3_version = "1.3.0"
     implementation ("androidx.compose.material3:material3:$material3_version")
     //icons
-    implementation ("androidx.compose.material:material-icons-extended:1.6.8")
+    implementation ("androidx.compose.material:material-icons-extended:1.7.3")
 
 
     // Navigation Compose
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation("androidx.navigation:navigation-compose:2.8.2")
     // compose ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
     //Room
     val room_version = "2.6.1"
     implementation ("androidx.room:room-runtime:$room_version")
@@ -130,7 +130,7 @@ dependencies {
 
     //retrofit and kotlinx dependencies
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation ("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     implementation ("com.squareup.okhttp3:okhttp:4.12.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.10.0")
@@ -150,10 +150,10 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version")
 
     //viewmodel and lifecycle scope
-    val ktx_version = "2.8.4"
+    val ktx_version = "2.8.6"
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:$ktx_version")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:$ktx_version")
-    implementation ("androidx.compose.runtime:runtime-livedata:1.6.8")
+    implementation ("androidx.compose.runtime:runtime-livedata:1.7.3")
     implementation ("androidx.lifecycle:lifecycle-viewmodel-compose:$ktx_version")
 
     //coil
@@ -182,7 +182,7 @@ dependencies {
     implementation("io.github.dakshsemwal:mdparserkitcore:1.0.1")
 
     //firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation(platform("com.google.firebase:firebase-bom:33.4.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
@@ -190,12 +190,12 @@ dependencies {
 
 
     // required to avoid crash on Android 12 API 31
-    implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation("androidx.work:work-runtime-ktx:2.9.1")
 
 
     testImplementation ("junit:junit:4.13.2")
-    androidTestImplementation ("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation ("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation ("androidx.test.espresso:espresso-core:3.6.1")
     androidTestImplementation ("androidx.compose.ui:ui-test-junit4:$compose_ui_version")
     debugImplementation ("androidx.compose.ui:ui-tooling:$compose_ui_version")
     debugImplementation ("androidx.compose.ui:ui-test-manifest:$compose_ui_version")
