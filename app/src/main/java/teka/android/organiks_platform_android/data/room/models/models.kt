@@ -3,6 +3,7 @@ package teka.android.organiks_platform_android.data.room.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import teka.android.organiks_platform_android.util.today
 import java.util.*
 
 
@@ -40,7 +41,8 @@ data class EggCollection(
     val qty: String,
     val cracked: String,
     val eggTypeId: Int,
-    val date: Long,
+    val date: Long = System.currentTimeMillis(),
+    val collectionDate: String = today().toString(),
     var isBackedUp: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
 ) {
@@ -61,6 +63,7 @@ data class MilkCollection(
     val uuid: String = generateUniqueId(),
     val qty:String,
     val date: Long = System.currentTimeMillis(),
+    val collectionDate: String = today().toString(),
     val createdAt: Long = System.currentTimeMillis(),
     var isBackedUp: Boolean = false,
     ){
@@ -81,7 +84,8 @@ data class FruitCollectionEntity(
     val uuid: String = generateUniqueId(),
     val qty: String,
     val fruitTypeId: Int,
-    val date: Long,
+    val date: Long = System.currentTimeMillis(),
+    val collectionDate: String = today().toString(),
     var isBackedUp: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
 ) {

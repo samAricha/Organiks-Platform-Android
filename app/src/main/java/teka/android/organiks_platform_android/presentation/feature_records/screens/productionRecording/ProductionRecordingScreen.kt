@@ -58,7 +58,7 @@ fun ProductionRecordingScreen(
                 viewModel.setShowTaskDatePickerDialog(false)
             },
             onConfirmDate = {
-                viewModel.setContributionDate(it)
+                viewModel.setCollectionDate(it)
                 viewModel.setShowTaskDatePickerDialog(false)
             },
         )
@@ -84,8 +84,6 @@ fun ProductionRecording(
 ) {
 
 
-
-
     Column(Modifier.padding(horizontal = 16.dp, vertical = 16.dp)) {
         // Production Category Section
         LazyRow {
@@ -108,15 +106,9 @@ fun ProductionRecording(
             Utils.productionCategory[0] -> {
                 EggProductionEntryComponent(
                     state,
-                    onDateSelected = viewModel::onDateChange,
-                    onEggTypeChange = viewModel::onEggTypeChange,
-                    onCollectionQuantityChange = viewModel::onQtyChange,
-                    onCrackedQuantityChange = viewModel::onCrackedQtyChange,
                     onCategoryChange = viewModel::onCategoryChange,
                     onDialogDismissed = viewModel::onScreenDialogDismissed,
                     onSaveEggType = viewModel::addEggCollection,
-                    updateEggCollectionQty = { viewModel::updateFruitCollection },
-                    onSaveEggCollection = viewModel::onSaveEggCollection,
                     navController = navController,
                     viewModel = viewModel
                 )
@@ -130,7 +122,6 @@ fun ProductionRecording(
             Utils.productionCategory[2] -> {
                 FruitProductionEntryComponent(
                     state,
-                    onDateSelected = viewModel::onDateChange,
                     onFruitTypeChange = viewModel::onEggTypeChange,
                     onCollectionQuantityChange = viewModel::onFruitQtyChange,
                     updateFruitCollectionQty = { viewModel::updateEggCollection },
@@ -192,32 +183,4 @@ fun CategoryItem(
 
     }
 
-}
-
-
-
-@Composable
-fun datePickerDialog(
-    context: Context,
-    onDateSelected: (Date) -> Unit
-): DatePickerDialog {
-    val calendar = Calendar.getInstance()
-    val year = calendar.get(Calendar.YEAR)
-    val month = calendar.get(Calendar.MONTH)
-    val day = calendar.get(Calendar.DAY_OF_MONTH)
-    calendar.time = Date()
-
-
-    val mDatePickerDialog = DatePickerDialog(
-        context,
-        { _: DatePicker,
-          mYear: Int, mMonth: Int,
-          mDayofMonth: Int ->
-            val calendar = Calendar.getInstance()
-            calendar.set(mYear, mMonth, mDayofMonth)
-            onDateSelected.invoke(calendar.time)
-
-        }, year, month, day
-    )
-    return mDatePickerDialog
 }

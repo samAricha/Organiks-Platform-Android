@@ -9,7 +9,7 @@ data class FruitCollectionRequest(
     val quantity: String,
     val fruit_type_id: String,
     val date: Long,
-    val collection_date: Long,
+    val collection_date: String,
 )
 
 fun FruitCollectionEntity.toFruitCollectionRequest(): FruitCollectionRequest {
@@ -18,7 +18,7 @@ fun FruitCollectionEntity.toFruitCollectionRequest(): FruitCollectionRequest {
         quantity = this.qty,
         date = this.createdAt,
         fruit_type_id = this.fruitTypeId.toString(),
-        collection_date = this.date,
+        collection_date = this.collectionDate,
     )
 }
 
@@ -26,7 +26,8 @@ fun FruitCollectionRequest.toFruitCollection(): FruitCollectionEntity {
     return FruitCollectionEntity(
         uuid = this.collection_uuid,
         qty = this.quantity,
-        date = this.collection_date,
+        date = this.date,
+        collectionDate = this.collection_date,
         fruitTypeId = this.fruit_type_id.toInt(),
         createdAt = this.date
 

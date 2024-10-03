@@ -45,8 +45,7 @@ fun MilkProductionEntryComponent(
         mutableStateOf(false)
     }
 
-    Column(
-    ) {
+    Column() {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
@@ -80,7 +79,7 @@ fun MilkProductionEntryComponent(
             ),
             shape = Shapes.large
         )
-        Spacer(modifier = Modifier.height(84.dp))
+        Spacer(modifier = Modifier.height(34.dp))
 
 
         Canvas(
@@ -103,6 +102,7 @@ fun MilkProductionEntryComponent(
         else "Save"
 
         Row(
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ){
             Button(

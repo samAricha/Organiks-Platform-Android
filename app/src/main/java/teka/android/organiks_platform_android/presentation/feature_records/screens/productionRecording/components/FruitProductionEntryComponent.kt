@@ -35,7 +35,6 @@ import java.util.*
 @Composable
 fun FruitProductionEntryComponent(
     state: ProductionRecordingState,
-    onDateSelected: (Date) -> Unit,
     onFruitTypeChange:(String) -> Unit,
     onCollectionQuantityChange:(String) -> Unit,
     onSaveFruitCollection: () -> Unit,

@@ -13,7 +13,7 @@ data class EggCollectionResult(
     @SerialName("egg_type_id")
     val eggTypeId: Int = 0,
     @SerialName("collection_date")
-    val date: Long = 0L
+    var date: Long = 0L
 )
 
 

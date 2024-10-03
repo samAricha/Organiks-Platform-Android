@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kotlinx.datetime.LocalDateTime
 import teka.android.organiks_platform_android.data.room.models.EggType
@@ -38,18 +39,13 @@ import java.util.*
 @Composable
 fun EggProductionEntryComponent(
     state: ProductionRecordingState,
-    onDateSelected: (Date) -> Unit,
-    onEggTypeChange:(String) -> Unit,
-    onCollectionQuantityChange:(String) -> Unit,
-    onCrackedQuantityChange:(String) -> Unit,
     onCategoryChange:(Category) -> Unit,
     onDialogDismissed:(Boolean) -> Unit,
     onSaveEggType:() -> Unit,
-    onSaveEggCollection: () -> Unit,
-    updateEggCollectionQty:() -> Unit,
     navController: NavController,
     viewModel: ProductionRecordingViewModel
 ){
+    val viewModel: ProductionRecordingViewModel = hiltViewModel()
     val collectionDate = viewModel.collectionDate.collectAsState().value
 
 
@@ -122,7 +118,7 @@ fun EggProductionEntryComponent(
                 ) {
                     eggTypeItems.forEach { item ->
                         DropdownMenuItem(onClick = {
-                            onEggTypeChange(item.name)
+                            viewModel.onEggTypeChange(item.name)
                             selectedEggTypeItem = item
                             expanded = false
                         }) {
@@ -140,7 +136,7 @@ fun EggProductionEntryComponent(
         TextField(
             value = state.eggCollectionQty,
             label = { Text(text = "Total Eggs Collected") },
-            onValueChange = {onCollectionQuantityChange(it)},
+            onValueChange = {viewModel.onQtyChange(it)},
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier
                 .fillMaxWidth(),
@@ -156,7 +152,7 @@ fun EggProductionEntryComponent(
         TextField(
             value = state.eggsCracked,
             label = { Text(text = "Cracked Eggs") },
-            onValueChange = {onCrackedQuantityChange(it)},
+            onValueChange = {viewModel.onCrackedQtyChange(it)},
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.fillMaxWidth(),
             colors = TextFieldDefaults.textFieldColors(
@@ -210,10 +206,10 @@ fun EggProductionEntryComponent(
                 onClick ={
                     when(state.isUpdatingItem){
                         true -> {
-                            updateEggCollectionQty.invoke()
+                            viewModel.updateEggCollection(viewModel.eggCollectionId.value)
                         }
                         false -> {
-                            onSaveEggCollection.invoke()
+                            viewModel.onSaveEggCollection()
                         }
                     }
 //                    navigateUp.invoke()

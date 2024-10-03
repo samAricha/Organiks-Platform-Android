@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDateTime
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
@@ -75,7 +76,7 @@ class ProductionRecordingViewModel @Inject constructor(
 
     private val _collectionDate = MutableStateFlow(today())
     val collectionDate = _collectionDate.asStateFlow()
-    fun setContributionDate(date: kotlinx.datetime.LocalDateTime) {
+    fun setCollectionDate(date: LocalDateTime) {
         _collectionDate.value = date
     }
 
@@ -84,9 +85,6 @@ class ProductionRecordingViewModel @Inject constructor(
                 state.eggCollectionQty.isNotEmpty()
 
 
-    fun onMilkCollectionQtyChange(newValue: String) {
-        _milkCollectionQtyEntered.value = newValue
-    }
     fun onMilkCollectionQuantityChange(newValue: String) {
         _milkCollectionQtyEntered.value = newValue
     }
@@ -130,7 +128,8 @@ class ProductionRecordingViewModel @Inject constructor(
                     eggTypeId = state.eggTypes.find {
                         it.name == state.eggTypeName
                     }?.id ?: 0,
-                    isBackedUp = false
+                    isBackedUp = false,
+                    collectionDate = collectionDate.value.date.toString()
                 )
             )
         }
@@ -145,7 +144,8 @@ class ProductionRecordingViewModel @Inject constructor(
                     fruitTypeId = state.eggTypes.find {
                         it.name == state.eggTypeName
                     }?.id ?: 0,
-                    isBackedUp = false
+                    isBackedUp = false,
+                    collectionDate = collectionDate.value.date.toString()
                 )
             )
         }
@@ -162,6 +162,7 @@ class ProductionRecordingViewModel @Inject constructor(
                 repository.insertMilkCollection(
                     MilkCollection(
                         qty = milkCollectionQty,
+                        collectionDate = collectionDate.value.date.toString()
                     )
                 )
             }
@@ -254,8 +255,6 @@ class ProductionRecordingViewModel @Inject constructor(
             }
         }
     }
-
-
 
 }
 data class ProductionRecordingState(
