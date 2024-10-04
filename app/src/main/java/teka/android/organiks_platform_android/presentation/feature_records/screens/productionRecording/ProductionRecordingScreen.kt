@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kotlinx.datetime.Clock
+import teka.android.organiks_platform_android.presentation.feature_records.screens.CategoryItem
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components.EggProductionEntryComponent
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components.FruitProductionEntryComponent
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components.MilkProductionEntryComponent
@@ -88,10 +89,15 @@ fun ProductionRecording(
     navController: NavController
 ) {
 
-
-    Column(Modifier.padding(horizontal = 16.dp, vertical = 16.dp)) {
-        // Production Category Section
-        LazyRow {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(bottom = 16.dp, start = 8.dp, end = 8.dp)
+    ) {
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
             items(Utils.productionCategory) { category: Category ->
                 CategoryItem(
                     iconRes = category.resId,
@@ -139,55 +145,3 @@ fun ProductionRecording(
 }
 
 
-
-
-
-@SuppressLint("UnrememberedMutableInteractionSource")
-@Composable
-fun CategoryItem(
-    @DrawableRes iconRes:Int,
-    title:String,
-    selected:Boolean,
-    onItemClick: () -> Unit
-){
-
-    Card(
-        modifier = Modifier
-            .width(120.dp)
-            .selectable(
-                selected = selected,
-                interactionSource = MutableInteractionSource(),
-                indication = ripple(),
-                onClick = { onItemClick.invoke() }
-            ),
-        border = BorderStroke(
-            1.dp,
-            if (selected) MaterialTheme.colorScheme.primary.copy(.5f)
-            else MaterialTheme.colorScheme.onSurface,
-        ),
-        shape = Shapes.large,
-        colors = CardDefaults.cardColors(
-            containerColor = if(selected) PrimaryColor
-            else Color.LightGray,
-            contentColor = if (selected) MaterialTheme.colorScheme.onPrimary
-            else MaterialTheme.colorScheme.onSurface
-
-        )
-    ) {
-        Row(horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-
-            Icon(painter = painterResource(id = iconRes),
-                contentDescription = null,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.size(8.dp))
-            Text(text = title, style = MaterialTheme.typography.bodySmall,
-                fontWeight = FontWeight.Medium
-            )
-        }
-
-    }
-
-}

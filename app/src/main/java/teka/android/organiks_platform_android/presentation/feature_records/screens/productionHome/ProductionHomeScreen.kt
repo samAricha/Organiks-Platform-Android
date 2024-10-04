@@ -37,6 +37,7 @@ import teka.android.organiks_platform_android.ui.theme.Shapes
 import java.text.SimpleDateFormat
 import java.util.Locale
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ButtonDefaults
@@ -66,6 +67,7 @@ import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.navigation.ProgressIndicator
+import teka.android.organiks_platform_android.presentation.feature_records.screens.CategoryItem
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -151,7 +153,7 @@ fun ProductionHomeScreen(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 50.dp)
+                .padding(start = 8.dp, end = 8.dp, bottom = 50.dp)
         ){
             Column(modifier = Modifier.fillMaxSize()) {
                 CategorySelection(
@@ -204,7 +206,12 @@ fun CategorySelection(
     selectedCategory: Category,
     onCategorySelected: (Category) -> Unit
 ) {
-    LazyRow(Modifier.padding(bottom = 16.dp)) {
+    LazyRow(
+        Modifier
+            .padding(bottom = 16.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
         items(categories) { category ->
             CategoryItem(
                 iconRes = category.resId,
@@ -347,55 +354,7 @@ fun EmptyCollectionViewState(navController: NavController) {
 }
 
 
-@SuppressLint("UnrememberedMutableInteractionSource")
-@Composable
-fun CategoryItem(
-    @DrawableRes iconRes:Int,
-    title:String,
-    selected:Boolean,
-    onItemClick: () -> Unit
-){
 
-    Card(
-        modifier = Modifier
-            .width(120.dp)
-            .selectable(
-                selected = selected,
-                interactionSource = MutableInteractionSource(),
-                indication = ripple(),
-                onClick = { onItemClick.invoke() }
-            ),
-        border = BorderStroke(
-            1.dp,
-            if (selected) MaterialTheme.colorScheme.primary.copy(.5f)
-            else MaterialTheme.colorScheme.onSurface,
-        ),
-        shape = Shapes.large,
-        colors = CardDefaults.cardColors(
-            containerColor = if(selected) PrimaryColor else Color.LightGray,
-            contentColor = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
-        ),
-    ) {
-        Row(horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-
-            Icon(
-                painter = painterResource(id = iconRes),
-                contentDescription = null,
-                modifier = Modifier.size(24.dp)
-            )
-            Spacer(modifier = Modifier.size(8.dp))
-            Text(
-                text = title,
-                style = MaterialTheme.typography.bodySmall,
-                fontWeight = FontWeight.Medium
-            )
-        }
-
-    }
-
-}
 
 @Composable
 private fun DrawVerticalDashLine() {

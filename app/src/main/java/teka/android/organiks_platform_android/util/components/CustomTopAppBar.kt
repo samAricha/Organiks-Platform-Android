@@ -76,6 +76,8 @@ fun CustomTopAppBar(
                 )
             }
         },
-        colors = colors,
+        colors = TopAppBarDefaults.mediumTopAppBarColors(
+            containerColor = Color.White,
+        ),
     )
 }

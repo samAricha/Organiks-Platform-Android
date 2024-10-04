@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
@@ -102,6 +103,7 @@ fun ScaffoldContent(
                     val currentRoute = navBackStackEntry?.destination?.route
 
                     NavigationBarItem(
+                        modifier = Modifier.fillMaxWidth(),
                         selected = currentRoute == AppScreens.HomeScreen.route,
                         onClick = {
                             navHostController.navigate(AppScreens.HomeScreen.route) {
