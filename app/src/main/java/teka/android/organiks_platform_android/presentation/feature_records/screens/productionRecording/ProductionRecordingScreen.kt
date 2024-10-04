@@ -33,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kotlinx.datetime.Clock
 import teka.android.organiks_platform_android.presentation.feature_records.screens.CategoryItem
+import teka.android.organiks_platform_android.presentation.feature_records.screens.CategorySelection
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components.EggProductionEntryComponent
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components.FruitProductionEntryComponent
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.components.MilkProductionEntryComponent
@@ -94,21 +95,11 @@ fun ProductionRecording(
             .fillMaxSize()
             .padding(bottom = 16.dp, start = 8.dp, end = 8.dp)
     ) {
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            items(Utils.productionCategory) { category: Category ->
-                CategoryItem(
-                    iconRes = category.resId,
-                    title = category.title,
-                    selected = category == state.selectedProductionCategory
-                ) {
-                    onCategoryChange(category)
-                }
-                Spacer(modifier = Modifier.size(16.dp))
-            }
-        }
+        CategorySelection(
+            categories = Utils.productionCategory,
+            selectedCategory = state.selectedProductionCategory,
+            onCategorySelected = { onCategoryChange(it) }
+        )
 
         Spacer(modifier = Modifier.size(16.dp))
 

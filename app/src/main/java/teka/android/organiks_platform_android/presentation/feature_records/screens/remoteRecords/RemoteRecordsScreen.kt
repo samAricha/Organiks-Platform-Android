@@ -13,7 +13,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -22,42 +21,30 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FabPosition
-import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
 import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionDto
 import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionResult
 import teka.android.organiks_platform_android.navigation.AppScreens
+import teka.android.organiks_platform_android.presentation.feature_records.EmptyCollectionViewState
+import teka.android.organiks_platform_android.presentation.feature_records.screens.CategorySelection
 import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components.CategoryRowItem
 import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components.EggsListItem
 import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components.FruitsListItem
 import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components.MilkListItem
 import teka.android.organiks_platform_android.ui.theme.BackgroundColor
 import teka.android.organiks_platform_android.ui.theme.DecentBlue
-import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.util.CustomContextProvider
-import teka.android.organiks_platform_android.util.components.LoadingAnimation
 import teka.android.organiks_platform_android.util.components.ProgressIndicatorWidget
 
 
@@ -158,90 +145,21 @@ fun RemoteRecordsScreen(
             }
         }
     ) {
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 50.dp)
-            ){
-                if (collections.isEmpty()){
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .fillMaxHeight()
-                            .align(Alignment.Center),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Image(
-                            modifier = Modifier
-                                .size(150.dp)
-                                .align(Alignment.CenterHorizontally),
-                            painter = painterResource(id = R.drawable.amazed100),
-                            contentDescription = null,
-
-                            )
-                        Spacer(modifier = Modifier.height(24.dp))
-                        Text(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .align(Alignment.CenterHorizontally),
-                            style = MaterialTheme.typography.titleSmall.copy(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Bold,
-                            ),
-                            text = if (collections.isEmpty()) {
-                                "Add your first record."
-                            } else {
-                                ""
-                            },
-                            textAlign = TextAlign.Center,
-                        )
-
-
-
-
-                        FilledTonalButton(
-                            onClick = {
-                                navController.navigate(route = "${AppScreens.ProductionRecording.route}?id=-1")
-                            },
-                            colors = ButtonDefaults.filledTonalButtonColors(
-                                containerColor = PrimaryColor
-                            )
-                        ) {
-                            Row {
-                                androidx.compose.material.Icon(
-                                    imageVector = Icons.Default.Add,
-                                    contentDescription = "Add record",
-                                    tint = Color.White
-                                )
-                                Text(
-                                    text = "Add A Record",
-                                    color = Color.White
-                                )
-                            }
-
-                        }
-                    }
-                }
-                else {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 50.dp)
+        ){
+            Column(modifier = Modifier.fillMaxSize()) {
+                CategorySelection(
+                    categories = Utils.productionCategory,
+                    selectedCategory = selectedCategory,
+                    onCategorySelected = { selectedCategory = it }
+                )
+                if (collections.isEmpty()) {
+                    EmptyCollectionViewState(navController)
+                } else {
                     LazyColumn {
-                        item {
-                            LazyRow(Modifier.padding(bottom = 16.dp)) {
-                                items(Utils.productionCategory) { category: Category ->
-                                    CategoryRowItem(
-                                        iconRes = category.resId,
-                                        title = category.title,
-                                        selected = category == selectedCategory
-                                    ) {
-                                        selectedCategory = category
-                                    }
-                                    Spacer(modifier = Modifier.size(16.dp))
-                                }
-                            }
-                        }
-
                         items(collections) { collection ->
                             when (selectedCategory) {
                                 Utils.productionCategory[0] -> {
@@ -270,20 +188,15 @@ fun RemoteRecordsScreen(
 
                     }
 
-                    if (isLoading) {
-                        LoadingAnimation(
-                            modifier = Modifier.align(Alignment.Center),
-                            circleSize = 16.dp,
-                        )
+                    if (isSyncing) {
+                        ProgressIndicatorWidget()
                     }
                 }
 
-
-                if (isSyncing) {
-                    ProgressIndicatorWidget()
-                }
             }
+
         }
+    }
 }
 
 

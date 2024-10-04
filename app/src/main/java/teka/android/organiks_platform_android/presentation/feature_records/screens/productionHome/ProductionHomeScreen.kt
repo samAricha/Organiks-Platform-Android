@@ -67,7 +67,9 @@ import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.navigation.ProgressIndicator
+import teka.android.organiks_platform_android.presentation.feature_records.EmptyCollectionViewState
 import teka.android.organiks_platform_android.presentation.feature_records.screens.CategoryItem
+import teka.android.organiks_platform_android.presentation.feature_records.screens.CategorySelection
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -200,31 +202,6 @@ fun ProductionHomeScreen(
     }
 }
 
-@Composable
-fun CategorySelection(
-    categories: List<Category>,
-    selectedCategory: Category,
-    onCategorySelected: (Category) -> Unit
-) {
-    LazyRow(
-        Modifier
-            .padding(bottom = 16.dp)
-            .fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        items(categories) { category ->
-            CategoryItem(
-                iconRes = category.resId,
-                title = category.title,
-                selected = category == selectedCategory
-            ) {
-                onCategorySelected(category)
-            }
-            Spacer(modifier = Modifier.size(16.dp))
-        }
-    }
-}
-
 
 
 @Composable
@@ -311,47 +288,7 @@ fun FruitCollectionItem(
 }
 
 
-@Composable
-fun EmptyCollectionViewState(navController: NavController) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Image(
-            modifier = Modifier.size(150.dp),
-            painter = painterResource(id = R.drawable.amazed100),
-            contentDescription = null
-        )
-        Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.bodyMedium.copy(
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-            ),
-            text = "Add your first record.",
-            textAlign = TextAlign.Center
-        )
-        FilledTonalButton(
-            onClick = {
-                navController.navigate(route = "${AppScreens.ProductionRecording.route}?id=-1")
-            },
-            colors = ButtonDefaults.filledTonalButtonColors(containerColor = PrimaryColor)
-        ) {
-            Row {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Add record",
-                    tint = Color.White
-                )
-                Text(text = "Add A Record", color = Color.White)
-            }
-        }
-    }
-}
+
 
 
 
