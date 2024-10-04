@@ -1,6 +1,5 @@
 package teka.android.organiks_platform_android.util.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,7 +10,6 @@ import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
@@ -23,7 +21,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.ui.theme.quicksand
@@ -39,10 +36,9 @@ fun CustomTopAppBar(
     scope: CoroutineScope,
     actions: @Composable RowScope.() -> Unit = {},
     colors: TopAppBarColors = TopAppBarDefaults.mediumTopAppBarColors(
-//        containerColor = MaterialTheme.colorScheme.background,
         containerColor = Color.White,
     )
-    ) {
+) {
 
     val iconToShow = if (hasBackNavigation) {
         backNavigationIcon
@@ -64,7 +60,6 @@ fun CustomTopAppBar(
         },
         actions = {  },
         navigationIcon = {
-
             IconButton(
                 onClick = {
                     if (hasBackNavigation) {

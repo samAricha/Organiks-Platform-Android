@@ -11,11 +11,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.ripple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -38,7 +43,7 @@ import teka.android.organiks_platform_android.util.components.JoiningDateDatePic
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun ProductionRecordingScreen(
     id: Int,
@@ -157,15 +162,17 @@ fun CategoryItem(
             ),
         border = BorderStroke(
             1.dp,
-            if (selected) MaterialTheme.colors.primary.copy(.5f)
-            else MaterialTheme.colors.onSurface,
+            if (selected) MaterialTheme.colorScheme.primary.copy(.5f)
+            else MaterialTheme.colorScheme.onSurface,
         ),
         shape = Shapes.large,
-        backgroundColor = if(selected) PrimaryColor
-        else Color.LightGray,
-        contentColor = if (selected) MaterialTheme.colors.onPrimary
-        else MaterialTheme.colors.onSurface
+        colors = CardDefaults.cardColors(
+            containerColor = if(selected) PrimaryColor
+            else Color.LightGray,
+            contentColor = if (selected) MaterialTheme.colorScheme.onPrimary
+            else MaterialTheme.colorScheme.onSurface
 
+        )
     ) {
         Row(horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
@@ -176,7 +183,7 @@ fun CategoryItem(
                 modifier = Modifier.size(24.dp)
             )
             Spacer(modifier = Modifier.size(8.dp))
-            Text(text = title, style = MaterialTheme.typography.h6,
+            Text(text = title, style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Medium
             )
         }

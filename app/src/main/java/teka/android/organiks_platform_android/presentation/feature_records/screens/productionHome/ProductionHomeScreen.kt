@@ -11,8 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
-import androidx.compose.material.*
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -42,16 +40,32 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
+import androidx.compose.material3.Text
+import androidx.compose.material3.ripple
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.navigation.ProgressIndicator
-import java.util.Date
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -66,13 +80,31 @@ fun ProductionHomeScreen(
     val isSyncing by productionHomeViewModel.isSyncing.collectAsState()
     val fabClicked by productionHomeViewModel.fabClicked.collectAsState()
 
-    val scaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
 
     val snackbarData by productionHomeViewModel.snackbarData.collectAsState()
 
     if (snackbarData != null) {
         LaunchedEffect(snackbarData) {
-            scaffoldState.snackbarHostState.showSnackbar(snackbarData!!.message)
+            scope.launch {
+                val result = snackbarHostState
+                    .showSnackbar(
+                        message = snackbarData!!.message,
+                        actionLabel = "Action",
+                        duration = SnackbarDuration.Short
+                    )
+                when (result) {
+                    SnackbarResult.ActionPerformed -> {
+                        /* Handle snackbar action performed */
+                    }
+                    SnackbarResult.Dismissed -> {
+                        /* Handle snackbar dismissed */
+                    }
+                }
+            }
+
             productionHomeViewModel.clearSnackbar()
         }
     }
@@ -92,12 +124,13 @@ fun ProductionHomeScreen(
 
     Scaffold(
         floatingActionButtonPosition = FabPosition.End,
-        isFloatingActionButtonDocked = false,
         floatingActionButton = {
-        FloatingActionButton(onClick = {
-            productionHomeViewModel.onFabClicked()
-        },
-        backgroundColor = PrimaryColor) {
+        FloatingActionButton(
+            onClick = {
+                productionHomeViewModel.onFabClicked()
+            },
+            containerColor = PrimaryColor
+        ) {
             Icon(painter = painterResource(R.drawable.cloud_upload),
                 contentDescription = null,
             tint = Color.White
@@ -106,7 +139,7 @@ fun ProductionHomeScreen(
     },
     snackbarHost = {
         SnackbarHost(
-            hostState = scaffoldState.snackbarHostState,
+            hostState = snackbarHostState,
             modifier = Modifier.padding(16.dp)
         ) { snackbarData ->
             Snackbar(
@@ -114,7 +147,7 @@ fun ProductionHomeScreen(
                 snackbarData = snackbarData
             )
         }
-    }) {
+    }) { padding ->
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -288,7 +321,7 @@ fun EmptyCollectionViewState(navController: NavController) {
         Spacer(modifier = Modifier.height(24.dp))
         Text(
             modifier = Modifier.fillMaxWidth(),
-            style = MaterialTheme.typography.subtitle2.copy(
+            style = MaterialTheme.typography.bodyMedium.copy(
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
             ),
@@ -334,15 +367,14 @@ fun CategoryItem(
             ),
         border = BorderStroke(
             1.dp,
-            if (selected) MaterialTheme.colors.primary.copy(.5f)
-            else MaterialTheme.colors.onSurface,
+            if (selected) MaterialTheme.colorScheme.primary.copy(.5f)
+            else MaterialTheme.colorScheme.onSurface,
         ),
         shape = Shapes.large,
-        backgroundColor = if(selected) PrimaryColor
-        else Color.LightGray,
-        contentColor = if (selected) MaterialTheme.colors.onPrimary
-        else MaterialTheme.colors.onSurface
-
+        colors = CardDefaults.cardColors(
+            containerColor = if(selected) PrimaryColor else Color.LightGray,
+            contentColor = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+        ),
     ) {
         Row(horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
@@ -356,7 +388,7 @@ fun CategoryItem(
             Spacer(modifier = Modifier.size(8.dp))
             Text(
                 text = title,
-                style = MaterialTheme.typography.h6,
+                style = MaterialTheme.typography.bodySmall,
                 fontWeight = FontWeight.Medium
             )
         }

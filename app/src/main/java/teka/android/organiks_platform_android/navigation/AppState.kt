@@ -2,6 +2,9 @@ package teka.android.organiks_platform_android.navigation
 
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
@@ -22,18 +25,21 @@ import kotlinx.coroutines.flow.StateFlow
 fun rememberAppState(
     scaffoldState: ScaffoldState = rememberScaffoldState(),
     navHostController: NavHostController,
-    coroutineScope: CoroutineScope = rememberCoroutineScope()
-) =   remember(scaffoldState, navHostController, coroutineScope) {
-    AppState(scaffoldState, navHostController, coroutineScope)
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
+    drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
+) =   remember(scaffoldState, navHostController, coroutineScope, drawerState) {
+    AppState(scaffoldState, navHostController, coroutineScope, drawerState)
 }
 
 @Stable
 class AppState(
     val scaffoldState: ScaffoldState,
     val navHostController: NavHostController,
-    coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope,
+    drawerState: DrawerState
 ) {
     private val bottomBarRoutes = BottomBarRoutes.entries.map { it.routes }
+
 
     // StateFlow for shouldShowBottomBar with default value of true
     private val _shouldShowBottomBar = MutableStateFlow(true)

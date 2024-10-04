@@ -14,6 +14,7 @@ import kotlinx.coroutines.withContext
 import teka.android.organiks_platform_android.networking.ConnectivityObserver
 import teka.android.organiks_platform_android.networking.NetworkConnectivityObserver
 import teka.android.organiks_platform_android.workmanager.DbDataSyncWorker
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -28,6 +29,10 @@ class OrganiksApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
+
 
         // Initialize and observe network connectivity
         val connectivityFlow = networkConnectivityObserver.observe()
