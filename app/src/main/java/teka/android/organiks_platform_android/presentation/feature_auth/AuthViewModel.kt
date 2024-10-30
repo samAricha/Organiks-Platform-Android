@@ -184,6 +184,8 @@ class AuthViewModel @Inject constructor(
                     val errorMessage = result.errorMessage?.uppercase()
                     _loginEventFlow.emit(UiEvents.SnackbarEvent("Login failed::. $errorMessage!!"))
                 }
+
+                else -> {}
             }
         } catch (e: Exception) {
             // Handle errors or exceptions from the repository call
@@ -300,6 +302,10 @@ class AuthViewModel @Inject constructor(
 
                     _registrationEventFlow.emit(UiEvents.SnackbarEvent("Registration failed!!::.${errorMessage}"))
                     false
+                }
+
+                else -> {
+                    TODO()
                 }
             }
         } catch (e: Exception) {

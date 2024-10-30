@@ -6,8 +6,6 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 
 
-
-
 fun today(): LocalDateTime {
     return Clock.System.now()
         .toLocalDateTime(TimeZone.currentSystemDefault())
