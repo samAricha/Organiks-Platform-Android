@@ -103,7 +103,7 @@ fun HomeScreen(
             iconResId = R.drawable.vegs_no_bg,
             color = PrimaryVariant,
             onClick = {
-                navController.navigate(route = AppScreens.FruitRecordingForm.route)
+                navController.navigate(route = AppScreens.FruitListScreen.route)
             }
         )
     )

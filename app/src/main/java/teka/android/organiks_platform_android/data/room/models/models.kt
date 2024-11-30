@@ -90,6 +90,10 @@ data class FruitCollectionEntity(
             return UUID.randomUUID().toString()
         }
     }
+
+    val searchableString: String
+        get() = "${fruitTypeId} ${qty}"
+
 }
 
 

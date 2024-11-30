@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.module_fruits
+package teka.android.organiks_platform_android.presentation.module_fruits.form
 
 import androidx.compose.runtime.Stable
 import kotlinx.datetime.LocalDateTime

@@ -18,7 +18,8 @@ import teka.android.organiks_platform_android.presentation.feature_records.scree
 import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.ProductionRecordingScreen
 import teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.RemoteRecordsScreen
 import teka.android.organiks_platform_android.presentation.feature_settings.SettingsScreen
-import teka.android.organiks_platform_android.presentation.module_fruits.FruitRecordingForm
+import teka.android.organiks_platform_android.presentation.module_fruits.form.FruitRecordingForm
+import teka.android.organiks_platform_android.presentation.module_fruits.list_screen.FruitRecordsList
 import teka.android.organiks_platform_android.ui.animations.scaleIntoContainer
 import teka.android.organiks_platform_android.ui.animations.scaleOutOfContainer
 
@@ -130,6 +131,27 @@ fun MainNavGraph(
 
         ){
             FruitRecordingForm(
+                navController = navController
+            )
+        }
+
+        composable(
+            route = AppScreens.FruitListScreen.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+
+        ){
+            FruitRecordsList(
                 navController = navController
             )
         }
