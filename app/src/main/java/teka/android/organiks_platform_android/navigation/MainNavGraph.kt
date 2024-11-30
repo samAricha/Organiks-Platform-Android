@@ -138,7 +138,7 @@ fun MainNavGraph(
         }
 
         composable(
-            route = AppScreens.FruitRecordingForm.route,
+            route = AppScreens.AddCustomerForm.route,
             enterTransition = {
                 scaleIntoContainer()
             },

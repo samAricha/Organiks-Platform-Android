@@ -156,7 +156,7 @@ fun FruitRecordingForm(
                         viewModel.saveFruitCollection()
                     }
                 }
-                navController.navigate(AppScreens.FruitListScreen.route)
+                navController.popBackStack()
             },
             btnText = buttonTitle
         )

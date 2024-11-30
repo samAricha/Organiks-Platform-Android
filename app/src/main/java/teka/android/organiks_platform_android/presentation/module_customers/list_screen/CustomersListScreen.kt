@@ -159,8 +159,8 @@ fun CustomersListScreen(
                 .align(Alignment.BottomEnd)
                 .padding(16.dp),
             onClick = {
-                Timber.tag("fruit").i("EFAB clicked")
-                navController.navigate(AppScreens.FruitRecordingForm.route)
+                Timber.tag("customer").i("EFAB clicked")
+                navController.navigate(AppScreens.AddCustomerForm.route)
 
             },
             icon = { Icon(Icons.Filled.Add, contentDescription = "Add GateLog") },

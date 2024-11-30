@@ -195,7 +195,7 @@ fun AddCustomerForm(
                             viewModel.saveCustomerEntity()
                         }
                     }
-                    navController.navigate(AppScreens.CustomerListScreen.route)
+                    navController.popBackStack()
                 },
                 btnText = buttonTitle
             )

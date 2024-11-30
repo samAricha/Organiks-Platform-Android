@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +27,6 @@ import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.PureWhiteColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.ui.theme.TextSizeMedium
-import teka.android.organiks_platform_android.ui.theme.TextSizeSmall
 import teka.android.organiks_platform_android.ui.theme.TextSizeXLarge
 import teka.android.organiks_platform_android.util.convertMillisToStringDate
 import teka.android.organiks_platform_android.util.widgets.CustomText
