@@ -240,9 +240,8 @@ class ProductionRecordingViewModel @Inject constructor(
         }
     }
 
-
-
 }
+
 data class ProductionRecordingState(
     val eggTypes: List<EggType> = emptyList(),
     val eggCollectionQty: String = "",

@@ -3,8 +3,9 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    kotlin("kapt") version "1.9.20"
-    kotlin("plugin.serialization") version "1.9.20"
+    id("org.jetbrains.kotlin.plugin.compose")
+    kotlin("kapt") version "1.9.23"
+    kotlin("plugin.serialization") version "1.9.23"
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
 }
@@ -47,10 +48,10 @@ android {
             value = geminiKey
         )
 
-
     }
 
     buildFeatures {
+        compose = true
         buildConfig = true
     }
 

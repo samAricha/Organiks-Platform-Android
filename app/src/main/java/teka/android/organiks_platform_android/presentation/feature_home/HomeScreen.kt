@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -15,7 +16,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -60,7 +60,7 @@ fun HomeScreen(
     }
 
 
-    val cards = listOf(
+    val homeInfoCards = listOf(
         HomeInfoCardData(
             title = "Gemini Chat Assistant",
             value = "$totalEggsCollected Eggs",
@@ -97,8 +97,18 @@ fun HomeScreen(
                 navController.navigate(route = AppScreens.RemoteRecordsScreens.route)
             }
         )
+    )
 
-
+    val moduleCards = listOf(
+        HomeInfoCardData(
+            title = "Fruits",
+            value = "0",
+            iconResId = R.drawable.vegs_no_bg,
+            color = PrimaryVariant,
+            onClick = {
+                navController.navigate(route = AppScreens.GeminiChatAppScreens.route)
+            }
+        )
     )
 
     Scaffold(
@@ -123,7 +133,38 @@ fun HomeScreen(
                     QuickAccessSection(navController = navController)
                 }
                 items(
-                    cards.chunked(2)
+                    moduleCards.chunked(2)
+                ) { rowItems ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                start = 5.dp,
+                                top = 8.dp,
+                                bottom = 8.dp
+                            ),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        rowItems.forEach { cardData ->
+                            HomeInfoCard(
+                                title = cardData.title,
+                                value = cardData.value,
+                                iconResId = cardData.iconResId,
+                                color = cardData.color,
+                                modifier = Modifier.weight(1f),
+                                onClick = cardData.onClick
+                            )
+                        }
+                        if (rowItems.size == 1) {
+                            Spacer(modifier = Modifier.weight(1f))
+                        }
+                    }
+                }
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
+                }
+                items(
+                    homeInfoCards.chunked(2)
                 ) { rowItems ->
                     Row(
                         modifier = Modifier

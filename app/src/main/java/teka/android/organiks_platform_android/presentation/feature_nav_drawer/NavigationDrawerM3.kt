@@ -82,7 +82,6 @@ fun NavigationDrawerM3(
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val appState = rememberAppState(navHostController = navHostController)
-//    val currentRoute = appState.currentRoute
     val currentRoute by appState.currentRoute.collectAsState()
 
 

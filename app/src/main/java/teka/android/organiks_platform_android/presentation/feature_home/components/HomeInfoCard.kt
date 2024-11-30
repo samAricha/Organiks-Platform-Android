@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.presentation.feature_home.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
@@ -14,6 +15,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -36,14 +38,13 @@ fun HomeInfoCard(
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp),
+                .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Icon(
+            Image(
                 painter = iconPainter,
-                contentDescription = null,
-                tint = color,
-                modifier = Modifier.size(58.dp)
+                contentDescription = "",
+                modifier = Modifier.size(75.dp)
             )
             Text(
                 text = title,
@@ -51,12 +52,6 @@ fun HomeInfoCard(
                 fontFamily = PoppinsLight,
                 textAlign = TextAlign.Center
             )
-//            Text(
-//                text = value,
-//                style = TextStyle(fontWeight = FontWeight.Bold),
-//                modifier = Modifier.padding(top = 8.dp),
-//                fontFamily = PoppinsLight
-//            )
         }
     }
 }
