@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.module_fruits.invoice_screen
+package teka.android.organiks_platform_android.presentation.module_invoice.invoice_screen
 
 import android.widget.Toast
 import androidx.compose.material3.Button
@@ -12,7 +12,7 @@ import timber.log.Timber
 @Composable
 fun InvoiceScreen(
     navController: NavController,
-    viewModel: InvoiceViewModel  = hiltViewModel()
+    viewModel: InvoiceViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
 

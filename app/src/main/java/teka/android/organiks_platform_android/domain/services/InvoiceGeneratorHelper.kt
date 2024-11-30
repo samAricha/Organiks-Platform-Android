@@ -25,7 +25,7 @@ class InvoiceGeneratorHelper(private val context: Context) {
         tableData: List<ModelInvoiceItem>,
         priceInfo: ModelInvoicePriceInfo,
         footerData: ModelInvoiceFooter,
-        currency: String = "$",
+        currency: String = "ksh.",
         invoiceColor: String = "#FF5722" // Default invoice color
     ): String? {
         return try {

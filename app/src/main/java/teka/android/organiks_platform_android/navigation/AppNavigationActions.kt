@@ -40,6 +40,12 @@ class AppNavigationActions(
         }
     }
 
+    fun navigateToInvoiceListScreen() {
+        navController.navigate(AppScreens.InvoiceListScreen.route) {
+            popUpTo(AppScreens.InvoiceListScreen.route)
+        }
+    }
+
     fun navigateToProductsHome() {
         navController.navigate(AppScreens.ProductionHome.route) {
             launchSingleTop = true

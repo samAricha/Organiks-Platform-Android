@@ -21,8 +21,9 @@ import teka.android.organiks_platform_android.presentation.feature_settings.Sett
 import teka.android.organiks_platform_android.presentation.module_customers.form.AddCustomerForm
 import teka.android.organiks_platform_android.presentation.module_fruits.form.FruitRecordingForm
 import teka.android.organiks_platform_android.presentation.module_customers.list_screen.CustomersListScreen
-import teka.android.organiks_platform_android.presentation.module_fruits.invoice_screen.InvoiceScreen
+import teka.android.organiks_platform_android.presentation.module_invoice.invoice_screen.InvoiceScreen
 import teka.android.organiks_platform_android.presentation.module_fruits.list_screen.FruitRecordsListScreen
+import teka.android.organiks_platform_android.presentation.module_invoice.invoice_list_screen.InvoiceListScreen
 import teka.android.organiks_platform_android.ui.animations.scaleIntoContainer
 import teka.android.organiks_platform_android.ui.animations.scaleOutOfContainer
 
@@ -365,6 +366,27 @@ fun MainNavGraph(
                 navController = navController
             )
         }
+
+        composable(
+            route = AppScreens.InvoiceListScreen.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            InvoiceListScreen(
+                navController = navController
+            )
+        }
+
 
         composable(
             route = AppScreens.AddCustomerForm.route,

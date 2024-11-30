@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PermIdentity
+import androidx.compose.material.icons.filled.PostAdd
 import androidx.compose.material.icons.filled.Receipt
 import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material.icons.filled.VoiceChat
@@ -130,6 +131,19 @@ fun NavigationDrawerM3(
                     drawerState.close()
                 }
                 Toast.makeText(context, "Records", Toast.LENGTH_SHORT).show()
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.PostAdd,
+            label = "Invoices",
+            secondaryLabel = "2",
+            route = AppScreens.InvoiceListScreen.route,
+            onItemClick = {
+                navigationActions.navigateToInvoiceListScreen()
+                scope.launch {
+                    drawerState.close()
+                }
+                Toast.makeText(context, "Invoices", Toast.LENGTH_SHORT).show()
             }
         ),
         DrawerItem(
