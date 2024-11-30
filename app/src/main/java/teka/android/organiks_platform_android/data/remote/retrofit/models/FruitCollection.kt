@@ -27,7 +27,7 @@ fun FruitCollectionRequest.toFruitCollection(): FruitCollectionEntity {
         uuid = this.collection_uuid,
         qty = this.quantity,
         date = this.collection_date,
-        fruitTypeId = this.fruit_type_id.toInt(),
+        fruitTypeId = this.fruit_type_id,
         createdAt = this.date
 
     )

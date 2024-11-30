@@ -8,7 +8,7 @@ import teka.android.organiks_platform_android.data.room.models.FruitCollectionEn
 data class FruitCollectionDto(
     val uuid: String = "",
     val quantity: String = "",
-    val fruitTypeId: Int = 0,
+    val fruitTypeId: String = "",
     val date: Long = 0L
 )
 

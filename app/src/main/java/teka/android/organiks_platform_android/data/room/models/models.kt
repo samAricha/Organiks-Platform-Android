@@ -80,7 +80,7 @@ data class FruitCollectionEntity(
     val id: Int = 0,
     val uuid: String = generateUniqueId(),
     val qty: String,
-    val fruitTypeId: Int,
+    val fruitTypeId: String,
     val date: Long,
     var isBackedUp: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()

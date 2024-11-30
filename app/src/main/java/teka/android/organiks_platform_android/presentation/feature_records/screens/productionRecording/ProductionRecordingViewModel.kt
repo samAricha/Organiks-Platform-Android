@@ -50,7 +50,8 @@ class ProductionRecordingViewModel @Inject constructor(
                             productionCategory = Utils.productionCategory.find { c ->
                                 c.id == 0
                             } ?: Category(),
-                        ) }
+                        )
+                    }
             }
         }
 
@@ -127,9 +128,7 @@ class ProductionRecordingViewModel @Inject constructor(
                 FruitCollectionEntity(
                     date = state.date.time,
                     qty = state.fruitCollectionQty,
-                    fruitTypeId = state.eggTypes.find {
-                        it.name == state.eggTypeName
-                    }?.id ?: 0,
+                    fruitTypeId = state.fruitTypeName,
                     isBackedUp = false
                 )
             )

@@ -8,6 +8,11 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TimePickerState
+import androidx.compose.material3.rememberDatePickerState
+import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,154 +21,157 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import co.yml.charts.common.extensions.isNotNull
+import kotlinx.datetime.Clock
 import teka.android.organiks_platform_android.data.room.models.FruitType
 import teka.android.organiks_platform_android.navigation.AppScreens
-import teka.android.organiks_platform_android.presentation.feature_records.screens.productionRecording.ProductionRecordingState
 import teka.android.organiks_platform_android.ui.theme.Poppins
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.ui.theme.buttonShapes
+import teka.android.organiks_platform_android.ui.widgets.CustomButton
+import teka.android.organiks_platform_android.util.CustomBtn
+import teka.android.organiks_platform_android.util.dialogs.CustomTimePickerDialog
+import teka.android.organiks_platform_android.util.dialogs.SimpleDatePickerDialog
+import teka.android.organiks_platform_android.util.formattedTimeBasedOnTimeFormat
+import teka.android.organiks_platform_android.util.widgets.CustomDateBoxField
+import teka.android.organiks_platform_android.util.widgets.CustomDropDown
+import teka.android.organiks_platform_android.util.widgets.CustomInputTextField
+import teka.android.organiks_platform_android.util.widgets.CustomTimeBoxField
 import java.util.*
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FruitProductionEntryComponent(
-    state: ProductionRecordingState,
-    onDateSelected: (Date) -> Unit,
-    onFruitTypeChange:(String) -> Unit,
-    onCollectionQuantityChange:(String) -> Unit,
-    onSaveFruitCollection: () -> Unit,
-    updateFruitCollectionQty:() -> Unit,
-    navController: NavController
+fun FruitRecordingForm(
+    navController: NavController,
+    viewModel: FruitRecordingFormViewModel = hiltViewModel()
 ){
+
+    val fruitRecordingFormUiState = viewModel.fruitRecordingFormUiState.collectAsState().value
+
+    val showDatePickerDialog = fruitRecordingFormUiState.showDatePickerDialog
+    val showTimePickerDialog = fruitRecordingFormUiState.showTimePickerDialog
+
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = Clock.System.now().toEpochMilliseconds(),
+    )
+    if (showDatePickerDialog) {
+        SimpleDatePickerDialog(
+            datePickerState = datePickerState,
+            dismiss = {
+                viewModel.updateModelField(FruitRecordingFormUIState::showDatePickerDialog, false)
+            },
+            onConfirmDate = {
+                viewModel.updateModelField(FruitRecordingFormUIState::date, it)
+                viewModel.updateModelField(FruitRecordingFormUIState::showDatePickerDialog, false)
+            },
+        )
+    }
+
+
+    val currentTime: Calendar = Calendar.getInstance()
+    val timePickerState: TimePickerState = rememberTimePickerState(
+        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+        initialMinute = currentTime.get(Calendar.MINUTE),
+        is24Hour = false,
+    )
+
+    if (showTimePickerDialog) {
+        CustomTimePickerDialog(
+            timePickerState = timePickerState,
+            onDismiss = {
+                viewModel.updateModelField(FruitRecordingFormUIState::showTimePickerDialog, false)
+            },
+            onConfirmTime = {
+                viewModel.updateModelField(FruitRecordingFormUIState::time, it)
+                viewModel.updateModelField(FruitRecordingFormUIState::showTimePickerDialog, false)
+            }
+        )
+    }
+
 
     val fruitTypeItems = listOf(
         FruitType(1, "Tamarillo"),
         FruitType(2, "Mangoes"),
         FruitType(3, "Oranges")
     )
-    var selectedFruitTypeItem by remember { mutableStateOf(fruitTypeItems[0]) }
-
-    var expanded by remember { mutableStateOf(false) }
-
-    state.eggTypeName = selectedFruitTypeItem.name
-
-
-    var isNewEnabled by remember {
-        mutableStateOf(false)
-    }
 
     Column(
+        modifier = Modifier.padding(horizontal = 12.dp)
     ) {
 
         Row(
-            horizontalArrangement = Arrangement.Center
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-
-            //Text("Selected Item: ${selectedEggTypeItem.name}")
-
-            Row(modifier = Modifier
-                .width(200.dp)
-                .height(40.dp)
-                .background(Color.LightGray, Shapes.large)
-                .clickable { expanded = true },
-                horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                Text(
-                    text = selectedFruitTypeItem.name,
-                    modifier = Modifier
-                        .padding(horizontal = 12.dp)
-                        .align(Alignment.CenterVertically),
-                    )
-                Icon(
-                    imageVector = Icons.Default.ArrowDropDown,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                        .padding(end = 8.dp)
-                )
-            }
-
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false }
-            ) {
-                fruitTypeItems.forEach { item ->
-                    DropdownMenuItem(onClick = {
-                        onFruitTypeChange(item.name)
-                        selectedFruitTypeItem = item
-                        expanded = false
-                    }) {
-                        Text(item.name)
-                    }
-                }
-            }
+            CustomDateBoxField(
+                modifier = Modifier.weight(1f),
+                currentTextState = fruitRecordingFormUiState.date.date.toString(),
+                onClick = {
+                    viewModel.updateModelField(FruitRecordingFormUIState::showDatePickerDialog, true)
+                },
+                textStyle = MaterialTheme.typography.titleSmall.copy(
+                    fontSize = 16.sp,
+                ),
+                shape = Shapes.small
+            )
+            CustomTimeBoxField(
+                modifier = Modifier.weight(1f),
+                currentTextState = fruitRecordingFormUiState.time.formattedTimeBasedOnTimeFormat(12),
+                onClick = {
+                    viewModel.updateModelField(FruitRecordingFormUIState::showTimePickerDialog, true)
+                },
+                textStyle = MaterialTheme.typography.titleSmall.copy(
+                    fontSize = 16.sp,
+                ),
+                shape = Shapes.medium
+            )
         }
+        Spacer(modifier = Modifier.size(12.dp))
 
-        Spacer(modifier = Modifier.size(24.dp))
+        CustomDropDown(
+            labelText = "Fruit Type",
+            options = fruitTypeItems,
+            selectedOption = fruitRecordingFormUiState.fruitType,
+            onOptionSelected = { selectedOption ->
+                viewModel.updateStringField(FruitRecordingFormUIState::fruitType, selectedOption.name)
+            },
+            optionTextProvider = { option ->
+                Text(option.name)
+            }
+        )
+
+        Spacer(modifier = Modifier.size(12.dp))
 
 
-        TextField(
-            value = state.fruitCollectionQty,
-            label = { Text(text = "Total Fruits Collected(Kgs)") },
-            onValueChange = {onCollectionQuantityChange(it)},
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier
-                .fillMaxWidth(),
-            colors = TextFieldDefaults.textFieldColors(
-                unfocusedIndicatorColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-            ),
-            shape = Shapes.large
+        CustomInputTextField(
+            labelText = "Fruit Weight(kgs)",
+            value = fruitRecordingFormUiState.fruitWeight,
+            onValueChange = {
+                viewModel.updateStringField(FruitRecordingFormUIState::fruitWeight, it)
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
         )
 
 
         Spacer(modifier = Modifier.height(34.dp))
-
-        Canvas(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            val startY = size.height / 2f
-            val startX = 0f
-            val endX = size.width
-
-            drawLine(
-                color = Color.Black, // You can change the color here
-                start = Offset(startX, startY),
-                end = Offset(endX, startY),
-                strokeWidth = 2f, // You can change the line thickness here
-                cap = StrokeCap.Round
-            )
-        }
-        Spacer(modifier = Modifier.height(4.dp))
-        val buttonTitle = if (state.isUpdatingItem) "Update"
-        else "Save"
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.End
-        ){
-            Button(
-                modifier = Modifier
-                    .padding(horizontal = 4.dp)
-                    .width(155.dp),
-                onClick ={
-                    when(state.isUpdatingItem){
-                        true -> {
-                            updateFruitCollectionQty.invoke()
-                        }
-                        false -> {
-                            onSaveFruitCollection.invoke()
-                        }
+        val buttonTitle = if (fruitRecordingFormUiState.isUpdatingItem) "Update" else "Save"
+        CustomBtn(
+            onClick ={
+                when(fruitRecordingFormUiState.isUpdatingItem){
+                    true -> {
+                        viewModel.saveFruitCollection()
                     }
-//                    navigateUp.invoke()
-                    navController.navigate(AppScreens.ProductionHome.route)
-                },
-                enabled = state.fruitCollectionQty.isNotEmpty(),
-                shape = buttonShapes.large,
-            ) {
-                Text(text = buttonTitle, fontFamily = Poppins)
-            }
-        }
+                    false -> {
+                        viewModel.saveFruitCollection()
+                    }
+                }
+                navController.navigate(AppScreens.ProductionHome.route)
+            },
+            btnText = buttonTitle
+        )
     }
 }
 

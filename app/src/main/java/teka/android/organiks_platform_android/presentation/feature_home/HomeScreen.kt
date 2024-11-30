@@ -35,9 +35,6 @@ import teka.android.organiks_platform_android.ui.theme.SecondaryColor
 fun HomeScreen(
     navController: NavController
 ) {
-//    val homeScreenViewModel : HomeScreenViewModel = hiltViewModel()
-
-
     val viewModel : DashboardViewModel = hiltViewModel()
 
 
@@ -106,7 +103,7 @@ fun HomeScreen(
             iconResId = R.drawable.vegs_no_bg,
             color = PrimaryVariant,
             onClick = {
-                navController.navigate(route = AppScreens.GeminiChatAppScreens.route)
+                navController.navigate(route = AppScreens.FruitRecordingForm.route)
             }
         )
     )

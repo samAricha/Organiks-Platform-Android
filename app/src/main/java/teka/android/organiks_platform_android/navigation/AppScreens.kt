@@ -16,6 +16,7 @@ sealed class AppScreens(
     data object Registration: AppScreens(route = "registration_screen", title = "Registration")
     data object ProductionHome: AppScreens(route = "production_home", title = "Productions")
     data object ProductionRecording: AppScreens(route = "production_recording", title = "Recording")
+    data object FruitRecordingForm: AppScreens(route = "fruit_recording", title = "Record Fruit")
     data object DashboardAppScreens: AppScreens(route = "dashboard_screen", title = "Dashboard")
     data object RemoteRecordsScreens: AppScreens(route = "remote_records_screen", title = "RemoteRecords")
     data object GeminiChatAppScreens: AppScreens(route = "gemini_chat_screen", title = "Gemini Assistant")
