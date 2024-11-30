@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.module_fruits.list_screen
+package teka.android.organiks_platform_android.presentation.module_customers.list_screen
 
 import android.content.Context
 import androidx.lifecycle.ViewModel
@@ -10,34 +10,35 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.domain.repository.DbRepository
+import teka.android.organiks_platform_android.presentation.module_fruits.list_screen.CustomerListUIState
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KMutableProperty1
 
-const val FruitList_VM_TAG = "FruitList_VM_TAG"
+private const val Customers_VM_TAG = "Customers_VM_TAG"
 
 @HiltViewModel
-class FruitRecordsListViewModel @Inject constructor(
+class CustomerListViewModel @Inject constructor(
     private val appContext: Context,
     private val dbRepository: DbRepository,
 ) : ViewModel() {
     // UI state holder
-    private val _customerListUIState = MutableStateFlow(FruitRecordsUIState())
-    val customerListUIState: StateFlow<FruitRecordsUIState> = _customerListUIState
+    private val _customerListUIState = MutableStateFlow(CustomerListUIState())
+    val customerListUIState: StateFlow<CustomerListUIState> = _customerListUIState
 
 
     init {
-        Timber.tag(FruitList_VM_TAG).i("init function now")
-        observeVehicleList()
+        Timber.tag(Customers_VM_TAG).i("init function now")
+        observeCustomerList()
     }
 
-    private fun observeVehicleList() {
+    private fun observeCustomerList() {
         viewModelScope.launch{
             launch{
                 dbRepository
-                    .getFruitCollections
-                    .collectLatest { vehicleList ->
-                        updateModelField(FruitRecordsUIState::fruitRecordsList, vehicleList)
+                    .getCustomers
+                    .collectLatest { customerList ->
+                        updateModelField(CustomerListUIState::customerList, customerList)
                     }
             }
         }
@@ -45,38 +46,38 @@ class FruitRecordsListViewModel @Inject constructor(
 
 
     fun onDateRangeSelected(selectedRange: Pair<Long?, Long?>) {
-        Timber.tag(FruitList_VM_TAG).i("selectedDateRange:: $selectedRange")
-        updateModelField(FruitRecordsUIState::selectedDateRange, selectedRange)
+        Timber.tag(Customers_VM_TAG).i("selectedDateRange:: $selectedRange")
+        updateModelField(CustomerListUIState::selectedDateRange, selectedRange)
     }
 
     fun toggleDatePickerDialog(show: Boolean) {
-        updateModelField(FruitRecordsUIState::showDatePickerDialog, show)
+        updateModelField(CustomerListUIState::showDatePickerDialog, show)
     }
 
 
-    fun updateGatelogSearchQuery(query: String) {
-        updateModelField(FruitRecordsUIState::fruitSearchQuery, query)
+    fun updateCustomerSearchQuery(query: String) {
+        updateModelField(CustomerListUIState::customerSearchQuery, query)
         filterGateLogs(query)
     }
 
     private fun filterGateLogs(query: String) {
         viewModelScope.launch {
-            dbRepository.getFruitCollections.collect { vehicleList ->
+            dbRepository.getCustomers.collect { customerList ->
                 val filteredList = if (query.isBlank()) {
-                    vehicleList
+                    customerList
                 } else {
-                    vehicleList.filter { vehicle ->
+                    customerList.filter { vehicle ->
                         vehicle.searchableString.contains(query, ignoreCase = true)
                     }
                 }
-                updateModelField(FruitRecordsUIState::fruitRecordsList, filteredList)
+                updateModelField(CustomerListUIState::customerList, filteredList)
             }
         }
     }
 
 
     /// UI STATE UPDATES
-    fun <T> updateModelField(property: KMutableProperty1<FruitRecordsUIState, T>, value: T) {
+    fun <T> updateModelField(property: KMutableProperty1<CustomerListUIState, T>, value: T) {
         _customerListUIState.update { currentState ->
             currentState.copy().also { newState ->
                 property.set(newState, value)

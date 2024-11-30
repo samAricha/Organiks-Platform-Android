@@ -127,6 +127,7 @@ class ProductionRecordingViewModel @Inject constructor(
             repository.insertFruitCollection(
                 FruitCollectionEntity(
                     date = state.date.time,
+                    time = state.date.time.toString(),
                     qty = state.fruitCollectionQty,
                     fruitTypeId = state.fruitTypeName,
                     isBackedUp = false

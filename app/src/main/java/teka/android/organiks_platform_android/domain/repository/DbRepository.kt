@@ -1,10 +1,12 @@
 package teka.android.organiks_platform_android.domain.repository
 
+import teka.android.organiks_platform_android.data.room.CustomerDao
 import teka.android.organiks_platform_android.data.room.EggCollectionDao
 import teka.android.organiks_platform_android.data.room.EggTypeDao
 import teka.android.organiks_platform_android.data.room.FruitCollectionDao
 import teka.android.organiks_platform_android.data.room.MilkCollectionDao
 import teka.android.organiks_platform_android.data.room.ProductionCategoryDao
+import teka.android.organiks_platform_android.data.room.models.CustomerEntity
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
@@ -15,6 +17,7 @@ class DbRepository(
     private val eggTypeDao: EggTypeDao,
     private val eggCollectionDao: EggCollectionDao,
     private val fruitCollectionDao: FruitCollectionDao,
+    private val customerDao: CustomerDao,
     private val milkCollectionDao: MilkCollectionDao,
     private val productionCategoryDao: ProductionCategoryDao
 ) {
@@ -26,6 +29,7 @@ class DbRepository(
     val getEggCollections = eggCollectionDao.getAllEggCollections()
     val getMilkCollection = milkCollectionDao.getAllMilkCollections()
     val getFruitCollections = fruitCollectionDao.getAllFruitCollections()
+    val getCustomers = customerDao.getAllCustomers()
     val getEggCollectionsWithEggTypes = eggCollectionDao.getEggCollectionsWithEggTypes()
 
 
@@ -63,12 +67,20 @@ class DbRepository(
         eggCollectionDao.insertEggCollections(eggCollections)
     }
 
-    //<<<<<<<<<< MILK COLLECTIONS >>>>>>>>
+    //<<<<<<<<<< FRUIT COLLECTIONS >>>>>>>>
     suspend fun insertFruitCollection(fruitCollection: FruitCollectionEntity){
         fruitCollectionDao.insert(fruitCollection)
     }
     suspend fun updateFruitCollection(fruitCollection: FruitCollectionEntity){
         fruitCollectionDao.update(fruitCollection = fruitCollection)
+    }
+
+    //<<<<<<<<<< CUSTOMER COLLECTIONS >>>>>>>>
+    suspend fun insertCustomerEntity(customer: CustomerEntity){
+        customerDao.insert(customer)
+    }
+    suspend fun updateCustomerEntity(customerEntity: CustomerEntity){
+        customerDao.update(customerEntity)
     }
 
     //<<<<<<<<<< MILK COLLECTIONS >>>>>>>>

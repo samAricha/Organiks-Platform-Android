@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.module_fruits.list_screen
+package teka.android.organiks_platform_android.presentation.module_customers.list_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -45,16 +45,16 @@ import teka.android.organiks_platform_android.util.widgets.SimpleSearchInputWidg
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun FruitRecordsList(
+fun CustomersListScreen(
     navController: NavController,
-    viewModel: GateLogsTabViewModel = hiltViewModel()
+    viewModel: CustomerListViewModel = hiltViewModel()
 ) {
-    val gateLogTabUIState = viewModel.fruitRecordsUIState.collectAsState().value
+    val customersScreenUIState = viewModel.customerListUIState.collectAsState().value
 
-    val gatelogSearchQuery = gateLogTabUIState.fruitSearchQuery
-    val fruitList = gateLogTabUIState.fruitRecordsList
-    val showDatePickerDialog = gateLogTabUIState.showDatePickerDialog
-    val isFetchingGateLogs = gateLogTabUIState.isFetchingFruits
+    val gatelogSearchQuery = customersScreenUIState.customerSearchQuery
+    val customerList = customersScreenUIState.customerList
+    val showDatePickerDialog = customersScreenUIState.showDatePickerDialog
+    val isFetchingGateLogs = customersScreenUIState.isFetchingFruits
 
 
 
@@ -85,7 +85,7 @@ fun FruitRecordsList(
                 SimpleSearchInputWidget(
                     value = gatelogSearchQuery,
                     onValueChange = { query ->
-                        viewModel.updateGatelogSearchQuery(query)
+                        viewModel.updateCustomerSearchQuery(query)
 
                     },
                     modifier = Modifier.weight(1f),
@@ -112,16 +112,16 @@ fun FruitRecordsList(
                     .background(MaterialTheme.colorScheme.background)
                     .padding(horizontal = 12.dp)
             ) {
-                itemsIndexed(fruitList) { index, vehicle ->
-                    FruitItemCard(
-                        fruitCollectionEntity = vehicle,
+                itemsIndexed(customerList) { index, customerEntity ->
+                    CustomerItemCard(
+                        customerEntity = customerEntity,
                         navController = navController
                     )
                 }
             }
         }
 
-        if (fruitList.isEmpty() && !isFetchingGateLogs) {
+        if (customerList.isEmpty() && !isFetchingGateLogs) {
             Box(modifier = Modifier.fillMaxSize()) {
                 Column(
                     modifier = Modifier
@@ -132,14 +132,14 @@ fun FruitRecordsList(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.vegs_no_bg),
-                        contentDescription = "No fruit records illustration",
+                        painter = painterResource(id = R.drawable.customers),
+                        contentDescription = "No customer records illustration",
                         modifier = Modifier.size(120.dp),
                         alpha = 0.3f
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "No Fruit Records",
+                        text = "No Customer Records",
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         fontSize = TextSizeLarge,
@@ -164,7 +164,7 @@ fun FruitRecordsList(
 
             },
             icon = { Icon(Icons.Filled.Add, contentDescription = "Add GateLog") },
-            text = { Text(text = "Add Fruit") },
+            text = { Text(text = "Add Customer") },
         )
     }
 }

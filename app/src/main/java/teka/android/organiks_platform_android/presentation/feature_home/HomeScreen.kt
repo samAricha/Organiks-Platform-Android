@@ -105,7 +105,17 @@ fun HomeScreen(
             onClick = {
                 navController.navigate(route = AppScreens.FruitListScreen.route)
             }
+        ),
+        HomeInfoCardData(
+            title = "Customers",
+            value = "0",
+            iconResId = R.drawable.customers,
+            color = PrimaryVariant,
+            onClick = {
+                navController.navigate(route = AppScreens.CustomerListScreen.route)
+            }
         )
+
     )
 
     Scaffold(

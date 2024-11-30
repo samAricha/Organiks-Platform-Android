@@ -18,6 +18,7 @@ import androidx.navigation.NavController
 import kotlinx.datetime.Clock
 import teka.android.organiks_platform_android.data.room.models.FruitType
 import teka.android.organiks_platform_android.navigation.AppScreens
+import teka.android.organiks_platform_android.presentation.module_customers.form.AddCustomerFormUIState
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.util.CustomBtn
 import teka.android.organiks_platform_android.util.dialogs.CustomTimePickerDialog
@@ -36,7 +37,7 @@ fun FruitRecordingForm(
     viewModel: FruitRecordingFormViewModel = hiltViewModel()
 ){
 
-    val fruitRecordingFormUiState = viewModel.fruitRecordingFormUiState.collectAsState().value
+    val fruitRecordingFormUiState = viewModel.fruitRecordingFormUIState.collectAsState().value
 
     val showDatePickerDialog = fruitRecordingFormUiState.showDatePickerDialog
     val showTimePickerDialog = fruitRecordingFormUiState.showTimePickerDialog

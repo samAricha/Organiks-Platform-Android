@@ -82,6 +82,7 @@ data class FruitCollectionEntity(
     val qty: String,
     val fruitTypeId: String,
     val date: Long,
+    val time: String,
     var isBackedUp: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
 ) {
@@ -95,6 +96,33 @@ data class FruitCollectionEntity(
         get() = "${fruitTypeId} ${qty}"
 
 }
+
+@Entity(tableName = "customer_table")
+data class CustomerEntity(
+    @ColumnInfo(name = "customer_id")
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val uuid: String = generateUniqueId(),
+    val name: String,
+    val phone: String,
+    val email: String,
+    val product: String,
+    val date: Long,
+    val time: String,
+    var isBackedUp: Boolean = false,
+    val createdAt: Long = System.currentTimeMillis()
+) {
+    companion object {
+        fun generateUniqueId(): String {
+            return UUID.randomUUID().toString()
+        }
+    }
+
+    val searchableString: String
+        get() = "${name} ${phone}"
+
+}
+
 
 
 

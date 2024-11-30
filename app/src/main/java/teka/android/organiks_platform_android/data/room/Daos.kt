@@ -2,6 +2,7 @@ package teka.android.organiks_platform_android.data.room
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
+import teka.android.organiks_platform_android.data.room.models.CustomerEntity
 import teka.android.organiks_platform_android.data.room.models.EggCollection
 import teka.android.organiks_platform_android.data.room.models.EggType
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
@@ -68,6 +69,29 @@ interface FruitCollectionDao{
         EC.eggTypeId = ET.egg_type_id
     """)
     fun getFruitCollectionsWithFruitTypes():Flow<List<EggTypeEggCollectionItem>>
+
+}
+
+@Entity
+@Dao
+interface CustomerDao{
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(customer: CustomerEntity)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(customer: CustomerEntity)
+
+    @Delete
+    suspend fun delete(customer: CustomerEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertCustomer(customer: List<CustomerEntity>)
+
+    @Query("SELECT * FROM customer_table ORDER BY date DESC")
+    fun getAllCustomers(): Flow<List<CustomerEntity>>
+
+    @Query("SELECT * FROM customer_table WHERE customer_id=:customerId")
+    fun getCustomersByCustomerId(customerId:Int): Flow<CustomerEntity>
 
 }
 

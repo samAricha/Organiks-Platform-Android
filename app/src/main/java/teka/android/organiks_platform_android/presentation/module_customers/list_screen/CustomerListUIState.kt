@@ -1,15 +1,15 @@
 package teka.android.organiks_platform_android.presentation.module_fruits.list_screen
 
 import androidx.compose.runtime.Stable
-import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
+import teka.android.organiks_platform_android.data.room.models.CustomerEntity
 
 
 @Stable
-data class FruitRecordsUIState(
-    var fruitRecordsList: List<FruitCollectionEntity> = emptyList(),
+data class CustomerListUIState(
+    var customerList: List<CustomerEntity> = emptyList(),
     var isFetchingFruits: Boolean = false,
     var showDatePickerDialog: Boolean = false,
-    var fruitSearchQuery: String = "",
+    var customerSearchQuery: String = "",
     var errorMessage: String? = null,
     var connectivityStatus: String? = null,
     var selectedDateRange: Pair<Long?, Long?> = null to null,
