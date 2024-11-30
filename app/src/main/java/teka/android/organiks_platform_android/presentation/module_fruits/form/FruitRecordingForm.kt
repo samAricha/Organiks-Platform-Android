@@ -156,7 +156,7 @@ fun FruitRecordingForm(
                         viewModel.saveFruitCollection()
                     }
                 }
-                navController.navigate(AppScreens.ProductionHome.route)
+                navController.navigate(AppScreens.FruitListScreen.route)
             },
             btnText = buttonTitle
         )

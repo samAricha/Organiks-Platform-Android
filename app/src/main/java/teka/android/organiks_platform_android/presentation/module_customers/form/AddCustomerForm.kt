@@ -195,7 +195,7 @@ fun AddCustomerForm(
                             viewModel.saveCustomerEntity()
                         }
                     }
-                    navController.navigate(AppScreens.ProductionHome.route)
+                    navController.navigate(AppScreens.CustomerListScreen.route)
                 },
                 btnText = buttonTitle
             )
