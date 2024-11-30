@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,11 +24,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
+import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.PureWhiteColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.ui.theme.TextSizeMedium
 import teka.android.organiks_platform_android.ui.theme.TextSizeXLarge
+import teka.android.organiks_platform_android.ui.widgets.CustomButton
+import teka.android.organiks_platform_android.util.CustomBtn
 import teka.android.organiks_platform_android.util.convertMillisToStringDate
 import teka.android.organiks_platform_android.util.widgets.CustomText
 import teka.android.organiks_platform_android.util.widgets.LabelValueTextWidget
@@ -91,14 +95,18 @@ fun FruitItemCard(
                         )
                     }
 
-
-
                     LabelValueTextWidget(label = "Quantity(kgs): ", value = fruitCollectionEntity.qty ?: "N/A")
-
 
                 }
             }
             Spacer(modifier = Modifier.height(14.dp))
+            HorizontalDivider()
+            CustomBtn(
+                btnText = "Invoice",
+                onClick = {
+                    navController.navigate(AppScreens.InvoiceScreen.route)
+                }
+            )
         }
 
     }

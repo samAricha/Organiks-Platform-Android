@@ -192,6 +192,10 @@ dependencies {
     // required to avoid crash on Android 12 API 31
     implementation("androidx.work:work-runtime-ktx:2.9.0")
 
+    // invoice generator
+    implementation ("com.github.kariot:pdf-invoice-generator:1.0.1")
+
+
 
     testImplementation ("junit:junit:4.13.2")
     androidTestImplementation ("androidx.test.ext:junit:1.1.5")

@@ -17,6 +17,7 @@ sealed class AppScreens(
     data object ProductionHome: AppScreens(route = "production_home", title = "Productions")
     data object ProductionRecording: AppScreens(route = "production_recording", title = "Recording")
     data object FruitRecordingForm: AppScreens(route = "fruit_recording", title = "Record Fruit")
+    data object InvoiceScreen: AppScreens(route = "invoice_screen", title = "Invoice")
     data object AddCustomerForm: AppScreens(route = "add_customer_form", title = "Add Customer")
     data object FruitListScreen: AppScreens(route = "fruit_list_screen", title = "Fruit List")
     data object CustomerListScreen: AppScreens(route = "customer_list_screen", title = "Customer List")
