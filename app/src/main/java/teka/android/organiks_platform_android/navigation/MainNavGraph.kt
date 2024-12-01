@@ -523,8 +523,7 @@ fun MainNavGraph(
             popExitTransition = {
                 scaleOutOfContainer()
             }
-
-            ){
+        ){
             DashboardScreen(
                 navController = navController
             )

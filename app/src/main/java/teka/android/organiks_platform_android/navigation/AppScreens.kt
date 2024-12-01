@@ -33,7 +33,7 @@ sealed class AppScreens(
     data object AddCustomerForm: AppScreens(route = "add_customer_form", title = "Add Customer")
     data object FruitListScreen: AppScreens(route = "fruit_list_screen", title = "Fruit List")
     data object CustomerListScreen: AppScreens(route = "customer_list_screen", title = "Customer List")
-    data object DashboardAppScreens: AppScreens(route = "dashboard_screen", title = "Dashboard")
+    data object DashboardAppScreens: AppScreens(route = "dashboard_screen", title = "Analytics")
     data object RemoteRecordsScreens: AppScreens(route = "remote_records_screen", title = "RemoteRecords")
     data object GeminiChatAppScreens: AppScreens(route = "gemini_chat_screen", title = "Gemini Assistant")
     data object GeminiAnalystAppScreens: AppScreens(
