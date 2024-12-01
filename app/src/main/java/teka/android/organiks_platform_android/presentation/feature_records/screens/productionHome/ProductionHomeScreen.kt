@@ -28,8 +28,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import teka.android.organiks_platform_android.data.room.models.EggCollection
-import teka.android.organiks_platform_android.data.room.models.MilkCollection
+import teka.android.organiks_platform_android.data.room.entities.EggCollection
+import teka.android.organiks_platform_android.data.room.entities.MilkCollection
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
 import teka.android.organiks_platform_android.ui.theme.PoppinsExtraLight
@@ -43,13 +43,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FilledTonalButton
-import androidx.compose.ui.graphics.Color.Companion.Green
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import teka.android.organiks_platform_android.R
-import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
+import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.navigation.ProgressIndicator
 

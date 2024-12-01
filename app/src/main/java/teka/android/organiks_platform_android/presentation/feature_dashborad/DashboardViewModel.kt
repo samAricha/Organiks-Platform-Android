@@ -14,10 +14,9 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
-import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionDto
-import teka.android.organiks_platform_android.data.room.models.EggCollection
-import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
-import teka.android.organiks_platform_android.data.room.models.MilkCollection
+import teka.android.organiks_platform_android.data.room.entities.EggCollection
+import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
+import teka.android.organiks_platform_android.data.room.entities.MilkCollection
 import teka.android.organiks_platform_android.domain.repository.DbRepository
 import teka.android.organiks_platform_android.domain.repository.RemoteEggRecordsRepository
 import timber.log.Timber

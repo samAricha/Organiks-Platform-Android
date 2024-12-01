@@ -21,7 +21,7 @@ import teka.android.organiks_platform_android.presentation.feature_settings.Sett
 import teka.android.organiks_platform_android.presentation.module_customers.form.AddCustomerForm
 import teka.android.organiks_platform_android.presentation.module_fruits.form.FruitRecordingForm
 import teka.android.organiks_platform_android.presentation.module_customers.list_screen.CustomersListScreen
-import teka.android.organiks_platform_android.presentation.module_invoice.invoice_screen.InvoiceScreen
+import teka.android.organiks_platform_android.presentation.module_invoice.create_invoice.CreateInvoiceScreen
 import teka.android.organiks_platform_android.presentation.module_fruits.list_screen.FruitRecordsListScreen
 import teka.android.organiks_platform_android.presentation.module_invoice.invoice_list_screen.InvoiceListScreen
 import teka.android.organiks_platform_android.ui.animations.scaleIntoContainer
@@ -348,7 +348,7 @@ fun MainNavGraph(
         }
 
         composable(
-            route = AppScreens.InvoiceScreen.route,
+            route = AppScreens.CreateInvoiceScreen.route,
             enterTransition = {
                 scaleIntoContainer()
             },
@@ -360,9 +360,12 @@ fun MainNavGraph(
             },
             popExitTransition = {
                 scaleOutOfContainer()
-            }
+            },
+            arguments = listOf(
+                navArgument("fruitCollectionId") { type = NavType.StringType },
+            )
         ){
-            InvoiceScreen(
+            CreateInvoiceScreen(
                 navController = navController
             )
         }

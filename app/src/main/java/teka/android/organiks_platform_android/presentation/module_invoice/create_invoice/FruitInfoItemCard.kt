@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.module_customers.list_screen
+package teka.android.organiks_platform_android.presentation.module_invoice.create_invoice
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,19 +23,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import teka.android.organiks_platform_android.R
-import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
+import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
+import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.PureWhiteColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.ui.theme.TextSizeMedium
 import teka.android.organiks_platform_android.ui.theme.TextSizeXLarge
+import teka.android.organiks_platform_android.util.CustomBtn
 import teka.android.organiks_platform_android.util.convertMillisToStringDate
 import teka.android.organiks_platform_android.util.widgets.CustomText
 import teka.android.organiks_platform_android.util.widgets.LabelValueTextWidget
 
 @Composable
-fun CustomerItemCard(
-    customerEntity: CustomerEntity,
+fun FruitInfoItemCard(
+    fruitCollectionEntity: FruitCollectionEntity,
     navController: NavController
 ) {
     Card(
@@ -54,7 +57,7 @@ fun CustomerItemCard(
                     modifier = Modifier.padding(10.dp)
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.customers),
+                        painter = painterResource(id = R.drawable.vegs_no_bg),
                         contentDescription = null,
                         modifier = Modifier
                             .size(60.dp)
@@ -77,13 +80,13 @@ fun CustomerItemCard(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         CustomText(
-                            text = customerEntity.name ?: "N/A",
+                            text = fruitCollectionEntity.fruitTypeId ?: "N/A",
                             fontWeight = FontWeight.Bold,
                             color = Color.Black,
                             fontSize = TextSizeXLarge
                         )
                         CustomText(
-                            text = convertMillisToStringDate(customerEntity.date),
+                            text = convertMillisToStringDate(fruitCollectionEntity.date),
                             fontSize = TextSizeMedium,
                             fontWeight = FontWeight.ExtraLight,
                             fontFamily = FontFamily.Cursive,
@@ -91,16 +94,12 @@ fun CustomerItemCard(
                         )
                     }
 
-
-
-                    LabelValueTextWidget(label = "Phone: ", value = customerEntity.phone)
-                    LabelValueTextWidget(label = "Email: ", value = customerEntity.email)
-                    LabelValueTextWidget(label = "Fruit: ", value = customerEntity.product)
-
+                    LabelValueTextWidget(label = "Quantity(kgs): ", value = fruitCollectionEntity.qty ?: "N/A")
 
                 }
             }
             Spacer(modifier = Modifier.height(14.dp))
+
         }
 
     }

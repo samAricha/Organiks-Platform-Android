@@ -3,9 +3,6 @@ package teka.android.organiks_platform_android.data.room_remote_sync
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import teka.android.organiks_platform_android.data.remote.retrofit.RetrofitProvider
-import teka.android.organiks_platform_android.data.remote.retrofit.models.toMilkCollection
-import teka.android.organiks_platform_android.data.room.models.MilkCollection
 import teka.android.organiks_platform_android.domain.repository.DbRepository
 
 

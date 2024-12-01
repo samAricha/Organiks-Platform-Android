@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import teka.android.organiks_platform_android.data.room.models.CustomerEntity
+import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
 import teka.android.organiks_platform_android.domain.repository.DbRepository
 import teka.android.organiks_platform_android.util.TextFieldStateMngr
 import teka.android.organiks_platform_android.util.formattedTimeBasedOnTimeFormat

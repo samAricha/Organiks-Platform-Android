@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.data.room.models
+package teka.android.organiks_platform_android.data.room.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -127,8 +127,10 @@ data class InvoiceEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val uuid: String = generateUniqueId(),
-    val to: String,
-    val from: String,
+    val toName: String,
+    val toPhone: String,
+    val fromName: String,
+    val fromPhone: String,
     val totalAmount: String,
     val fruitCollection: String,
     val date: Long,

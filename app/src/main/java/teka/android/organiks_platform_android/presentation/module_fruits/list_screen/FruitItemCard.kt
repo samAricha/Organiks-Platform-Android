@@ -23,14 +23,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import teka.android.organiks_platform_android.R
-import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
+import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.PureWhiteColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.ui.theme.TextSizeMedium
 import teka.android.organiks_platform_android.ui.theme.TextSizeXLarge
-import teka.android.organiks_platform_android.ui.widgets.CustomButton
 import teka.android.organiks_platform_android.util.CustomBtn
 import teka.android.organiks_platform_android.util.convertMillisToStringDate
 import teka.android.organiks_platform_android.util.widgets.CustomText
@@ -104,7 +103,7 @@ fun FruitItemCard(
             CustomBtn(
                 btnText = "Invoice",
                 onClick = {
-                    navController.navigate(AppScreens.InvoiceScreen.route)
+                    navController.navigate(AppScreens.CreateInvoiceScreen.createRoute(fruitCollectionEntity.uuid))
                 }
             )
         }

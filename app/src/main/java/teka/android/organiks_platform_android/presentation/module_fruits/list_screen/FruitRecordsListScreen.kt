@@ -112,9 +112,9 @@ fun FruitRecordsListScreen(
                     .background(MaterialTheme.colorScheme.background)
                     .padding(horizontal = 12.dp)
             ) {
-                itemsIndexed(fruitList) { index, vehicle ->
+                itemsIndexed(fruitList) { index, fruitCollectionEntity ->
                     FruitItemCard(
-                        fruitCollectionEntity = vehicle,
+                        fruitCollectionEntity = fruitCollectionEntity,
                         navController = navController
                     )
                 }

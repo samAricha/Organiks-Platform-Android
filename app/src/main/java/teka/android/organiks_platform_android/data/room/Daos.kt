@@ -2,13 +2,14 @@ package teka.android.organiks_platform_android.data.room
 
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
-import teka.android.organiks_platform_android.data.room.models.CustomerEntity
-import teka.android.organiks_platform_android.data.room.models.EggCollection
-import teka.android.organiks_platform_android.data.room.models.EggType
-import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
-import teka.android.organiks_platform_android.data.room.models.FruitType
-import teka.android.organiks_platform_android.data.room.models.MilkCollection
-import teka.android.organiks_platform_android.data.room.models.ProductionCategory
+import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
+import teka.android.organiks_platform_android.data.room.entities.EggCollection
+import teka.android.organiks_platform_android.data.room.entities.EggType
+import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
+import teka.android.organiks_platform_android.data.room.entities.FruitType
+import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
+import teka.android.organiks_platform_android.data.room.entities.MilkCollection
+import teka.android.organiks_platform_android.data.room.entities.ProductionCategory
 
 @Entity
 @Dao
@@ -63,6 +64,9 @@ interface FruitCollectionDao{
     @Query("SELECT * FROM fruit_collections WHERE fruit_collection_id=:collectionId")
     fun getFruitCollectionById(collectionId:Int): Flow<FruitCollectionEntity>
 
+    @Query("SELECT * FROM fruit_collections WHERE uuid=:uuid")
+    fun getFruitCollectionByUUId(uuid:String): Flow<FruitCollectionEntity>
+
 
     @Query("""
         SELECT * FROM egg_collections AS EC INNER JOIN egg_types AS ET ON
@@ -92,6 +96,29 @@ interface CustomerDao{
 
     @Query("SELECT * FROM customer_table WHERE customer_id=:customerId")
     fun getCustomersByCustomerId(customerId:Int): Flow<CustomerEntity>
+
+}
+
+@Entity
+@Dao
+interface InvoiceDao{
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(invoice: InvoiceEntity)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(invoice: InvoiceEntity)
+
+    @Delete
+    suspend fun delete(invoice: InvoiceEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertInvoice(invoiceList: List<InvoiceEntity>)
+
+    @Query("SELECT * FROM invoice_table ORDER BY date DESC")
+    fun getAllInvoices(): Flow<List<InvoiceEntity>>
+
+    @Query("SELECT * FROM invoice_table WHERE uuid=:id")
+    fun getInvoicesByUUId(id:String): Flow<InvoiceEntity>
 
 }
 

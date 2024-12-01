@@ -10,9 +10,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
+import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
 import teka.android.organiks_platform_android.domain.repository.DbRepository
-import teka.android.organiks_platform_android.presentation.module_customers.form.AddCustomerFormUIState
 import teka.android.organiks_platform_android.util.TextFieldStateMngr
 import teka.android.organiks_platform_android.util.formattedTimeBasedOnTimeFormat
 import teka.android.organiks_platform_android.util.toEpochMillis

@@ -1,8 +1,7 @@
 package teka.android.organiks_platform_android.data.remote.retrofit.models
 
 import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
-import teka.android.organiks_platform_android.data.room.models.EggCollection
+import teka.android.organiks_platform_android.data.room.entities.EggCollection
 
 
 data class EggCollectionResult(
