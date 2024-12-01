@@ -195,6 +195,10 @@ dependencies {
     // invoice generator
     implementation ("com.github.kariot:pdf-invoice-generator:1.0.1")
 
+    // pdf viewer
+    implementation ("io.github.grizzi91:bouquet:1.1.2")
+
+
 
 
     testImplementation ("junit:junit:4.13.2")

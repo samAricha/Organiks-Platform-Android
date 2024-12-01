@@ -1,5 +1,7 @@
 package teka.android.organiks_platform_android.navigation
 
+import android.net.Uri
+
 const val ROOT_GRAPH_ROUTE = "root_graph_route"
 const val AUTH_GRAPH_ROUTE = "auth_graph_route"
 const val MAIN_GRAPH_ROUTE = "main_graph_route"
@@ -20,6 +22,11 @@ sealed class AppScreens(
     data object CreateInvoiceScreen: AppScreens(route = "invoice_screen/{fruitCollectionId}", title = "Invoice"){
         fun createRoute(fruitCollectionId: String): String {
             return "invoice_screen/$fruitCollectionId"
+        }
+    }
+    data object PDFViewerScreen: AppScreens(route = "pdf_viewer_screen/{filePath}", title = "PDF Viewer"){
+        fun createRoute(filePath: String): String {
+            return "pdf_viewer_screen/${Uri.encode(filePath)}"
         }
     }
     data object InvoiceListScreen: AppScreens(route = "invoice_list_screen", title = "Invoices")

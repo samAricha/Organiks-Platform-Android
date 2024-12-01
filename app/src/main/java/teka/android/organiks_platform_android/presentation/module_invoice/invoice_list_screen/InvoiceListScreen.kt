@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import teka.android.organiks_platform_android.navigation.AppScreens
 import java.io.File
 
 @Composable
@@ -29,7 +30,10 @@ fun InvoiceListScreen(
             .fillMaxSize()
     ) {
         items(invoiceFiles) { file ->
-            InvoiceItem(file, onOpenInvoice = { openPdfFile(context, file) })
+            InvoiceItem(file, onOpenInvoice = {
+//                openPdfFile(context, file)
+                navController.navigate(AppScreens.PDFViewerScreen.createRoute(file.absolutePath))
+            })
         }
     }
 }

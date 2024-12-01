@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.navigation
 
+import android.net.Uri
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -24,6 +25,7 @@ import teka.android.organiks_platform_android.presentation.module_customers.list
 import teka.android.organiks_platform_android.presentation.module_invoice.create_invoice.CreateInvoiceScreen
 import teka.android.organiks_platform_android.presentation.module_fruits.list_screen.FruitRecordsListScreen
 import teka.android.organiks_platform_android.presentation.module_invoice.invoice_list_screen.InvoiceListScreen
+import teka.android.organiks_platform_android.presentation.module_invoice.pdf_viewer.PDFViewerScreen
 import teka.android.organiks_platform_android.ui.animations.scaleIntoContainer
 import teka.android.organiks_platform_android.ui.animations.scaleOutOfContainer
 
@@ -366,6 +368,33 @@ fun MainNavGraph(
             )
         ){
             CreateInvoiceScreen(
+                navController = navController
+            )
+        }
+
+        composable(
+            route = AppScreens.PDFViewerScreen.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            },
+            arguments = listOf(
+                navArgument("filePath") { type = NavType.StringType },
+            )
+        ){ backStackEntry ->
+//            val filePath = backStackEntry.arguments?.getString("filePath") ?: return@composable
+            val filePath = backStackEntry.arguments?.getString("filePath")?.let { Uri.decode(it) } ?: return@composable
+
+            PDFViewerScreen(
+                filePath = filePath,
                 navController = navController
             )
         }
