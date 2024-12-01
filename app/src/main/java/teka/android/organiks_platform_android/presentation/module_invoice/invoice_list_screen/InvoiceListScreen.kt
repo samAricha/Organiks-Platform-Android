@@ -28,6 +28,7 @@ fun InvoiceListScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
+            .padding(horizontal = 12.dp)
     ) {
         items(invoiceFiles) { file ->
             InvoiceItem(file, onOpenInvoice = {
@@ -38,21 +39,7 @@ fun InvoiceListScreen(
     }
 }
 
-@Composable
-fun InvoiceItem(file: File, onOpenInvoice: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp)
-            .clickable { onOpenInvoice() }
-    ) {
-        Text(
-            text = file.name,
-            modifier = Modifier.weight(1f),
-            style = MaterialTheme.typography.bodyMedium
-        )
-    }
-}
+
 
 fun openPdfFile(context: Context, file: File) {
     val uri = FileProvider.getUriForFile(
