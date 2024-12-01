@@ -88,7 +88,8 @@ object MainModule {
             productionCategoryDao = database.productionCategoryDao(),
             milkCollectionDao = database.milkCollectionDao(),
             fruitCollectionDao = database.fruitCollectionDao(),
-            customerDao = database.customerDao()
+            customerDao = database.customerDao(),
+            invoiceDao = database.invoiceDao()
         )
     }
 

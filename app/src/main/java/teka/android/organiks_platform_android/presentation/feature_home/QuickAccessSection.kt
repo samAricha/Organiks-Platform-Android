@@ -20,6 +20,7 @@ import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material.icons.rounded.Dashboard
 import androidx.compose.material.icons.rounded.MonetizationOn
 import androidx.compose.material.icons.rounded.PersonAddAlt1
+import androidx.compose.material.icons.rounded.StackedLineChart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -45,13 +46,13 @@ val quickAccessList = listOf(
         icon = Icons.Rounded.Dashboard,
         name = "Dashboard",
         background = GreenStart,
-        route = AppScreens.DashboardAppScreens.route
+        route = AppScreens.RemoteRecordsScreens.route
     ),
     QuickAccessDto(
-        icon = Icons.Rounded.Add,
-        name = "Add Record",
+        icon = Icons.Rounded.StackedLineChart,
+        name = "Analytics",
         background = OrangeStart,
-        route = "${AppScreens.ProductionRecording.route}?id=-1"
+        route = AppScreens.DashboardAppScreens.route
     ),
 
 )
@@ -62,15 +63,6 @@ fun QuickAccessSection(
     navController: NavController
 ) {
     Column {
-//        Text(
-//            text = "Quick Access",
-//            fontSize = 22.sp,
-//            color = MaterialTheme.colorScheme.onBackground,
-//            fontWeight = FontWeight.Medium,
-//            modifier = Modifier.padding(top = 8.dp, start = 16.dp),
-//            fontFamily = quicksand
-//        )
-
         Column(
             modifier = Modifier
                 .background(Color.White)
@@ -85,7 +77,6 @@ fun QuickAccessSection(
                     QuickAccessItem(
                         quickAccessItem = it,
                         navController = navController,
-//                        modifier = Modifier.width(IntrinsicSize.Max)
                         modifier = Modifier.weight(1f),
                     )
                 }

@@ -6,10 +6,8 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import teka.android.organiks_platform_android.data.remote.retrofit.RetrofitProvider
-import teka.android.organiks_platform_android.data.remote.retrofit.models.toMilkCollection
-import teka.android.organiks_platform_android.data.room.models.EggCollection
-import teka.android.organiks_platform_android.data.room.models.MilkCollection
+import teka.android.organiks_platform_android.data.room.entities.EggCollection
+import teka.android.organiks_platform_android.data.room.entities.MilkCollection
 
 class RecordsMainViewModel:ViewModel() {
 

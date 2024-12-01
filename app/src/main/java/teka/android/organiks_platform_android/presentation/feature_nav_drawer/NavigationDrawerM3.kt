@@ -21,7 +21,10 @@ import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PermIdentity
+import androidx.compose.material.icons.filled.PostAdd
 import androidx.compose.material.icons.filled.Receipt
+import androidx.compose.material.icons.filled.RequestQuote
+import androidx.compose.material.icons.filled.StackedLineChart
 import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material.icons.filled.VoiceChat
 import androidx.compose.material.rememberScaffoldState
@@ -110,9 +113,9 @@ fun NavigationDrawerM3(
             icon = Icons.Default.Dashboard,
             label = "Dashboard",
             secondaryLabel = "64",
-            route = AppScreens.DashboardAppScreens.route,
+            route = AppScreens.RemoteRecordsScreens.route,
             onItemClick = {
-                navigationActions.navigateToDashboard()
+                navigationActions.navigateToRemoteRecordsScreen()
                 scope.launch {
                     drawerState.close()
                 }
@@ -120,12 +123,12 @@ fun NavigationDrawerM3(
             }
         ),
         DrawerItem(
-            icon = Icons.Default.Receipt,
-            label = "All Records",
-            secondaryLabel = "Remote Records",
-            route = AppScreens.RemoteRecordsScreens.route,
+            icon = Icons.Default.StackedLineChart,
+            label = "Analytics",
+            secondaryLabel = "2",
+            route = AppScreens.DashboardAppScreens.route,
             onItemClick = {
-                navigationActions.navigateToRemoteRecordsScreen()
+                navigationActions.navigateToDashboard()
                 scope.launch {
                     drawerState.close()
                 }
@@ -133,16 +136,16 @@ fun NavigationDrawerM3(
             }
         ),
         DrawerItem(
-            icon = Icons.Default.VoiceChat,
-            label = "Assistant",
-            secondaryLabel = "Chat",
-            route = AppScreens.GeminiChatAppScreens.route,
+            icon = Icons.Default.RequestQuote,
+            label = "Invoices",
+            secondaryLabel = "2",
+            route = AppScreens.InvoiceListScreen.route,
             onItemClick = {
-                navigationActions.navigateToGeminichatScreen()
+                navigationActions.navigateToInvoiceListScreen()
                 scope.launch {
                     drawerState.close()
                 }
-                Toast.makeText(context, "Gemini Assistant", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Invoices", Toast.LENGTH_SHORT).show()
             }
         ),
         DrawerItem(
@@ -156,6 +159,19 @@ fun NavigationDrawerM3(
                     drawerState.close()
                 }
                 Toast.makeText(context, "Gemini Analyst", Toast.LENGTH_SHORT).show()
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.VoiceChat,
+            label = "Assistant",
+            secondaryLabel = "Chat",
+            route = AppScreens.GeminiChatAppScreens.route,
+            onItemClick = {
+                navigationActions.navigateToGeminichatScreen()
+                scope.launch {
+                    drawerState.close()
+                }
+                Toast.makeText(context, "Gemini Assistant", Toast.LENGTH_SHORT).show()
             }
         ),
         DrawerItem(

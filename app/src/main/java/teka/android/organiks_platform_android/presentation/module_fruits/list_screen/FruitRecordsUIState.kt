@@ -1,7 +1,7 @@
 package teka.android.organiks_platform_android.presentation.module_fruits.list_screen
 
 import androidx.compose.runtime.Stable
-import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
+import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
 
 
 @Stable

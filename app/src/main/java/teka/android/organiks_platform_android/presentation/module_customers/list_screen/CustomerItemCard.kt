@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import teka.android.organiks_platform_android.R
-import teka.android.organiks_platform_android.data.room.models.CustomerEntity
+import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.PureWhiteColor
 import teka.android.organiks_platform_android.ui.theme.Shapes

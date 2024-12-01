@@ -1,23 +1,27 @@
 package teka.android.organiks_platform_android.domain.repository
 
+import kotlinx.coroutines.flow.Flow
 import teka.android.organiks_platform_android.data.room.CustomerDao
 import teka.android.organiks_platform_android.data.room.EggCollectionDao
 import teka.android.organiks_platform_android.data.room.EggTypeDao
 import teka.android.organiks_platform_android.data.room.FruitCollectionDao
+import teka.android.organiks_platform_android.data.room.InvoiceDao
 import teka.android.organiks_platform_android.data.room.MilkCollectionDao
 import teka.android.organiks_platform_android.data.room.ProductionCategoryDao
-import teka.android.organiks_platform_android.data.room.models.CustomerEntity
-import teka.android.organiks_platform_android.data.room.models.EggCollection
-import teka.android.organiks_platform_android.data.room.models.EggType
-import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
-import teka.android.organiks_platform_android.data.room.models.MilkCollection
-import teka.android.organiks_platform_android.data.room.models.ProductionCategory
+import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
+import teka.android.organiks_platform_android.data.room.entities.EggCollection
+import teka.android.organiks_platform_android.data.room.entities.EggType
+import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
+import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
+import teka.android.organiks_platform_android.data.room.entities.MilkCollection
+import teka.android.organiks_platform_android.data.room.entities.ProductionCategory
 
 class DbRepository(
     private val eggTypeDao: EggTypeDao,
     private val eggCollectionDao: EggCollectionDao,
     private val fruitCollectionDao: FruitCollectionDao,
     private val customerDao: CustomerDao,
+    private val invoiceDao: InvoiceDao,
     private val milkCollectionDao: MilkCollectionDao,
     private val productionCategoryDao: ProductionCategoryDao
 ) {
@@ -30,6 +34,7 @@ class DbRepository(
     val getMilkCollection = milkCollectionDao.getAllMilkCollections()
     val getFruitCollections = fruitCollectionDao.getAllFruitCollections()
     val getCustomers = customerDao.getAllCustomers()
+    val getAllInvoices = invoiceDao.getAllInvoices()
     val getEggCollectionsWithEggTypes = eggCollectionDao.getEggCollectionsWithEggTypes()
 
 
@@ -74,6 +79,9 @@ class DbRepository(
     suspend fun updateFruitCollection(fruitCollection: FruitCollectionEntity){
         fruitCollectionDao.update(fruitCollection = fruitCollection)
     }
+    fun getFruitCollectionByUUId(uuid: String): Flow<FruitCollectionEntity> {
+        return fruitCollectionDao.getFruitCollectionByUUId(uuid)
+    }
 
     //<<<<<<<<<< CUSTOMER COLLECTIONS >>>>>>>>
     suspend fun insertCustomerEntity(customer: CustomerEntity){
@@ -81,6 +89,15 @@ class DbRepository(
     }
     suspend fun updateCustomerEntity(customerEntity: CustomerEntity){
         customerDao.update(customerEntity)
+    }
+
+    //<<<<<<<<<< INVOICE COLLECTIONS >>>>>>>>
+    suspend fun insertInvoiceEntity(invoice: InvoiceEntity){
+        invoiceDao.insert(invoice)
+    }
+
+    fun getInvoiceByUUId(uuid: String): Flow<InvoiceEntity> {
+        return invoiceDao.getInvoicesByUUId(uuid)
     }
 
     //<<<<<<<<<< MILK COLLECTIONS >>>>>>>>

@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.navigation
 
+import android.net.Uri
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
@@ -21,7 +22,10 @@ import teka.android.organiks_platform_android.presentation.feature_settings.Sett
 import teka.android.organiks_platform_android.presentation.module_customers.form.AddCustomerForm
 import teka.android.organiks_platform_android.presentation.module_fruits.form.FruitRecordingForm
 import teka.android.organiks_platform_android.presentation.module_customers.list_screen.CustomersListScreen
+import teka.android.organiks_platform_android.presentation.module_invoice.create_invoice.CreateInvoiceScreen
 import teka.android.organiks_platform_android.presentation.module_fruits.list_screen.FruitRecordsListScreen
+import teka.android.organiks_platform_android.presentation.module_invoice.invoice_list_screen.InvoiceListScreen
+import teka.android.organiks_platform_android.presentation.module_invoice.pdf_viewer.PDFViewerScreen
 import teka.android.organiks_platform_android.ui.animations.scaleIntoContainer
 import teka.android.organiks_platform_android.ui.animations.scaleOutOfContainer
 
@@ -130,12 +134,291 @@ fun MainNavGraph(
             popExitTransition = {
                 scaleOutOfContainer()
             }
-
         ){
             FruitRecordingForm(
                 navController = navController
             )
         }
+        composable(
+            route = AppScreens.FruitRecordingForm.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            FruitRecordingForm(
+                navController = navController
+            )
+        }
+        composable(
+            route = AppScreens.FruitRecordingForm.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            FruitRecordingForm(
+                navController = navController
+            )
+        }
+        composable(
+            route = AppScreens.FruitRecordingForm.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            FruitRecordingForm(
+                navController = navController
+            )
+        }
+        composable(
+            route = AppScreens.FruitRecordingForm.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            FruitRecordingForm(
+                navController = navController
+            )
+        }
+        composable(
+            route = AppScreens.FruitRecordingForm.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            FruitRecordingForm(
+                navController = navController
+            )
+        }
+        composable(
+            route = AppScreens.FruitRecordingForm.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            FruitRecordingForm(
+                navController = navController
+            )
+        }
+        composable(
+            route = AppScreens.FruitRecordingForm.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            FruitRecordingForm(
+                navController = navController
+            )
+        }
+        composable(
+            route = AppScreens.FruitRecordingForm.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            FruitRecordingForm(
+                navController = navController
+            )
+        }
+        composable(
+            route = AppScreens.FruitRecordingForm.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            FruitRecordingForm(
+                navController = navController
+            )
+        }
+        composable(
+            route = AppScreens.FruitRecordingForm.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            FruitRecordingForm(
+                navController = navController
+            )
+        }
+        composable(
+            route = AppScreens.FruitRecordingForm.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            FruitRecordingForm(
+                navController = navController
+            )
+        }
+
+        composable(
+            route = AppScreens.CreateInvoiceScreen.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            },
+            arguments = listOf(
+                navArgument("fruitCollectionId") { type = NavType.StringType },
+            )
+        ){
+            CreateInvoiceScreen(
+                navController = navController
+            )
+        }
+
+        composable(
+            route = AppScreens.PDFViewerScreen.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            },
+            arguments = listOf(
+                navArgument("filePath") { type = NavType.StringType },
+            )
+        ){ backStackEntry ->
+//            val filePath = backStackEntry.arguments?.getString("filePath") ?: return@composable
+            val filePath = backStackEntry.arguments?.getString("filePath")?.let { Uri.decode(it) } ?: return@composable
+
+            PDFViewerScreen(
+                filePath = filePath,
+                navController = navController
+            )
+        }
+
+        composable(
+            route = AppScreens.InvoiceListScreen.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            InvoiceListScreen(
+                navController = navController
+            )
+        }
+
 
         composable(
             route = AppScreens.AddCustomerForm.route,
@@ -240,8 +523,7 @@ fun MainNavGraph(
             popExitTransition = {
                 scaleOutOfContainer()
             }
-
-            ){
+        ){
             DashboardScreen(
                 navController = navController
             )

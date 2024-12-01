@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android
+package teka.android.organiks_platform_android.core
 
 import android.app.Application
 import androidx.work.Constraints
@@ -8,12 +8,13 @@ import androidx.work.WorkManager
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import teka.android.organiks_platform_android.BuildConfig
 import teka.android.organiks_platform_android.networking.ConnectivityObserver
 import teka.android.organiks_platform_android.networking.NetworkConnectivityObserver
 import teka.android.organiks_platform_android.workmanager.DbDataSyncWorker
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -28,6 +29,9 @@ class OrganiksApplication: Application() {
 
     override fun onCreate() {
         super.onCreate()
+        if (BuildConfig.DEBUG) {
+            Timber.Forest.plant(Timber.DebugTree())
+        }
 
         // Initialize and observe network connectivity
         val connectivityFlow = networkConnectivityObserver.observe()

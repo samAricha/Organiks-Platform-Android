@@ -76,24 +76,6 @@ fun HomeScreen(
                 navController.navigate(route = AppScreens.GeminiAnalystAppScreens.createRoute(1))
             }
         ),
-        HomeInfoCardData(
-            title = "Back Up Data",
-            value = "$totalNotBackedUpCount Records",
-            iconResId = R.drawable.cloud_upload,
-            color = LightBlue,
-            onClick = {
-
-            }
-        ),
-        HomeInfoCardData(
-            title = "Backed Up Data",
-            value = "$totalNotBackedUpCount Records",
-            iconResId = R.drawable.cloud_done,
-            color = DecentGreen,
-            onClick = {
-                navController.navigate(route = AppScreens.RemoteRecordsScreens.route)
-            }
-        )
     )
 
     val moduleCards = listOf(
@@ -118,9 +100,7 @@ fun HomeScreen(
 
     )
 
-    Scaffold(
-
-    ) { padding ->
+    Scaffold() { padding ->
 
         Column(
             modifier = Modifier

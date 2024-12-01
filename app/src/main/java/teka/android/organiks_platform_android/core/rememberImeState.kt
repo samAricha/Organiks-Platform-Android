@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android
+package teka.android.organiks_platform_android.core
 
 import android.view.ViewTreeObserver
 import androidx.compose.runtime.*
