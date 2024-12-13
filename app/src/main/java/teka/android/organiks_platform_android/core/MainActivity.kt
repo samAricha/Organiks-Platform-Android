@@ -55,27 +55,14 @@ class MainActivity : ComponentActivity() {
         // Create an instance of the ViewModel manually
         splashViewModel = ViewModelProvider(this)[SplashViewModel::class.java]
         splashViewModel.init(DataStoreRepository(context = applicationContext))
-//        val startDestination by splashViewModel.startDestination
+        var startDestination by splashViewModel.startDestination
         splashViewModel.startDestination.value?.let { Log.d("TAG3", it) }
-//        splashScreen.setKeepOnScreenCondition{ startDestination.isNullOrEmpty() }
+        splashScreen.setKeepOnScreenCondition{ startDestination.isNullOrEmpty() }
 
 
         setContent {
-//            val imeiState = rememberImeState()
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
             splashViewModel.startDestination.value?.let { Log.d("TAG3", it) }
-
-            var startDestination by remember { mutableStateOf<String?>(null) }
-
-
-
-            //firebase and Google Authentication
-//            val googleAuthUiClient by lazy {
-//                GoogleAuthUiClient(
-//                    context = applicationContext,
-//                    oneTapClient = Identity.getSignInClient(applicationContext)
-//                )
-//            }
 
             val viewModel = viewModel<FirebaseSignInViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
