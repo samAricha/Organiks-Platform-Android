@@ -38,6 +38,7 @@ import androidx.navigation.NavController
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.ui.theme.Cream2
 import teka.android.organiks_platform_android.ui.theme.GreenStart
+import teka.android.organiks_platform_android.ui.theme.MainWhiteColor
 import teka.android.organiks_platform_android.ui.theme.OrangeStart
 import teka.android.organiks_platform_android.ui.theme.quicksand
 
@@ -62,7 +63,6 @@ val quickAccessList = listOf(
 fun QuickAccessSection(
     navController: NavController
 ) {
-    Column {
         Column(
             modifier = Modifier
                 .background(Color.White)
@@ -70,7 +70,7 @@ fun QuickAccessSection(
         ) {
             Spacer(modifier = Modifier.height(5.dp))
 
-            FlowRow(
+            Row(
                 modifier = Modifier
             ) {
                 quickAccessList.forEach {
@@ -82,7 +82,6 @@ fun QuickAccessSection(
                 }
             }
         }
-    }
 }
 
 @Composable
@@ -92,42 +91,34 @@ fun QuickAccessItem(
     modifier: Modifier = Modifier
 ) {
 
-
     Box(
         modifier = modifier
-            .background(Color.White)
             .fillMaxWidth()
             .padding(end = 8.dp),
-        ) {
-        Column(
+    ) {
+       Column(
             modifier = Modifier
                 .clip(RoundedCornerShape(25.dp))
                 .background(Cream2)
                 .fillMaxWidth()
                 .clickable {}
-                .padding(13.dp),
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-
+                .padding(horizontal = 5.dp),
+           verticalArrangement = Arrangement.Center
+       ) {
             Card(
                 onClick = { navController.navigate(quickAccessItem.route) },
                 colors = CardDefaults.cardColors(
-                    containerColor = Cream2,
-                ),
-                modifier = Modifier
-                    .fillMaxSize()
+                    containerColor = MainWhiteColor,
+                )
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-
-
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(16.dp))
                             .background(quickAccessItem.background)
-                            .padding(6.dp)
-
+                            .padding(2.5.dp)
                     ) {
                         Icon(
                             imageVector = quickAccessItem.icon,
@@ -135,22 +126,20 @@ fun QuickAccessItem(
                             tint = Color.White
                         )
                     }
-
-                    Spacer(modifier = Modifier.width(5.dp))
-
+                    Spacer(modifier = Modifier.width(6.dp))
                     Text(
                         text = quickAccessItem.name,
                         color = MaterialTheme.colorScheme.onSecondaryContainer,
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = 13.sp,
+                        fontSize = 15.sp,
                         fontFamily = quicksand
                     )
                 }
             }
+       }
 
-
-        }
     }
+
 }
 
 
