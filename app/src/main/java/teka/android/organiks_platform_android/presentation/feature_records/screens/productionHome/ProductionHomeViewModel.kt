@@ -40,6 +40,8 @@ class ProductionHomeViewModel @Inject constructor(
     private val _isSyncing = MutableStateFlow(false)
     val isSyncing: StateFlow<Boolean> = _isSyncing
 
+    val fabClicked = MutableStateFlow<Boolean>(false)
+
     val eggSnackbarMessage = mutableStateOf<String?>(null)
     val milkSnackbarMessage = mutableStateOf<String?>(null)
     val fruitSnackbarMessage = mutableStateOf<String?>(null)
@@ -94,7 +96,11 @@ class ProductionHomeViewModel @Inject constructor(
         _snackbarData.value = null
     }
 
-
+    fun onFabClicked() {
+        fabClicked.value = true
+        syncRoomDbToRemote()
+        fabClicked.value = false // Trigger after sync is completed
+    }
 
 
     fun syncRoomDbToRemote() {

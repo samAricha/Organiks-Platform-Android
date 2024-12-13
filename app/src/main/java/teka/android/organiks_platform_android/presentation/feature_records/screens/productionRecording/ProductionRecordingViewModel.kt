@@ -7,8 +7,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDateTime
 import teka.android.organiks_platform_android.data.room.entities.EggCollection
 import teka.android.organiks_platform_android.data.room.entities.EggType
 import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
@@ -17,6 +20,7 @@ import teka.android.organiks_platform_android.data.room.entities.ProductionCateg
 import teka.android.organiks_platform_android.domain.repository.DbRepository
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
+import teka.android.organiks_platform_android.util.today
 import java.util.*
 import javax.inject.Inject
 
@@ -50,8 +54,7 @@ class ProductionRecordingViewModel @Inject constructor(
                             productionCategory = Utils.productionCategory.find { c ->
                                 c.id == 0
                             } ?: Category(),
-                        )
-                    }
+                        ) }
             }
         }
 
@@ -63,6 +66,18 @@ class ProductionRecordingViewModel @Inject constructor(
         }else{
             state.copy(isUpdatingItem = false)
         }
+    }
+
+    private val _showTaskDatePickerDialog = MutableStateFlow(false)
+    val showTaskDatePickerDialog = _showTaskDatePickerDialog.asStateFlow()
+    fun setShowTaskDatePickerDialog(show: Boolean) {
+        _showTaskDatePickerDialog.value = show
+    }
+
+    private val _collectionDate = MutableStateFlow(today())
+    val collectionDate = _collectionDate.asStateFlow()
+    fun setCollectionDate(date: LocalDateTime) {
+        _collectionDate.value = date
     }
 
     val isFieldNotEmpty: Boolean
@@ -129,7 +144,9 @@ class ProductionRecordingViewModel @Inject constructor(
                     date = state.date.time,
                     time = state.date.time.toString(),
                     qty = state.fruitCollectionQty,
-                    fruitTypeId = state.fruitTypeName,
+                    fruitTypeId = (state.eggTypes.find {
+                        it.name == state.eggTypeName
+                    }?.id ?: 0).toString(),
                     isBackedUp = false
                 )
             )
@@ -240,8 +257,9 @@ class ProductionRecordingViewModel @Inject constructor(
         }
     }
 
-}
 
+
+}
 data class ProductionRecordingState(
     val eggTypes: List<EggType> = emptyList(),
     val eggCollectionQty: String = "",

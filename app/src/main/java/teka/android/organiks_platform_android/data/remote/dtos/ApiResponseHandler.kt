@@ -1,7 +1,9 @@
 package teka.android.organiks_platform_android.data.remote.dtos
 
+import android.annotation.SuppressLint
 import kotlinx.serialization.Serializable
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class ApiResponseHandler<T>(
     val isSuccessful: Boolean,

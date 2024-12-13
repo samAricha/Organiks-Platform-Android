@@ -26,94 +26,53 @@ val quicksand = FontFamily(
 )
 
 
+private val defaultTypography = Typography()
+val AppTypography = Typography(
+    displayLarge = defaultTypography.displayLarge.copy(fontFamily = quicksand),
+    displayMedium = defaultTypography.displayMedium.copy(fontFamily = quicksand),
+    displaySmall = defaultTypography.displaySmall.copy(fontFamily = quicksand),
 
-val defaultTypography = Typography(
-    displayLarge = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Normal,
-        fontSize = 36.sp
-    ),
-    displayMedium = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Bold,
-        fontSize = 20.sp
-    ),
-    displaySmall = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Bold,
-        fontSize = 14.sp
-    ),
+    headlineLarge = defaultTypography.headlineLarge.copy(fontFamily = quicksand),
+    headlineMedium = defaultTypography.headlineMedium.copy(fontFamily = quicksand),
+    headlineSmall = defaultTypography.headlineSmall.copy(fontFamily = quicksand),
 
-    headlineLarge = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Normal,
-        fontSize = 36.sp
-    ),
-    headlineMedium = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Normal,
-        fontSize = 20.sp
-    ),
-    headlineSmall = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Normal,
-        fontSize = 14.sp
-    ),
+    titleLarge = defaultTypography.titleLarge.copy(fontFamily = quicksand),
+    titleMedium = defaultTypography.titleMedium.copy(fontFamily = quicksand),
+    titleSmall = defaultTypography.titleSmall.copy(fontFamily = quicksand),
 
-    titleLarge = TextStyle(
-        fontWeight = FontWeight.SemiBold,
-        fontFamily = quicksand,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    titleMedium = TextStyle(
-        fontWeight = FontWeight.SemiBold,
-        fontFamily = quicksand,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.15.sp
-    ),
-    titleSmall = TextStyle(
-        fontWeight = FontWeight.SemiBold,
-        fontFamily = quicksand,
-        fontSize = 10.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.15.sp
-    ),
+    bodyLarge = defaultTypography.bodyLarge.copy(fontFamily = quicksand),
+    bodyMedium = defaultTypography.bodyMedium.copy(fontFamily = quicksand),
+    bodySmall = defaultTypography.bodySmall.copy(fontFamily = quicksand),
+
+    labelLarge = defaultTypography.labelLarge.copy(fontFamily = quicksand),
+    labelMedium = defaultTypography.labelMedium.copy(fontFamily = quicksand),
+    labelSmall = defaultTypography.labelSmall.copy(fontFamily = quicksand)
+)
 
 
-    bodyLarge = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Normal,
-        fontSize = 14.sp
-    ),
-    bodyMedium = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Normal,
-        fontSize = 12.sp
-    ),
-    bodySmall = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Normal,
-        fontSize = 10.sp
-    ),
 
 
-    labelLarge = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Bold,
-        fontSize = 14.sp
-    ),
-    labelMedium = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Bold,
-        fontSize = 12.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Bold,
-        fontSize = 10.sp
-    )
+val defaultFontFamily = quicksand
 
+// Define your custom typography
+val AppTypography2 = Typography(
+    displayLarge = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Bold, fontSize = 34.sp),
+    displayMedium = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Bold, fontSize = 28.sp),
+    displaySmall = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Bold, fontSize = 24.sp),
+
+    headlineLarge = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Bold, fontSize = 20.sp),
+    headlineMedium = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Medium, fontSize = 18.sp),
+    headlineSmall = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Medium, fontSize = 16.sp),
+
+    titleLarge = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.SemiBold, fontSize = 16.sp),
+    titleMedium = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Medium, fontSize = 14.sp),
+    titleSmall = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Normal, fontSize = 12.sp),
+
+    bodyLarge = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Normal, fontSize = 16.sp),
+    bodyMedium = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Normal, fontSize = 14.sp),
+    bodySmall = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Normal, fontSize = 12.sp),
+
+    labelLarge = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Bold, fontSize = 14.sp),
+    labelMedium = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Normal, fontSize = 12.sp),
+    labelSmall = TextStyle(fontFamily = defaultFontFamily, fontWeight = FontWeight.Normal, fontSize = 10.sp)
 )

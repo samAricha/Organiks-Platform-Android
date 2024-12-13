@@ -2,6 +2,7 @@ package teka.android.organiks_platform_android.presentation.module_fruits.list_s
 
 import androidx.compose.runtime.Stable
 import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
+import teka.android.organiks_platform_android.presentation.module_customers.list_screen.CustomerListUIState
 
 
 @Stable

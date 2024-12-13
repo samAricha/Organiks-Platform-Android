@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.data.room.entities
 
+
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -63,7 +64,7 @@ data class MilkCollection(
     val date: Long = System.currentTimeMillis(),
     val createdAt: Long = System.currentTimeMillis(),
     var isBackedUp: Boolean = false,
-    ){
+){
     companion object {
         private fun generateUniqueId(): String {
             return UUID.randomUUID().toString()
@@ -144,8 +145,5 @@ data class InvoiceEntity(
         }
     }
 }
-
-
-
 
 

@@ -9,6 +9,6 @@ import teka.android.organiks_platform_android.presentation.feature_nav_drawer.Na
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainAppScreen(appState: AppState) {
-    NavigationDrawerM3(appState)
+fun MainAppScreen() {
+    NavigationDrawerM3()
 }

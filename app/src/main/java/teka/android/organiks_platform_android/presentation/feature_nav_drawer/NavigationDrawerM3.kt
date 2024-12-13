@@ -75,9 +75,7 @@ import timber.log.Timber
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
-fun NavigationDrawerM3(
-    appState: AppState
-) {
+fun NavigationDrawerM3() {
     val navHostController: NavHostController = rememberNavController()
     val context = LocalContext.current
     val scaffoldState = rememberScaffoldState()
@@ -174,25 +172,25 @@ fun NavigationDrawerM3(
                 Toast.makeText(context, "Gemini Assistant", Toast.LENGTH_SHORT).show()
             }
         ),
-        DrawerItem(
-            icon = Icons.Default.VideoLibrary,
-            label = "Videos",
-            secondaryLabel = "",
-            route = null,
-            onItemClick = {
-                Toast.makeText(context, "Videos Coming Soon!", Toast.LENGTH_SHORT).show()
-            }
-        ),
-        DrawerItem(
-            icon = Icons.Default.Notifications,
-            label = "Notifications",
-            secondaryLabel = "12",
-            route = null,
-            onItemClick = {
-                Toast.makeText(context, "This is a Notifications Toast. Yay!", Toast.LENGTH_SHORT).show()
-//                navHostController.navigate(Screen.ProductionHome.route)
-            }
-        ),
+//        DrawerItem(
+//            icon = Icons.Default.VideoLibrary,
+//            label = "Videos",
+//            secondaryLabel = "",
+//            route = null,
+//            onItemClick = {
+//                Toast.makeText(context, "Videos Coming Soon!", Toast.LENGTH_SHORT).show()
+//            }
+//        ),
+//        DrawerItem(
+//            icon = Icons.Default.Notifications,
+//            label = "Notifications",
+//            secondaryLabel = "12",
+//            route = null,
+//            onItemClick = {
+//                Toast.makeText(context, "This is a Notifications Toast. Yay!", Toast.LENGTH_SHORT).show()
+////                navHostController.navigate(Screen.ProductionHome.route)
+//            }
+//        ),
         DrawerItem(
             icon = Icons.Default.PermIdentity,
             label = "Profile",
@@ -299,10 +297,10 @@ fun NavigationDrawerM3(
         content = {
             ScaffoldContent(
                 navHostController = appState.navHostController,
-                scaffoldState = scaffoldState,
+//                scaffoldState = scaffoldState,
                 scope = scope,
                 drawerState = drawerState,
-                onDrawerIconClick = { scope.launch { drawerState.open() } },
+//                onDrawerIconClick = { scope.launch { drawerState.open() } },
                 appState = appState
             )
         }
