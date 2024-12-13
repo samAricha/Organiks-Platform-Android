@@ -33,6 +33,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.ui.theme.TextSizeMedium
 import teka.android.organiks_platform_android.util.TextFieldStateMngr
+import teka.android.organiks_platform_android.util.helpers.formatAsCash
+import teka.android.organiks_platform_android.util.helpers.formatCash
+import teka.android.organiks_platform_android.util.helpers.formatCurrency
 import kotlin.text.isNullOrEmpty
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -56,10 +59,19 @@ fun CustomInputTextField(
     isOptional: Boolean = false,
     visualTransformation: VisualTransformation = VisualTransformation.None,
     debounceDelay: Long = 600L,
+    isCash: Boolean = false
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused = interactionSource.collectIsFocusedAsState()
+
     val fieldTxt = value.text
+
+    val formattedText = if (isCash) {
+        formatCurrency(fieldTxt)
+    } else {
+        fieldTxt
+    }
+
     val fieldError = value.error.collectAsState().value
     var job = remember { mutableStateOf<Job?>(null) }
 
@@ -88,7 +100,7 @@ fun CustomInputTextField(
                     }
                 }
             },
-            value = fieldTxt,
+            value = formattedText,
             onValueChange = {
                 it -> onValueChange(it)
                 job.value?.cancel()

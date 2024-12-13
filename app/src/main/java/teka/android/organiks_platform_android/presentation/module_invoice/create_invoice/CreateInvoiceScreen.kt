@@ -169,9 +169,21 @@ fun CreateInvoiceScreen(
 //                            viewModel.updateStringField(CreateInvoiceUiState::totalAmount, it)
                         },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        editable = false
+                        editable = false,
+                        isCash = true
                     )
                 }
+            }
+            item{
+                CustomInputTextField(
+                    modifier = Modifier.weight(1f),
+                    labelText = "Total Expenses",
+                    value = createInvoiceUiState.totalExpenses,
+                    onValueChange = {
+                        viewModel.updateStringField(CreateInvoiceUiState::totalExpenses, it)
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
             }
             item {
                 BottomSheetTextField(
