@@ -1,6 +1,7 @@
 package teka.android.organiks_platform_android.presentation.feature_nav_drawer
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
@@ -28,6 +29,7 @@ import androidx.compose.material.icons.filled.StackedLineChart
 import androidx.compose.material.icons.filled.VideoLibrary
 import androidx.compose.material.icons.filled.VoiceChat
 import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalDrawerSheet
@@ -37,6 +39,7 @@ import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,6 +58,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.navigation.AppNavigationActions
@@ -78,8 +82,6 @@ import timber.log.Timber
 fun NavigationDrawerM3() {
     val navHostController: NavHostController = rememberNavController()
     val context = LocalContext.current
-    val scaffoldState = rememberScaffoldState()
-    val authViewModel: AuthViewModel = hiltViewModel()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     val appState = rememberAppState(navHostController = navHostController)
@@ -237,62 +239,14 @@ fun NavigationDrawerM3() {
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
-//            val navBackStackEntry by appState.navHostController.currentBackStackEntryAsState()
-//            val currentRoute = navBackStackEntry?.destination?.route
-            ModalDrawerSheet(
-                modifier = Modifier.width(280.dp),
-                drawerContainerColor = Color.White,
-                drawerShape = NoShapes.small
-                ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .background(
-                            brush = Brush.verticalGradient(
-                                colors = listOf(PrimaryColor, SecondaryColor),
-                                startY = 0f,
-                                endY = 200f
-                            ),
-                            shape = RoundedCornerShape(bottomEnd = 16.dp)
-                        ),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.egg100), // Replace with your image resource
-                            contentDescription = "organiks mascot",
-                            modifier = Modifier.size(100.dp) // Adjust the size of the image
-                        )
-                        Text(
-                            text = "Organiks",
-                            fontFamily = ReemKufiMedium,
-                            color = Color.White,
-                            fontSize = 25.sp
-                        )
-                    }
-                }
-                Spacer(Modifier.size(6.dp))
-                items.forEach { item ->
-                    NavigationDrawerItem(
-                        label = {
-                            Text(text = item.label, fontFamily = ReemKufi)
-                                },
-                        selected = item.route == currentRoute,
-                        onClick = item.onItemClick,
-                        icon = { Icon(imageVector = item.icon, contentDescription = item.label)},
-//                        badge = { Text(text = item.secondaryLabel)},
-                        colors = NavigationDrawerItemDefaults.colors(
-                            selectedContainerColor = PrimaryLight,
-                            unselectedContainerColor = Color.White
-                        )
-
-                    )
-                }
-            }
+            drawerSheet(
+                scope = scope,
+                drawerState = drawerState,
+                context = context,
+                navigationActions = navigationActions,
+                showDialog = showDialog,
+                currentRoute = currentRoute
+            )
         },
         content = {
             ScaffoldContent(
@@ -314,6 +268,136 @@ data class DrawerItem(
     val secondaryLabel: String,
     val onItemClick: () -> Unit
 )
+
+
+@Composable
+fun drawerSheet(
+    drawerState: DrawerState,
+    scope: CoroutineScope,
+    navigationActions: AppNavigationActions,
+    context: Context,
+    showDialog: MutableState<Boolean>,
+    currentRoute: String
+) {
+
+    val items = listOf(
+        DrawerItem(
+            icon = Icons.Default.Home,
+            label = "Home",
+            secondaryLabel = "64",
+            route = AppScreens.HomeScreen.route,
+            onItemClick = {
+                navigationActions.navigateToHome()
+                scope.launch {
+                    drawerState.close()
+                }
+                Toast.makeText(context, "Home. Yay!", Toast.LENGTH_SHORT).show()
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.Dashboard,
+            label = "Dashboard",
+            secondaryLabel = "64",
+            route = AppScreens.DashboardAppScreens.route,
+            onItemClick = {
+                navigationActions.navigateToDashboard()
+                scope.launch {
+                    drawerState.close()
+                }
+                Toast.makeText(context, "Dashboard. Yay!", Toast.LENGTH_SHORT).show()
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.Receipt,
+            label = "All Records",
+            secondaryLabel = "Remote Records",
+            route = AppScreens.RemoteRecordsScreens.route,
+            onItemClick = {
+                navigationActions.navigateToRemoteRecordsScreen()
+                scope.launch {
+                    drawerState.close()
+                }
+                Toast.makeText(context, "Records", Toast.LENGTH_SHORT).show()
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.VoiceChat,
+            label = "Assistant",
+            secondaryLabel = "Chat",
+            route = AppScreens.GeminiChatAppScreens.route,
+            onItemClick = {
+                navigationActions.navigateToGeminichatScreen()
+                scope.launch {
+                    drawerState.close()
+                }
+                Toast.makeText(context, "Gemini Assistant", Toast.LENGTH_SHORT).show()
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.Analytics,
+            label = "Analyst",
+            secondaryLabel = "Gemini Analysis",
+            route = AppScreens.GeminiAnalystAppScreens.route,
+            onItemClick = {
+                navigationActions.navigateToGeminiAnalystScreen()
+                scope.launch {
+                    drawerState.close()
+                }
+                Toast.makeText(context, "Gemini Analyst", Toast.LENGTH_SHORT).show()
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.VideoLibrary,
+            label = "Videos",
+            secondaryLabel = "",
+            route = null,
+            onItemClick = {
+                Toast.makeText(context, "Videos Coming Soon!", Toast.LENGTH_SHORT).show()
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.Notifications,
+            label = "Notifications",
+            secondaryLabel = "12",
+            route = null,
+            onItemClick = {
+                Toast.makeText(context, "This is a Notifications Toast. Yay!", Toast.LENGTH_SHORT)
+                    .show()
+//                navHostController.navigate(Screen.ProductionHome.route)
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.PermIdentity,
+            label = "Profile",
+            secondaryLabel = "12",
+            route = null,
+            onItemClick = {
+                navigationActions.navigateToFirebaseProfileScreen()
+                scope.launch {
+                    drawerState.close()
+                }
+                Toast.makeText(context, "profile screen", Toast.LENGTH_SHORT).show()
+            }
+        ),
+        DrawerItem(
+            icon = Icons.Default.ExitToApp,
+            label = "Log Out",
+            secondaryLabel = "",
+            route = null,
+            onItemClick = {
+                scope.launch {
+                    drawerState.close()
+                }
+                showDialog.value = true
+                Toast.makeText(context, "This is a Log Out Toast. Yay!!", Toast.LENGTH_SHORT).show()
+//               authViewModel.logout()
+            }
+        ),
+    )
+}
+
+
+
 
 
 
