@@ -57,7 +57,6 @@ class InvoiceGenerator {
                 "1",
                 formatCash(createInvoiceUiState.totalExpenses.text)
             )
-
         )
 
         // Price info

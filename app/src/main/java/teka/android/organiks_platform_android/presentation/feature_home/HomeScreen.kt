@@ -57,26 +57,26 @@ fun HomeScreen(
     }
 
 
-    val homeInfoCards = listOf(
-        HomeInfoCardData(
-            title = "Gemini Chat Assistant",
-            value = "$totalEggsCollected Eggs",
-            iconResId = R.drawable.gemini_chat_nobg,
-            color = PrimaryVariant,
-            onClick = {
-                navController.navigate(route = AppScreens.GeminiChatAppScreens.route)
-            }
-        ),
-        HomeInfoCardData(
-            title = "Gemini Data Analyst",
-            value = "$totalMilkCollected Litres",
-            iconResId = R.drawable.gemini_analytics2_no_bg,
-            color = SecondaryColor,
-            onClick = {
-                navController.navigate(route = AppScreens.GeminiAnalystAppScreens.createRoute(1))
-            }
-        ),
-    )
+//    val homeInfoCards = listOf(
+//        HomeInfoCardData(
+//            title = "Gemini Chat Assistant",
+//            value = "$totalEggsCollected Eggs",
+//            iconResId = R.drawable.gemini_chat_nobg,
+//            color = PrimaryVariant,
+//            onClick = {
+//                navController.navigate(route = AppScreens.GeminiChatAppScreens.route)
+//            }
+//        ),
+//        HomeInfoCardData(
+//            title = "Gemini Data Analyst",
+//            value = "$totalMilkCollected Litres",
+//            iconResId = R.drawable.gemini_analytics2_no_bg,
+//            color = SecondaryColor,
+//            onClick = {
+//                navController.navigate(route = AppScreens.GeminiAnalystAppScreens.createRoute(1))
+//            }
+//        ),
+//    )
 
     val moduleCards = listOf(
         HomeInfoCardData(
@@ -92,6 +92,15 @@ fun HomeScreen(
             title = "Customers",
             value = "0",
             iconResId = R.drawable.customers,
+            color = PrimaryVariant,
+            onClick = {
+                navController.navigate(route = AppScreens.CustomerListScreen.route)
+            }
+        ),
+        HomeInfoCardData(
+            title = "Management",
+            value = "0",
+            iconResId = R.drawable.stock_mngnt,
             color = PrimaryVariant,
             onClick = {
                 navController.navigate(route = AppScreens.CustomerListScreen.route)
@@ -150,34 +159,34 @@ fun HomeScreen(
                 item {
                     Spacer(modifier = Modifier.height(16.dp))
                 }
-                items(
-                    homeInfoCards.chunked(2)
-                ) { rowItems ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                start = 5.dp,
-                                top = 8.dp,
-                                bottom = 8.dp
-                            ),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                    ) {
-                        rowItems.forEach { cardData ->
-                            HomeInfoCard(
-                                title = cardData.title,
-                                value = cardData.value,
-                                iconResId = cardData.iconResId,
-                                color = cardData.color,
-                                modifier = Modifier.weight(1f),
-                                onClick = cardData.onClick
-                            )
-                        }
-                        if (rowItems.size == 1) {
-                            Spacer(modifier = Modifier.weight(1f))
-                        }
-                    }
-                }
+//                items(
+//                    homeInfoCards.chunked(2)
+//                ) { rowItems ->
+//                    Row(
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .padding(
+//                                start = 5.dp,
+//                                top = 8.dp,
+//                                bottom = 8.dp
+//                            ),
+//                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+//                    ) {
+//                        rowItems.forEach { cardData ->
+//                            HomeInfoCard(
+//                                title = cardData.title,
+//                                value = cardData.value,
+//                                iconResId = cardData.iconResId,
+//                                color = cardData.color,
+//                                modifier = Modifier.weight(1f),
+//                                onClick = cardData.onClick
+//                            )
+//                        }
+//                        if (rowItems.size == 1) {
+//                            Spacer(modifier = Modifier.weight(1f))
+//                        }
+//                    }
+//                }
             })
         }
     }
