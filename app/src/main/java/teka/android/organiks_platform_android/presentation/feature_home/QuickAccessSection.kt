@@ -102,7 +102,7 @@ fun QuickAccessItem(
                 .background(Cream2)
                 .fillMaxWidth()
                 .clickable {}
-                .padding(horizontal = 5.dp),
+                .padding(horizontal = 13.dp),
            verticalArrangement = Arrangement.Center
        ) {
             Card(
