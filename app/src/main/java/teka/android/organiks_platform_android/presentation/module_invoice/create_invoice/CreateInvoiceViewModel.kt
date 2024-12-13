@@ -8,6 +8,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.kariot.invoicegenerator.data.ModelInvoiceFooter
@@ -23,6 +26,9 @@ import teka.android.organiks_platform_android.util.TextFieldStateMngr
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KMutableProperty1
+import kotlinx.coroutines.flow.onEach
+import java.util.Locale
+
 
 private const val CI_VM_TAG = "CI_VM_TAG"
 
@@ -42,6 +48,7 @@ class CreateInvoiceViewModel @Inject constructor(
     init {
         observeFruitCollection()
         observeCustomerList()
+        observeTotalAmount()
     }
 
     private fun observeCustomerList() {
@@ -54,7 +61,6 @@ class CreateInvoiceViewModel @Inject constructor(
 
     private fun observeFruitCollection() {
         viewModelScope.launch {
-
             if (fruitCollectionUUId == null) {
                 Timber.tag(CI_VM_TAG).w("GateLog ID is null, skipping fetch")
                 updateModelField(CreateInvoiceUiState::isFetchingFruitCollection, false)
@@ -73,6 +79,22 @@ class CreateInvoiceViewModel @Inject constructor(
                 updateModelField(CreateInvoiceUiState::isFetchingFruitCollection, false)
             }
         }
+    }
+
+
+    private fun observeTotalAmount() {
+        combine(
+            _createInvoiceUiState.map { it.unitPrice.text },
+            _createInvoiceUiState.map { it.currentFruitCollection?.qty ?: "0" }
+        ) { unitPrice, quantity ->
+            val price = unitPrice.toDoubleOrNull() ?: 0.0
+            val qty = quantity.toDoubleOrNull() ?: 0.0
+            String.format(Locale.US, "%.2f", price * qty)
+        }.onEach { total ->
+            _createInvoiceUiState.update {
+                it.copy(totalAmount = it.totalAmount.copy(text = total))
+            }
+        }.launchIn(viewModelScope)
     }
 
 

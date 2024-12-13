@@ -118,7 +118,7 @@ fun QuickAccessItem(
                         modifier = Modifier
                             .clip(RoundedCornerShape(16.dp))
                             .background(quickAccessItem.background)
-                            .padding(2.5.dp)
+                            .padding(3.5.dp)
                     ) {
                         Icon(
                             imageVector = quickAccessItem.icon,

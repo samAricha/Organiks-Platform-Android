@@ -105,7 +105,7 @@ fun CreateInvoiceScreen(
         }
 
         LazyColumn (
-            modifier = Modifier.padding(horizontal = 12.dp),
+            modifier = Modifier.padding(horizontal = 4.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
@@ -166,12 +166,11 @@ fun CreateInvoiceScreen(
                         labelText = "Total Amount",
                         value = createInvoiceUiState.totalAmount,
                         onValueChange = {
-                            viewModel.updateStringField(CreateInvoiceUiState::totalAmount, it)
+//                            viewModel.updateStringField(CreateInvoiceUiState::totalAmount, it)
                         },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        editable = false
                     )
-
-
                 }
             }
             item {
@@ -219,8 +218,6 @@ fun CreateInvoiceScreen(
                     },
                 )
             }
-
-
 
             item {
                 Spacer(modifier = Modifier.height(34.dp))
