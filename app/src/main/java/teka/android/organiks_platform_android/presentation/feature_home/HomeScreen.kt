@@ -98,12 +98,12 @@ fun HomeScreen(
             }
         ),
         HomeInfoCardData(
-            title = "Management",
+            title = "Farm Management",
             value = "0",
             iconResId = R.drawable.stock_mngnt,
             color = PrimaryVariant,
             onClick = {
-                navController.navigate(route = AppScreens.CustomerListScreen.route)
+                navController.navigate(route = AppScreens.FarmManagementModule.route)
             }
         )
 

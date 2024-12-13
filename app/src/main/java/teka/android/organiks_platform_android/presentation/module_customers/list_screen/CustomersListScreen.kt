@@ -67,7 +67,7 @@ fun CustomersListScreen(
             },
             onDateRangeSelected = { selectedRange ->
                 viewModel.onDateRangeSelected(selectedRange)
-            },
+            }
         )
     }
 

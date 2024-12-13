@@ -22,6 +22,8 @@ import teka.android.organiks_platform_android.presentation.feature_settings.Sett
 import teka.android.organiks_platform_android.presentation.module_customers.form.AddCustomerForm
 import teka.android.organiks_platform_android.presentation.module_fruits.form.FruitRecordingForm
 import teka.android.organiks_platform_android.presentation.module_customers.list_screen.CustomersListScreen
+import teka.android.organiks_platform_android.presentation.module_farm_management.ManagementListScreen
+import teka.android.organiks_platform_android.presentation.module_farm_management.create_farm.CreateFarmForm
 import teka.android.organiks_platform_android.presentation.module_invoice.create_invoice.CreateInvoiceScreen
 import teka.android.organiks_platform_android.presentation.module_fruits.list_screen.FruitRecordsListScreen
 import teka.android.organiks_platform_android.presentation.module_invoice.invoice_list_screen.InvoiceListScreen
@@ -591,8 +593,44 @@ fun MainNavGraph(
             popExitTransition = {
                 scaleOutOfContainer()
             }
-            ){
+        ){
             SettingsScreen()
+        }
+
+        composable(
+            route = AppScreens.FarmManagementModule.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            ManagementListScreen(navController = navController)
+        }
+
+        composable(
+            route = AppScreens.CreateFarmScreen.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            CreateFarmForm(navController = navController)
         }
     }
 }
