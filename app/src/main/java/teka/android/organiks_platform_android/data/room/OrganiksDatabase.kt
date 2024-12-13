@@ -14,6 +14,7 @@ import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
 import teka.android.organiks_platform_android.data.room.entities.MilkCollection
 import teka.android.organiks_platform_android.data.room.entities.ProductionCategory
 
+
 @TypeConverters(value = [DateConverter::class])
 @Database(
     entities = [
@@ -24,7 +25,6 @@ import teka.android.organiks_platform_android.data.room.entities.ProductionCateg
         FruitCollectionEntity::class,
         CustomerEntity::class,
         InvoiceEntity::class
-
                ],
     version = 1,
     exportSchema = false
@@ -52,7 +52,6 @@ abstract class OrganiksDatabase: RoomDatabase() {
                 INSTANCE= instance
                 return instance
             }
-
         }
     }
 

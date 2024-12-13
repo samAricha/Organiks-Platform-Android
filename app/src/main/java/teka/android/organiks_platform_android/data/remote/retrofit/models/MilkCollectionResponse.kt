@@ -1,9 +1,11 @@
 package teka.android.organiks_platform_android.data.remote.retrofit.models
 
+import android.annotation.SuppressLint
 import kotlinx.serialization.Serializable
 import teka.android.organiks_platform_android.data.room.entities.MilkCollection
 
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class MilkCollectionResult(
     val uuid: String = "",

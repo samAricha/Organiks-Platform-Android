@@ -4,7 +4,11 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.LocalDateTime
 import kotlinx.datetime.LocalTime
 import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toInstant
 import kotlinx.datetime.toLocalDateTime
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 fun LocalTime.formattedTimeBasedOnTimeFormat(timeFormat: Int): String {
     return if (timeFormat == 12) {
@@ -56,4 +60,16 @@ fun Long.formattedZeroMinutes(): String {
 fun Long?.selectedDateMillisToLocalDateTime(): LocalDateTime {
     return Instant.fromEpochMilliseconds(this ?: 0)
         .toLocalDateTime(TimeZone.currentSystemDefault())
+}
+
+
+
+fun LocalDateTime.toEpochMillis(): Long {
+    return this.toInstant(TimeZone.currentSystemDefault()).toEpochMilliseconds()
+}
+
+
+fun convertMillisToStringDate(millis: Long): String {
+    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+    return formatter.format(Date(millis))
 }

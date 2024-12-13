@@ -59,7 +59,9 @@ fun MilkProductionEntryComponent(
                 currentTextState = TextFieldState(
                     text = collectionDate.date.toString(),
                 ),
-                onClick = { viewModel.setShowTaskDatePickerDialog(true) },
+                onClick = {
+                    viewModel.setShowTaskDatePickerDialog(true)
+                          },
                 textStyle = MaterialTheme.typography.titleSmall.copy(
                     fontSize = 16.sp,
                 ),

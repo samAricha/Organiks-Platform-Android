@@ -1,8 +1,10 @@
 package teka.android.organiks_platform_android.presentation.feature_auth.core.util.models
 
+import android.annotation.SuppressLint
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class UserRoleDto(
     val id: Int,
@@ -16,6 +18,7 @@ data class UserRoleDto(
     val pivot: Pivot
 )
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class Pivot(
     @SerializedName("model_type")

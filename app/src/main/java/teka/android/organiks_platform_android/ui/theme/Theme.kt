@@ -1,6 +1,7 @@
 package teka.android.organiks_platform_android.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
@@ -95,10 +96,11 @@ fun OrganiksPlatformAndroidTheme(
     }
 
 
-    androidx.compose.material3.MaterialTheme(
+    MaterialTheme(
         colorScheme = colors,
-        typography = defaultTypography,
+        typography = AppTypography2,
         shapes = Shapes,
         content = content
     )
+
 }

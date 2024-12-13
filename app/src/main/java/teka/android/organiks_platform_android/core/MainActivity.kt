@@ -29,7 +29,7 @@ import teka.android.organiks_platform_android.presentation.feature_auth.AuthView
 import teka.android.organiks_platform_android.presentation.feature_auth.UserState
 import teka.android.organiks_platform_android.domain.repository.DataStoreRepository
 import teka.android.organiks_platform_android.presentation.feature_firebase_auth.FirebaseAuthViewModel
-import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.SignInViewModel
+import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.FirebaseSignInViewModel
 import teka.android.organiks_platform_android.ui.theme.OrganiksPlatformAndroidTheme
 import teka.android.organiks_platform_android.util.components.SetBarColor
 
@@ -77,10 +77,8 @@ class MainActivity : ComponentActivity() {
 //                )
 //            }
 
-            val viewModel = viewModel<SignInViewModel>()
+            val viewModel = viewModel<FirebaseSignInViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
-
-
 
 
 
@@ -94,8 +92,8 @@ class MainActivity : ComponentActivity() {
                     val currentUser = firebaseAuthViewModel.currentUser.collectAsState().value
 
                     LaunchedEffect(currentUser) {
-//                        startDestination = if (currentUser != null) To_MAIN_GRAPH_ROUTE else AUTH_GRAPH_ROUTE
-                        startDestination = To_MAIN_GRAPH_ROUTE
+                        startDestination = if (currentUser != null) To_MAIN_GRAPH_ROUTE else AUTH_GRAPH_ROUTE
+//                        startDestination = To_MAIN_GRAPH_ROUTE
                     }
 
 

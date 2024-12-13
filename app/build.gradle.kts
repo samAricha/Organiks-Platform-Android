@@ -3,23 +3,24 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    kotlin("kapt") version "1.9.20"
-    kotlin("plugin.serialization") version "1.9.20"
+    kotlin("kapt")
+    kotlin("plugin.serialization")
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 
 android {
     namespace = "teka.android.organiks_platform_android"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "teka.android.organiks"
         minSdk = 26
-        targetSdk = 34
-        versionCode = 7
-        versionName = "2.0-beta"
+        targetSdk = 35
+        versionCode = 8
+        versionName = "0.3.0"
 
 
 
@@ -97,10 +98,10 @@ dependencies {
     implementation ("androidx.compose.runtime:runtime:1.6.8")
 
     //material 3
-    val material3_version = "1.2.1"
+    val material3_version = "1.3.0"
     implementation ("androidx.compose.material3:material3:$material3_version")
     //icons
-    implementation ("androidx.compose.material:material-icons-extended:1.6.8")
+    implementation ("androidx.compose.material:material-icons-extended:1.7.6")
 
 
     // Navigation Compose
@@ -123,8 +124,8 @@ dependencies {
     // DataStore Preferences
     implementation("androidx.datastore:datastore-preferences:1.1.1")
 
-    implementation("com.google.dagger:hilt-android:2.49")
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    implementation("com.google.dagger:hilt-android:2.53")
+    kapt("com.google.dagger:hilt-android-compiler:2.52")
     implementation("androidx.hilt:hilt-work:1.2.0")
     kapt("androidx.hilt:hilt-compiler:1.2.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
@@ -183,13 +184,19 @@ dependencies {
     implementation("io.github.dakshsemwal:mdparserkitcore:1.0.1")
 
     //firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.1.2"))
+    implementation(platform("com.google.firebase:firebase-bom:33.7.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
 
     // required to avoid crash on Android 12 API 31
-    implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation("androidx.work:work-runtime-ktx:2.10.0")
+
+    // invoice generator
+    implementation ("com.github.kariot:pdf-invoice-generator:1.0.1")
+
+    // pdf viewer
+    implementation ("io.github.grizzi91:bouquet:1.1.2")
 
 
     testImplementation ("junit:junit:4.13.2")

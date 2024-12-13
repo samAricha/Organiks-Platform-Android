@@ -1,8 +1,10 @@
 package teka.android.organiks_platform_android.data.remote.retrofit.models
 
+import android.annotation.SuppressLint
 import kotlinx.serialization.Serializable
 import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class FruitCollectionRequest(
     val collection_uuid: String,
