@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.data.room.entities
+package teka.android.organiks_platform_android.data.room.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -66,6 +66,7 @@ data class MilkCollection(
     ){
     companion object {
         private fun generateUniqueId(): String {
+            // Use UUID for generating a unique ID
             return UUID.randomUUID().toString()
         }
     }
@@ -79,62 +80,8 @@ data class FruitCollectionEntity(
     val id: Int = 0,
     val uuid: String = generateUniqueId(),
     val qty: String,
-    val fruitTypeId: String,
+    val fruitTypeId: Int,
     val date: Long,
-    val time: String,
-    var isBackedUp: Boolean = false,
-    val createdAt: Long = System.currentTimeMillis()
-) {
-    companion object {
-        fun generateUniqueId(): String {
-            return UUID.randomUUID().toString()
-        }
-    }
-
-    val searchableString: String
-        get() = "${fruitTypeId} ${qty}"
-
-}
-
-@Entity(tableName = "customer_table")
-data class CustomerEntity(
-    @ColumnInfo(name = "customer_id")
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val uuid: String = generateUniqueId(),
-    val name: String,
-    val phone: String,
-    val email: String,
-    val product: String,
-    val date: Long,
-    val time: String,
-    var isBackedUp: Boolean = false,
-    val createdAt: Long = System.currentTimeMillis()
-) {
-    companion object {
-        fun generateUniqueId(): String {
-            return UUID.randomUUID().toString()
-        }
-    }
-
-    val searchableString: String
-        get() = "${name} ${phone}"
-}
-
-@Entity(tableName = "invoice_table")
-data class InvoiceEntity(
-    @ColumnInfo(name = "invoice_id")
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val uuid: String = generateUniqueId(),
-    val toName: String,
-    val toPhone: String,
-    val fromName: String,
-    val fromPhone: String,
-    val totalAmount: String,
-    val fruitCollection: String,
-    val date: Long,
-    val time: String,
     var isBackedUp: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
 ) {
@@ -144,7 +91,6 @@ data class InvoiceEntity(
         }
     }
 }
-
 
 
 

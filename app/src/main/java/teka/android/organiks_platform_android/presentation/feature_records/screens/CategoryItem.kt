@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.feature_records.screens.remoteRecords.components
+package teka.android.organiks_platform_android.presentation.feature_records.screens
 
 import android.annotation.SuppressLint
 import androidx.annotation.DrawableRes
@@ -7,12 +7,13 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.material.Icon
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.ripple
@@ -23,13 +24,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import teka.android.organiks_platform_android.ui.theme.BackgroundColor
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.Shapes
 
 @SuppressLint("UnrememberedMutableInteractionSource")
 @Composable
-fun CategoryRowItem(
+fun CategoryItem(
     @DrawableRes iconRes:Int,
     title:String,
     selected:Boolean,
@@ -38,7 +38,6 @@ fun CategoryRowItem(
 
     Card(
         modifier = Modifier
-            .width(120.dp)
             .selectable(
                 selected = selected,
                 interactionSource = MutableInteractionSource(),
@@ -52,30 +51,28 @@ fun CategoryRowItem(
         ),
         shape = Shapes.large,
         colors = CardDefaults.cardColors(
-            containerColor = if(selected) PrimaryColor
-            else Color.LightGray,
-            contentColor = if (selected) BackgroundColor
-            else MaterialTheme.colorScheme.onSurface
-        )
+            containerColor = if(selected) PrimaryColor else Color.LightGray,
+            contentColor = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
+        ),
     ) {
-        Row(horizontalArrangement = Arrangement.Center,
+        Row(
+            modifier = Modifier
+                .padding(vertical = 5.dp, horizontal = 20.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-
             Icon(
                 painter = painterResource(id = iconRes),
                 contentDescription = null,
                 modifier = Modifier.size(24.dp),
-                tint = if (selected) BackgroundColor
-                else MaterialTheme.colorScheme.onSurface
+                tint = if (selected) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.size(8.dp))
             Text(
                 text = title,
                 style = MaterialTheme.typography.bodySmall,
-                fontWeight = FontWeight.Medium,
-                color = if (selected) BackgroundColor
-                else MaterialTheme.colorScheme.onSurface
+                fontWeight = FontWeight.Medium
             )
         }
 

@@ -9,11 +9,11 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import teka.android.organiks_platform_android.data.room.entities.EggCollection
-import teka.android.organiks_platform_android.data.room.entities.EggType
-import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
-import teka.android.organiks_platform_android.data.room.entities.MilkCollection
-import teka.android.organiks_platform_android.data.room.entities.ProductionCategory
+import teka.android.organiks_platform_android.data.room.models.EggCollection
+import teka.android.organiks_platform_android.data.room.models.EggType
+import teka.android.organiks_platform_android.data.room.models.FruitCollectionEntity
+import teka.android.organiks_platform_android.data.room.models.MilkCollection
+import teka.android.organiks_platform_android.data.room.models.ProductionCategory
 import teka.android.organiks_platform_android.domain.repository.DbRepository
 import teka.android.organiks_platform_android.ui.Category
 import teka.android.organiks_platform_android.ui.Utils
@@ -50,8 +50,7 @@ class ProductionRecordingViewModel @Inject constructor(
                             productionCategory = Utils.productionCategory.find { c ->
                                 c.id == 0
                             } ?: Category(),
-                        )
-                    }
+                        ) }
             }
         }
 
@@ -127,9 +126,10 @@ class ProductionRecordingViewModel @Inject constructor(
             repository.insertFruitCollection(
                 FruitCollectionEntity(
                     date = state.date.time,
-                    time = state.date.time.toString(),
                     qty = state.fruitCollectionQty,
-                    fruitTypeId = state.fruitTypeName,
+                    fruitTypeId = state.eggTypes.find {
+                        it.name == state.eggTypeName
+                    }?.id ?: 0,
                     isBackedUp = false
                 )
             )
@@ -240,8 +240,9 @@ class ProductionRecordingViewModel @Inject constructor(
         }
     }
 
-}
 
+
+}
 data class ProductionRecordingState(
     val eggTypes: List<EggType> = emptyList(),
     val eggCollectionQty: String = "",

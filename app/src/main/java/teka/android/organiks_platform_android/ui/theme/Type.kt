@@ -1,6 +1,6 @@
 package teka.android.organiks_platform_android.ui.theme
 
-import androidx.compose.material3.Typography
+import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -26,94 +26,23 @@ val quicksand = FontFamily(
 )
 
 
-
-val defaultTypography = Typography(
-    displayLarge = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Normal,
-        fontSize = 36.sp
-    ),
-    displayMedium = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Bold,
-        fontSize = 20.sp
-    ),
-    displaySmall = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Bold,
+val Typography = Typography(
+    defaultFontFamily = quicksand,
+//    body1 = TextStyle(
+//        fontFamily = ReemKufi,
+//        fontWeight = FontWeight.Light,
+//        fontSize = 13.sp
+//    )
+    /* Other default text styles to override
+    button = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight.W500,
         fontSize = 14.sp
     ),
-
-    headlineLarge = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Normal,
-        fontSize = 36.sp
-    ),
-    headlineMedium = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Normal,
-        fontSize = 20.sp
-    ),
-    headlineSmall = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Normal,
-        fontSize = 14.sp
-    ),
-
-    titleLarge = TextStyle(
-        fontWeight = FontWeight.SemiBold,
-        fontFamily = quicksand,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    titleMedium = TextStyle(
-        fontWeight = FontWeight.SemiBold,
-        fontFamily = quicksand,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.15.sp
-    ),
-    titleSmall = TextStyle(
-        fontWeight = FontWeight.SemiBold,
-        fontFamily = quicksand,
-        fontSize = 10.sp,
-        lineHeight = 20.sp,
-        letterSpacing = 0.15.sp
-    ),
-
-
-    bodyLarge = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Normal,
-        fontSize = 14.sp
-    ),
-    bodyMedium = TextStyle(
-        fontFamily = quicksand,
+    caption = TextStyle(
+        fontFamily = FontFamily.Default,
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp
-    ),
-    bodySmall = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Normal,
-        fontSize = 10.sp
-    ),
-
-
-    labelLarge = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Bold,
-        fontSize = 14.sp
-    ),
-    labelMedium = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Bold,
-        fontSize = 12.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = quicksand,
-        fontWeight = FontWeight.Bold,
-        fontSize = 10.sp
     )
-
+    */
 )

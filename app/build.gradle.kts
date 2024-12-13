@@ -3,9 +3,8 @@ import java.util.Properties
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.plugin.compose")
-    kotlin("kapt") version "1.9.23"
-    kotlin("plugin.serialization") version "1.9.23"
+    kotlin("kapt") version "1.9.20"
+    kotlin("plugin.serialization") version "1.9.20"
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
 }
@@ -48,10 +47,10 @@ android {
             value = geminiKey
         )
 
+
     }
 
     buildFeatures {
-        compose = true
         buildConfig = true
     }
 
@@ -191,14 +190,6 @@ dependencies {
 
     // required to avoid crash on Android 12 API 31
     implementation("androidx.work:work-runtime-ktx:2.9.0")
-
-    // invoice generator
-    implementation ("com.github.kariot:pdf-invoice-generator:1.0.1")
-
-    // pdf viewer
-    implementation ("io.github.grizzi91:bouquet:1.1.2")
-
-
 
 
     testImplementation ("junit:junit:4.13.2")
