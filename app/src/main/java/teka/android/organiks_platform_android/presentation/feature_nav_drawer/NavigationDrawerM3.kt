@@ -82,145 +82,16 @@ import timber.log.Timber
 fun NavigationDrawerM3() {
     val navHostController: NavHostController = rememberNavController()
     val context = LocalContext.current
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
-    val scope = rememberCoroutineScope()
     val appState = rememberAppState(navHostController = navHostController)
     val currentRoute by appState.currentRoute.collectAsState()
-
-
 
     val navigationActions = remember(appState.navHostController) {
         AppNavigationActions(appState.navHostController)
     }
 
     val showDialog =  remember { mutableStateOf(false) }
-
-    val items = listOf(
-        DrawerItem(
-            icon = Icons.Default.Home,
-            label = "Home",
-            secondaryLabel = "64",
-            route = AppScreens.HomeScreen.route,
-            onItemClick = {
-                navigationActions.navigateToHome()
-                scope.launch {
-                    drawerState.close()
-                }
-                Toast.makeText(context, "Home. Yay!", Toast.LENGTH_SHORT).show()
-            }
-        ),
-        DrawerItem(
-            icon = Icons.Default.Dashboard,
-            label = "Dashboard",
-            secondaryLabel = "64",
-            route = AppScreens.RemoteRecordsScreens.route,
-            onItemClick = {
-                navigationActions.navigateToRemoteRecordsScreen()
-                scope.launch {
-                    drawerState.close()
-                }
-                Toast.makeText(context, "Dashboard. Yay!", Toast.LENGTH_SHORT).show()
-            }
-        ),
-        DrawerItem(
-            icon = Icons.Default.StackedLineChart,
-            label = "Analytics",
-            secondaryLabel = "2",
-            route = AppScreens.DashboardAppScreens.route,
-            onItemClick = {
-                navigationActions.navigateToDashboard()
-                scope.launch {
-                    drawerState.close()
-                }
-                Toast.makeText(context, "Records", Toast.LENGTH_SHORT).show()
-            }
-        ),
-        DrawerItem(
-            icon = Icons.Default.RequestQuote,
-            label = "Invoices",
-            secondaryLabel = "2",
-            route = AppScreens.InvoiceListScreen.route,
-            onItemClick = {
-                navigationActions.navigateToInvoiceListScreen()
-                scope.launch {
-                    drawerState.close()
-                }
-                Toast.makeText(context, "Invoices", Toast.LENGTH_SHORT).show()
-            }
-        ),
-        DrawerItem(
-            icon = Icons.Default.Analytics,
-            label = "Analyst",
-            secondaryLabel = "Gemini Analysis",
-            route = AppScreens.GeminiAnalystAppScreens.route,
-            onItemClick = {
-                navigationActions.navigateToGeminiAnalystScreen()
-                scope.launch {
-                    drawerState.close()
-                }
-                Toast.makeText(context, "Gemini Analyst", Toast.LENGTH_SHORT).show()
-            }
-        ),
-        DrawerItem(
-            icon = Icons.Default.VoiceChat,
-            label = "Assistant",
-            secondaryLabel = "Chat",
-            route = AppScreens.GeminiChatAppScreens.route,
-            onItemClick = {
-                navigationActions.navigateToGeminichatScreen()
-                scope.launch {
-                    drawerState.close()
-                }
-                Toast.makeText(context, "Gemini Assistant", Toast.LENGTH_SHORT).show()
-            }
-        ),
-//        DrawerItem(
-//            icon = Icons.Default.VideoLibrary,
-//            label = "Videos",
-//            secondaryLabel = "",
-//            route = null,
-//            onItemClick = {
-//                Toast.makeText(context, "Videos Coming Soon!", Toast.LENGTH_SHORT).show()
-//            }
-//        ),
-//        DrawerItem(
-//            icon = Icons.Default.Notifications,
-//            label = "Notifications",
-//            secondaryLabel = "12",
-//            route = null,
-//            onItemClick = {
-//                Toast.makeText(context, "This is a Notifications Toast. Yay!", Toast.LENGTH_SHORT).show()
-////                navHostController.navigate(Screen.ProductionHome.route)
-//            }
-//        ),
-        DrawerItem(
-            icon = Icons.Default.PermIdentity,
-            label = "Profile",
-            secondaryLabel = "12",
-            route = null,
-            onItemClick = {
-                navigationActions.navigateToFirebaseProfileScreen()
-                scope.launch {
-                    drawerState.close()
-                }
-                Toast.makeText(context, "profile screen", Toast.LENGTH_SHORT).show()
-            }
-        ),
-        DrawerItem(
-            icon = Icons.Default.ExitToApp,
-            label = "Log Out",
-            secondaryLabel = "",
-            route = null,
-            onItemClick = {
-                scope.launch {
-                    drawerState.close()
-                }
-                showDialog.value = true
-                Toast.makeText(context, "This is a Log Out Toast. Yay!!", Toast.LENGTH_SHORT).show()
-//               authViewModel.logout()
-            }
-        ),
-    )
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
 
 
     if(showDialog.value)
@@ -237,7 +108,7 @@ fun NavigationDrawerM3() {
 
     ModalNavigationDrawer(
         drawerState = drawerState,
-        gesturesEnabled = drawerState.isOpen,
+        gesturesEnabled = true,
         drawerContent = {
             drawerSheet(
                 scope = scope,
@@ -251,10 +122,8 @@ fun NavigationDrawerM3() {
         content = {
             ScaffoldContent(
                 navHostController = appState.navHostController,
-//                scaffoldState = scaffoldState,
                 scope = scope,
                 drawerState = drawerState,
-//                onDrawerIconClick = { scope.launch { drawerState.open() } },
                 appState = appState
             )
         }
@@ -394,6 +263,62 @@ fun drawerSheet(
             }
         ),
     )
+
+
+    ModalDrawerSheet(
+        modifier = Modifier.width(280.dp),
+        drawerContainerColor = Color.White,
+        drawerShape = NoShapes.small
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .background(
+                    brush = Brush.verticalGradient(
+                        colors = listOf(PrimaryColor, SecondaryColor),
+                        startY = 0f,
+                        endY = 200f
+                    ),
+                    shape = RoundedCornerShape(bottomEnd = 16.dp)
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.egg100),
+                    contentDescription = "organiks mascot",
+                    modifier = Modifier.size(100.dp)
+                )
+                Text(
+                    text = "Organiks",
+                    fontFamily = ReemKufiMedium,
+                    color = Color.White,
+                    fontSize = 25.sp
+                )
+            }
+        }
+        Spacer(Modifier.size(6.dp))
+        items.forEach { item ->
+            NavigationDrawerItem(
+                label = {
+                    Text(text = item.label, fontFamily = ReemKufi)
+                },
+                selected = item.route == currentRoute,
+                onClick = item.onItemClick,
+                icon = { Icon(imageVector = item.icon, contentDescription = item.label)},
+//                        badge = { Text(text = item.secondaryLabel)},
+                colors = NavigationDrawerItemDefaults.colors(
+                    selectedContainerColor = PrimaryLight,
+                    unselectedContainerColor = Color.White
+                )
+
+            )
+        }
+    }
 }
 
 

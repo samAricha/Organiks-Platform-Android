@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.ui.theme.quicksand
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,7 +66,9 @@ fun CustomTopAppBar(
                     if (hasBackNavigation) {
                         onBackNavigationClick()
                     } else {
+                        Timber.tag("DrawerState").i("state: ${drawerState.currentValue}")
                         scope.launch { drawerState.open() }
+                        Timber.tag("DrawerState").i("state: ${drawerState.currentValue}")
                     }
                 }
             ) {
