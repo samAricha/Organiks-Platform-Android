@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import teka.android.organiks_platform_android.data.room.CustomerDao
 import teka.android.organiks_platform_android.data.room.EggCollectionDao
 import teka.android.organiks_platform_android.data.room.EggTypeDao
+import teka.android.organiks_platform_android.data.room.FarmDao
 import teka.android.organiks_platform_android.data.room.FruitCollectionDao
 import teka.android.organiks_platform_android.data.room.InvoiceDao
 import teka.android.organiks_platform_android.data.room.MilkCollectionDao
@@ -11,6 +12,7 @@ import teka.android.organiks_platform_android.data.room.ProductionCategoryDao
 import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
 import teka.android.organiks_platform_android.data.room.entities.EggCollection
 import teka.android.organiks_platform_android.data.room.entities.EggType
+import teka.android.organiks_platform_android.data.room.entities.FarmEntity
 import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
 import teka.android.organiks_platform_android.data.room.entities.MilkCollection
@@ -22,6 +24,7 @@ class DbRepository(
     private val fruitCollectionDao: FruitCollectionDao,
     private val customerDao: CustomerDao,
     private val invoiceDao: InvoiceDao,
+    private val farmDao: FarmDao,
     private val milkCollectionDao: MilkCollectionDao,
     private val productionCategoryDao: ProductionCategoryDao
 ) {
@@ -98,6 +101,15 @@ class DbRepository(
 
     fun getInvoiceByUUId(uuid: String): Flow<InvoiceEntity> {
         return invoiceDao.getInvoicesByUUId(uuid)
+    }
+
+
+    //<<<<<<<<<< FARM COLLECTIONS >>>>>>>>
+    suspend fun insertFarmEntity(farm: FarmEntity){
+        farmDao.insert(farm)
+    }
+    suspend fun updateFarmEntity(customerEntity: FarmEntity){
+        farmDao.update(customerEntity)
     }
 
     //<<<<<<<<<< MILK COLLECTIONS >>>>>>>>

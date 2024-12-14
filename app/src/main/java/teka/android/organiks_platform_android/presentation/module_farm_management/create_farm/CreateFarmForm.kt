@@ -3,7 +3,6 @@ package teka.android.organiks_platform_android.presentation.module_farm_manageme
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -17,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,7 +34,6 @@ import teka.android.organiks_platform_android.util.dialogs.CustomTimePickerDialo
 import teka.android.organiks_platform_android.util.dialogs.SimpleDatePickerDialog
 import teka.android.organiks_platform_android.util.formattedTimeBasedOnTimeFormat
 import teka.android.organiks_platform_android.util.widgets.CustomDateBoxField
-import teka.android.organiks_platform_android.util.widgets.CustomDropDown
 import teka.android.organiks_platform_android.util.widgets.CustomInputTextField
 import teka.android.organiks_platform_android.util.widgets.CustomTimeBoxField
 import java.util.*
@@ -195,11 +192,10 @@ fun CreateFarmForm(
                     onClick = {
                         when (createFarmFormUiState.isUpdatingItem) {
                             true -> {
-                                viewModel.saveCustomerEntity()
+                                viewModel.saveFarmEntity()
                             }
-
                             false -> {
-                                viewModel.saveCustomerEntity()
+                                viewModel.saveFarmEntity()
                             }
                         }
                         navController.popBackStack()

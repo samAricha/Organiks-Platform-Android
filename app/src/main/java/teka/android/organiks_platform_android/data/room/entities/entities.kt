@@ -147,3 +147,29 @@ data class InvoiceEntity(
 }
 
 
+@Entity(tableName = "farm_table")
+data class FarmEntity(
+    @ColumnInfo(name = "farm_id")
+    @PrimaryKey
+    val farmId: String = generateUniqueId(),
+    val name: String,
+    val categoryId: String,
+    val categoryName: String,
+    val subCategoryId: String,
+    val subCategoryName: String,
+    val date: Long,
+    val time: String,
+    var isBackedUp: Boolean = false,
+    val createdAt: Long = System.currentTimeMillis()
+) {
+    companion object {
+        fun generateUniqueId(): String {
+            return UUID.randomUUID().toString()
+        }
+    }
+
+    val searchableString: String
+        get() = "${name} ${categoryName} ${subCategoryName}"
+}
+
+

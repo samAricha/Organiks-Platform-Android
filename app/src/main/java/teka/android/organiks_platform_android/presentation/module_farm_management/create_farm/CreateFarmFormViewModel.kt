@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
+import teka.android.organiks_platform_android.data.room.entities.FarmEntity
 import teka.android.organiks_platform_android.domain.repository.DbRepository
 import teka.android.organiks_platform_android.util.TextFieldStateMngr
 import teka.android.organiks_platform_android.util.formattedTimeBasedOnTimeFormat
@@ -31,14 +32,15 @@ class CreateFarmFormViewModel @Inject constructor(
     private val _createFarmFormUiState = MutableStateFlow(CreateFarmFormUIState())
     val createFarmFormUiState: StateFlow<CreateFarmFormUIState> = _createFarmFormUiState
 
-    fun saveCustomerEntity(){
+    fun saveFarmEntity(){
         viewModelScope.launch {
-            repository.insertCustomerEntity(
-                CustomerEntity(
-                    name = createFarmFormUiState.value.customerName.text,
-                    phone = createFarmFormUiState.value.customerPhone.text,
-                    email = createFarmFormUiState.value.customerEmail.text,
-                    product = createFarmFormUiState.value.fruitType.text,
+            repository.insertFarmEntity(
+                FarmEntity(
+                    name = createFarmFormUiState.value.farmName.text,
+                    categoryId = createFarmFormUiState.value.selectedCategory?.id.toString(),
+                    categoryName = createFarmFormUiState.value.selectedCategory?.name.toString(),
+                    subCategoryId = createFarmFormUiState.value.selectedFarmSubcategory?.id.toString(),
+                    subCategoryName = createFarmFormUiState.value.selectedFarmSubcategory?.name.toString(),
                     date = createFarmFormUiState.value.date.toEpochMillis(),
                     time = createFarmFormUiState.value.time.formattedTimeBasedOnTimeFormat(24),
                     isBackedUp = false

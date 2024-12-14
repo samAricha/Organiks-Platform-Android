@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
 import teka.android.organiks_platform_android.data.room.entities.EggCollection
 import teka.android.organiks_platform_android.data.room.entities.EggType
+import teka.android.organiks_platform_android.data.room.entities.FarmEntity
 import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.entities.FruitType
 import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
@@ -119,6 +120,29 @@ interface InvoiceDao{
 
     @Query("SELECT * FROM invoice_table WHERE uuid=:id")
     fun getInvoicesByUUId(id:String): Flow<InvoiceEntity>
+
+}
+
+@Entity
+@Dao
+interface FarmDao{
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(farm: FarmEntity)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(farm: FarmEntity)
+
+    @Delete
+    suspend fun delete(farm: FarmEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertFarm(farm: List<FarmEntity>)
+
+    @Query("SELECT * FROM farm_table ORDER BY date DESC")
+    fun getAllFarms(): Flow<List<FarmEntity>>
+
+    @Query("SELECT * FROM farm_table WHERE farm_id=:farmId")
+    fun getFarmsByFarmId(farmId:Int): Flow<FarmEntity>
 
 }
 
