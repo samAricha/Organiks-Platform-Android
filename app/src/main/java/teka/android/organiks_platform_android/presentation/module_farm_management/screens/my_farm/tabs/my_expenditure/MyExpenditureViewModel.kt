@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.domain.repository.DbRepository
-import teka.android.organiks_platform_android.presentation.module_farm_management.tabs.my_farms_list.MyFarmsListUIState
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KMutableProperty1
@@ -24,8 +23,8 @@ class MyExpenditureViewModel @Inject constructor(
     private val dbRepository: DbRepository,
 ) : ViewModel() {
     // UI state holder
-    private val _myFarmListUIState = MutableStateFlow(MyFarmsListUIState())
-    val myFarmListUIState: StateFlow<MyFarmsListUIState> = _myFarmListUIState
+    private val _expenditureListUIState = MutableStateFlow(ExpenditureListUIState())
+    val expenditureListUIState: StateFlow<ExpenditureListUIState> = _expenditureListUIState
 
 
     init {
@@ -39,7 +38,7 @@ class MyExpenditureViewModel @Inject constructor(
                 dbRepository
                     .getMyFarmsList
                     .collectLatest { customerList ->
-                        updateModelField(MyFarmsListUIState::farmList, customerList)
+                        updateModelField(ExpenditureListUIState::farmList, customerList)
                     }
             }
         }
@@ -48,16 +47,16 @@ class MyExpenditureViewModel @Inject constructor(
 
     fun onDateRangeSelected(selectedRange: Pair<Long?, Long?>) {
         Timber.Forest.tag(MyExpenditure_VM_TAG).i("selectedDateRange:: $selectedRange")
-        updateModelField(MyFarmsListUIState::selectedDateRange, selectedRange)
+        updateModelField(ExpenditureListUIState::selectedDateRange, selectedRange)
     }
 
     fun toggleDatePickerDialog(show: Boolean) {
-        updateModelField(MyFarmsListUIState::showDatePickerDialog, show)
+        updateModelField(ExpenditureListUIState::showDatePickerDialog, show)
     }
 
 
     fun updateFarmSearchQuery(query: String) {
-        updateModelField(MyFarmsListUIState::farmSearchQuery, query)
+        updateModelField(ExpenditureListUIState::farmSearchQuery, query)
         filterGateLogs(query)
     }
 
@@ -71,15 +70,15 @@ class MyExpenditureViewModel @Inject constructor(
                         vehicle.searchableString.contains(query, ignoreCase = true)
                     }
                 }
-                updateModelField(MyFarmsListUIState::farmList, filteredList)
+                updateModelField(ExpenditureListUIState::farmList, filteredList)
             }
         }
     }
 
 
     /// UI STATE UPDATES
-    fun <T> updateModelField(property: KMutableProperty1<MyFarmsListUIState, T>, value: T) {
-        _myFarmListUIState.update { currentState ->
+    fun <T> updateModelField(property: KMutableProperty1<ExpenditureListUIState, T>, value: T) {
+        _expenditureListUIState.update { currentState ->
             currentState.copy().also { newState ->
                 property.set(newState, value)
             }

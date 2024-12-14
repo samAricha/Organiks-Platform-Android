@@ -172,7 +172,7 @@ fun ExpenditureForm(
                         modifier = Modifier.weight(1f).fillMaxWidth(),
                         labelText = "SubType",
                         placeholderText = "SubType",
-                        currentTextState = createFarmFormUiState.selectedFarmSubcategory?.name.orEmpty(),
+                        currentTextState = createFarmFormUiState.selectedSubcategory?.name.orEmpty(),
                         onClick = {
                             viewModel.updateModelField(
                                 CreateFarmFormUIState::showSubCategoryBottomSheet,
@@ -242,12 +242,12 @@ fun ExpenditureForm(
                 viewModel.updateModelField(CreateFarmFormUIState::showSubCategoryBottomSheet, false)
             },
             onItemSelected = { selectedCategory ->
-                viewModel.updateModelField(CreateFarmFormUIState::selectedFarmSubcategory, selectedCategory)
+                viewModel.updateModelField(CreateFarmFormUIState::selectedSubcategory, selectedCategory)
                 viewModel.updateModelField(CreateFarmFormUIState::showSubCategoryBottomSheet, false)
             },
             itemContent = { subCategory ->
                 FarmSubCategoryItem(subCategory) {
-                    viewModel.updateModelField(CreateFarmFormUIState::selectedFarmSubcategory, subCategory)
+                    viewModel.updateModelField(CreateFarmFormUIState::selectedSubcategory, subCategory)
                     viewModel.updateModelField(CreateFarmFormUIState::showSubCategoryBottomSheet, false)
                 }
             },
@@ -297,9 +297,9 @@ fun FarmCategoryItem(farmCategory: FarmCategory, onBookClick: () -> Unit) {
 
 
 @Composable
-fun FarmSubCategoryItem(farmSubCategory: FarmSubcategory, onBookClick: () -> Unit) {
-    val categoryNumber = " ${farmSubCategory.id}."
-    val titleText = farmSubCategory.name
+fun FarmSubCategoryItem(expenseSubCategory: FarmSubcategory, onBookClick: () -> Unit) {
+    val categoryNumber = " ${expenseSubCategory.id}."
+    val titleText = expenseSubCategory.name
     Card(
         modifier = Modifier
             .fillMaxWidth()

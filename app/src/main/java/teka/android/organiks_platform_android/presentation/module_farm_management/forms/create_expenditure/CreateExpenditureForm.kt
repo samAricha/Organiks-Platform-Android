@@ -1,8 +1,9 @@
-package teka.android.organiks_platform_android.presentation.module_farm_management.screens.my_farm.tabs.my_expenditure
+package teka.android.organiks_platform_android.presentation.module_farm_management.forms.create_expenditure
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -15,20 +16,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kotlinx.datetime.Clock
-import teka.android.organiks_platform_android.data.room.entities.FruitType
-import teka.android.organiks_platform_android.presentation.module_farm_management.components.FarmCategory
-import teka.android.organiks_platform_android.presentation.module_farm_management.components.FarmSubcategory
+import teka.android.organiks_platform_android.presentation.module_farm_management.components.ExpenseCategory
+import teka.android.organiks_platform_android.presentation.module_farm_management.components.ExpenseSubcategory
 import teka.android.organiks_platform_android.presentation.module_farm_management.components.expenseCategories
-import teka.android.organiks_platform_android.presentation.module_farm_management.components.farmCategories
-import teka.android.organiks_platform_android.presentation.module_farm_management.forms.create_farm.CreateFarmFormUIState
-import teka.android.organiks_platform_android.presentation.module_farm_management.forms.create_farm.CreateFarmFormViewModel
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.util.CustomBtn
 import teka.android.organiks_platform_android.util.components.bottom_sheet.BottomSheetSelection
@@ -43,14 +40,14 @@ import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExpenditureForm(
+fun CreateExpenditureForm(
     navController: NavController,
-    viewModel: CreateFarmFormViewModel = hiltViewModel()
+    viewModel: CreateExpenditureFormViewModel = hiltViewModel()
 ){
 
-    val createFarmFormUiState = viewModel.createFarmFormUiState.collectAsState().value
-    val showDatePickerDialog = createFarmFormUiState.showDatePickerDialog
-    val showTimePickerDialog = createFarmFormUiState.showTimePickerDialog
+    val expenditureFormUiState = viewModel.expenditureFormUiState.collectAsState().value
+    val showDatePickerDialog = expenditureFormUiState.showDatePickerDialog
+    val showTimePickerDialog = expenditureFormUiState.showTimePickerDialog
 
     val fruitExpenses = expenseCategories.filter { it.type == "Fruit" }
     val poultryExpenses = expenseCategories.filter { it.type == "Poultry" }
@@ -64,11 +61,11 @@ fun ExpenditureForm(
         SimpleDatePickerDialog(
             datePickerState = datePickerState,
             dismiss = {
-                viewModel.updateModelField(CreateFarmFormUIState::showDatePickerDialog, false)
+                viewModel.updateModelField(CreateExpenditureFormUIState::showDatePickerDialog, false)
             },
             onConfirmDate = {
-                viewModel.updateModelField(CreateFarmFormUIState::date, it)
-                viewModel.updateModelField(CreateFarmFormUIState::showDatePickerDialog, false)
+                viewModel.updateModelField(CreateExpenditureFormUIState::date, it)
+                viewModel.updateModelField(CreateExpenditureFormUIState::showDatePickerDialog, false)
             },
         )
     }
@@ -85,11 +82,11 @@ fun ExpenditureForm(
         CustomTimePickerDialog(
             timePickerState = timePickerState,
             onDismiss = {
-                viewModel.updateModelField(CreateFarmFormUIState::showTimePickerDialog, false)
+                viewModel.updateModelField(CreateExpenditureFormUIState::showTimePickerDialog, false)
             },
             onConfirmTime = {
-                viewModel.updateModelField(CreateFarmFormUIState::time, it)
-                viewModel.updateModelField(CreateFarmFormUIState::showTimePickerDialog, false)
+                viewModel.updateModelField(CreateExpenditureFormUIState::time, it)
+                viewModel.updateModelField(CreateExpenditureFormUIState::showTimePickerDialog, false)
             }
         )
     }
@@ -107,10 +104,10 @@ fun ExpenditureForm(
                 ) {
                     CustomDateBoxField(
                         modifier = Modifier.weight(1f),
-                        currentTextState = createFarmFormUiState.date.date.toString(),
+                        currentTextState = expenditureFormUiState.date.date.toString(),
                         onClick = {
                             viewModel.updateModelField(
-                                CreateFarmFormUIState::showDatePickerDialog,
+                                CreateExpenditureFormUIState::showDatePickerDialog,
                                 true
                             )
                         },
@@ -121,12 +118,12 @@ fun ExpenditureForm(
                     )
                     CustomTimeBoxField(
                         modifier = Modifier.weight(1f),
-                        currentTextState = createFarmFormUiState.time.formattedTimeBasedOnTimeFormat(
+                        currentTextState = expenditureFormUiState.time.formattedTimeBasedOnTimeFormat(
                             12
                         ),
                         onClick = {
                             viewModel.updateModelField(
-                                CreateFarmFormUIState::showTimePickerDialog,
+                                CreateExpenditureFormUIState::showTimePickerDialog,
                                 true
                             )
                         },
@@ -145,12 +142,12 @@ fun ExpenditureForm(
                 ) {
                     BottomSheetTextField(
                         modifier = Modifier.weight(1f).fillMaxWidth(),
-                        labelText = "Type",
-                        placeholderText = "Type",
-                        currentTextState = createFarmFormUiState.selectedCategory?.name.orEmpty(),
+                        labelText = "Category",
+                        placeholderText = "Category",
+                        currentTextState = expenditureFormUiState.selectedCategory?.name.orEmpty(),
                         onClick = {
                             viewModel.updateModelField(
-                                CreateFarmFormUIState::showCategoryBottomSheet,
+                                CreateExpenditureFormUIState::showCategoryBottomSheet,
                                 true
                             )
                         }
@@ -160,10 +157,10 @@ fun ExpenditureForm(
                         modifier = Modifier.weight(1f).fillMaxWidth(),
                         labelText = "SubType",
                         placeholderText = "SubType",
-                        currentTextState = createFarmFormUiState.selectedFarmSubcategory?.name.orEmpty(),
+                        currentTextState = expenditureFormUiState.selectedSubcategory?.name.orEmpty(),
                         onClick = {
                             viewModel.updateModelField(
-                                CreateFarmFormUIState::showSubCategoryBottomSheet,
+                                CreateExpenditureFormUIState::showSubCategoryBottomSheet,
                                 true
                             )
                         }
@@ -171,21 +168,31 @@ fun ExpenditureForm(
                 }
             }
 
+            item{
+                CustomInputTextField(
+                    labelText = "Amount",
+                    value = expenditureFormUiState.amount,
+                    onValueChange = {
+                        viewModel.updateStringField(CreateExpenditureFormUIState::amount, it)
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
+            }
 
             item {
                 Spacer(modifier = Modifier.height(34.dp))
             }
             item {
                 val buttonTitle =
-                    if (createFarmFormUiState.isUpdatingItem) "Update Farm" else "Create Farm"
+                    if (expenditureFormUiState.isUpdatingItem) "Update Expenditure" else "Create Expenditure"
                 CustomBtn(
                     onClick = {
-                        when (createFarmFormUiState.isUpdatingItem) {
+                        when (expenditureFormUiState.isUpdatingItem) {
                             true -> {
-                                viewModel.saveFarmEntity()
+                                viewModel.saveExpenseEntity()
                             }
                             false -> {
-                                viewModel.saveFarmEntity()
+                                viewModel.saveExpenseEntity()
                             }
                         }
                         navController.popBackStack()
@@ -196,23 +203,23 @@ fun ExpenditureForm(
         }
 
         BottomSheetSelection(
-            visible = createFarmFormUiState.showCategoryBottomSheet,
-            title = "Farm Category",
-            items = farmCategories,
+            visible = expenditureFormUiState.showCategoryBottomSheet,
+            title = "Expense Category",
+            items = fruitExpenses,
             searchValue = "",
             onSearchValueChange ={ query ->
             },
             onDismissRequest = {
-                viewModel.updateModelField(CreateFarmFormUIState::showCategoryBottomSheet, false)
+                viewModel.updateModelField(CreateExpenditureFormUIState::showCategoryBottomSheet, false)
             },
             onItemSelected = { selectedCategory ->
-                viewModel.updateModelField(CreateFarmFormUIState::selectedCategory, selectedCategory)
-                viewModel.updateModelField(CreateFarmFormUIState::showCategoryBottomSheet, false)
+                viewModel.updateModelField(CreateExpenditureFormUIState::selectedCategory, selectedCategory)
+                viewModel.updateModelField(CreateExpenditureFormUIState::showCategoryBottomSheet, false)
             },
             itemContent = { category ->
-                FarmCategoryItem(category) {
-                    viewModel.updateModelField(CreateFarmFormUIState::selectedCategory, category)
-                    viewModel.updateModelField(CreateFarmFormUIState::showCategoryBottomSheet, false)
+                ExpenseCategoryItem(category) {
+                    viewModel.updateModelField(CreateExpenditureFormUIState::selectedCategory, category)
+                    viewModel.updateModelField(CreateExpenditureFormUIState::showCategoryBottomSheet, false)
                 }
             },
             isSearchEnabled = false
@@ -220,23 +227,23 @@ fun ExpenditureForm(
 
 
         BottomSheetSelection(
-            visible = createFarmFormUiState.showSubCategoryBottomSheet,
-            title = "Farm Sub Category",
-            items = createFarmFormUiState.selectedCategory?.subcategories ?: emptyList(),
+            visible = expenditureFormUiState.showSubCategoryBottomSheet,
+            title = "Expense Sub-Category",
+            items = expenditureFormUiState.selectedCategory?.subcategories ?: emptyList(),
             searchValue = "",
             onSearchValueChange ={ query ->
             },
             onDismissRequest = {
-                viewModel.updateModelField(CreateFarmFormUIState::showSubCategoryBottomSheet, false)
+                viewModel.updateModelField(CreateExpenditureFormUIState::showSubCategoryBottomSheet, false)
             },
             onItemSelected = { selectedCategory ->
-                viewModel.updateModelField(CreateFarmFormUIState::selectedFarmSubcategory, selectedCategory)
-                viewModel.updateModelField(CreateFarmFormUIState::showSubCategoryBottomSheet, false)
+                viewModel.updateModelField(CreateExpenditureFormUIState::selectedSubcategory, selectedCategory)
+                viewModel.updateModelField(CreateExpenditureFormUIState::showSubCategoryBottomSheet, false)
             },
             itemContent = { subCategory ->
-                FarmSubCategoryItem(subCategory) {
-                    viewModel.updateModelField(CreateFarmFormUIState::selectedFarmSubcategory, subCategory)
-                    viewModel.updateModelField(CreateFarmFormUIState::showSubCategoryBottomSheet, false)
+                ExpenseSubCategoryItem(subCategory) {
+                    viewModel.updateModelField(CreateExpenditureFormUIState::selectedSubcategory, subCategory)
+                    viewModel.updateModelField(CreateExpenditureFormUIState::showSubCategoryBottomSheet, false)
                 }
             },
             isSearchEnabled = false
@@ -249,9 +256,9 @@ fun ExpenditureForm(
 
 
 @Composable
-fun FarmCategoryItem(farmCategory: FarmCategory, onBookClick: () -> Unit) {
-    val categoryNumber = " ${farmCategory.id}."
-    val titleText = farmCategory.name
+fun ExpenseCategoryItem(expenseCategory: ExpenseCategory, onBookClick: () -> Unit) {
+    val categoryNumber = " ${expenseCategory.id}."
+    val titleText = expenseCategory.name
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -266,14 +273,6 @@ fun FarmCategoryItem(farmCategory: FarmCategory, onBookClick: () -> Unit) {
         ) {
             Text(
                 text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    ) {
-                        append(categoryNumber)
-                    }
                     withStyle(style = SpanStyle()) {
                         append(" $titleText")
                     }
@@ -285,9 +284,9 @@ fun FarmCategoryItem(farmCategory: FarmCategory, onBookClick: () -> Unit) {
 
 
 @Composable
-fun FarmSubCategoryItem(farmSubCategory: FarmSubcategory, onBookClick: () -> Unit) {
-    val categoryNumber = " ${farmSubCategory.id}."
-    val titleText = farmSubCategory.name
+fun ExpenseSubCategoryItem(expenseSubCategory: ExpenseSubcategory, onBookClick: () -> Unit) {
+    val categoryNumber = " ${expenseSubCategory.id}."
+    val titleText = expenseSubCategory.name
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -302,14 +301,6 @@ fun FarmSubCategoryItem(farmSubCategory: FarmSubcategory, onBookClick: () -> Uni
         ) {
             Text(
                 text = buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                    ) {
-                        append(categoryNumber)
-                    }
                     withStyle(style = SpanStyle()) {
                         append(" $titleText")
                     }

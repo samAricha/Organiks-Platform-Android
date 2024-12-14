@@ -37,8 +37,6 @@ import androidx.navigation.NavController
 import timber.log.Timber
 import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.navigation.AppScreens
-import teka.android.organiks_platform_android.presentation.module_farm_management.tabs.my_farms_list.FarmItemCard
-import teka.android.organiks_platform_android.presentation.module_farm_management.tabs.my_farms_list.MyFarmsListViewModel
 import teka.android.organiks_platform_android.ui.theme.TextSizeLarge
 import teka.android.organiks_platform_android.util.components.LoadingScreen
 import teka.android.organiks_platform_android.util.dialogs.CustomDateRangePickerModal
@@ -51,12 +49,12 @@ fun MyExpenditureScreen(
     navController: NavController,
     viewModel: MyExpenditureViewModel = hiltViewModel()
 ) {
-    val customersScreenUIState = viewModel.myFarmListUIState.collectAsState().value
+    val expenditureListUIState = viewModel.expenditureListUIState.collectAsState().value
 
-    val gatelogSearchQuery = customersScreenUIState.farmSearchQuery
-    val farmList = customersScreenUIState.farmList
-    val showDatePickerDialog = customersScreenUIState.showDatePickerDialog
-    val isFetchingGateLogs = customersScreenUIState.isFetchingFarms
+    val gatelogSearchQuery = expenditureListUIState.farmSearchQuery
+    val farmList = expenditureListUIState.farmList
+    val showDatePickerDialog = expenditureListUIState.showDatePickerDialog
+    val isFetchingGateLogs = expenditureListUIState.isFetchingFarms
 
 
 

@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
 import teka.android.organiks_platform_android.data.room.entities.EggCollection
 import teka.android.organiks_platform_android.data.room.entities.EggType
+import teka.android.organiks_platform_android.data.room.entities.ExpenditureEntity
 import teka.android.organiks_platform_android.data.room.entities.FarmEntity
 import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.entities.FruitType
@@ -143,7 +144,28 @@ interface FarmDao{
 
     @Query("SELECT * FROM farm_table WHERE farm_id=:farmId")
     fun getFarmsByFarmId(farmId:Int): Flow<FarmEntity>
+}
 
+@Entity
+@Dao
+interface ExpenditureDao{
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(expenditure: ExpenditureEntity)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(expenditure: ExpenditureEntity)
+
+    @Delete
+    suspend fun delete(expenditure: ExpenditureEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertExpenditure(farm: List<ExpenditureEntity>)
+
+    @Query("SELECT * FROM expenditure_table ORDER BY date DESC")
+    fun getAllExpenses(): Flow<List<ExpenditureEntity>>
+
+    @Query("SELECT * FROM expenditure_table WHERE expenditure_id=:expenditureId")
+    fun getExpenditureById(expenditureId:Int): Flow<ExpenditureEntity>
 }
 
 

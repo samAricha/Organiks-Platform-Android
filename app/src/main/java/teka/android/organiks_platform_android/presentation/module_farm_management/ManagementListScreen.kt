@@ -70,18 +70,10 @@ fun ManagementListScreen(
                             }
                         },
                         text = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    imageVector = Icons.Filled.Add,
-                                    contentDescription = "Create New Farm",
-                                    modifier = Modifier.size(20.dp) // Adjust icon size if needed
-                                )
-                                Spacer(modifier = Modifier.width(8.dp)) // Space between icon and text
-                                Text(
-                                    text = currentTab.text,
-                                    style = MaterialTheme.typography.titleMedium
-                                )
-                            }
+                            Text(
+                                text = currentTab.text,
+                                style = MaterialTheme.typography.titleMedium
+                            )
                         },
                     )
                 }

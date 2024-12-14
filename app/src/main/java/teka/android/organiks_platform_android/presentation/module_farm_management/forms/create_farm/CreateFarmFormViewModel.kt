@@ -38,8 +38,8 @@ class CreateFarmFormViewModel @Inject constructor(
                     name = createFarmFormUiState.value.farmName.text,
                     categoryId = createFarmFormUiState.value.selectedCategory?.id.toString(),
                     categoryName = createFarmFormUiState.value.selectedCategory?.name.toString(),
-                    subCategoryId = createFarmFormUiState.value.selectedFarmSubcategory?.id.toString(),
-                    subCategoryName = createFarmFormUiState.value.selectedFarmSubcategory?.name.toString(),
+                    subCategoryId = createFarmFormUiState.value.selectedSubcategory?.id.toString(),
+                    subCategoryName = createFarmFormUiState.value.selectedSubcategory?.name.toString(),
                     date = createFarmFormUiState.value.date.toEpochMillis(),
                     time = createFarmFormUiState.value.time.formattedTimeBasedOnTimeFormat(24),
                     isBackedUp = false

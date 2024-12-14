@@ -4,6 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import teka.android.organiks_platform_android.data.room.CustomerDao
 import teka.android.organiks_platform_android.data.room.EggCollectionDao
 import teka.android.organiks_platform_android.data.room.EggTypeDao
+import teka.android.organiks_platform_android.data.room.ExpenditureDao
 import teka.android.organiks_platform_android.data.room.FarmDao
 import teka.android.organiks_platform_android.data.room.FruitCollectionDao
 import teka.android.organiks_platform_android.data.room.InvoiceDao
@@ -12,6 +13,7 @@ import teka.android.organiks_platform_android.data.room.ProductionCategoryDao
 import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
 import teka.android.organiks_platform_android.data.room.entities.EggCollection
 import teka.android.organiks_platform_android.data.room.entities.EggType
+import teka.android.organiks_platform_android.data.room.entities.ExpenditureEntity
 import teka.android.organiks_platform_android.data.room.entities.FarmEntity
 import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
@@ -25,6 +27,7 @@ class DbRepository(
     private val customerDao: CustomerDao,
     private val invoiceDao: InvoiceDao,
     private val farmDao: FarmDao,
+    private val expenditureDao: ExpenditureDao,
     private val milkCollectionDao: MilkCollectionDao,
     private val productionCategoryDao: ProductionCategoryDao
 ) {
@@ -38,6 +41,7 @@ class DbRepository(
     val getFruitCollections = fruitCollectionDao.getAllFruitCollections()
     val getCustomers = customerDao.getAllCustomers()
     val getAllInvoices = invoiceDao.getAllInvoices()
+    val getAllExpenses = expenditureDao.getAllExpenses()
     val getMyFarmsList = farmDao.getAllFarms()
     val getEggCollectionsWithEggTypes = eggCollectionDao.getEggCollectionsWithEggTypes()
 
@@ -111,6 +115,14 @@ class DbRepository(
     }
     suspend fun updateFarmEntity(customerEntity: FarmEntity){
         farmDao.update(customerEntity)
+    }
+
+    //<<<<<<<<<< EXPENDITURE COLLECTIONS >>>>>>>>
+    suspend fun insertExpenditureEntity(expenditure: ExpenditureEntity){
+        expenditureDao.insert(expenditure)
+    }
+    suspend fun updateExpenditureEntity(expenditure: ExpenditureEntity){
+        expenditureDao.update(expenditure)
     }
 
     //<<<<<<<<<< MILK COLLECTIONS >>>>>>>>

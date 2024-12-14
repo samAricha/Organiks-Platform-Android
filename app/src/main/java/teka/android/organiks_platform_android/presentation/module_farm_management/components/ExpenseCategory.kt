@@ -16,7 +16,7 @@ data class ExpenseCategory(
 )
 
 // List of all Expense Categories and Subcategories
-val expenseCategories = listOf(
+val expenseCategories:  List<ExpenseCategory> = listOf(
     // Fruit Farming Categories
     ExpenseCategory(
         id = 1,

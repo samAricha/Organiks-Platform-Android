@@ -186,7 +186,7 @@ data class ExpenditureEntity(
     val farmCategoryName: String,
     val farmSubCategoryId: String,
     val farmSubCategoryName: String,
-    val total: String,
+    val amount: String,
     val date: Long,
     val time: String,
     var isBackedUp: Boolean = false,

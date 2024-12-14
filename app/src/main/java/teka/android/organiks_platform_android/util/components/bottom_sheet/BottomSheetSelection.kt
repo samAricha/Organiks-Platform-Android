@@ -38,8 +38,8 @@ fun <T> BottomSheetSelection(
     onDismissRequest: () -> Unit,
     onItemSelected: (T) -> Unit,
     itemContent: @Composable (T) -> Unit,
-    isSearchEnabled: Boolean = true,
-    ) {
+    isSearchEnabled: Boolean = true
+) {
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true,
     )
