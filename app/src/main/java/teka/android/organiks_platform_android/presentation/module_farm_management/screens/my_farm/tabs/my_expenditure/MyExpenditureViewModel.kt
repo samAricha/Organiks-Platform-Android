@@ -29,16 +29,16 @@ class MyExpenditureViewModel @Inject constructor(
 
     init {
         Timber.Forest.tag(MyExpenditure_VM_TAG).i("init function now")
-        observeCustomerList()
+        observeExpenditureList()
     }
 
-    private fun observeCustomerList() {
+    private fun observeExpenditureList() {
         viewModelScope.launch {
             launch{
                 dbRepository
-                    .getMyFarmsList
-                    .collectLatest { customerList ->
-                        updateModelField(ExpenditureListUIState::farmList, customerList)
+                    .getAllExpenses
+                    .collectLatest { expenditureList ->
+                        updateModelField(ExpenditureListUIState::expenditureList, expenditureList)
                     }
             }
         }
@@ -62,15 +62,15 @@ class MyExpenditureViewModel @Inject constructor(
 
     private fun filterGateLogs(query: String) {
         viewModelScope.launch {
-            dbRepository.getMyFarmsList.collect { farmList ->
+            dbRepository.getAllExpenses.collect { expenditureList ->
                 val filteredList = if (query.isBlank()) {
-                    farmList
+                    expenditureList
                 } else {
-                    farmList.filter { vehicle ->
+                    expenditureList.filter { vehicle ->
                         vehicle.searchableString.contains(query, ignoreCase = true)
                     }
                 }
-                updateModelField(ExpenditureListUIState::farmList, filteredList)
+                updateModelField(ExpenditureListUIState::expenditureList, filteredList)
             }
         }
     }

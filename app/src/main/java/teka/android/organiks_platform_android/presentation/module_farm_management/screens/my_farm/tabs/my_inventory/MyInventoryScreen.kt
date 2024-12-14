@@ -78,52 +78,55 @@ fun MyInventoryScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.height(1.dp))
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                SimpleSearchInputWidget(
-                    value = gatelogSearchQuery,
-                    onValueChange = { query ->
-                        viewModel.updateFarmSearchQuery(query)
-
-                    },
-                    modifier = Modifier.weight(1f),
-                    placeholderText = "Search ..."
-                )
-
-                IconButton(
-                    onClick = {
-                        viewModel.toggleDatePickerDialog(true)
-                              },
-                    modifier = Modifier.padding(start = 0.dp)
+            if (false) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.CalendarMonth,
-                        contentDescription = "Filter",
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
-            }
+                    SimpleSearchInputWidget(
+                        value = gatelogSearchQuery,
+                        onValueChange = { query ->
+                            viewModel.updateFarmSearchQuery(query)
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
-                    .padding(horizontal = 12.dp)
-            ) {
-                itemsIndexed(farmList) { index, farmEntity ->
-                    FarmItemCard(
-                        farmEntity = farmEntity,
-                        navController = navController
+                        },
+                        modifier = Modifier.weight(1f),
+                        placeholderText = "Search ..."
                     )
+
+                    IconButton(
+                        onClick = {
+                            viewModel.toggleDatePickerDialog(true)
+                        },
+                        modifier = Modifier.padding(start = 0.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.CalendarMonth,
+                            contentDescription = "Filter",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                }
+
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background)
+                        .padding(horizontal = 12.dp)
+                ) {
+                    itemsIndexed(farmList) { index, farmEntity ->
+                        FarmItemCard(
+                            farmEntity = farmEntity,
+                            navController = navController
+                        )
+                    }
                 }
             }
         }
 
-        if (farmList.isEmpty() && !isFetchingGateLogs) {
+//        if (farmList.isEmpty() && !isFetchingGateLogs) {
+        if (true) {
             Box(modifier = Modifier.fillMaxSize()) {
                 Column(
                     modifier = Modifier
@@ -135,13 +138,13 @@ fun MyInventoryScreen(
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.farm),
-                        contentDescription = "No farms records illustration",
+                        contentDescription = "No Inventory records illustration",
                         modifier = Modifier.size(120.dp),
                         alpha = 0.3f
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "No Farms yet ...",
+                        text = "No Inventories yet ...",
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         fontSize = TextSizeLarge,
@@ -161,12 +164,12 @@ fun MyInventoryScreen(
                 .align(Alignment.BottomEnd)
                 .padding(16.dp),
             onClick = {
-                Timber.tag("customer").i("EFAB clicked")
+                Timber.tag("inventory").i("EFAB clicked")
                 navController.navigate(AppScreens.AddCustomerForm.route)
 
             },
-            icon = { Icon(Icons.Filled.Add, contentDescription = "Add GateLog") },
-            text = { Text(text = "Add Customer") },
+            icon = { Icon(Icons.Filled.Add, contentDescription = "Add Inventory") },
+            text = { Text(text = "Add Inventory") },
         )
     }
 }

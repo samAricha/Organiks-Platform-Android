@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ScrollableTabRow
 import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable;
 import androidx.compose.runtime.derivedStateOf
@@ -54,10 +55,10 @@ fun ManagementListScreen(
         Column(modifier = Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.height(1.dp))
 
-            ScrollableTabRow(
+            TabRow(
                 selectedTabIndex = selectedTabIndex.value,
                 modifier = Modifier.fillMaxWidth().padding(0.dp),
-                edgePadding = 4.dp
+//                edgePadding = 4.dp
             ) {
                 farmModuleTabs.forEachIndexed { index, currentTab ->
                     Tab(

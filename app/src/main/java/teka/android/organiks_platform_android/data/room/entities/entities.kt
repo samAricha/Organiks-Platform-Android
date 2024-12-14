@@ -182,6 +182,7 @@ data class ExpenditureEntity(
     val expenditureSubTypeId: String = generateUniqueId(),
     val expenditureSubTypeName: String = generateUniqueId(),
     val farmId: String,
+    val farmName: String,
     val farmCategoryId: String,
     val farmCategoryName: String,
     val farmSubCategoryId: String,

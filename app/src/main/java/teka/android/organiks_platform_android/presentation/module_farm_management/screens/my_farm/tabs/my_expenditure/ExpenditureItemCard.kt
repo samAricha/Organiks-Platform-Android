@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import teka.android.organiks_platform_android.R
-import teka.android.organiks_platform_android.data.room.entities.FarmEntity
+import teka.android.organiks_platform_android.data.room.entities.ExpenditureEntity
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.PureWhiteColor
@@ -36,7 +36,7 @@ import teka.android.organiks_platform_android.util.widgets.LabelValueTextWidget
 
 @Composable
 fun ExpenditureItemCard(
-    farmEntity: FarmEntity,
+    expenditure: ExpenditureEntity,
     navController: NavController
 ) {
     Card(
@@ -49,10 +49,12 @@ fun ExpenditureItemCard(
             containerColor = PureWhiteColor
         ),
         onClick = {
-            navController.navigate(AppScreens.MyFarmScreen.route)
+//            navController.navigate(AppScreens.MyFarmScreen.route)
         }
     ) {
-        Column(modifier = Modifier.fillMaxWidth().padding(4.dp)) {
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(4.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -77,18 +79,20 @@ fun ExpenditureItemCard(
                 ) {
 
                     Row(
-                        modifier = Modifier.fillMaxWidth().padding(bottom = 4.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(bottom = 4.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         CustomText(
-                            text = farmEntity.name,
+                            text = "ksh. ${ expenditure.amount }",
                             fontWeight = FontWeight.Bold,
                             color = Color.Black,
                             fontSize = TextSizeXLarge
                         )
                         CustomText(
-                            text = convertMillisToStringDate(farmEntity.date),
+                            text = convertMillisToStringDate(expenditure.date),
                             fontSize = TextSizeMedium,
                             fontWeight = FontWeight.ExtraLight,
                             fontFamily = FontFamily.Cursive,
@@ -97,9 +101,9 @@ fun ExpenditureItemCard(
                     }
 
 
-
-                    LabelValueTextWidget(label = "Category: ", value = farmEntity.categoryName)
-                    LabelValueTextWidget(label = "Sub-Category: ", value = farmEntity.subCategoryName)
+                    LabelValueTextWidget(label = "Category: ", value = expenditure.expenditureTypeName)
+                    LabelValueTextWidget(label = "Sub-Category: ", value = expenditure.expenditureSubTypeName)
+                    LabelValueTextWidget(label = "Farm: ", value = expenditure.farmName)
                 }
             }
             Spacer(modifier = Modifier.height(14.dp))

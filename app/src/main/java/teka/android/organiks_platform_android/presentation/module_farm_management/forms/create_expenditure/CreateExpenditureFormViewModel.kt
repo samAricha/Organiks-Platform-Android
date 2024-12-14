@@ -50,10 +50,13 @@ class CreateExpenditureFormViewModel @Inject constructor(
                     time = expenditureFormUiState.value.time.formattedTimeBasedOnTimeFormat(24),
                     isBackedUp = false,
                     farmId = expenditureFormUiState.value.currentFarm?.farmId ?: "",
+                    farmName = expenditureFormUiState.value.currentFarm?.name ?: "",
                     farmCategoryId = expenditureFormUiState.value.currentFarm?.categoryId ?: "",
                     farmCategoryName = expenditureFormUiState.value.currentFarm?.categoryName ?: "",
-                    farmSubCategoryId = expenditureFormUiState.value.currentFarm?.subCategoryId ?: "",
-                    farmSubCategoryName = expenditureFormUiState.value.currentFarm?.subCategoryName ?: "",
+                    farmSubCategoryId = expenditureFormUiState.value.currentFarm?.subCategoryId
+                        ?: "",
+                    farmSubCategoryName = expenditureFormUiState.value.currentFarm?.subCategoryName
+                        ?: "",
                     amount = expenditureFormUiState.value.amount.text,
                 )
             )

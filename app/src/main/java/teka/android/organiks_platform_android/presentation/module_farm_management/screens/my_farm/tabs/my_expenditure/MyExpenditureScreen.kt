@@ -52,9 +52,9 @@ fun MyExpenditureScreen(
     val expenditureListUIState = viewModel.expenditureListUIState.collectAsState().value
 
     val gatelogSearchQuery = expenditureListUIState.farmSearchQuery
-    val farmList = expenditureListUIState.farmList
+    val farmList = expenditureListUIState.expenditureList
     val showDatePickerDialog = expenditureListUIState.showDatePickerDialog
-    val isFetchingGateLogs = expenditureListUIState.isFetchingFarms
+    val isFetchingGateLogs = expenditureListUIState.isFetchingExpenditures
 
 
 
@@ -114,7 +114,7 @@ fun MyExpenditureScreen(
             ) {
                 itemsIndexed(farmList) { index, farmEntity ->
                     ExpenditureItemCard(
-                        farmEntity = farmEntity,
+                        expenditure = farmEntity,
                         navController = navController
                     )
                 }
@@ -139,7 +139,7 @@ fun MyExpenditureScreen(
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "No Farms yet ...",
+                        text = "No Expenditures yet ...",
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         fontSize = TextSizeLarge,
