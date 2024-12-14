@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.module_customers.list_screen
+package teka.android.organiks_platform_android.presentation.module_farm_management.tabs.my_farms_list
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -45,16 +45,16 @@ import teka.android.organiks_platform_android.util.widgets.SimpleSearchInputWidg
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomersListScreen(
+fun MyFarmsListScreen(
     navController: NavController,
-    viewModel: CustomerListViewModel = hiltViewModel()
+    viewModel: MyFarmsListViewModel = hiltViewModel()
 ) {
-    val customersScreenUIState = viewModel.customerListUIState.collectAsState().value
+    val customersScreenUIState = viewModel.myFarmListUIState.collectAsState().value
 
-    val gatelogSearchQuery = customersScreenUIState.customerSearchQuery
-    val customerList = customersScreenUIState.customerList
+    val gatelogSearchQuery = customersScreenUIState.farmSearchQuery
+    val farmList = customersScreenUIState.farmList
     val showDatePickerDialog = customersScreenUIState.showDatePickerDialog
-    val isFetchingGateLogs = customersScreenUIState.isFetchingFruits
+    val isFetchingGateLogs = customersScreenUIState.isFetchingFarms
 
 
 
@@ -85,7 +85,7 @@ fun CustomersListScreen(
                 SimpleSearchInputWidget(
                     value = gatelogSearchQuery,
                     onValueChange = { query ->
-                        viewModel.updateCustomerSearchQuery(query)
+                        viewModel.updateFarmSearchQuery(query)
 
                     },
                     modifier = Modifier.weight(1f),
@@ -112,16 +112,16 @@ fun CustomersListScreen(
                     .background(MaterialTheme.colorScheme.background)
                     .padding(horizontal = 12.dp)
             ) {
-                itemsIndexed(customerList) { index, customerEntity ->
-                    CustomerItemCard(
-                        customerEntity = customerEntity,
+                itemsIndexed(farmList) { index, farmEntity ->
+                    FarmItemCard(
+                        farmEntity = farmEntity,
                         navController = navController
                     )
                 }
             }
         }
 
-        if (customerList.isEmpty() && !isFetchingGateLogs) {
+        if (farmList.isEmpty() && !isFetchingGateLogs) {
             Box(modifier = Modifier.fillMaxSize()) {
                 Column(
                     modifier = Modifier
@@ -132,14 +132,14 @@ fun CustomersListScreen(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Image(
-                        painter = painterResource(id = R.drawable.customers),
-                        contentDescription = "No customer records illustration",
+                        painter = painterResource(id = R.drawable.farm),
+                        contentDescription = "No farms records illustration",
                         modifier = Modifier.size(120.dp),
                         alpha = 0.3f
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "No Customer Records",
+                        text = "No Farms yet ...",
                         style = MaterialTheme.typography.bodyMedium,
                         textAlign = TextAlign.Center,
                         fontSize = TextSizeLarge,
@@ -153,18 +153,5 @@ fun CustomersListScreen(
             LoadingScreen()
         }
 
-
-        ExtendedFloatingActionButton(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp),
-            onClick = {
-                Timber.tag("customer").i("EFAB clicked")
-                navController.navigate(AppScreens.AddCustomerForm.route)
-
-            },
-            icon = { Icon(Icons.Filled.Add, contentDescription = "Add Customer") },
-            text = { Text(text = "Add Customer") },
-        )
     }
 }

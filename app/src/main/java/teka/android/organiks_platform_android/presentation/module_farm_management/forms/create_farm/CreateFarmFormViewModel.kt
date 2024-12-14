@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.module_farm_management.create_farm
+package teka.android.organiks_platform_android.presentation.module_farm_management.forms.create_farm
 
 
 import android.content.Context
@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
 import teka.android.organiks_platform_android.data.room.entities.FarmEntity
 import teka.android.organiks_platform_android.domain.repository.DbRepository
 import teka.android.organiks_platform_android.util.TextFieldStateMngr

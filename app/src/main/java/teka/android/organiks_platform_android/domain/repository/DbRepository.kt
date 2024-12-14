@@ -38,6 +38,7 @@ class DbRepository(
     val getFruitCollections = fruitCollectionDao.getAllFruitCollections()
     val getCustomers = customerDao.getAllCustomers()
     val getAllInvoices = invoiceDao.getAllInvoices()
+    val getMyFarmsList = farmDao.getAllFarms()
     val getEggCollectionsWithEggTypes = eggCollectionDao.getEggCollectionsWithEggTypes()
 
 

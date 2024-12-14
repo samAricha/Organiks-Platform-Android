@@ -172,4 +172,34 @@ data class FarmEntity(
         get() = "${name} ${categoryName} ${subCategoryName}"
 }
 
+@Entity(tableName = "expenditure_table")
+data class ExpenditureEntity(
+    @ColumnInfo(name = "expenditure_id")
+    @PrimaryKey
+    val expenditureId: String = generateUniqueId(),
+    val expenditureTypeId: String = generateUniqueId(),
+    val expenditureTypeName: String = generateUniqueId(),
+    val expenditureSubTypeId: String = generateUniqueId(),
+    val expenditureSubTypeName: String = generateUniqueId(),
+    val farmId: String,
+    val farmCategoryId: String,
+    val farmCategoryName: String,
+    val farmSubCategoryId: String,
+    val farmSubCategoryName: String,
+    val total: String,
+    val date: Long,
+    val time: String,
+    var isBackedUp: Boolean = false,
+    val createdAt: Long = System.currentTimeMillis()
+) {
+    companion object {
+        fun generateUniqueId(): String {
+            return UUID.randomUUID().toString()
+        }
+    }
+
+    val searchableString: String
+        get() = "${expenditureTypeName} ${expenditureSubTypeName} ${farmCategoryName} ${farmSubCategoryName}"
+}
+
 

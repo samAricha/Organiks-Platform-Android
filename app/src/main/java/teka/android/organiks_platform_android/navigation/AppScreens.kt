@@ -49,4 +49,6 @@ sealed class AppScreens(
     data object HomeScreen : AppScreens(route = "app_home_screen", title = "Home Screen")
     data object FarmManagementModule : AppScreens(route = "farm_management_module_screen", title = "Farm Management Screen")
     data object CreateFarmScreen : AppScreens(route = "create_farm_screen", title = "Create Farm")
+    data object MyFarmScreen : AppScreens(route = "my_farm_screen", title = "My Farm")
+    data object ExpenditureForm : AppScreens(route = "expenditure_screen", title = "My Expenditure")
 }

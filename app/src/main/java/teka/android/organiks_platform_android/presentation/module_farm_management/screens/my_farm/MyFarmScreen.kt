@@ -1,15 +1,12 @@
-package teka.android.organiks_platform_android.presentation.module_farm_management
+package teka.android.organiks_platform_android.presentation.module_farm_management.screens.my_farm
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
@@ -32,6 +29,10 @@ import androidx.navigation.NavController
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.presentation.module_farm_management.components.FarmModuleTabsEnum
+import teka.android.organiks_platform_android.presentation.module_farm_management.screens.my_farm.tabs.my_expenditure.MyExpenditureScreen
+import teka.android.organiks_platform_android.presentation.module_farm_management.screens.my_farm.tabs.my_inventory.MyInventoryScreen
+import teka.android.organiks_platform_android.presentation.module_farm_management.screens.my_farm.tabs.my_production.MyProductionScreen
+import teka.android.organiks_platform_android.presentation.module_farm_management.screens.my_farm.tabs.my_sales.MySalesScreen
 import teka.android.organiks_platform_android.presentation.module_farm_management.tabs.farm_types.FarmTypesList
 import teka.android.organiks_platform_android.presentation.module_farm_management.tabs.my_farms_list.MyFarmsListScreen
 import timber.log.Timber
@@ -39,12 +40,12 @@ import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ManagementListScreen(
+fun MyFarmScreen(
     navController: NavController,
 ) {
 
-    val farmModuleTabs = FarmModuleTabsEnum.entries
-    val pagerState = rememberPagerState(pageCount = { farmModuleTabs.size })
+    val myFarmTabs = MyFarmTabsEnum.entries
+    val pagerState = rememberPagerState(pageCount = { myFarmTabs.size })
     val selectedTabIndex = remember { derivedStateOf { pagerState.currentPage } }
     val scope = rememberCoroutineScope()
 
@@ -59,7 +60,7 @@ fun ManagementListScreen(
                 modifier = Modifier.fillMaxWidth().padding(0.dp),
                 edgePadding = 4.dp
             ) {
-                farmModuleTabs.forEachIndexed { index, currentTab ->
+                myFarmTabs.forEachIndexed { index, currentTab ->
                     Tab(
                         selected = selectedTabIndex.value == index,
                         selectedContentColor = MaterialTheme.colorScheme.primary,
@@ -70,18 +71,10 @@ fun ManagementListScreen(
                             }
                         },
                         text = {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    imageVector = Icons.Filled.Add,
-                                    contentDescription = "Create New Farm",
-                                    modifier = Modifier.size(20.dp) // Adjust icon size if needed
-                                )
-                                Spacer(modifier = Modifier.width(8.dp)) // Space between icon and text
-                                Text(
-                                    text = currentTab.text,
-                                    style = MaterialTheme.typography.titleMedium
-                                )
-                            }
+                            Text(
+                                text = currentTab.text,
+                                style = MaterialTheme.typography.titleMedium
+                            )
                         },
                     )
                 }
@@ -93,26 +86,16 @@ fun ManagementListScreen(
                     .fillMaxWidth()
                     .weight(1f),
             ) { page ->
-                when (farmModuleTabs[page]) {
-                    FarmModuleTabsEnum.MyFarms ->  MyFarmsListScreen(navController = navController)
-                    FarmModuleTabsEnum.FarmTypes -> FarmTypesList(navController = navController)
+                when (myFarmTabs[page]) {
+                    MyFarmTabsEnum.Expenditure -> MyExpenditureScreen(navController = navController)
+                    MyFarmTabsEnum.Production -> MyProductionScreen(navController = navController)
+                    MyFarmTabsEnum.Sales -> MySalesScreen(navController = navController)
+                    MyFarmTabsEnum.Inventory -> MyInventoryScreen(navController = navController)
                 }
             }
-
-
         }
 
-        ExtendedFloatingActionButton(
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(16.dp),
-            onClick = {
-                Timber.tag("new farm").i("EFAB clicked")
-                navController.navigate(AppScreens.CreateFarmScreen.route)
-            },
-            icon = { Icon(Icons.Filled.Add, contentDescription = "Create New Farm") },
-            text = { Text(text = "Create New Farm") },
-        )
+
     }
 
 

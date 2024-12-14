@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.module_farm_management.create_farm
+package teka.android.organiks_platform_android.presentation.module_farm_management.screens.my_farm.tabs.my_inventory
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -26,6 +26,8 @@ import teka.android.organiks_platform_android.data.room.entities.FruitType
 import teka.android.organiks_platform_android.presentation.module_farm_management.components.FarmCategory
 import teka.android.organiks_platform_android.presentation.module_farm_management.components.FarmSubcategory
 import teka.android.organiks_platform_android.presentation.module_farm_management.components.farmCategories
+import teka.android.organiks_platform_android.presentation.module_farm_management.forms.create_farm.CreateFarmFormUIState
+import teka.android.organiks_platform_android.presentation.module_farm_management.forms.create_farm.CreateFarmFormViewModel
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.util.CustomBtn
 import teka.android.organiks_platform_android.util.components.bottom_sheet.BottomSheetSelection
@@ -40,7 +42,7 @@ import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreateFarmForm(
+fun ExpenditureForm(
     navController: NavController,
     viewModel: CreateFarmFormViewModel = hiltViewModel()
 ){

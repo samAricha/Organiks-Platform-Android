@@ -23,7 +23,9 @@ import teka.android.organiks_platform_android.presentation.module_customers.form
 import teka.android.organiks_platform_android.presentation.module_fruits.form.FruitRecordingForm
 import teka.android.organiks_platform_android.presentation.module_customers.list_screen.CustomersListScreen
 import teka.android.organiks_platform_android.presentation.module_farm_management.ManagementListScreen
-import teka.android.organiks_platform_android.presentation.module_farm_management.create_farm.CreateFarmForm
+import teka.android.organiks_platform_android.presentation.module_farm_management.forms.create_farm.CreateFarmForm
+import teka.android.organiks_platform_android.presentation.module_farm_management.screens.my_farm.MyFarmScreen
+import teka.android.organiks_platform_android.presentation.module_farm_management.screens.my_farm.tabs.my_expenditure.ExpenditureForm
 import teka.android.organiks_platform_android.presentation.module_invoice.create_invoice.CreateInvoiceScreen
 import teka.android.organiks_platform_android.presentation.module_fruits.list_screen.FruitRecordsListScreen
 import teka.android.organiks_platform_android.presentation.module_invoice.invoice_list_screen.InvoiceListScreen
@@ -632,5 +634,45 @@ fun MainNavGraph(
         ){
             CreateFarmForm(navController = navController)
         }
+
+
+        composable(
+            route = AppScreens.MyFarmScreen.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            MyFarmScreen(navController = navController)
+        }
+
+
+        composable(
+            route = AppScreens.ExpenditureForm.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            }
+        ){
+            ExpenditureForm(navController = navController)
+        }
+
+
     }
 }
