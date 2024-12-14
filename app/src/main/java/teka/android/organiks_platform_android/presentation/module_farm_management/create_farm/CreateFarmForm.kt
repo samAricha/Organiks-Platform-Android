@@ -1,31 +1,37 @@
 package teka.android.organiks_platform_android.presentation.module_farm_management.create_farm
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kotlinx.datetime.Clock
 import teka.android.organiks_platform_android.data.room.entities.FruitType
-import teka.android.organiks_platform_android.navigation.AppScreens
-import teka.android.organiks_platform_android.presentation.module_customers.form.AddCustomerFormUIState
+import teka.android.organiks_platform_android.presentation.module_farm_management.components.FarmCategory
+import teka.android.organiks_platform_android.presentation.module_farm_management.components.FarmSubcategory
+import teka.android.organiks_platform_android.presentation.module_farm_management.components.farmCategories
 import teka.android.organiks_platform_android.ui.theme.Shapes
 import teka.android.organiks_platform_android.util.CustomBtn
+import teka.android.organiks_platform_android.util.components.bottom_sheet.BottomSheetSelection
+import teka.android.organiks_platform_android.util.components.bottom_sheet.BottomSheetTextField
 import teka.android.organiks_platform_android.util.dialogs.CustomTimePickerDialog
 import teka.android.organiks_platform_android.util.dialogs.SimpleDatePickerDialog
 import teka.android.organiks_platform_android.util.formattedTimeBasedOnTimeFormat
@@ -33,7 +39,6 @@ import teka.android.organiks_platform_android.util.widgets.CustomDateBoxField
 import teka.android.organiks_platform_android.util.widgets.CustomDropDown
 import teka.android.organiks_platform_android.util.widgets.CustomInputTextField
 import teka.android.organiks_platform_android.util.widgets.CustomTimeBoxField
-import timber.log.Timber
 import java.util.*
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,10 +48,10 @@ fun CreateFarmForm(
     viewModel: CreateFarmFormViewModel = hiltViewModel()
 ){
 
-    val fruitRecordingFormUiState = viewModel.createFarmFormUiState.collectAsState().value
+    val createFarmFormUiState = viewModel.createFarmFormUiState.collectAsState().value
 
-    val showDatePickerDialog = fruitRecordingFormUiState.showDatePickerDialog
-    val showTimePickerDialog = fruitRecordingFormUiState.showTimePickerDialog
+    val showDatePickerDialog = createFarmFormUiState.showDatePickerDialog
+    val showTimePickerDialog = createFarmFormUiState.showTimePickerDialog
 
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = Clock.System.now().toEpochMilliseconds(),
@@ -99,13 +104,23 @@ fun CreateFarmForm(
         ) {
 
             item {
+                CustomInputTextField(
+                    labelText = "Farm Name",
+                    value = createFarmFormUiState.farmName,
+                    onValueChange = {
+                        viewModel.updateStringField(CreateFarmFormUIState::farmName, it)
+                    },
+                )
+            }
+
+            item {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     CustomDateBoxField(
                         modifier = Modifier.weight(1f),
-                        currentTextState = fruitRecordingFormUiState.date.date.toString(),
+                        currentTextState = createFarmFormUiState.date.date.toString(),
                         onClick = {
                             viewModel.updateModelField(
                                 CreateFarmFormUIState::showDatePickerDialog,
@@ -119,7 +134,7 @@ fun CreateFarmForm(
                     )
                     CustomTimeBoxField(
                         modifier = Modifier.weight(1f),
-                        currentTextState = fruitRecordingFormUiState.time.formattedTimeBasedOnTimeFormat(
+                        currentTextState = createFarmFormUiState.time.formattedTimeBasedOnTimeFormat(
                             12
                         ),
                         onClick = {
@@ -136,65 +151,49 @@ fun CreateFarmForm(
                 }
             }
 
+            item{
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    BottomSheetTextField(
+                        modifier = Modifier.weight(1f).fillMaxWidth(),
+                        labelText = "Type",
+                        placeholderText = "Type",
+                        currentTextState = createFarmFormUiState.selectedCategory?.name.orEmpty(),
+                        onClick = {
+                            viewModel.updateModelField(
+                                CreateFarmFormUIState::showCategoryBottomSheet,
+                                true
+                            )
+                        }
+                    )
 
-            item {
-                CustomDropDown(
-                    labelText = "Fruit Type",
-                    options = fruitTypeItems,
-                    selectedOption = fruitRecordingFormUiState.fruitType,
-                    onOptionSelected = { selectedOption ->
-                        viewModel.updateStringField(
-                            CreateFarmFormUIState::fruitType,
-                            selectedOption.name
-                        )
-                    },
-                    optionTextProvider = { option ->
-                        Text(option.name)
-                    }
-                )
+                    BottomSheetTextField(
+                        modifier = Modifier.weight(1f).fillMaxWidth(),
+                        labelText = "SubType",
+                        placeholderText = "SubType",
+                        currentTextState = createFarmFormUiState.selectedFarmSubcategory?.name.orEmpty(),
+                        onClick = {
+                            viewModel.updateModelField(
+                                CreateFarmFormUIState::showSubCategoryBottomSheet,
+                                true
+                            )
+                        }
+                    )
+                }
             }
 
-
-            item {
-                CustomInputTextField(
-                    labelText = "Name",
-                    value = fruitRecordingFormUiState.customerName,
-                    onValueChange = {
-                        viewModel.updateStringField(CreateFarmFormUIState::customerName, it)
-                    },
-                )
-            }
-
-            item {
-                CustomInputTextField(
-                    labelText = "Phone",
-                    value = fruitRecordingFormUiState.customerPhone,
-                    onValueChange = {
-                        viewModel.updateStringField(CreateFarmFormUIState::customerPhone, it)
-                    },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                )
-            }
-
-            item {
-                CustomInputTextField(
-                    labelText = "Email",
-                    value = fruitRecordingFormUiState.customerEmail,
-                    onValueChange = {
-                        viewModel.updateStringField(CreateFarmFormUIState::customerEmail, it)
-                    },
-                )
-            }
 
             item {
                 Spacer(modifier = Modifier.height(34.dp))
             }
             item {
                 val buttonTitle =
-                    if (fruitRecordingFormUiState.isUpdatingItem) "Update Csutomer" else "Add Customer"
+                    if (createFarmFormUiState.isUpdatingItem) "Update Farm" else "Create Farm"
                 CustomBtn(
                     onClick = {
-                        when (fruitRecordingFormUiState.isUpdatingItem) {
+                        when (createFarmFormUiState.isUpdatingItem) {
                             true -> {
                                 viewModel.saveCustomerEntity()
                             }
@@ -208,6 +207,128 @@ fun CreateFarmForm(
                     btnText = buttonTitle
                 )
             }
+        }
+
+        BottomSheetSelection(
+            visible = createFarmFormUiState.showCategoryBottomSheet,
+            title = "Farm Category",
+            items = farmCategories,
+            searchValue = "",
+            onSearchValueChange ={ query ->
+            },
+            onDismissRequest = {
+                viewModel.updateModelField(CreateFarmFormUIState::showCategoryBottomSheet, false)
+            },
+            onItemSelected = { selectedCategory ->
+                viewModel.updateModelField(CreateFarmFormUIState::selectedCategory, selectedCategory)
+                viewModel.updateModelField(CreateFarmFormUIState::showCategoryBottomSheet, false)
+            },
+            itemContent = { category ->
+                FarmCategoryItem(category) {
+                    viewModel.updateModelField(CreateFarmFormUIState::selectedCategory, category)
+                    viewModel.updateModelField(CreateFarmFormUIState::showCategoryBottomSheet, false)
+                }
+            },
+            isSearchEnabled = false
+        )
+
+
+        BottomSheetSelection(
+            visible = createFarmFormUiState.showSubCategoryBottomSheet,
+            title = "Farm Sub Category",
+            items = createFarmFormUiState.selectedCategory?.subcategories ?: emptyList(),
+            searchValue = "",
+            onSearchValueChange ={ query ->
+            },
+            onDismissRequest = {
+                viewModel.updateModelField(CreateFarmFormUIState::showSubCategoryBottomSheet, false)
+            },
+            onItemSelected = { selectedCategory ->
+                viewModel.updateModelField(CreateFarmFormUIState::selectedFarmSubcategory, selectedCategory)
+                viewModel.updateModelField(CreateFarmFormUIState::showSubCategoryBottomSheet, false)
+            },
+            itemContent = { subCategory ->
+                FarmSubCategoryItem(subCategory) {
+                    viewModel.updateModelField(CreateFarmFormUIState::selectedFarmSubcategory, subCategory)
+                    viewModel.updateModelField(CreateFarmFormUIState::showSubCategoryBottomSheet, false)
+                }
+            },
+            isSearchEnabled = false
+        )
+
+
+    }
+}
+
+
+
+@Composable
+fun FarmCategoryItem(farmCategory: FarmCategory, onBookClick: () -> Unit) {
+    val categoryNumber = " ${farmCategory.id}."
+    val titleText = farmCategory.name
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp, horizontal = 8.dp)
+            .clickable(onClick = onBookClick),
+        elevation = CardDefaults.cardElevation(4.dp),
+        shape = MaterialTheme.shapes.medium
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    ) {
+                        append(categoryNumber)
+                    }
+                    withStyle(style = SpanStyle()) {
+                        append(" $titleText")
+                    }
+                }
+            )
+        }
+    }
+}
+
+
+@Composable
+fun FarmSubCategoryItem(farmSubCategory: FarmSubcategory, onBookClick: () -> Unit) {
+    val categoryNumber = " ${farmSubCategory.id}."
+    val titleText = farmSubCategory.name
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp, horizontal = 8.dp)
+            .clickable(onClick = onBookClick),
+        elevation = CardDefaults.cardElevation(4.dp),
+        shape = MaterialTheme.shapes.medium
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(
+                        style = SpanStyle(
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    ) {
+                        append(categoryNumber)
+                    }
+                    withStyle(style = SpanStyle()) {
+                        append(" $titleText")
+                    }
+                }
+            )
         }
     }
 }

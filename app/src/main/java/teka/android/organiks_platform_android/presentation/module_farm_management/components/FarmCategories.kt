@@ -1,41 +1,41 @@
 package teka.android.organiks_platform_android.presentation.module_farm_management.components;
 
-data class Subcategory(
+data class FarmSubcategory(
     val id: Int,
     val name: String
 )
 
-data class Category(
+data class FarmCategory(
     val id: Int,
     val name: String,
-    val subcategories: List<Subcategory>
+    val subcategories: List<FarmSubcategory>
 )
 
 val farmCategories = listOf(
-    Category(
+    FarmCategory(
         id = 1,
         name = "Fruit",
         subcategories = listOf(
-            Subcategory(1, "Tamarillo"),
-            Subcategory(2, "Mango"),
-            Subcategory(3, "Oranges")
+            FarmSubcategory(1, "Tamarillo"),
+            FarmSubcategory(2, "Mango"),
+            FarmSubcategory(3, "Oranges")
         )
     ),
-    Category(
+    FarmCategory(
         id = 2,
         name = "Poultry",
         subcategories = listOf(
-            Subcategory(4, "Chicken"),
-            Subcategory(5, "Ducks")
+            FarmSubcategory(4, "Chicken"),
+            FarmSubcategory(5, "Ducks")
         )
     ),
-    Category(
+    FarmCategory(
         id = 3,
         name = "Animal",
         subcategories = listOf(
-            Subcategory(6, "Cows"),
-            Subcategory(7, "Goats"),
-            Subcategory(8, "Sheep")
+            FarmSubcategory(6, "Cows"),
+            FarmSubcategory(7, "Goats"),
+            FarmSubcategory(8, "Sheep")
         )
     )
 )
