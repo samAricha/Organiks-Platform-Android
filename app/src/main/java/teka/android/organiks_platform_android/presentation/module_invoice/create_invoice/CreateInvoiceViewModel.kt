@@ -8,6 +8,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import me.kariot.invoicegenerator.data.ModelInvoiceFooter
@@ -23,6 +26,10 @@ import teka.android.organiks_platform_android.util.TextFieldStateMngr
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KMutableProperty1
+import kotlinx.coroutines.flow.onEach
+import teka.android.organiks_platform_android.util.helpers.InvoiceGenerator
+import java.util.Locale
+
 
 private const val CI_VM_TAG = "CI_VM_TAG"
 
@@ -42,6 +49,7 @@ class CreateInvoiceViewModel @Inject constructor(
     init {
         observeFruitCollection()
         observeCustomerList()
+        observeTotalAmount()
     }
 
     private fun observeCustomerList() {
@@ -54,7 +62,6 @@ class CreateInvoiceViewModel @Inject constructor(
 
     private fun observeFruitCollection() {
         viewModelScope.launch {
-
             if (fruitCollectionUUId == null) {
                 Timber.tag(CI_VM_TAG).w("GateLog ID is null, skipping fetch")
                 updateModelField(CreateInvoiceUiState::isFetchingFruitCollection, false)
@@ -76,157 +83,28 @@ class CreateInvoiceViewModel @Inject constructor(
     }
 
 
-
-
-    private val invoiceHelper = InvoiceGeneratorHelper(appContext)
-
-    fun generateInvoice(): String? {
-        // Header data
-        val headerData = ModelInvoiceHeader(
-            phoneNumber = createInvoiceUiState.value.issuerPhone.text,
-            emailAddress = createInvoiceUiState.value.issuerEmail.text,
-            websiteURL = "www.organiks.com",
-            address = ModelInvoiceHeader.ModelAddress(
-                "",
-                "",
-                ""
-            )
-        )
-
-        // Customer info
-        val customerInfo = createInvoiceUiState.value.selectedCustomer?.let {
-            ModelInvoiceInfo.ModelCustomerInfo(
-                name = it.name,
-                addressLine1 = it.phone,
-                addressLine2 = "",
-                addressLine3 = ""
-            )
-        }
-
-        // Table header
-        val tableHeader = ModelTableHeader(
-            firstColoumn = "Item",
-            secondColoumn = "Description",
-            thirdColoumn = "Unit Price",
-            fourthColoumn = "Quantity",
-            fifthColoumn = "Total"
-        )
-
-        // Table data
-        val tableData = arrayListOf(
-            ModelInvoiceItem(
-                createInvoiceUiState.value.currentFruitCollection!!.fruitTypeId,
-                "item desc",
-                "Description 1",
-                createInvoiceUiState.value.unitPrice.text,
-                createInvoiceUiState.value.currentFruitCollection!!.qty,
-                createInvoiceUiState.value.totalAmount.text
-            )
-        )
-
-
-
-        // Price info
-        val priceInfo =   ModelInvoicePriceInfo(
-            subTotal = createInvoiceUiState.value.unitPrice.text,
-            taxTotal = "0",
-            invoiceTotal = createInvoiceUiState.value.totalAmount.text
-        )
-
-        // Footer data
-        val footerData = ModelInvoiceFooter("Thank you for your business!")
-
-        // Call helper to generate the invoice
-        return invoiceHelper.generateInvoice(
-            fileName = "Invoice_0002",
-            headerData = headerData,
-            customerInfo = customerInfo!!,
-            invoiceNumber = "INV-0002",
-            invoiceDate = createInvoiceUiState.value.date.date.toString(),
-            invoiceAmount = createInvoiceUiState.value.totalAmount.text,
-            tableHeader = tableHeader,
-            tableData = tableData,
-            priceInfo = priceInfo,
-            footerData = footerData
-        )
+    private fun observeTotalAmount() {
+        combine(
+            _createInvoiceUiState.map { it.unitPrice.text },
+            _createInvoiceUiState.map { it.currentFruitCollection?.qty ?: "0" }
+        ) { unitPrice, quantity ->
+            val price = unitPrice.toDoubleOrNull() ?: 0.0
+            val qty = quantity.toDoubleOrNull() ?: 0.0
+            String.format(Locale.US, "%.2f", price * qty)
+        }.onEach { total ->
+            _createInvoiceUiState.update {
+                it.copy(totalAmount = it.totalAmount.copy(text = total))
+            }
+        }.launchIn(viewModelScope)
     }
 
 
-    fun generateSampleInvoice(): String? {
-        // Header data
-        val headerData = ModelInvoiceHeader(
-            phoneNumber = "(123) 456-7890",
-            emailAddress = "example@mail.com",
-            websiteURL = "www.example.com",
-            address = ModelInvoiceHeader.ModelAddress(
-                "123 Main Street",
-                "Suite 456",
-                "City, State, ZIP"
-            )
-        )
 
-        // Customer info
-        val customerInfo = ModelInvoiceInfo.ModelCustomerInfo(
-            name = "John Doe",
-            addressLine1 = "456 Elm Street",
-            addressLine2 = "Apt 7B",
-            addressLine3 = "City, State, ZIP"
-        )
+    private val invoiceGenerator = InvoiceGenerator()
+    private val invoiceHelper = InvoiceGeneratorHelper(appContext)
 
-        // Table header
-        val tableHeader = ModelTableHeader(
-            firstColoumn = "Item",
-            secondColoumn = "Description",
-            thirdColoumn = "Unit Price",
-            fourthColoumn = "Quantity",
-            fifthColoumn = "Total"
-        )
-
-        // Table data
-        val tableData = arrayListOf(
-            ModelInvoiceItem(
-                "Item 1",
-                "item desc",
-                "Description 1",
-                "50",
-                "2",
-                "100"
-            ),
-            ModelInvoiceItem(
-                "Item 2",
-                "item desc",
-                "Description 2",
-                "100",
-                "1",
-                "100"
-            )
-        )
-
-
-
-        // Price info
-        val priceInfo =   ModelInvoicePriceInfo(
-            subTotal = "200",
-            taxTotal = "20",
-            invoiceTotal = "220"
-        )
-
-        // Footer data
-        val footerData = ModelInvoiceFooter("Thank you for your business!")
-
-        // Call helper to generate the invoice
-        return invoiceHelper.generateInvoice(
-            fileName = "Invoice_0002",
-            headerData = headerData,
-            customerInfo = customerInfo,
-            invoiceNumber = "INV-0001",
-            invoiceDate = "2024-11-30",
-            invoiceAmount = "220",
-            tableHeader = tableHeader,
-            tableData = tableData,
-            priceInfo = priceInfo,
-            footerData = footerData
-        )
+    fun generateInvoice(): String? {
+        return invoiceGenerator.generateInvoice(createInvoiceUiState.value, invoiceHelper)
     }
 
 

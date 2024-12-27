@@ -1,8 +1,10 @@
 package teka.android.organiks_platform_android.domain.authentication.models
 
+import android.annotation.SuppressLint
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class AuthResponse(
     val isSuccessful: Boolean,
@@ -22,6 +24,7 @@ data class AuthData(
 
 
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class User(
     val id: Int,

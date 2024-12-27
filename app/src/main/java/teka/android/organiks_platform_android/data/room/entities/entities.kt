@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.data.room.entities
 
+
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -63,7 +64,7 @@ data class MilkCollection(
     val date: Long = System.currentTimeMillis(),
     val createdAt: Long = System.currentTimeMillis(),
     var isBackedUp: Boolean = false,
-    ){
+){
     companion object {
         private fun generateUniqueId(): String {
             return UUID.randomUUID().toString()
@@ -146,6 +147,60 @@ data class InvoiceEntity(
 }
 
 
+@Entity(tableName = "farm_table")
+data class FarmEntity(
+    @ColumnInfo(name = "farm_id")
+    @PrimaryKey
+    val farmId: String = generateUniqueId(),
+    val name: String,
+    val categoryId: String,
+    val categoryName: String,
+    val subCategoryId: String,
+    val subCategoryName: String,
+    val date: Long,
+    val time: String,
+    var isBackedUp: Boolean = false,
+    val createdAt: Long = System.currentTimeMillis()
+) {
+    companion object {
+        fun generateUniqueId(): String {
+            return UUID.randomUUID().toString()
+        }
+    }
 
+    val searchableString: String
+        get() = "${name} ${categoryName} ${subCategoryName}"
+}
+
+@Entity(tableName = "expenditure_table")
+data class ExpenditureEntity(
+    @ColumnInfo(name = "expenditure_id")
+    @PrimaryKey
+    val expenditureId: String = generateUniqueId(),
+    val expenditureTypeId: String = generateUniqueId(),
+    val expenditureTypeName: String = generateUniqueId(),
+    val expenditureSubTypeId: String = generateUniqueId(),
+    val expenditureSubTypeName: String = generateUniqueId(),
+    val farmId: String,
+    val farmName: String,
+    val farmCategoryId: String,
+    val farmCategoryName: String,
+    val farmSubCategoryId: String,
+    val farmSubCategoryName: String,
+    val amount: String,
+    val date: Long,
+    val time: String,
+    var isBackedUp: Boolean = false,
+    val createdAt: Long = System.currentTimeMillis()
+) {
+    companion object {
+        fun generateUniqueId(): String {
+            return UUID.randomUUID().toString()
+        }
+    }
+
+    val searchableString: String
+        get() = "${expenditureTypeName} ${expenditureSubTypeName} ${farmCategoryName} ${farmSubCategoryName}"
+}
 
 

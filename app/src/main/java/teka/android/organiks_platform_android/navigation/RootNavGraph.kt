@@ -3,6 +3,8 @@ package teka.android.organiks_platform_android.navigation
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,7 +21,6 @@ fun RootNavGraph(
     startDestination: String,
     authViewModel: AuthViewModel
 ) {
-    val appState = rememberAppState(navHostController = navController)
 
 
     NavHost(
@@ -31,7 +32,7 @@ fun RootNavGraph(
         authNavGraph(navController = navController)
 
         composable(route = To_MAIN_GRAPH_ROUTE){
-            MainAppScreen(appState)
+            MainAppScreen()
         }
 
     }

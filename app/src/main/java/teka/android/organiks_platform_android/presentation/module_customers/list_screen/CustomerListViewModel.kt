@@ -10,7 +10,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.domain.repository.DbRepository
-import teka.android.organiks_platform_android.presentation.module_fruits.list_screen.CustomerListUIState
 import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KMutableProperty1

@@ -37,7 +37,8 @@ fun <T> BottomSheetSelection(
     items: List<T>,
     onDismissRequest: () -> Unit,
     onItemSelected: (T) -> Unit,
-    itemContent: @Composable (T) -> Unit
+    itemContent: @Composable (T) -> Unit,
+    isSearchEnabled: Boolean = true
 ) {
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true,
@@ -96,16 +97,18 @@ fun <T> BottomSheetSelection(
 
                 }
 
-                SimpleSearchInputWidget(
-                    value = searchValue,
-                    onValueChange = { query ->
-                        onSearchValueChange(query)
-                    },
-                    placeholderText = "Search ...",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                )
+                if (isSearchEnabled) {
+                    SimpleSearchInputWidget(
+                        value = searchValue,
+                        onValueChange = { query ->
+                            onSearchValueChange(query)
+                        },
+                        placeholderText = "Search ...",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp)
+                    )
+                }
                 Spacer(modifier = Modifier.height(8.dp))
             }
 

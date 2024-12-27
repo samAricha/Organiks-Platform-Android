@@ -62,7 +62,7 @@ import teka.android.organiks_platform_android.R
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 import teka.android.organiks_platform_android.presentation.feature_auth.AuthViewModel
-import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.SignInViewModel
+import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.FirebaseSignInViewModel
 import teka.android.organiks_platform_android.ui.theme.BottomBoxShape
 import teka.android.organiks_platform_android.ui.theme.GrayColor
 import teka.android.organiks_platform_android.ui.theme.LightTextColor
@@ -107,8 +107,8 @@ fun RegisterScreen(
     //firebase login
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
-    val signInViewModel = viewModel<SignInViewModel>()
-    val state by signInViewModel.state.collectAsStateWithLifecycle()
+    val firebaseSignInViewModel = viewModel<FirebaseSignInViewModel>()
+    val state by firebaseSignInViewModel.state.collectAsStateWithLifecycle()
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
@@ -118,7 +118,7 @@ fun RegisterScreen(
                 val intent = result.data ?: return@launch
                 try {
                     val signInResult = authViewModel.googleAuthUiClient.signInWithIntent(intent)
-                    signInViewModel.onSignInResult(signInResult)
+                    firebaseSignInViewModel.onSignInResult(signInResult)
                 } catch (e: Exception) {
                     // Handle exception
                     e.printStackTrace()
@@ -136,7 +136,7 @@ fun RegisterScreen(
             ).show()
 
             navController.navigate(To_MAIN_GRAPH_ROUTE)
-            signInViewModel.resetState()
+            firebaseSignInViewModel.resetState()
         }
     }
     LaunchedEffect(key1 = state.signInError) {

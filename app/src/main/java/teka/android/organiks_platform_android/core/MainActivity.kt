@@ -29,7 +29,7 @@ import teka.android.organiks_platform_android.presentation.feature_auth.AuthView
 import teka.android.organiks_platform_android.presentation.feature_auth.UserState
 import teka.android.organiks_platform_android.domain.repository.DataStoreRepository
 import teka.android.organiks_platform_android.presentation.feature_firebase_auth.FirebaseAuthViewModel
-import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.SignInViewModel
+import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.FirebaseSignInViewModel
 import teka.android.organiks_platform_android.ui.theme.OrganiksPlatformAndroidTheme
 import teka.android.organiks_platform_android.util.components.SetBarColor
 
@@ -55,32 +55,17 @@ class MainActivity : ComponentActivity() {
         // Create an instance of the ViewModel manually
         splashViewModel = ViewModelProvider(this)[SplashViewModel::class.java]
         splashViewModel.init(DataStoreRepository(context = applicationContext))
-//        val startDestination by splashViewModel.startDestination
+        var startDestination by splashViewModel.startDestination
         splashViewModel.startDestination.value?.let { Log.d("TAG3", it) }
-//        splashScreen.setKeepOnScreenCondition{ startDestination.isNullOrEmpty() }
+        splashScreen.setKeepOnScreenCondition{ startDestination.isNullOrEmpty() }
 
 
         setContent {
-//            val imeiState = rememberImeState()
             window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
             splashViewModel.startDestination.value?.let { Log.d("TAG3", it) }
 
-            var startDestination by remember { mutableStateOf<String?>(null) }
-
-
-
-            //firebase and Google Authentication
-//            val googleAuthUiClient by lazy {
-//                GoogleAuthUiClient(
-//                    context = applicationContext,
-//                    oneTapClient = Identity.getSignInClient(applicationContext)
-//                )
-//            }
-
-            val viewModel = viewModel<SignInViewModel>()
+            val viewModel = viewModel<FirebaseSignInViewModel>()
             val state by viewModel.state.collectAsStateWithLifecycle()
-
-
 
 
 
@@ -94,8 +79,8 @@ class MainActivity : ComponentActivity() {
                     val currentUser = firebaseAuthViewModel.currentUser.collectAsState().value
 
                     LaunchedEffect(currentUser) {
-//                        startDestination = if (currentUser != null) To_MAIN_GRAPH_ROUTE else AUTH_GRAPH_ROUTE
-                        startDestination = To_MAIN_GRAPH_ROUTE
+                        startDestination = if (currentUser != null) To_MAIN_GRAPH_ROUTE else AUTH_GRAPH_ROUTE
+//                        startDestination = To_MAIN_GRAPH_ROUTE
                     }
 
 

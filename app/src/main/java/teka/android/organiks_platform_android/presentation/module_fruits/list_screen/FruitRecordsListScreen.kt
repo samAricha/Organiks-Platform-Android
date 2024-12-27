@@ -163,7 +163,7 @@ fun FruitRecordsListScreen(
                 navController.navigate(AppScreens.FruitRecordingForm.route)
 
             },
-            icon = { Icon(Icons.Filled.Add, contentDescription = "Add GateLog") },
+            icon = { Icon(Icons.Filled.Add, contentDescription = "Add Fruit") },
             text = { Text(text = "Add Fruit") },
         )
     }

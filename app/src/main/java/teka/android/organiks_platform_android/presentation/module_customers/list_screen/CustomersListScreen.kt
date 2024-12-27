@@ -67,7 +67,7 @@ fun CustomersListScreen(
             },
             onDateRangeSelected = { selectedRange ->
                 viewModel.onDateRangeSelected(selectedRange)
-            },
+            }
         )
     }
 
@@ -163,7 +163,7 @@ fun CustomersListScreen(
                 navController.navigate(AppScreens.AddCustomerForm.route)
 
             },
-            icon = { Icon(Icons.Filled.Add, contentDescription = "Add GateLog") },
+            icon = { Icon(Icons.Filled.Add, contentDescription = "Add Customer") },
             text = { Text(text = "Add Customer") },
         )
     }

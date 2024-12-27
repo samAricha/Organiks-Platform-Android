@@ -13,6 +13,7 @@ import teka.android.organiks_platform_android.util.today
 data class CreateInvoiceUiState(
     var unitPrice: TextFieldStateMngr = (TextFieldStateMngr(labelText = "unit price")),
     var totalAmount: TextFieldStateMngr = (TextFieldStateMngr(labelText = "total amount")),
+    var totalExpenses: TextFieldStateMngr = (TextFieldStateMngr(labelText = "total expenses")),
     var issuerName: TextFieldStateMngr = (TextFieldStateMngr(labelText = "issucer Name")),
     var issuerPhone: TextFieldStateMngr = (TextFieldStateMngr(labelText = "issuer Phone")),
     var issuerEmail: TextFieldStateMngr = (TextFieldStateMngr(labelText = "issuer Email")),

@@ -1,10 +1,12 @@
 package teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.dto
 
+import android.annotation.SuppressLint
 import io.ktor.util.encodeBase64
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class Request(
     @SerialName("contents") private val contents: List<RequestContent>

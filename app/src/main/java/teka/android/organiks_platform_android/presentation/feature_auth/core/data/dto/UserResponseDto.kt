@@ -1,9 +1,11 @@
 package teka.android.organiks_platform_android.presentation.feature_auth.core.data.dto
 
 
+import android.annotation.SuppressLint
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class UserResponseDto(
     val address: Address,

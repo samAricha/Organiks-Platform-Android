@@ -1,6 +1,7 @@
 package teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in
 
 import android.app.Activity.RESULT_OK
+import android.content.IntentSender
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
@@ -9,9 +10,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -21,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 import teka.android.organiks_platform_android.presentation.feature_auth.AuthViewModel
@@ -34,8 +36,8 @@ fun SignInScreen(
 
     val authViewModel: AuthViewModel = UserState.current
 
-    val viewModel = viewModel<SignInViewModel>()
-    val state by viewModel.state.collectAsStateWithLifecycle()
+    val firebaseSignInViewModel = viewModel<FirebaseSignInViewModel>()
+    val state by firebaseSignInViewModel.state.collectAsStateWithLifecycle()
     val coroutineScope = rememberCoroutineScope()
 
 
@@ -47,7 +49,7 @@ fun SignInScreen(
                 val intent = result.data ?: return@launch
                 try {
                     val signInResult = authViewModel.googleAuthUiClient.signInWithIntent(intent)
-                    viewModel.onSignInResult(signInResult)
+                    firebaseSignInViewModel.onSignInResult(signInResult)
                 } catch (e: Exception) {
                     // Handle exception
                     e.printStackTrace()
@@ -65,7 +67,7 @@ fun SignInScreen(
             ).show()
 
             navController.navigate(To_MAIN_GRAPH_ROUTE)
-            viewModel.resetState()
+            firebaseSignInViewModel.resetState()
         }
     }
 
@@ -92,8 +94,9 @@ fun SignInScreen(
     ) {
         Button(
             onClick = {
+                firebaseSignInViewModel.onSignInStarted(true)
                 coroutineScope.launch {
-                    val signInIntentSender = authViewModel.googleAuthUiClient.signIn()
+                    val signInIntentSender:IntentSender? = authViewModel.googleAuthUiClient.signIn()
                     launcher.launch(
                         IntentSenderRequest.Builder(
                             signInIntentSender ?: return@launch
@@ -102,6 +105,18 @@ fun SignInScreen(
                 }
             }) {
             Text(text = "Sign in")
+        }
+    }
+
+
+    while(state.isSigningStarted){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
         }
     }
 }

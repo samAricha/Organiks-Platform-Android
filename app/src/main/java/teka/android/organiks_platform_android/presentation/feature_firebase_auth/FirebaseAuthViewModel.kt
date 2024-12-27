@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FirebaseAuthViewModel @Inject constructor(
-    private val repository: FirebaseAuthRepository
+    private val repository: FirebaseAuthRepository,
 ): ViewModel() {
     val currentUser = getAuthState()
 
@@ -24,4 +24,8 @@ class FirebaseAuthViewModel @Inject constructor(
     fun signOut() = CoroutineScope(Dispatchers.IO).launch {
         repository.signOut()
     }
+
+
+
+
 }

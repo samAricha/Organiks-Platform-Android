@@ -1,33 +1,27 @@
 package teka.android.organiks_platform_android.presentation.feature_auth.login
 
 import android.app.Activity.RESULT_OK
+import android.content.IntentSender
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,9 +30,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -49,12 +40,12 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.R
-import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.navigation.To_MAIN_GRAPH_ROUTE
 import teka.android.organiks_platform_android.presentation.feature_auth.AuthViewModel
-import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.SignInViewModel
+import teka.android.organiks_platform_android.presentation.feature_firebase_auth.sign_in.FirebaseSignInViewModel
 import teka.android.organiks_platform_android.ui.theme.*
 import teka.android.organiks_platform_android.util.UiEvents
+import teka.android.organiks_platform_android.util.components.ProgressIndicatorWidget
 
 
 @Composable
@@ -74,8 +65,9 @@ fun LoginScreen(
     val coroutineScope = rememberCoroutineScope()
 
     //firebase login
-    val signInViewModel = viewModel<SignInViewModel>()
-    val state by signInViewModel.state.collectAsStateWithLifecycle()
+    val firebaseSignInViewModel = viewModel<FirebaseSignInViewModel>()
+    val signInState by firebaseSignInViewModel.state.collectAsStateWithLifecycle()
+
 
     val launcher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
@@ -85,17 +77,19 @@ fun LoginScreen(
                 val intent = result.data ?: return@launch
                 try {
                     val signInResult = authViewModel.googleAuthUiClient.signInWithIntent(intent)
-                    signInViewModel.onSignInResult(signInResult)
+                    firebaseSignInViewModel.onSignInResult(signInResult)
                 } catch (e: Exception) {
                     // Handle exception
                     e.printStackTrace()
                 }
             }
+        }else{
+            firebaseSignInViewModel.onSignInStarted(false)
         }
     }
 
-    LaunchedEffect(key1 = state.isSignInSuccessful) {
-        if (state.isSignInSuccessful) {
+    LaunchedEffect(key1 = signInState.isSignInSuccessful) {
+        if (signInState.isSignInSuccessful) {
             Toast.makeText(
                 authViewModel.applicationContext,
                 "Sign in successful",
@@ -103,11 +97,11 @@ fun LoginScreen(
             ).show()
 
             navController.navigate(To_MAIN_GRAPH_ROUTE)
-            signInViewModel.resetState()
+            firebaseSignInViewModel.resetState()
         }
     }
-    LaunchedEffect(key1 = state.signInError) {
-        state.signInError?.let { error ->
+    LaunchedEffect(key1 = signInState.signInError) {
+        signInState.signInError?.let { error ->
             Toast.makeText(
                 context,
                 error,
@@ -144,9 +138,7 @@ fun LoginScreen(
                     }
                     delay(1000)
 
-                    navController.navigate(
-                        event.route
-                    )
+                    navController.navigate(event.route)
                 }
             }
         }
@@ -234,8 +226,9 @@ fun LoginScreen(
 
                         Button(
                             onClick = {
+                                firebaseSignInViewModel.onSignInStarted(true)
                                 coroutineScope.launch {
-                                    val signInIntentSender = authViewModel.googleAuthUiClient.signIn()
+                                    val signInIntentSender:IntentSender? = authViewModel.googleAuthUiClient.signIn()
                                     launcher.launch(
                                         IntentSenderRequest.Builder(
                                             signInIntentSender ?: return@launch
@@ -500,8 +493,18 @@ fun LoginScreen(
                     }*/
                 }
             }
+    }
 
-
+    if(signInState.isSigningStarted){
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.5f))
+                .padding(16.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            ProgressIndicatorWidget()
+        }
     }
 
 }

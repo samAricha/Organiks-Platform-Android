@@ -9,10 +9,13 @@ import teka.android.organiks_platform_android.data.room.converters.DateConverter
 import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
 import teka.android.organiks_platform_android.data.room.entities.EggCollection
 import teka.android.organiks_platform_android.data.room.entities.EggType
+import teka.android.organiks_platform_android.data.room.entities.ExpenditureEntity
+import teka.android.organiks_platform_android.data.room.entities.FarmEntity
 import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
 import teka.android.organiks_platform_android.data.room.entities.MilkCollection
 import teka.android.organiks_platform_android.data.room.entities.ProductionCategory
+
 
 @TypeConverters(value = [DateConverter::class])
 @Database(
@@ -23,8 +26,9 @@ import teka.android.organiks_platform_android.data.room.entities.ProductionCateg
         MilkCollection::class,
         FruitCollectionEntity::class,
         CustomerEntity::class,
-        InvoiceEntity::class
-
+        InvoiceEntity::class,
+        FarmEntity::class,
+        ExpenditureEntity::class
                ],
     version = 1,
     exportSchema = false
@@ -37,6 +41,8 @@ abstract class OrganiksDatabase: RoomDatabase() {
     abstract fun fruitCollectionDao():FruitCollectionDao
     abstract fun customerDao():CustomerDao
     abstract fun invoiceDao():InvoiceDao
+    abstract fun farmDao():FarmDao
+    abstract fun expenditureDao(): ExpenditureDao
     abstract fun productionCategoryDao():ProductionCategoryDao
 
     companion object{
@@ -52,7 +58,6 @@ abstract class OrganiksDatabase: RoomDatabase() {
                 INSTANCE= instance
                 return instance
             }
-
         }
     }
 

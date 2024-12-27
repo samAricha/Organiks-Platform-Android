@@ -1,7 +1,9 @@
 package teka.android.organiks_platform_android.domain.authentication.models
 
+import android.annotation.SuppressLint
 import kotlinx.serialization.Serializable
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class RegisterRequest(
     val name: String? = null,
@@ -11,12 +13,14 @@ data class RegisterRequest(
     val password_confirmation: String
     )
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class LoginRequest(
     val username: String,
     val password: String
 )
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class PersonInfoRequest(
     val username: String,
