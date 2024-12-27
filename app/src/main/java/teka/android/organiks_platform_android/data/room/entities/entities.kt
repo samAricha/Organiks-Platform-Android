@@ -128,13 +128,15 @@ data class InvoiceEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val uuid: String = generateUniqueId(),
+    val customerId: String,
     val toName: String,
     val toPhone: String,
     val fromName: String,
     val fromPhone: String,
     val totalAmount: String,
+    val totalExpenses: String,
     val fruitCollection: String,
-    val date: Long,
+    val date: String,
     val time: String,
     var isBackedUp: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()

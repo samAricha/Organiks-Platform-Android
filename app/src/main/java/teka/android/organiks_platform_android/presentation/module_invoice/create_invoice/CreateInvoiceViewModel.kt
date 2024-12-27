@@ -27,6 +27,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KMutableProperty1
 import kotlinx.coroutines.flow.onEach
+import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
 import teka.android.organiks_platform_android.util.helpers.InvoiceGenerator
 import java.util.Locale
 
@@ -98,13 +99,38 @@ class CreateInvoiceViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-
-
     private val invoiceGenerator = InvoiceGenerator()
     private val invoiceHelper = InvoiceGeneratorHelper(appContext)
 
+    
     fun generateInvoice(): String? {
         return invoiceGenerator.generateInvoice(createInvoiceUiState.value, invoiceHelper)
+    }
+    
+    fun createInvoice(){
+        viewModelScope.launch {
+            val invoice = createInvoiceUiState.value.selectedCustomer?.let {
+                createInvoiceUiState.value.currentFruitCollection?.let { it1 ->
+                    InvoiceEntity(
+                        toName = it.name,
+                        toPhone = it.phone,
+                        fromName = createInvoiceUiState.value.issuerName.text,
+                        fromPhone = createInvoiceUiState.value.issuerPhone.text,
+                        totalAmount = createInvoiceUiState.value.totalAmount.text,
+                        totalExpenses = createInvoiceUiState.value.totalExpenses.text,
+                        fruitCollection = it1.qty,
+                        date = createInvoiceUiState.value.date.date.toString(),
+                        time = createInvoiceUiState.value.time.toString(),
+                        customerId = it.uuid,
+                    )
+                }
+            }
+            var filePath:String? = null
+            if (invoice != null) {
+                dbRepository.insertInvoiceEntity(invoice)
+                filePath = generateInvoice()
+            }
+        }
     }
 
 

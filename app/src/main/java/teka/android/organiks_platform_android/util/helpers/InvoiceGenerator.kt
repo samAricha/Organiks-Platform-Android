@@ -63,7 +63,7 @@ class InvoiceGenerator {
         val priceInfo = ModelInvoicePriceInfo(
             subTotal = createInvoiceUiState.totalAmount.text,
             taxTotal = "0",
-            invoiceTotal = formatCash(createInvoiceUiState.totalAmount.text)
+            invoiceTotal = formatCash((createInvoiceUiState.totalAmount.text.toDouble() + createInvoiceUiState.totalExpenses.text.toDouble()).toString())
         )
 
         // Footer data
@@ -76,7 +76,7 @@ class InvoiceGenerator {
             customerInfo = customerInfo ?: throw IllegalArgumentException("Customer info is required"),
             invoiceNumber = "INV-0002",
             invoiceDate = createInvoiceUiState.date.date.toString(),
-            invoiceAmount = formatCash(createInvoiceUiState.totalAmount.text),
+            invoiceAmount = formatCash((createInvoiceUiState.totalAmount.text.toDouble() + createInvoiceUiState.totalExpenses.text.toDouble()).toString()),
             tableHeader = tableHeader,
             tableData = tableData,
             priceInfo = priceInfo,

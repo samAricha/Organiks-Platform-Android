@@ -239,6 +239,7 @@ fun CreateInvoiceScreen(
                 CustomBtn(
                     btnText = "Generate Invoice",
                     onClick = {
+                        viewModel.createInvoice()
                         val filePath = viewModel.generateInvoice()
                         if (filePath != null) {
                             Timber.tag("Invoice Screen::filePath").i(filePath)
@@ -246,7 +247,8 @@ fun CreateInvoiceScreen(
                             navController.navigate(AppScreens.InvoiceListScreen.route)
                         } else {
                             Toast.makeText(context, "Failed to generate invoice.", Toast.LENGTH_LONG).show()
-                        }            }
+                        }
+                    }
                 )
             }
         }
