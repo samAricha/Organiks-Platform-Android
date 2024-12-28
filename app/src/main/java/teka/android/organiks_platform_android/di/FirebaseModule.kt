@@ -1,5 +1,6 @@
 package teka.android.organiks_platform_android.di
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import teka.android.organiks_platform_android.data.remote.firebase.FirebaseConstants
@@ -24,6 +25,14 @@ object FirebaseModule {
 
     @Singleton
     @Provides
+    @Named("userId")
+    fun provideUserId(auth: FirebaseAuth): String {
+        return auth.currentUser?.uid ?: throw Exception("User is not logged in")
+    }
+
+
+    @Singleton
+    @Provides
     fun provideFirestoreInstance(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
     }
@@ -36,38 +45,78 @@ object FirebaseModule {
 
 
 
+//    @Singleton
+//    @Provides
+//    @Named("fruitCollection")
+//    fun provideFruitCollection(): CollectionReference {
+//        return FirebaseFirestore
+//            .getInstance()
+//            .collection(FirebaseConstants.FRUIT_COLLECTIONS)
+//    }
+//
+//
+//    @Singleton
+//    @Provides
+//    @Named("customerCollection")
+//    fun provideCustomerCollection(): CollectionReference {
+//        return FirebaseFirestore
+//            .getInstance()
+//            .collection(FirebaseConstants.CUSTOMER_COLLECTION)
+//    }
+//
+//    @Singleton
+//    @Provides
+//    @Named("invoiceCollection")
+//    fun provideInvoiceCollection(): CollectionReference {
+//        return FirebaseFirestore
+//            .getInstance()
+//            .collection(FirebaseConstants.INVOICE_COLLECTION)
+//    }
+
+
+    @Singleton
+    @Provides
+    @Named("invoiceCollection")
+    fun provideInvoiceCollection(
+        @Named("userId") userId: String
+    ): CollectionReference {
+        return FirebaseFirestore
+            .getInstance()
+            .collection("tenants") // Root collection for tenants
+            .document(userId)    // Tenant document
+            .collection(FirebaseConstants.INVOICE_COLLECTION) // Subcollection for invoices
+    }
+
+    @Singleton
+    @Provides
+    @Named("customerCollection")
+    fun provideCustomerCollection(
+        @Named("userId") userId: String
+    ): CollectionReference {
+        return FirebaseFirestore
+            .getInstance()
+            .collection("tenants")
+            .document(userId)
+            .collection(FirebaseConstants.CUSTOMER_COLLECTION)
+    }
+
     @Singleton
     @Provides
     @Named("fruitCollection")
-    fun provideFruitCollection(): CollectionReference {
+    fun provideFruitCollection(
+        @Named("userId") userId: String
+    ): CollectionReference {
         return FirebaseFirestore
             .getInstance()
+            .collection("tenants")
+            .document(userId)
             .collection(FirebaseConstants.FRUIT_COLLECTIONS)
     }
 
 
     @Singleton
     @Provides
-    @Named("customerCollection")
-    fun provideCustomerCollection(): CollectionReference {
-        return FirebaseFirestore
-            .getInstance()
-            .collection(FirebaseConstants.CUSTOMER_COLLECTION)
-    }
-
-    @Singleton
-    @Provides
-    @Named("invoiceCollection")
-    fun provideInvoiceCollection(): CollectionReference {
-        return FirebaseFirestore
-            .getInstance()
-            .collection(FirebaseConstants.INVOICE_COLLECTION)
-    }
-
-
-    @Singleton
-    @Provides
-    fun provideMusicDatabase(
+    fun provideRemoteDatabase(
         @Named("fruitCollection") fruitCollection: CollectionReference,
         @Named("customerCollection") customerCollection: CollectionReference,
         @Named("invoiceCollection") invoiceCollection: CollectionReference
