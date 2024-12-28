@@ -8,4 +8,5 @@ interface FruitCollectionRepository {
     fun getFruitCollections(): Flow<Resource<List<FruitCollectionEntity>>>
     fun getFruitCollectionById(caseId: String): Flow<Resource<FruitCollectionEntity>>
     fun createFruitCollection(case: FruitCollectionEntity): Flow<Resource<Unit>>
+    fun syncFruitCollections(): Flow<Resource<Unit>>
 }

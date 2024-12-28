@@ -11,6 +11,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import teka.android.organiks_platform_android.data.remote.retrofit.RetrofitProvider
 import teka.android.organiks_platform_android.data.room.OrganiksDatabase
+import teka.android.organiks_platform_android.data.room.RoomRepository
 import teka.android.organiks_platform_android.data.room_remote_sync.RemoteDataUpdater
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.MessageDao
 import teka.android.organiks_platform_android.presentation.feature_ai_assistant.data.MessageDatabase
@@ -92,6 +93,19 @@ object MainModule {
             invoiceDao = database.invoiceDao(),
             farmDao = database.farmDao(),
             expenditureDao = database.expenditureDao(),
+        )
+    }
+
+
+    @Singleton
+    @Provides
+    fun provideRoomRepository(
+        database: OrganiksDatabase
+    ): RoomRepository {
+        return RoomRepository(
+            fruitCollectionDao = database.fruitCollectionDao(),
+            customerDao = database.customerDao(),
+            invoiceDao = database.invoiceDao()
         )
     }
 

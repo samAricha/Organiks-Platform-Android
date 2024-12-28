@@ -10,4 +10,5 @@ interface InvoiceRepository {
     fun getInvoices(): Flow<Resource<List<InvoiceEntity>>>
     fun getInvoiceById(invoiceId: String): Flow<Resource<InvoiceEntity>>
     fun createInvoice(invoice: InvoiceEntity): Flow<Resource<Unit>>
+    fun syncInvoices(): Flow<Resource<Unit>>
 }

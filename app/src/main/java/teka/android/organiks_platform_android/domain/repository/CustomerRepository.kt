@@ -9,4 +9,5 @@ interface CustomerRepository {
     fun getFruitCustomers(): Flow<Resource<List<CustomerEntity>>>
     fun getCustomerById(caseId: String): Flow<Resource<CustomerEntity>>
     fun createCustomers(case: CustomerEntity): Flow<Resource<Unit>>
+    fun syncCustomers(): Flow<Resource<Unit>>
 }

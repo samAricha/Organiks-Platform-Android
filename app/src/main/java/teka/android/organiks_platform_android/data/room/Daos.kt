@@ -76,6 +76,17 @@ interface FruitCollectionDao{
     """)
     fun getFruitCollectionsWithFruitTypes():Flow<List<EggTypeEggCollectionItem>>
 
+
+
+    @Query("SELECT * FROM fruit_collections WHERE isBackedUp = 0")
+    suspend fun getUnsyncedFruitCollections(): List<FruitCollectionEntity>
+
+    @Query("UPDATE fruit_collections SET isBackedUp = 1 WHERE uuid = :uuid")
+    suspend fun markFruitCollectionAsSynced(uuid: String)
+
+    @Query("DELETE FROM fruit_collections WHERE isBackedUp = 1")
+    suspend fun deleteSyncedFruitCollections()
+
 }
 
 @Entity
@@ -99,6 +110,15 @@ interface CustomerDao{
     @Query("SELECT * FROM customer_table WHERE customer_id=:customerId")
     fun getCustomersByCustomerId(customerId:Int): Flow<CustomerEntity>
 
+    @Query("SELECT * FROM customer_table WHERE isBackedUp = 0")
+    suspend fun getUnsyncedCustomers(): List<CustomerEntity>
+
+    @Query("UPDATE customer_table SET isBackedUp = 1 WHERE uuid = :uuid")
+    suspend fun markCustomerAsSynced(uuid: String)
+
+    @Query("DELETE FROM customer_table WHERE isBackedUp = 1")
+    suspend fun deleteSyncedCustomers()
+
 }
 
 @Entity
@@ -121,6 +141,16 @@ interface InvoiceDao{
 
     @Query("SELECT * FROM invoice_table WHERE uuid=:id")
     fun getInvoicesByUUId(id:String): Flow<InvoiceEntity>
+
+
+    @Query("SELECT * FROM invoice_table WHERE isBackedUp = 0")
+    suspend fun getUnsyncedInvoices(): List<InvoiceEntity>
+
+    @Query("UPDATE invoice_table SET isBackedUp = 1 WHERE uuid = :uuid")
+    suspend fun markInvoiceAsSynced(uuid: String)
+
+    @Query("DELETE FROM invoice_table WHERE isBackedUp = 1")
+    suspend fun deleteSyncedInvoices()
 
 }
 
