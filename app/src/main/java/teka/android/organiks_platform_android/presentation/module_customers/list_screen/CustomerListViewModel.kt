@@ -56,10 +56,10 @@ class CustomerListViewModel @Inject constructor(
 
     fun updateCustomerSearchQuery(query: String) {
         updateModelField(CustomerListUIState::customerSearchQuery, query)
-        filterGateLogs(query)
+        filterCustomerList(query)
     }
 
-    private fun filterGateLogs(query: String) {
+    private fun filterCustomerList(query: String) {
         viewModelScope.launch {
             dbRepository.getCustomers.collect { customerList ->
                 val filteredList = if (query.isBlank()) {

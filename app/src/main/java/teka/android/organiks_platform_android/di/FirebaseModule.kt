@@ -1,6 +1,5 @@
 package teka.android.organiks_platform_android.di
 
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import teka.android.organiks_platform_android.data.remote.firebase.FirebaseConstants
@@ -13,9 +12,9 @@ import teka.android.organiks_platform_android.data.repositoryImpl.CustomerReposi
 import teka.android.organiks_platform_android.data.repositoryImpl.FruitCollectionsRepositoryImpl
 import teka.android.organiks_platform_android.data.repositoryImpl.InvoiceRepositoryImpl
 import teka.android.organiks_platform_android.data.room.RoomRepository
-import teka.android.organiks_platform_android.domain.repository.CustomerRepository
-import teka.android.organiks_platform_android.domain.repository.FruitCollectionRepository
-import teka.android.organiks_platform_android.domain.repository.InvoiceRepository
+import teka.android.organiks_platform_android.domain.repository.def.CustomerRepository
+import teka.android.organiks_platform_android.domain.repository.def.FruitCollectionRepository
+import teka.android.organiks_platform_android.domain.repository.def.InvoiceRepository
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -54,6 +53,15 @@ object FirebaseModule {
         return FirebaseFirestore
             .getInstance()
             .collection(FirebaseConstants.CUSTOMER_COLLECTION)
+    }
+
+    @Singleton
+    @Provides
+    @Named("invoiceCollection")
+    fun provideInvoiceCollection(): CollectionReference {
+        return FirebaseFirestore
+            .getInstance()
+            .collection(FirebaseConstants.INVOICE_COLLECTION)
     }
 
 

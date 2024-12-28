@@ -8,7 +8,7 @@ import teka.android.organiks_platform_android.data.remote.models.toInvoiceEntity
 import teka.android.organiks_platform_android.data.remote.models.toInvoiceEntityList
 import teka.android.organiks_platform_android.data.room.RoomRepository
 import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
-import teka.android.organiks_platform_android.domain.repository.InvoiceRepository
+import teka.android.organiks_platform_android.domain.repository.def.InvoiceRepository
 import teka.android.organiks_platform_android.util.Resource
 
 

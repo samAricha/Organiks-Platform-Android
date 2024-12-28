@@ -8,7 +8,7 @@ import teka.android.organiks_platform_android.data.remote.models.toFruitCollecti
 import teka.android.organiks_platform_android.data.remote.models.toFruitCollectionEntityList
 import teka.android.organiks_platform_android.data.room.RoomRepository
 import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
-import teka.android.organiks_platform_android.domain.repository.FruitCollectionRepository
+import teka.android.organiks_platform_android.domain.repository.def.FruitCollectionRepository
 import teka.android.organiks_platform_android.util.Resource
 
 

@@ -8,7 +8,7 @@ import teka.android.organiks_platform_android.data.remote.models.toCustomerEntit
 import teka.android.organiks_platform_android.data.remote.models.toCustomerEntityList
 import teka.android.organiks_platform_android.data.room.RoomRepository
 import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
-import teka.android.organiks_platform_android.domain.repository.CustomerRepository
+import teka.android.organiks_platform_android.domain.repository.def.CustomerRepository
 import teka.android.organiks_platform_android.util.Resource
 
 
