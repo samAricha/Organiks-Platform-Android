@@ -1,7 +1,7 @@
 package teka.android.organiks_platform_android.presentation.feature_dashborad.utils
 
 import co.yml.charts.common.model.Point
-import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.EggCollectionResult
 
 fun getLineChartDataFromEggCollection(
     results: List<EggCollectionResult>

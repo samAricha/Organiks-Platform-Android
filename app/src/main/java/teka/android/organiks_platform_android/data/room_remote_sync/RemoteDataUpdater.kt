@@ -10,9 +10,9 @@ import teka.android.organiks_platform_android.data.room.entities.EggCollection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import teka.android.organiks_platform_android.data.remote.retrofit.models.toEggCollectionRequest
-import teka.android.organiks_platform_android.data.remote.retrofit.models.toFruitCollectionRequest
-import teka.android.organiks_platform_android.data.remote.retrofit.models.toMilkCollectionRequest
+import teka.android.organiks_platform_android.data.remote.models.toEggCollectionRequest
+import teka.android.organiks_platform_android.data.remote.models.toFruitCollectionRequest
+import teka.android.organiks_platform_android.data.remote.models.toMilkCollectionRequest
 import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.entities.MilkCollection
 import teka.android.organiks_platform_android.domain.repository.DbRepository

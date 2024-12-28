@@ -8,7 +8,7 @@ import co.yml.charts.axis.AxisData
 import co.yml.charts.ui.barchart.BarChart
 import co.yml.charts.ui.barchart.models.BarChartData
 import co.yml.charts.ui.barchart.models.BarStyle
-import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.EggCollectionResult
 import teka.android.organiks_platform_android.navigation.ProgressIndicator
 import teka.android.organiks_platform_android.presentation.feature_dashborad.utils.getBarChartDataFromEggCollection
 

@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import teka.android.organiks_platform_android.data.remote.dtos.ApiResponseHandler
-import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
-import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionDto
-import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.FruitCollectionDto
+import teka.android.organiks_platform_android.data.remote.models.MilkCollectionResult
 import teka.android.organiks_platform_android.data.remote.services.MilkCollectionService
 import timber.log.Timber
 import kotlin.coroutines.resume
