@@ -78,13 +78,16 @@ fun ScaffoldContent(
                     navHostController.popBackStack()
                 },
                 actions = {
-                    IconButton(onClick = {
-                        Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show()
-                    }) {
+                    IconButton(
+                        onClick = {
+                            Toast.makeText(context, "Coming Soon", Toast.LENGTH_SHORT).show()
+                        }
+                    ) {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_user),
-                            contentDescription = "Action",
+                            painter = painterResource(id = R.drawable.cloud),
+                            contentDescription = "Cloud Backup",
                             modifier = Modifier.size(20.dp),
+                            tint = Color.Unspecified
                         )
                     }
                 },

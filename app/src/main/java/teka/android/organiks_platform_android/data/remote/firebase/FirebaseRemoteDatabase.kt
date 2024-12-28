@@ -4,13 +4,16 @@ import com.google.firebase.firestore.CollectionReference
 import kotlinx.coroutines.tasks.await
 import teka.android.organiks_platform_android.data.remote.models.CustomerDto
 import teka.android.organiks_platform_android.data.remote.models.FruitCollectionDto
+import teka.android.organiks_platform_android.data.remote.models.InvoiceDto
 import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
 import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
+import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
 
 
 class FirebaseRemoteDatabase(
     private val fruitCollection: CollectionReference,
-    private val customerCollection: CollectionReference
+    private val customerCollection: CollectionReference,
+    private val invoiceCollection: CollectionReference,
 ) {
     suspend fun fetchFruitCollectionList(): List<FruitCollectionDto> {
         val snapshot = fruitCollection.get().await()
@@ -34,6 +37,7 @@ class FirebaseRemoteDatabase(
     }
 
 
+
     suspend fun fetchCustomerList(): List<CustomerDto> {
         val snapshot = customerCollection.get().await()
         return snapshot.toObjects(CustomerDto::class.java)
@@ -53,6 +57,29 @@ class FirebaseRemoteDatabase(
 
     suspend fun updateCustomer(updatedCustomer: CustomerEntity) {
         customerCollection.document(updatedCustomer.uuid).set(updatedCustomer).await()
+    }
+
+
+
+    suspend fun fetchInvoiceList(): List<InvoiceDto> {
+        val snapshot = invoiceCollection.get().await()
+        return snapshot.toObjects(InvoiceDto::class.java)
+    }
+
+
+    suspend fun fetchInvoiceById(id: String): InvoiceDto {
+        val caseSnapshot = invoiceCollection.document(id).get().await()
+        return caseSnapshot.toObject(InvoiceDto::class.java)
+            ?: throw Exception("Customer with ID $id not found")
+    }
+
+
+    suspend fun addInvoice(invoiceEntity: InvoiceEntity) {
+        this.invoiceCollection.document(invoiceEntity.uuid).set(invoiceEntity).await()
+    }
+
+    suspend fun updateInvoice(updatedInvoice: InvoiceEntity) {
+        invoiceCollection.document(updatedInvoice.uuid).set(updatedInvoice).await()
     }
 
 }

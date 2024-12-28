@@ -30,8 +30,6 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
         eggCollections: List<EggCollection>,
         repository: DbRepository
     ): UpdateResult {
-
-
         return try{
             withContext(Dispatchers.IO) {
                 eggCollections.forEach { eggCollection ->
@@ -118,7 +116,10 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
     }
 
 
-    suspend fun updateRemoteFruitCollectionData(fruitCollections: List<FruitCollectionEntity>, repository: DbRepository):UpdateResult {
+    suspend fun updateRemoteFruitCollectionData(
+        fruitCollections: List<FruitCollectionEntity>,
+        repository: DbRepository
+    ):UpdateResult {
         return try {
             withContext(Dispatchers.IO) {
                 fruitCollections.forEach { fruitCollection ->
@@ -150,7 +151,6 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
                     }.addOnFailureListener { e ->
                         Toast.makeText(appContext, "Fail to add fruit collection to Cloud \n$e", Toast.LENGTH_SHORT).show()
                     }
-
 
                 }
                 UpdateResult.Success("Data updated successfully.")

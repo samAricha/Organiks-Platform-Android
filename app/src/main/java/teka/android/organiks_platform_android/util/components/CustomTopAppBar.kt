@@ -59,7 +59,7 @@ fun CustomTopAppBar(
                 fontFamily = quicksand
             )
         },
-        actions = {  },
+        actions = actions,
         navigationIcon = {
             IconButton(
                 onClick = {

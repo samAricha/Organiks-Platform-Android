@@ -11,8 +11,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import teka.android.organiks_platform_android.data.repositoryImpl.CustomerRepositoryImpl
 import teka.android.organiks_platform_android.data.repositoryImpl.FruitCollectionsRepositoryImpl
+import teka.android.organiks_platform_android.data.repositoryImpl.InvoiceRepositoryImpl
 import teka.android.organiks_platform_android.domain.repository.CustomerRepository
 import teka.android.organiks_platform_android.domain.repository.FruitCollectionRepository
+import teka.android.organiks_platform_android.domain.repository.InvoiceRepository
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -58,9 +60,14 @@ object FirebaseModule {
     @Provides
     fun provideMusicDatabase(
         @Named("fruitCollection") fruitCollection: CollectionReference,
-        @Named("customerCollection") customerCollection: CollectionReference
+        @Named("customerCollection") customerCollection: CollectionReference,
+        @Named("invoiceCollection") invoiceCollection: CollectionReference
     ): FirebaseRemoteDatabase =
-        FirebaseRemoteDatabase(fruitCollection, customerCollection)
+        FirebaseRemoteDatabase(
+            fruitCollection,
+            customerCollection,
+            invoiceCollection
+        )
 
 
     @Singleton
@@ -70,6 +77,7 @@ object FirebaseModule {
     ): FruitCollectionRepository =
         FruitCollectionsRepositoryImpl(firebaseRemoteDatabase)
 
+
     @Singleton
     @Provides
     fun provideCustomerRepository(
@@ -78,5 +86,11 @@ object FirebaseModule {
         CustomerRepositoryImpl(firebaseRemoteDatabase)
 
 
+    @Singleton
+    @Provides
+    fun provideInvoiceRepository(
+        firebaseRemoteDatabase: FirebaseRemoteDatabase,
+    ): InvoiceRepository =
+        InvoiceRepositoryImpl(firebaseRemoteDatabase)
 
 }
