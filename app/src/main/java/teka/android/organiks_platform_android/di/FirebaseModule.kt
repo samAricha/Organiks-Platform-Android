@@ -4,11 +4,12 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import teka.android.organiks_platform_android.data.remote.firebase.FirebaseConstants
-import teka.android.organiks_platform_android.data.remote.firebase.FirebaseRemoteDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import teka.android.organiks_platform_android.data.remote.firebase.FirebaseRemoteDatabase
+import teka.android.organiks_platform_android.data.remote.firebase.TenantContext
 import teka.android.organiks_platform_android.data.repositoryImpl.CustomerRepositoryImpl
 import teka.android.organiks_platform_android.data.repositoryImpl.FruitCollectionsRepositoryImpl
 import teka.android.organiks_platform_android.data.repositoryImpl.InvoiceRepositoryImpl
@@ -43,99 +44,29 @@ object FirebaseModule {
     fun provideFirebaseFirestore(): FirebaseFirestore =
         FirebaseFirestore.getInstance()
 
-
-
-//    @Singleton
-//    @Provides
-//    @Named("fruitCollection")
-//    fun provideFruitCollection(): CollectionReference {
-//        return FirebaseFirestore
-//            .getInstance()
-//            .collection(FirebaseConstants.FRUIT_COLLECTIONS)
-//    }
-//
-//
-//    @Singleton
-//    @Provides
-//    @Named("customerCollection")
-//    fun provideCustomerCollection(): CollectionReference {
-//        return FirebaseFirestore
-//            .getInstance()
-//            .collection(FirebaseConstants.CUSTOMER_COLLECTION)
-//    }
-//
-//    @Singleton
-//    @Provides
-//    @Named("invoiceCollection")
-//    fun provideInvoiceCollection(): CollectionReference {
-//        return FirebaseFirestore
-//            .getInstance()
-//            .collection(FirebaseConstants.INVOICE_COLLECTION)
-//    }
-
-
     @Singleton
     @Provides
-    @Named("invoiceCollection")
-    fun provideInvoiceCollection(
-        @Named("userId") userId: String
-    ): CollectionReference {
-        return FirebaseFirestore
-            .getInstance()
-            .collection("tenants") // Root collection for tenants
-            .document(userId)    // Tenant document
-            .collection(FirebaseConstants.INVOICE_COLLECTION) // Subcollection for invoices
+    fun provideTenantContext(auth: FirebaseAuth): TenantContext {
+        return TenantContext(auth)
     }
-
-    @Singleton
-    @Provides
-    @Named("customerCollection")
-    fun provideCustomerCollection(
-        @Named("userId") userId: String
-    ): CollectionReference {
-        return FirebaseFirestore
-            .getInstance()
-            .collection("tenants")
-            .document(userId)
-            .collection(FirebaseConstants.CUSTOMER_COLLECTION)
-    }
-
-    @Singleton
-    @Provides
-    @Named("fruitCollection")
-    fun provideFruitCollection(
-        @Named("userId") userId: String
-    ): CollectionReference {
-        return FirebaseFirestore
-            .getInstance()
-            .collection("tenants")
-            .document(userId)
-            .collection(FirebaseConstants.FRUIT_COLLECTIONS)
-    }
-
 
     @Singleton
     @Provides
     fun provideRemoteDatabase(
-        @Named("fruitCollection") fruitCollection: CollectionReference,
-        @Named("customerCollection") customerCollection: CollectionReference,
-        @Named("invoiceCollection") invoiceCollection: CollectionReference
-    ): FirebaseRemoteDatabase =
-        FirebaseRemoteDatabase(
-            fruitCollection,
-            customerCollection,
-            invoiceCollection
-        )
+        tenantContext: TenantContext
+    ): FirebaseRemoteDatabase {
+        return FirebaseRemoteDatabase(tenantContext)
+    }
 
 
     @Singleton
     @Provides
     fun provideFruitCollectionRepository(
-        firebaseRemoteDatabase: FirebaseRemoteDatabase,
+        firebaseRemoteDatabase1: FirebaseRemoteDatabase,
         roomRepository: RoomRepository,
     ): FruitCollectionRepository =
         FruitCollectionsRepositoryImpl(
-            firebaseRemoteDatabase = firebaseRemoteDatabase,
+            firebaseRemoteDatabase1 = firebaseRemoteDatabase1,
             roomRepository = roomRepository
         )
 
@@ -143,11 +74,11 @@ object FirebaseModule {
     @Singleton
     @Provides
     fun provideCustomerRepository(
-        firebaseRemoteDatabase: FirebaseRemoteDatabase,
+        firebaseRemoteDatabase1: FirebaseRemoteDatabase,
         roomRepository: RoomRepository
     ): CustomerRepository =
         CustomerRepositoryImpl(
-            firebaseRemoteDatabase = firebaseRemoteDatabase,
+            firebaseRemoteDatabase1 = firebaseRemoteDatabase1,
             roomRepository = roomRepository
         )
 
@@ -155,11 +86,11 @@ object FirebaseModule {
     @Singleton
     @Provides
     fun provideInvoiceRepository(
-        firebaseRemoteDatabase: FirebaseRemoteDatabase,
+        firebaseRemoteDatabase1: FirebaseRemoteDatabase,
         roomRepository: RoomRepository
     ): InvoiceRepository =
         InvoiceRepositoryImpl(
-            firebaseRemoteDatabase = firebaseRemoteDatabase,
+            firebaseRemoteDatabase1 = firebaseRemoteDatabase1,
             roomRepository = roomRepository
         )
 

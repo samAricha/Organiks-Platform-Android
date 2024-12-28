@@ -14,7 +14,7 @@ import teka.android.organiks_platform_android.util.Resource
 
 class FruitCollectionsRepositoryImpl @Inject constructor(
     private val roomRepository: RoomRepository,
-    private val firebaseRemoteDatabase: FirebaseRemoteDatabase,
+    private val firebaseRemoteDatabase1: FirebaseRemoteDatabase,
 ) : FruitCollectionRepository {
 
     // Sync fruit collections from Room to Firebase
@@ -28,7 +28,7 @@ class FruitCollectionsRepositoryImpl @Inject constructor(
             // Iterate over the unsynced fruit collections and sync them to Firebase
             for (collection in unsyncedFruitCollections) {
                 // Add fruit collection to Firebase
-                firebaseRemoteDatabase.addFruitCollection(collection)
+                firebaseRemoteDatabase1.addFruitCollection(collection)
 
                 // After successful sync, mark the collection as synced in Room
                 roomRepository.markFruitCollectionAsSynced(collection.uuid)
@@ -43,7 +43,7 @@ class FruitCollectionsRepositoryImpl @Inject constructor(
     override fun getFruitCollections(): Flow<Resource<List<FruitCollectionEntity>>> =  flow{
         emit(Resource.Loading())
         try {
-            val caseList = firebaseRemoteDatabase.fetchFruitCollectionList()
+            val caseList = firebaseRemoteDatabase1.fetchFruitCollectionList()
             emit(Resource.Success(caseList.toFruitCollectionEntityList()))
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Error fetching churches"))
@@ -53,7 +53,7 @@ class FruitCollectionsRepositoryImpl @Inject constructor(
     override fun getFruitCollectionById(id: String): Flow<Resource<FruitCollectionEntity>> = flow{
         emit(Resource.Loading())
         try {
-            val case = firebaseRemoteDatabase.fetchFruitCollectionById(id)
+            val case = firebaseRemoteDatabase1.fetchFruitCollectionById(id)
             emit(Resource.Success(case.toFruitCollectionEntity()))
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Error fetching case with ID: $id"))
@@ -62,7 +62,7 @@ class FruitCollectionsRepositoryImpl @Inject constructor(
     override fun createFruitCollection(case: FruitCollectionEntity): Flow<Resource<Unit>> = flow{
         emit(Resource.Loading())
         try {
-            firebaseRemoteDatabase.addFruitCollection(case)
+            firebaseRemoteDatabase1.addFruitCollection(case)
             emit(Resource.Success(Unit)) // Indicate success with no specific data
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Error creating case"))

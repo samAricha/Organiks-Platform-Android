@@ -14,7 +14,7 @@ import teka.android.organiks_platform_android.util.Resource
 
 class InvoiceRepositoryImpl @Inject constructor(
     private val roomRepository: RoomRepository,
-    private val firebaseRemoteDatabase: FirebaseRemoteDatabase,
+    private val firebaseRemoteDatabase1: FirebaseRemoteDatabase,
 ) : InvoiceRepository {
 
 
@@ -29,7 +29,7 @@ class InvoiceRepositoryImpl @Inject constructor(
             // Iterate over the unsynced invoices and sync them to Firebase
             for (invoice in unsyncedInvoices) {
                 // Add invoice to Firebase
-                firebaseRemoteDatabase.addInvoice(invoice)
+                firebaseRemoteDatabase1.addInvoice(invoice)
                 // After successful sync, mark the invoice as synced in Room
                 roomRepository.markInvoiceAsSynced(invoice.uuid)
             }
@@ -43,7 +43,7 @@ class InvoiceRepositoryImpl @Inject constructor(
     override fun getInvoices(): Flow<Resource<List<InvoiceEntity>>> =  flow{
         emit(Resource.Loading())
         try {
-            val invoiceList = firebaseRemoteDatabase.fetchInvoiceList()
+            val invoiceList = firebaseRemoteDatabase1.fetchInvoiceList()
             emit(Resource.Success(invoiceList.toInvoiceEntityList()))
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Error fetching invoices"))
@@ -53,7 +53,7 @@ class InvoiceRepositoryImpl @Inject constructor(
     override fun getInvoiceById(id: String): Flow<Resource<InvoiceEntity>> = flow{
         emit(Resource.Loading())
         try {
-            val invoice = firebaseRemoteDatabase.fetchInvoiceById(id)
+            val invoice = firebaseRemoteDatabase1.fetchInvoiceById(id)
             emit(Resource.Success(invoice.toInvoiceEntity()))
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Error fetching invoice with ID: $id"))
@@ -62,7 +62,7 @@ class InvoiceRepositoryImpl @Inject constructor(
     override fun createInvoice(invoice: InvoiceEntity): Flow<Resource<Unit>> = flow{
         emit(Resource.Loading())
         try {
-            firebaseRemoteDatabase.addInvoice(invoice)
+            firebaseRemoteDatabase1.addInvoice(invoice)
             emit(Resource.Success(Unit)) // Indicate success with no specific data
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Error creating invoice"))

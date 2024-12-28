@@ -14,7 +14,7 @@ import teka.android.organiks_platform_android.util.Resource
 
 class CustomerRepositoryImpl @Inject constructor(
     private val roomRepository: RoomRepository,
-    private val firebaseRemoteDatabase: FirebaseRemoteDatabase,
+    private val firebaseRemoteDatabase1: FirebaseRemoteDatabase,
 ) : CustomerRepository {
 
     // Sync customers from Room to Firebase
@@ -28,7 +28,7 @@ class CustomerRepositoryImpl @Inject constructor(
             // Iterate over the unsynced customers and sync them to Firebase
             for (customer in unsyncedCustomers) {
                 // Add customer to Firebase
-                firebaseRemoteDatabase.addCustomer(customer)
+                firebaseRemoteDatabase1.addCustomer(customer)
 
                 // After successful sync, mark the customer as synced in Room
                 roomRepository.markCustomerAsSynced(customer.uuid)
@@ -43,7 +43,7 @@ class CustomerRepositoryImpl @Inject constructor(
     override fun getFruitCustomers(): Flow<Resource<List<CustomerEntity>>> =  flow{
         emit(Resource.Loading())
         try {
-            val caseList = firebaseRemoteDatabase.fetchCustomerList()
+            val caseList = firebaseRemoteDatabase1.fetchCustomerList()
             emit(Resource.Success(caseList.toCustomerEntityList()))
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Error fetching churches"))
@@ -53,7 +53,7 @@ class CustomerRepositoryImpl @Inject constructor(
     override fun getCustomerById(id: String): Flow<Resource<CustomerEntity>> = flow{
         emit(Resource.Loading())
         try {
-            val customer = firebaseRemoteDatabase.fetchCustomerById(id)
+            val customer = firebaseRemoteDatabase1.fetchCustomerById(id)
             emit(Resource.Success(customer.toCustomerEntity()))
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Error fetching customer with ID: $id"))
@@ -63,7 +63,7 @@ class CustomerRepositoryImpl @Inject constructor(
     override fun createCustomers(customer: CustomerEntity): Flow<Resource<Unit>> = flow{
         emit(Resource.Loading())
         try {
-            firebaseRemoteDatabase.addCustomer(customer)
+            firebaseRemoteDatabase1.addCustomer(customer)
             emit(Resource.Success(Unit)) // Indicate success with no specific data
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Error creating customer"))
