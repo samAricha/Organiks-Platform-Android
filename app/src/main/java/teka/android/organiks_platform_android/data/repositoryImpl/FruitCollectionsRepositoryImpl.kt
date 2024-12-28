@@ -37,7 +37,7 @@ class FruitCollectionsRepositoryImpl @Inject constructor(
     override fun createFruitCollection(case: FruitCollectionEntity): Flow<Resource<Unit>> = flow{
         emit(Resource.Loading())
         try {
-            firebaseRemoteDatabase.addCase(case)
+            firebaseRemoteDatabase.addFruitCollection(case)
             emit(Resource.Success(Unit)) // Indicate success with no specific data
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "Error creating case"))

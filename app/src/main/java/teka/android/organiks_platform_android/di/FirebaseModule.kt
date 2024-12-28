@@ -9,7 +9,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import teka.android.organiks_platform_android.data.repositoryImpl.CustomerRepositoryImpl
 import teka.android.organiks_platform_android.data.repositoryImpl.FruitCollectionsRepositoryImpl
+import teka.android.organiks_platform_android.domain.repository.CustomerRepository
 import teka.android.organiks_platform_android.domain.repository.FruitCollectionRepository
 import javax.inject.Named
 import javax.inject.Singleton
@@ -44,10 +46,21 @@ object FirebaseModule {
 
     @Singleton
     @Provides
+    @Named("customerCollection")
+    fun provideCustomerCollection(): CollectionReference {
+        return FirebaseFirestore
+            .getInstance()
+            .collection(FirebaseConstants.CUSTOMER_COLLECTION)
+    }
+
+
+    @Singleton
+    @Provides
     fun provideMusicDatabase(
-        @Named("fruitCollection") fruitCollection: CollectionReference
+        @Named("fruitCollection") fruitCollection: CollectionReference,
+        @Named("customerCollection") customerCollection: CollectionReference
     ): FirebaseRemoteDatabase =
-        FirebaseRemoteDatabase(fruitCollection)
+        FirebaseRemoteDatabase(fruitCollection, customerCollection)
 
 
     @Singleton
@@ -56,6 +69,13 @@ object FirebaseModule {
         firebaseRemoteDatabase: FirebaseRemoteDatabase,
     ): FruitCollectionRepository =
         FruitCollectionsRepositoryImpl(firebaseRemoteDatabase)
+
+    @Singleton
+    @Provides
+    fun provideCustomerRepository(
+        firebaseRemoteDatabase: FirebaseRemoteDatabase,
+    ): CustomerRepository =
+        CustomerRepositoryImpl(firebaseRemoteDatabase)
 
 
 
