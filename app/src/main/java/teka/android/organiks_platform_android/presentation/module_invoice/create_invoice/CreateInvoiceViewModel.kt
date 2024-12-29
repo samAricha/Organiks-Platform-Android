@@ -131,11 +131,25 @@ class CreateInvoiceViewModel @Inject constructor(
             }
             var filePath:String? = null
             if (invoice != null) {
-                dbRepository.insertInvoiceEntity(invoice)
-                filePath = generateInvoice(invoice)
-                if (filePath != null){
+                try {
+                    // Wait for the suspend function to complete
+                    dbRepository.insertInvoiceEntity(invoice)
+                    // Update state only after successful insertion
                     updateModelField(CreateInvoiceUiState::isFormSubmissionSuccessful, true)
+                } catch (e: Exception) {
+                    // Handle any error during the insert operation
+                    Timber.e(e, "Error inserting invoice")
+                    updateModelField(CreateInvoiceUiState::isFormSubmissionSuccessful, false)
                 }
+
+//                dbRepository.insertInvoiceEntity(invoice)
+//                updateModelField(CreateInvoiceUiState::isFormSubmissionSuccessful, true)
+//
+//
+//                filePath = generateInvoice(invoice)
+//                if (filePath != null){
+//                    updateModelField(CreateInvoiceUiState::isFormSubmissionSuccessful, true)
+//                }
             }
         }
     }

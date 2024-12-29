@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,6 +40,7 @@ import java.io.File
 @Composable
 fun InvoiceItemCard(
     invoiceEntity: InvoiceEntity,
+    fileExists: Boolean = false,
     onOpenInvoice: () -> Unit
 ) {
 
@@ -66,6 +68,16 @@ fun InvoiceItemCard(
                             .size(60.dp)
                             .padding(top = 10.dp)
                     )
+
+                    // File status icon
+                    Icon(
+                        painter = painterResource(
+                            id = if (fileExists) R.drawable.download_success else R.drawable.cloud_computing
+                        ),
+                        contentDescription = if (fileExists) "File Available" else "File Not Found",
+                        tint = if (fileExists) Color.Green else Color.Red,
+                        modifier = Modifier.size(20.dp)
+                    )
                 }
 
                 Spacer(modifier = Modifier.width(5.dp))
@@ -83,7 +95,7 @@ fun InvoiceItemCard(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         CustomText(
-                            text = invoiceEntity.toName ?: "N/A",
+                            text = invoiceEntity.toName,
                             fontWeight = FontWeight.Bold,
                             color = Color.Black,
                             fontSize = TextSizeXLarge

@@ -33,12 +33,15 @@ fun InvoiceListScreen(
             .fillMaxSize()
             .padding(horizontal = 12.dp)
     ) {
-        items(invoiceFiles) { file ->
-            InvoiceItem(file, onOpenInvoice = {
-//                openPdfFile(context, file)
-                navController.navigate(AppScreens.PDFViewerScreen.createRoute(file.absolutePath))
-            })
-        }
+//        items(invoiceFiles) { file ->
+//            InvoiceItem(file, onOpenInvoice = {
+////                openPdfFile(context, file)
+//                navController.navigate(AppScreens.PDFViewerScreen.createRoute(file.absolutePath))
+//            })
+//        }
+
+
+        /*
         items(invoiceList.value){ invoice ->
             InvoiceItemCard(invoice) {
                 val file = viewModel.getInvoiceFile(invoice)
@@ -51,6 +54,26 @@ fun InvoiceListScreen(
                 }
             }
         }
+         */
+
+        items(invoiceList.value) { invoice ->
+            // Determine if the file exists, but avoid triggering file generation here
+            val fileName = "${invoice.uuid}.pdf"
+            val directory = context.getExternalFilesDir(null)
+            val fileExists = directory?.let { File(it, fileName).exists() } ?: false
+
+            InvoiceItemCard(invoice, fileExists) {
+                val file = viewModel.getInvoiceFile(invoice)
+                if (file != null && file.exists()) {
+                    // Use the file as needed
+                    Timber.tag("INVOICE FILE").i("File path: ${file.absolutePath}")
+                    navController.navigate(AppScreens.PDFViewerScreen.createRoute(file.absolutePath))
+                } else {
+                    Timber.tag("INVOICE FILE").e("Invoice file not found")
+                }
+            }
+        }
+
     }
 }
 
