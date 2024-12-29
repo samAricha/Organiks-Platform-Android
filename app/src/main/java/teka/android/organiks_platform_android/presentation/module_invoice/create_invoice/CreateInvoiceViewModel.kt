@@ -102,7 +102,7 @@ class CreateInvoiceViewModel @Inject constructor(
     private val invoiceGenerator = InvoiceGenerator()
     private val invoiceHelper = InvoiceGeneratorHelper(appContext)
 
-    
+
     fun generateInvoice(invoiceEntity: InvoiceEntity): String? {
         return invoiceGenerator.generateInvoice(invoiceEntity, invoiceHelper)
     }
@@ -123,8 +123,8 @@ class CreateInvoiceViewModel @Inject constructor(
                         time = createInvoiceUiState.value.time.toString(),
                         customerId = it.uuid,
                         toEmail = createInvoiceUiState.value.selectedCustomer!!.email,
-                        fromEmail = createInvoiceUiState.value.issuerEmail.toString(),
-                        unitPrice = createInvoiceUiState.value.unitPrice.toString(),
+                        fromEmail = createInvoiceUiState.value.issuerEmail.text,
+                        unitPrice = createInvoiceUiState.value.unitPrice.text,
                         quantity = createInvoiceUiState.value.currentFruitCollection!!.qty,
                     )
                 }
