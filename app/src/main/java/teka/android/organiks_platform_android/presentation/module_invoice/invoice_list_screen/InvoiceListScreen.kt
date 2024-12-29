@@ -24,6 +24,8 @@ fun InvoiceListScreen(
 ) {
     val context = LocalContext.current
     val invoiceFiles = remember { viewModel.getInvoiceFiles() }
+    val invoiceList = viewModel.invoiceList.collectAsState()
+
 
     LazyColumn(
         modifier = Modifier
@@ -35,6 +37,9 @@ fun InvoiceListScreen(
 //                openPdfFile(context, file)
                 navController.navigate(AppScreens.PDFViewerScreen.createRoute(file.absolutePath))
             })
+        }
+        items(invoiceList.value){ invoice ->
+            InvoiceItemCard(invoice) { }
         }
     }
 }

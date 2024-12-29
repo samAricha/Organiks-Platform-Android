@@ -28,10 +28,10 @@ class FruitRecordsListViewModel @Inject constructor(
 
     init {
         Timber.tag(FruitList_VM_TAG).i("init function now")
-        observeVehicleList()
+        observeFruitList()
     }
 
-    private fun observeVehicleList() {
+    private fun observeFruitList() {
         viewModelScope.launch{
             launch{
                 dbRepository
