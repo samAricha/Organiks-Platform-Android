@@ -15,6 +15,7 @@ import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import teka.android.organiks_platform_android.navigation.AppScreens
+import timber.log.Timber
 import java.io.File
 
 @Composable
@@ -23,7 +24,7 @@ fun InvoiceListScreen(
     viewModel: InvoiceListViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val invoiceFiles = remember { viewModel.getInvoiceFiles() }
+    val invoiceFiles: List<File> = remember { viewModel.getInvoiceFiles() }
     val invoiceList = viewModel.invoiceList.collectAsState()
 
 
@@ -39,7 +40,16 @@ fun InvoiceListScreen(
             })
         }
         items(invoiceList.value){ invoice ->
-            InvoiceItemCard(invoice) { }
+            InvoiceItemCard(invoice) {
+                val file = viewModel.getInvoiceFile(invoice)
+                if (file != null && file.exists()) {
+                    // Use the file as needed
+                    Timber.tag("INVOICE FILE").i("File path: ${file.absolutePath}")
+                    navController.navigate(AppScreens.PDFViewerScreen.createRoute(file.absolutePath))
+                } else {
+                    Timber.tag("INVOICE FILE").e("Invoice file not found")
+                }
+            }
         }
     }
 }

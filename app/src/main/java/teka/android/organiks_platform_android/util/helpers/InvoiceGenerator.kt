@@ -72,7 +72,7 @@ class InvoiceGenerator {
 
         // Call helper to generate the invoice
         return invoiceHelper.generateInvoice(
-            fileName = "Invoice_0002",
+            fileName = invoiceEntity.uuid,
             headerData = headerData,
             customerInfo = customerInfo,
             invoiceNumber = "INV-0002",
