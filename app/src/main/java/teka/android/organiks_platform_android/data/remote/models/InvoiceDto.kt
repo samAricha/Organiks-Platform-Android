@@ -14,6 +14,10 @@ data class InvoiceDto(
     val totalAmount: String = "",
     val totalExpenses: String = "",
     val fruitCollection: String = "",
+    val fromEmail: String = "",
+    val toEmail: String = "",
+    val unitPrice: String = "",
+    val quantity: String = "",
     val date: String = "",
     val time: String = "",
     val isBackedUp: Boolean = false,
@@ -34,7 +38,11 @@ fun InvoiceDto.toInvoiceEntity(): InvoiceEntity {
         date = this.date,
         time = this.time,
         isBackedUp = this.isBackedUp,
-        createdAt = this.createdAt
+        createdAt = this.createdAt,
+        toEmail = this.toEmail,
+        fromEmail = this.fromEmail,
+        unitPrice = this.unitPrice,
+        quantity = this.quantity
     )
 }
 

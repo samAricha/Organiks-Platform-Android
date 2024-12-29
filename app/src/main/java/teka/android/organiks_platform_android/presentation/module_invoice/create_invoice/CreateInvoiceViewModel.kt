@@ -103,8 +103,8 @@ class CreateInvoiceViewModel @Inject constructor(
     private val invoiceHelper = InvoiceGeneratorHelper(appContext)
 
     
-    fun generateInvoice(): String? {
-        return invoiceGenerator.generateInvoice(createInvoiceUiState.value, invoiceHelper)
+    fun generateInvoice(invoiceEntity: InvoiceEntity): String? {
+        return invoiceGenerator.generateInvoice(invoiceEntity, invoiceHelper)
     }
     
     fun createInvoice(){
@@ -122,13 +122,20 @@ class CreateInvoiceViewModel @Inject constructor(
                         date = createInvoiceUiState.value.date.date.toString(),
                         time = createInvoiceUiState.value.time.toString(),
                         customerId = it.uuid,
+                        toEmail = createInvoiceUiState.value.selectedCustomer!!.email,
+                        fromEmail = createInvoiceUiState.value.issuerEmail.toString(),
+                        unitPrice = createInvoiceUiState.value.unitPrice.toString(),
+                        quantity = createInvoiceUiState.value.currentFruitCollection!!.qty,
                     )
                 }
             }
             var filePath:String? = null
             if (invoice != null) {
                 dbRepository.insertInvoiceEntity(invoice)
-                filePath = generateInvoice()
+                filePath = generateInvoice(invoice)
+                if (filePath != null){
+                    updateModelField(CreateInvoiceUiState::isFormSubmissionSuccessful, true)
+                }
             }
         }
     }

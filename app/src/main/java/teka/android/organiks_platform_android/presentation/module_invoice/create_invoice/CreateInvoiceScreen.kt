@@ -18,6 +18,7 @@ import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -54,6 +55,8 @@ fun CreateInvoiceScreen(
     val showTimePickerDialog = createInvoiceUiState.showTimePickerDialog
     val showBottomSheet = createInvoiceUiState.showBottomSheet
     val customerEntityList = createInvoiceUiState.customerEntityList
+    val context = LocalContext.current
+
 
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = Clock.System.now().toEpochMilliseconds(),
@@ -92,10 +95,16 @@ fun CreateInvoiceScreen(
         )
     }
 
+    LaunchedEffect(createInvoiceUiState.isFormSubmissionSuccessful) {
+        if (createInvoiceUiState.isFormSubmissionSuccessful) {
+            Toast.makeText(context, "Invoice created successfully", Toast.LENGTH_LONG).show()
+            navController.navigate(AppScreens.InvoiceListScreen.route)
+        }
+    }
+
     Column(
         modifier = Modifier.padding(horizontal = 12.dp)
     ) {
-        val context = LocalContext.current
 
         if (fruitCollection != null) {
             FruitInfoItemCard(
@@ -240,14 +249,14 @@ fun CreateInvoiceScreen(
                     btnText = "Generate Invoice",
                     onClick = {
                         viewModel.createInvoice()
-                        val filePath = viewModel.generateInvoice()
-                        if (filePath != null) {
-                            Timber.tag("Invoice Screen::filePath").i(filePath)
-                            Toast.makeText(context, "Invoice saved at: $filePath", Toast.LENGTH_LONG).show()
-                            navController.navigate(AppScreens.InvoiceListScreen.route)
-                        } else {
-                            Toast.makeText(context, "Failed to generate invoice.", Toast.LENGTH_LONG).show()
-                        }
+//                        val filePath = viewModel.generateInvoice()
+//                        if (filePath != null) {
+//                            Timber.tag("Invoice Screen::filePath").i(filePath)
+//                            Toast.makeText(context, "Invoice saved at: $filePath", Toast.LENGTH_LONG).show()
+//                            navController.navigate(AppScreens.InvoiceListScreen.route)
+//                        } else {
+//                            Toast.makeText(context, "Failed to generate invoice.", Toast.LENGTH_LONG).show()
+//                        }
                     }
                 )
             }

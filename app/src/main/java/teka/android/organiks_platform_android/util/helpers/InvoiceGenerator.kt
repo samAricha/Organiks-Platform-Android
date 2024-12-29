@@ -6,29 +6,30 @@ import me.kariot.invoicegenerator.data.ModelInvoiceInfo
 import me.kariot.invoicegenerator.data.ModelInvoiceItem
 import me.kariot.invoicegenerator.data.ModelInvoicePriceInfo
 import me.kariot.invoicegenerator.data.ModelTableHeader
+import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
 import teka.android.organiks_platform_android.domain.services.InvoiceGeneratorHelper
-import teka.android.organiks_platform_android.presentation.module_invoice.create_invoice.CreateInvoiceUiState
 
 class InvoiceGenerator {
 
-    fun generateInvoice(createInvoiceUiState: CreateInvoiceUiState, invoiceHelper: InvoiceGeneratorHelper): String? {
+    fun generateInvoice(
+        invoiceEntity: InvoiceEntity,
+        invoiceHelper: InvoiceGeneratorHelper
+    ): String? {
         // Header data
         val headerData = ModelInvoiceHeader(
-            phoneNumber = createInvoiceUiState.issuerPhone.text,
-            emailAddress = createInvoiceUiState.issuerEmail.text,
+            phoneNumber = invoiceEntity.fromPhone,
+            emailAddress = invoiceEntity.fromEmail,
             websiteURL = "www.organiks.com",
             address = ModelInvoiceHeader.ModelAddress("", "", "")
         )
 
         // Customer info
-        val customerInfo = createInvoiceUiState.selectedCustomer?.let {
-            ModelInvoiceInfo.ModelCustomerInfo(
-                name = it.name,
-                addressLine1 = it.phone,
-                addressLine2 = "",
-                addressLine3 = ""
-            )
-        }
+        val customerInfo = ModelInvoiceInfo.ModelCustomerInfo(
+            name = invoiceEntity.toName,
+            addressLine1 = invoiceEntity.toPhone,
+            addressLine2 = "",
+            addressLine3 = ""
+        )
 
         // Table header
         val tableHeader = ModelTableHeader(
@@ -42,28 +43,28 @@ class InvoiceGenerator {
         // Table data
         val tableData = arrayListOf(
             ModelInvoiceItem(
-                createInvoiceUiState.currentFruitCollection?.fruitTypeId ?: "",
+                invoiceEntity.fruitCollection,
                 "Fruit",
                 "Description 1",
-                createInvoiceUiState.unitPrice.text,
-                createInvoiceUiState.currentFruitCollection!!.qty ,
-                formatCash(createInvoiceUiState.totalAmount.text)
+                invoiceEntity.unitPrice,
+                invoiceEntity.quantity ,
+                formatCash(invoiceEntity.totalAmount)
             ),
             ModelInvoiceItem(
                 "Expenditure",
                 "Fruit",
                 "Description 1",
-                createInvoiceUiState.totalExpenses.text,
+                invoiceEntity.totalExpenses,
                 "1",
-                formatCash(createInvoiceUiState.totalExpenses.text)
+                formatCash(invoiceEntity.totalExpenses)
             )
         )
 
         // Price info
         val priceInfo = ModelInvoicePriceInfo(
-            subTotal = createInvoiceUiState.totalAmount.text,
+            subTotal = invoiceEntity.totalAmount,
             taxTotal = "0",
-            invoiceTotal = formatCash((createInvoiceUiState.totalAmount.text.toDouble() + createInvoiceUiState.totalExpenses.text.toDouble()).toString())
+            invoiceTotal = formatCash((invoiceEntity.totalAmount.toDouble() + invoiceEntity.totalExpenses.toDouble()).toString())
         )
 
         // Footer data
@@ -73,10 +74,10 @@ class InvoiceGenerator {
         return invoiceHelper.generateInvoice(
             fileName = "Invoice_0002",
             headerData = headerData,
-            customerInfo = customerInfo ?: throw IllegalArgumentException("Customer info is required"),
+            customerInfo = customerInfo,
             invoiceNumber = "INV-0002",
-            invoiceDate = createInvoiceUiState.date.date.toString(),
-            invoiceAmount = formatCash((createInvoiceUiState.totalAmount.text.toDouble() + createInvoiceUiState.totalExpenses.text.toDouble()).toString()),
+            invoiceDate = invoiceEntity.date,
+            invoiceAmount = formatCash((invoiceEntity.totalAmount.toDouble() + invoiceEntity.totalExpenses.toDouble()).toString()),
             tableHeader = tableHeader,
             tableData = tableData,
             priceInfo = priceInfo,

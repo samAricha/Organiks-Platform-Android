@@ -85,7 +85,7 @@ fun FruitRecordsListScreen(
                 SimpleSearchInputWidget(
                     value = gatelogSearchQuery,
                     onValueChange = { query ->
-                        viewModel.updateGatelogSearchQuery(query)
+                        viewModel.updateFruitSearchQuery(query)
 
                     },
                     modifier = Modifier.weight(1f),
