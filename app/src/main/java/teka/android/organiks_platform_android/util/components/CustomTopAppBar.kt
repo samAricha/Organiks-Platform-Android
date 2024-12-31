@@ -59,7 +59,7 @@ fun CustomTopAppBar(
                 fontFamily = quicksand
             )
         },
-        actions = {  },
+        actions = actions,
         navigationIcon = {
             IconButton(
                 onClick = {
@@ -79,8 +79,8 @@ fun CustomTopAppBar(
                 )
             }
         },
-        colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = Color.White,
-        ),
+//        colors = TopAppBarDefaults.mediumTopAppBarColors(
+//            containerColor = Color.White,
+//        ),
     )
 }

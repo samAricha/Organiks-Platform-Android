@@ -27,6 +27,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KMutableProperty1
 import kotlinx.coroutines.flow.onEach
+import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
 import teka.android.organiks_platform_android.util.helpers.InvoiceGenerator
 import java.util.Locale
 
@@ -98,13 +99,59 @@ class CreateInvoiceViewModel @Inject constructor(
         }.launchIn(viewModelScope)
     }
 
-
-
     private val invoiceGenerator = InvoiceGenerator()
     private val invoiceHelper = InvoiceGeneratorHelper(appContext)
 
-    fun generateInvoice(): String? {
-        return invoiceGenerator.generateInvoice(createInvoiceUiState.value, invoiceHelper)
+
+    fun generateInvoice(invoiceEntity: InvoiceEntity): String? {
+        return invoiceGenerator.generateInvoice(invoiceEntity, invoiceHelper)
+    }
+    
+    fun createInvoice(){
+        viewModelScope.launch {
+            val invoice = createInvoiceUiState.value.selectedCustomer?.let {
+                createInvoiceUiState.value.currentFruitCollection?.let { it1 ->
+                    InvoiceEntity(
+                        toName = it.name,
+                        toPhone = it.phone,
+                        fromName = createInvoiceUiState.value.issuerName.text,
+                        fromPhone = createInvoiceUiState.value.issuerPhone.text,
+                        totalAmount = createInvoiceUiState.value.totalAmount.text,
+                        totalExpenses = createInvoiceUiState.value.totalExpenses.text,
+                        fruitCollection = it1.qty,
+                        date = createInvoiceUiState.value.date.date.toString(),
+                        time = createInvoiceUiState.value.time.toString(),
+                        customerId = it.uuid,
+                        toEmail = createInvoiceUiState.value.selectedCustomer!!.email,
+                        fromEmail = createInvoiceUiState.value.issuerEmail.text,
+                        unitPrice = createInvoiceUiState.value.unitPrice.text,
+                        quantity = createInvoiceUiState.value.currentFruitCollection!!.qty,
+                    )
+                }
+            }
+            var filePath:String? = null
+            if (invoice != null) {
+                try {
+                    // Wait for the suspend function to complete
+                    dbRepository.insertInvoiceEntity(invoice)
+                    // Update state only after successful insertion
+                    updateModelField(CreateInvoiceUiState::isFormSubmissionSuccessful, true)
+                } catch (e: Exception) {
+                    // Handle any error during the insert operation
+                    Timber.e(e, "Error inserting invoice")
+                    updateModelField(CreateInvoiceUiState::isFormSubmissionSuccessful, false)
+                }
+
+//                dbRepository.insertInvoiceEntity(invoice)
+//                updateModelField(CreateInvoiceUiState::isFormSubmissionSuccessful, true)
+//
+//
+//                filePath = generateInvoice(invoice)
+//                if (filePath != null){
+//                    updateModelField(CreateInvoiceUiState::isFormSubmissionSuccessful, true)
+//                }
+            }
+        }
     }
 
 

@@ -17,7 +17,7 @@ import co.yml.charts.ui.linechart.model.LineStyle
 import co.yml.charts.ui.linechart.model.SelectionHighlightPoint
 import co.yml.charts.ui.linechart.model.SelectionHighlightPopUp
 import co.yml.charts.ui.linechart.model.ShadowUnderLine
-import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.EggCollectionResult
 import teka.android.organiks_platform_android.presentation.feature_dashborad.utils.getLineChartDataFromEggCollection
 import teka.android.organiks_platform_android.util.components.ProgressIndicatorWidget
 

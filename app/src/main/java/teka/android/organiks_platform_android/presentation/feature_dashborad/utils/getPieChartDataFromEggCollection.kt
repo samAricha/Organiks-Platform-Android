@@ -3,7 +3,7 @@ package teka.android.organiks_platform_android.presentation.feature_dashborad.ut
 import androidx.compose.ui.graphics.Color
 import co.yml.charts.common.model.PlotType
 import co.yml.charts.ui.piechart.models.PieChartData
-import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.EggCollectionResult
 import kotlin.random.Random
 
 fun getPieChartDataFromEggCollection(

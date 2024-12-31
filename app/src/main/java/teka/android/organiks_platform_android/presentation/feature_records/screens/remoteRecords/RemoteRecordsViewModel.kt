@@ -11,9 +11,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
-import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionDto
-import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.FruitCollectionDto
+import teka.android.organiks_platform_android.data.remote.models.MilkCollectionResult
 import teka.android.organiks_platform_android.domain.repository.RemoteEggRecordsRepository
 import teka.android.organiks_platform_android.domain.repository.RemoteFruitRecordsRepository
 import teka.android.organiks_platform_android.domain.repository.RemoteMilkRecordsRepository

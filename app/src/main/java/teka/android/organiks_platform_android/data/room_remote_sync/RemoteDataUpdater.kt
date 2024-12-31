@@ -10,9 +10,9 @@ import teka.android.organiks_platform_android.data.room.entities.EggCollection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import teka.android.organiks_platform_android.data.remote.retrofit.models.toEggCollectionRequest
-import teka.android.organiks_platform_android.data.remote.retrofit.models.toFruitCollectionRequest
-import teka.android.organiks_platform_android.data.remote.retrofit.models.toMilkCollectionRequest
+import teka.android.organiks_platform_android.data.remote.models.toEggCollectionRequest
+import teka.android.organiks_platform_android.data.remote.models.toFruitCollectionRequest
+import teka.android.organiks_platform_android.data.remote.models.toMilkCollectionRequest
 import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.entities.MilkCollection
 import teka.android.organiks_platform_android.domain.repository.DbRepository
@@ -30,8 +30,6 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
         eggCollections: List<EggCollection>,
         repository: DbRepository
     ): UpdateResult {
-
-
         return try{
             withContext(Dispatchers.IO) {
                 eggCollections.forEach { eggCollection ->
@@ -118,7 +116,10 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
     }
 
 
-    suspend fun updateRemoteFruitCollectionData(fruitCollections: List<FruitCollectionEntity>, repository: DbRepository):UpdateResult {
+    suspend fun updateRemoteFruitCollectionData(
+        fruitCollections: List<FruitCollectionEntity>,
+        repository: DbRepository
+    ):UpdateResult {
         return try {
             withContext(Dispatchers.IO) {
                 fruitCollections.forEach { fruitCollection ->
@@ -150,7 +151,6 @@ class RemoteDataUpdater @Inject constructor(private val appContext: Context) {
                     }.addOnFailureListener { e ->
                         Toast.makeText(appContext, "Fail to add fruit collection to Cloud \n$e", Toast.LENGTH_SHORT).show()
                     }
-
 
                 }
                 UpdateResult.Success("Data updated successfully.")

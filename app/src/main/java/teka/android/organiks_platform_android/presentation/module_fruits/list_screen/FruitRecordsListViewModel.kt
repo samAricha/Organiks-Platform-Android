@@ -28,10 +28,10 @@ class FruitRecordsListViewModel @Inject constructor(
 
     init {
         Timber.tag(FruitList_VM_TAG).i("init function now")
-        observeVehicleList()
+        observeFruitList()
     }
 
-    private fun observeVehicleList() {
+    private fun observeFruitList() {
         viewModelScope.launch{
             launch{
                 dbRepository
@@ -54,12 +54,12 @@ class FruitRecordsListViewModel @Inject constructor(
     }
 
 
-    fun updateGatelogSearchQuery(query: String) {
+    fun updateFruitSearchQuery(query: String) {
         updateModelField(FruitRecordsUIState::fruitSearchQuery, query)
-        filterGateLogs(query)
+        filterFruitCollections(query)
     }
 
-    private fun filterGateLogs(query: String) {
+    private fun filterFruitCollections(query: String) {
         viewModelScope.launch {
             dbRepository.getFruitCollections.collect { vehicleList ->
                 val filteredList = if (query.isBlank()) {

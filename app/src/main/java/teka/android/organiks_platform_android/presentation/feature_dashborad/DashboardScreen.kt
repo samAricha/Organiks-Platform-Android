@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import teka.android.organiks_platform_android.R
-import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.EggCollectionResult
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.presentation.feature_dashborad.components.BarchartWithSolidBarsWidget
 import teka.android.organiks_platform_android.presentation.feature_dashborad.components.DashboardCard

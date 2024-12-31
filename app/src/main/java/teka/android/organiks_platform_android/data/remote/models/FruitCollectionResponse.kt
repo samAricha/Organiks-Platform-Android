@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.data.remote.retrofit.models
+package teka.android.organiks_platform_android.data.remote.models
 
 import android.annotation.SuppressLint
 import kotlinx.serialization.Serializable
@@ -23,4 +23,9 @@ fun FruitCollectionDto.toFruitCollectionEntity(): FruitCollectionEntity {
         date = this.date,
         time = this.time
     )
+}
+
+// Function to map a list of FruitCollectionDto to a list of FruitCollectionEntity
+fun List<FruitCollectionDto>.toFruitCollectionEntityList(): List<FruitCollectionEntity> {
+    return this.map { it.toFruitCollectionEntity() }
 }

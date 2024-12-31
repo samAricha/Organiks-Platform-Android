@@ -1,14 +1,8 @@
 package teka.android.organiks_platform_android.data.gemini.repository
 
 import android.graphics.Bitmap
-import androidx.lifecycle.viewModelScope
-import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.GenerateContentResponse
-import com.google.ai.client.generativeai.type.content
 import teka.android.organiks_platform_android.data.gemini.GeminiService
 import io.ktor.utils.io.errors.IOException
-import kotlinx.coroutines.launch
-import teka.android.organiks_platform_android.BuildConfig
 import teka.android.organiks_platform_android.domain.models.ChatStatusModel
 import teka.android.organiks_platform_android.domain.repository.GeminiRepository
 

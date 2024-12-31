@@ -14,7 +14,7 @@ import co.yml.charts.common.components.Legends
 import co.yml.charts.common.utils.DataUtils
 import co.yml.charts.ui.piechart.charts.PieChart
 import co.yml.charts.ui.piechart.models.PieChartConfig
-import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.EggCollectionResult
 import teka.android.organiks_platform_android.presentation.feature_dashborad.utils.getPieChartDataFromEggCollection
 import teka.android.organiks_platform_android.util.components.ProgressIndicatorWidget
 

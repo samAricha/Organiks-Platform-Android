@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.EggCollectionResult
 import teka.android.organiks_platform_android.data.room.entities.EggCollection
 import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
 import teka.android.organiks_platform_android.data.room.entities.MilkCollection

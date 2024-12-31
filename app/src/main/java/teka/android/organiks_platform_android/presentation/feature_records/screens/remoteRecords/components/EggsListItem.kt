@@ -19,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.EggCollectionResult
 import teka.android.organiks_platform_android.ui.theme.PoppinsExtraLight
 import teka.android.organiks_platform_android.ui.theme.PoppinsLight
 import java.text.SimpleDateFormat

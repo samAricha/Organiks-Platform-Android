@@ -32,9 +32,9 @@ import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavController
 import teka.android.organiks_platform_android.R
-import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
-import teka.android.organiks_platform_android.data.remote.retrofit.models.FruitCollectionDto
-import teka.android.organiks_platform_android.data.remote.retrofit.models.MilkCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.FruitCollectionDto
+import teka.android.organiks_platform_android.data.remote.models.MilkCollectionResult
 import teka.android.organiks_platform_android.navigation.AppScreens
 import teka.android.organiks_platform_android.presentation.feature_records.EmptyCollectionViewState
 import teka.android.organiks_platform_android.presentation.feature_records.screens.CategorySelection

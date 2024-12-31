@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.data.remote.retrofit.models
+package teka.android.organiks_platform_android.data.remote.models
 
 import android.annotation.SuppressLint
 import kotlinx.serialization.Serializable

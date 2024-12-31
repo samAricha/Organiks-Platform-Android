@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 import co.yml.charts.axis.DataCategoryOptions
 import co.yml.charts.common.model.Point
 import co.yml.charts.ui.barchart.models.BarData
-import teka.android.organiks_platform_android.data.remote.retrofit.models.EggCollectionResult
+import teka.android.organiks_platform_android.data.remote.models.EggCollectionResult
 import kotlin.random.Random
 
 fun getBarChartDataFromEggCollection(
