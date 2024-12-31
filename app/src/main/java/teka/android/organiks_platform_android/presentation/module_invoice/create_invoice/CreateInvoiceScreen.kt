@@ -98,7 +98,10 @@ fun CreateInvoiceScreen(
     LaunchedEffect(createInvoiceUiState.isFormSubmissionSuccessful) {
         if (createInvoiceUiState.isFormSubmissionSuccessful) {
             Toast.makeText(context, "Invoice created successfully", Toast.LENGTH_LONG).show()
-            navController.navigate(AppScreens.InvoiceListScreen.route)
+            navController.navigate(AppScreens.InvoiceListScreen.route) {
+                launchSingleTop = true
+                popUpTo(navController.graph.startDestinationId) { inclusive = true }
+            }
         }
     }
 

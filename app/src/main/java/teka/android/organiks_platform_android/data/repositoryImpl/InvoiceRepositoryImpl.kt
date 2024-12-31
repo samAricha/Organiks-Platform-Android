@@ -10,6 +10,7 @@ import teka.android.organiks_platform_android.data.room.RoomRepository
 import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
 import teka.android.organiks_platform_android.domain.repository.def.InvoiceRepository
 import teka.android.organiks_platform_android.util.Resource
+import timber.log.Timber
 
 
 class InvoiceRepositoryImpl @Inject constructor(
@@ -25,7 +26,6 @@ class InvoiceRepositoryImpl @Inject constructor(
         try {
             // Fetch all unsynced invoices from Room database
             val unsyncedInvoices = roomRepository.getUnsyncedInvoices()
-
             // Iterate over the unsynced invoices and sync them to Firebase
             for (invoice in unsyncedInvoices) {
                 // Add invoice to Firebase
@@ -36,6 +36,7 @@ class InvoiceRepositoryImpl @Inject constructor(
 
             emit(Resource.Success(Unit)) // Emit success after syncing all invoices
         } catch (e: Exception) {
+            Timber.tag("Invoice Repositoryh").i("error syncing invoices")
             emit(Resource.Error(e.localizedMessage ?: "Error syncing invoices")) // Emit error if something goes wrong
         }
     }

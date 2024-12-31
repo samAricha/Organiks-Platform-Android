@@ -29,7 +29,6 @@ class CustomerRepositoryImpl @Inject constructor(
             for (customer in unsyncedCustomers) {
                 // Add customer to Firebase
                 firebaseRemoteDatabase1.addCustomer(customer)
-
                 // After successful sync, mark the customer as synced in Room
                 roomRepository.markCustomerAsSynced(customer.uuid)
             }

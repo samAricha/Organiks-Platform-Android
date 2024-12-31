@@ -2,6 +2,7 @@ package teka.android.organiks_platform_android.util.components
 
 import android.annotation.SuppressLint
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -56,6 +57,8 @@ import teka.android.organiks_platform_android.ui.theme.PrimaryColor
 import teka.android.organiks_platform_android.ui.theme.PrimaryVariant
 import teka.android.organiks_platform_android.util.CustomContextProvider
 import teka.android.organiks_platform_android.util.Resource
+import teka.android.organiks_platform_android.util.helpers.HandleBackPress
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -85,6 +88,16 @@ fun ScaffoldContent(
                 hasBackNavigation = !showBottomBar,
                 onBackNavigationClick = {
                     navHostController.popBackStack()
+
+                    if (!navHostController.popBackStack()) {
+                        // If no back stack is available, navigate to the home screen
+                        navHostController.navigate(AppScreens.HomeScreen.route) {
+                            // Avoid creating multiple copies of the home screen in the back stack
+                            popUpTo(navHostController.graph.startDestinationId) {
+                                inclusive = true
+                            }
+                        }
+                    }
                 },
                 actions = {
                     IconButton(
@@ -203,6 +216,7 @@ fun ScaffoldContent(
 
         }
     ) { padding ->
+        HandleBackPress(navHostController, AppScreens.HomeScreen.route)
 
         Box(
             modifier = Modifier.padding(
@@ -217,12 +231,15 @@ fun ScaffoldContent(
                     LoadingScreen(
                         logoResId = R.drawable.cloud
                     )
+                    Timber.tag("SYNC STATE::").i("isLoading")
                 }
                 is Resource.Success -> {
                     Toast.makeText(context, "Sync Successful!", Toast.LENGTH_SHORT).show()
+                    Timber.tag("SYNC STATE::").i("isSuccess")
                 }
                 is Resource.Error -> {
                     Toast.makeText(context, "Error: ${(syncState as Resource.Error).message}", Toast.LENGTH_SHORT).show()
+                    Timber.tag("SYNC STATE::").i("isError")
                 }
                 is Resource.Idle -> {
 //                    Toast.makeText(context, "Error: ${(syncState as Resource.Error).message}", Toast.LENGTH_SHORT).show()
