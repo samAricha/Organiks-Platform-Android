@@ -14,6 +14,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Agriculture
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -103,7 +104,7 @@ fun ManagementListScreen(
                 Timber.tag("new farm").i("EFAB clicked")
                 navController.navigate(AppScreens.CreateFarmScreen.route)
             },
-            icon = { Icon(Icons.Filled.Add, contentDescription = "Create New Farm") },
+            icon = { Icon(Icons.Filled.Agriculture, contentDescription = "Create New Farm") },
             text = { Text(text = "Create New Farm") },
         )
     }

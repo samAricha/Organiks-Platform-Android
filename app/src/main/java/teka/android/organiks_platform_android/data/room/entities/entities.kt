@@ -29,8 +29,8 @@ data class FruitType(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name:String
-
 )
+
 
 @Entity(tableName = "egg_collections")
 data class EggCollection(
@@ -94,7 +94,29 @@ data class FruitCollectionEntity(
 
     val searchableString: String
         get() = "${fruitTypeId} ${qty}"
+}
 
+@Entity(tableName = "weighing_entity")
+data class WeighingEntity(
+    @ColumnInfo(name = "weighing_id")
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
+    val uuid: String = generateUniqueId(),
+    val qty: String,
+    val fruitTypeId: String,
+    val date: Long,
+    val time: String,
+    var isBackedUp: Boolean = false,
+    val createdAt: Long = System.currentTimeMillis()
+) {
+    companion object {
+        fun generateUniqueId(): String {
+            return UUID.randomUUID().toString()
+        }
+    }
+
+    val searchableString: String
+        get() = "${fruitTypeId} ${qty}"
 }
 
 @Entity(tableName = "customer_table")

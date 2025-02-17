@@ -44,8 +44,8 @@ data class LoginState(
 class AuthViewModel @Inject constructor(
     private val authManager: AuthManager,
     private val dataStoreRepository: DataStoreRepository,
-    val applicationContext: Context,
-    ) : ViewModel() {
+    val applicationContext: Context
+) : ViewModel() {
 
 
 

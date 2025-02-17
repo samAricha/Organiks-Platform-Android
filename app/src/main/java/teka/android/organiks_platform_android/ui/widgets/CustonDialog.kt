@@ -44,7 +44,7 @@ import teka.android.organiks_platform_android.ui.theme.ReemKufiMedium
 fun CustomDialog(
     value: String,
     setShowDialog: (Boolean) -> Unit,
-    setValue: (String) -> Unit
+    setValue: (String) -> Unit,
 ) {
 
     val txtFieldError = remember { mutableStateOf("") }

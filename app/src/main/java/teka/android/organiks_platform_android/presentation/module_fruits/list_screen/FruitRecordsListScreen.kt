@@ -163,7 +163,7 @@ fun FruitRecordsListScreen(
                 navController.navigate(AppScreens.FruitRecordingForm.route)
 
             },
-            icon = { Icon(Icons.Filled.Add, contentDescription = "Add Fruit") },
+            icon = { Text(text = "🍎") }, // Using emoji as an icon
             text = { Text(text = "Add Fruit") },
         )
     }

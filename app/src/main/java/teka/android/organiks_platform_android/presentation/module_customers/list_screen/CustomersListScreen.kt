@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.PersonAddAlt
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -163,7 +164,7 @@ fun CustomersListScreen(
                 navController.navigate(AppScreens.AddCustomerForm.route)
 
             },
-            icon = { Icon(Icons.Filled.Add, contentDescription = "Add Customer") },
+            icon = { Icon(Icons.Filled.PersonAddAlt, contentDescription = "Add Customer") },
             text = { Text(text = "Add Customer") },
         )
     }
