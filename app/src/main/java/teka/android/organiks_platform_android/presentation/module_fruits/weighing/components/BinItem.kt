@@ -36,12 +36,11 @@ fun BinItem(
     onReturnClick: () -> Unit,
     onSourceClick: () -> Unit,
     onDeleteClick: () -> Unit,
-    index:Int
+    index:Int,
+    modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 10.dp),
+        modifier = modifier,
         shape = RoundedCornerShape(5.dp),
         border = BorderStroke(1.dp, Color.Gray),
         colors = CardDefaults.cardColors(containerColor = Color.White),
@@ -52,15 +51,15 @@ fun BinItem(
 
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp),
+                    .padding(horizontal = 10.dp)
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 // Bin Number
                 Text(
                     text = (index+1).toString(),
-                    modifier = Modifier.padding(start = 10.dp),
+                    modifier = Modifier,
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center
                 )
@@ -76,11 +75,19 @@ fun BinItem(
                     modifier = Modifier.weight(1f)
                 )
 
+                IconButton(onClick = onDeleteClick) {
+                    Icon(
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = "Delete bin",
+                        tint = Color.Red
+                    )
+                }
+
                 // Icons
-                Row(
+/*                Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-/*                    IconButton(onClick = onReturnClick) {
+*//*                    IconButton(onClick = onReturnClick) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardReturn,
                             contentDescription = "Return to ripening",
@@ -94,22 +101,16 @@ fun BinItem(
                             contentDescription = "Bin source",
                             tint = Color(0xFFFFA500) // Amber color
                         )
-                    }*/
+                    }*//*
 
-                    IconButton(onClick = onDeleteClick) {
-                        Icon(
-                            imageVector = Icons.Filled.Delete,
-                            contentDescription = "Delete bin",
-                            tint = Color.Red
-                        )
-                    }
-                }
+
+                }*/
             }
 
-            // Yellow Divider at Bottom
+
             Spacer(
                 modifier = Modifier
-                    .fillMaxWidth(0.4f)
+                    .fillMaxWidth(0.2f)
                     .height(3.dp)
                     .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(2.dp))
                     .align(Alignment.CenterHorizontally)
