@@ -100,12 +100,27 @@ fun FruitItemCard(
             }
             Spacer(modifier = Modifier.height(14.dp))
             HorizontalDivider()
-            CustomBtn(
-                btnText = "Invoice",
-                onClick = {
-                    navController.navigate(AppScreens.CreateInvoiceScreen.createRoute(fruitCollectionEntity.uuid))
-                }
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                CustomBtn(
+                    modifier = Modifier.weight(1f),
+                    btnText = "Invoice",
+                    onClick = {
+                        navController.navigate(AppScreens.CreateInvoiceScreen.createRoute(fruitCollectionEntity.uuid))
+                    }
+                )
+                CustomBtn(
+                    modifier = Modifier.weight(1f),
+                    btnText = "Weighing",
+                    onClick = {
+                        navController.navigate(AppScreens.WeighingFormScreen.createRoute(fruitCollectionEntity.uuid))
+                    }
+                )
+            }
+
         }
 
     }

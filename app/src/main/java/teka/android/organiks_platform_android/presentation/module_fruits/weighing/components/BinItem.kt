@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.module_fruits.form.components
+package teka.android.organiks_platform_android.presentation.module_fruits.weighing.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -28,14 +28,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import teka.android.organiks_platform_android.data.room.entities.WeighingEntity
 
 @Composable
 fun BinItem(
-    binWeight: String,
-    binNumber: String,
+    weighingEntity: WeighingEntity,
     onReturnClick: () -> Unit,
     onSourceClick: () -> Unit,
-    onDeleteClick: () -> Unit
+    onDeleteClick: () -> Unit,
+    index:Int
 ) {
     Card(
         modifier = Modifier
@@ -47,33 +48,26 @@ fun BinItem(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column {
-            // Yellow Divider at Bottom
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth(0.4f)
-                    .height(3.dp)
-                    .background(Color(0xFFFFD700), RoundedCornerShape(2.dp))
-                    .align(Alignment.CenterHorizontally)
-            )
+
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(10.dp),
+                    .padding(horizontal = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Bin Weight
+                // Bin Number
                 Text(
-                    text = binWeight,
+                    text = (index+1).toString(),
                     modifier = Modifier.padding(start = 10.dp),
                     style = MaterialTheme.typography.bodyLarge,
                     textAlign = TextAlign.Center
                 )
 
-                // Bin Number (Centered)
+                // Bin Weight (Centered)
                 Text(
-                    text = binNumber,
+                    text = weighingEntity.weight,
                     style = MaterialTheme.typography.bodyLarge.copy(
                         fontWeight = FontWeight.Bold,
                         fontFamily = FontFamily.SansSerif
@@ -86,7 +80,7 @@ fun BinItem(
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    IconButton(onClick = onReturnClick) {
+/*                    IconButton(onClick = onReturnClick) {
                         Icon(
                             imageVector = Icons.Filled.KeyboardReturn,
                             contentDescription = "Return to ripening",
@@ -100,7 +94,7 @@ fun BinItem(
                             contentDescription = "Bin source",
                             tint = Color(0xFFFFA500) // Amber color
                         )
-                    }
+                    }*/
 
                     IconButton(onClick = onDeleteClick) {
                         Icon(
@@ -111,6 +105,15 @@ fun BinItem(
                     }
                 }
             }
+
+            // Yellow Divider at Bottom
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth(0.4f)
+                    .height(3.dp)
+                    .background(MaterialTheme.colorScheme.primary, RoundedCornerShape(2.dp))
+                    .align(Alignment.CenterHorizontally)
+            )
         }
     }
 }

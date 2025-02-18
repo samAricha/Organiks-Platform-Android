@@ -12,6 +12,7 @@ import teka.android.organiks_platform_android.data.room.entities.FruitType
 import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
 import teka.android.organiks_platform_android.data.room.entities.MilkCollection
 import teka.android.organiks_platform_android.data.room.entities.ProductionCategory
+import teka.android.organiks_platform_android.data.room.entities.WeighingEntity
 
 @Entity
 @Dao
@@ -86,7 +87,40 @@ interface FruitCollectionDao{
 
     @Query("DELETE FROM fruit_collections WHERE isBackedUp = 1")
     suspend fun deleteSyncedFruitCollections()
+}
 
+
+@Entity
+@Dao
+interface WeightsDao{
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(weighingEntity: WeighingEntity)
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun update(weighingEntity: WeighingEntity)
+
+    @Delete
+    suspend fun delete(weighingEntity: WeighingEntity)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertWeight(weighingEntity: List<WeighingEntity>)
+
+
+    @Query("SELECT * FROM weighing_entity")
+    fun getAllWeights(): Flow<List<WeighingEntity>>
+
+    @Query("SELECT * FROM weighing_entity WHERE fruitCollectionId=:fruitCollectionId")
+    fun getWeightsByFruitCollectionId(fruitCollectionId: String): Flow<WeighingEntity>
+
+
+    @Query("SELECT * FROM weighing_entity WHERE isBackedUp = 0")
+    suspend fun getUnsyncedFruitCollections(): List<WeighingEntity>
+
+    @Query("UPDATE weighing_entity SET isBackedUp = 1 WHERE uuid = :uuid")
+    suspend fun markWeightsAsSynced(uuid: String)
+
+    @Query("DELETE FROM weighing_entity WHERE isBackedUp = 1")
+    suspend fun deleteSyncedWeights()
 }
 
 @Entity

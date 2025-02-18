@@ -1,4 +1,4 @@
-package teka.android.organiks_platform_android.presentation.module_fruits.form
+package teka.android.organiks_platform_android.presentation.module_fruits.weighing
 
 import androidx.compose.runtime.Stable
 import kotlinx.datetime.LocalDateTime
@@ -11,14 +11,12 @@ import teka.android.organiks_platform_android.util.today
 
 
 @Stable
-data class FruitRecordingFormUIState(
-    var fruitType: TextFieldStateMngr = (TextFieldStateMngr(labelText = "fruit")),
+data class WeighingFormUIState(
     var fruitWeight: TextFieldStateMngr = (TextFieldStateMngr(labelText = "fruit weight")),
     var weightList: List<WeighingEntity> = emptyList(),
     var isSavingFormData: Boolean = false,
     var isUpdatingItem: Boolean = false,
-    var showDatePickerDialog: Boolean = false,
-    var showTimePickerDialog: Boolean = false,
+    var isFetchingWeights: Boolean = false,
     var date: LocalDateTime = today(),
     var time: LocalTime = today().time,
     ){

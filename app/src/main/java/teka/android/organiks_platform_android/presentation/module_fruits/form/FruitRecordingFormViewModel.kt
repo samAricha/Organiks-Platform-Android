@@ -8,17 +8,19 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import teka.android.organiks_platform_android.data.room.entities.FruitCollectionEntity
 import teka.android.organiks_platform_android.domain.repository.DbRepository
+import teka.android.organiks_platform_android.presentation.module_fruits.list_screen.FruitRecordsUIState
 import teka.android.organiks_platform_android.util.TextFieldStateMngr
 import teka.android.organiks_platform_android.util.formattedTimeBasedOnTimeFormat
 import teka.android.organiks_platform_android.util.toEpochMillis
 import javax.inject.Inject
 import kotlin.reflect.KMutableProperty1
 
-const val FruitForm_VM_TAG = "FruitForm_VM_TAG"
+private const val FruitForm_VM_TAG = "FruitForm_VM_TAG"
 
 @HiltViewModel
 class FruitRecordingFormViewModel @Inject constructor(
@@ -44,6 +46,7 @@ class FruitRecordingFormViewModel @Inject constructor(
             )
         }
     }
+
 
 
     //////////////////// STATE UPDATES ////////////////////////

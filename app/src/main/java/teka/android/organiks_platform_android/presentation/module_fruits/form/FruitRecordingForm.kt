@@ -1,6 +1,7 @@
 package teka.android.organiks_platform_android.presentation.module_fruits.form
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -9,6 +10,7 @@ import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -84,80 +86,89 @@ fun FruitRecordingForm(
         FruitType(3, "Oranges")
     )
 
-    Column(
-        modifier = Modifier.padding(horizontal = 12.dp)
-    ) {
+    Scaffold(
+        bottomBar = {
+            val buttonTitle = if (fruitRecordingFormUiState.isUpdatingItem) "Update" else "Save"
+            CustomBtn(
+                modifier = Modifier.padding(horizontal = 15.dp),
+                onClick = {
+                    when (fruitRecordingFormUiState.isUpdatingItem) {
+                        true -> {
+                            viewModel.saveFruitCollection()
+                        }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            CustomDateBoxField(
-                modifier = Modifier.weight(1f),
-                currentTextState = fruitRecordingFormUiState.date.date.toString(),
-                onClick = {
-                    viewModel.updateModelField(FruitRecordingFormUIState::showDatePickerDialog, true)
+                        false -> {
+                            viewModel.saveFruitCollection()
+                        }
+                    }
+                    navController.popBackStack()
                 },
-                textStyle = MaterialTheme.typography.titleSmall.copy(
-                    fontSize = 16.sp,
-                ),
-                shape = Shapes.small
-            )
-            CustomTimeBoxField(
-                modifier = Modifier.weight(1f),
-                currentTextState = fruitRecordingFormUiState.time.formattedTimeBasedOnTimeFormat(12),
-                onClick = {
-                    viewModel.updateModelField(FruitRecordingFormUIState::showTimePickerDialog, true)
-                },
-                textStyle = MaterialTheme.typography.titleSmall.copy(
-                    fontSize = 16.sp,
-                ),
-                shape = Shapes.medium
+                btnText = buttonTitle
             )
         }
-        Spacer(modifier = Modifier.size(12.dp))
+    ) { padding: PaddingValues ->
 
-        CustomDropDown(
-            labelText = "Fruit Type",
-            options = fruitTypeItems,
-            selectedOption = fruitRecordingFormUiState.fruitType,
-            onOptionSelected = { selectedOption ->
-                viewModel.updateStringField(FruitRecordingFormUIState::fruitType, selectedOption.name)
-            },
-            optionTextProvider = { option ->
-                Text(option.name)
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 12.dp)
+                .padding(top = padding.calculateTopPadding())
+        ) {
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                CustomDateBoxField(
+                    modifier = Modifier.weight(1f),
+                    currentTextState = fruitRecordingFormUiState.date.date.toString(),
+                    onClick = {
+                        viewModel.updateModelField(
+                            FruitRecordingFormUIState::showDatePickerDialog,
+                            true
+                        )
+                    },
+                    textStyle = MaterialTheme.typography.titleSmall.copy(
+                        fontSize = 16.sp,
+                    ),
+                    shape = Shapes.small
+                )
+                CustomTimeBoxField(
+                    modifier = Modifier.weight(1f),
+                    currentTextState = fruitRecordingFormUiState.time.formattedTimeBasedOnTimeFormat(
+                        12
+                    ),
+                    onClick = {
+                        viewModel.updateModelField(
+                            FruitRecordingFormUIState::showTimePickerDialog,
+                            true
+                        )
+                    },
+                    textStyle = MaterialTheme.typography.titleSmall.copy(
+                        fontSize = 16.sp,
+                    ),
+                    shape = Shapes.medium
+                )
             }
-        )
+            Spacer(modifier = Modifier.size(12.dp))
 
-        Spacer(modifier = Modifier.size(12.dp))
-
-
-        CustomInputTextField(
-            labelText = "Fruit Weight(kgs)",
-            value = fruitRecordingFormUiState.fruitWeight,
-            onValueChange = {
-                viewModel.updateStringField(FruitRecordingFormUIState::fruitWeight, it)
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-        )
-
-
-        Spacer(modifier = Modifier.height(34.dp))
-        val buttonTitle = if (fruitRecordingFormUiState.isUpdatingItem) "Update" else "Save"
-        CustomBtn(
-            onClick ={
-                when(fruitRecordingFormUiState.isUpdatingItem){
-                    true -> {
-                        viewModel.saveFruitCollection()
-                    }
-                    false -> {
-                        viewModel.saveFruitCollection()
-                    }
+            CustomDropDown(
+                labelText = "Fruit Type",
+                options = fruitTypeItems,
+                selectedOption = fruitRecordingFormUiState.fruitType,
+                onOptionSelected = { selectedOption ->
+                    viewModel.updateStringField(
+                        FruitRecordingFormUIState::fruitType,
+                        selectedOption.name
+                    )
+                },
+                optionTextProvider = { option ->
+                    Text(option.name)
                 }
-                navController.popBackStack()
-            },
-            btnText = buttonTitle
-        )
+            )
+
+            Spacer(modifier = Modifier.height(34.dp))
+
+        }
     }
 }
 

@@ -15,6 +15,7 @@ import teka.android.organiks_platform_android.data.room.entities.FruitCollection
 import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
 import teka.android.organiks_platform_android.data.room.entities.MilkCollection
 import teka.android.organiks_platform_android.data.room.entities.ProductionCategory
+import teka.android.organiks_platform_android.data.room.entities.WeighingEntity
 
 
 @TypeConverters(value = [DateConverter::class])
@@ -25,6 +26,7 @@ import teka.android.organiks_platform_android.data.room.entities.ProductionCateg
         EggCollection::class,
         MilkCollection::class,
         FruitCollectionEntity::class,
+        WeighingEntity::class,
         CustomerEntity::class,
         InvoiceEntity::class,
         FarmEntity::class,
@@ -39,6 +41,7 @@ abstract class OrganiksDatabase: RoomDatabase() {
     abstract fun eggCollectionDao():EggCollectionDao
     abstract fun milkCollectionDao():MilkCollectionDao
     abstract fun fruitCollectionDao():FruitCollectionDao
+    abstract fun weightsDao(): WeightsDao
     abstract fun customerDao():CustomerDao
     abstract fun invoiceDao():InvoiceDao
     abstract fun farmDao():FarmDao

@@ -24,6 +24,11 @@ sealed class AppScreens(
             return "invoice_screen/$fruitCollectionId"
         }
     }
+    data object WeighingFormScreen: AppScreens(route = "weighing_screen/{fruitCollectionId}", title = "Invoice"){
+        fun createRoute(fruitCollectionId: String): String {
+            return "weighing_screen/$fruitCollectionId"
+        }
+    }
     data object PDFViewerScreen: AppScreens(route = "pdf_viewer_screen/{filePath}", title = "PDF Viewer"){
         fun createRoute(filePath: String): String {
             return "pdf_viewer_screen/${Uri.encode(filePath)}"

@@ -28,6 +28,7 @@ import teka.android.organiks_platform_android.presentation.module_farm_managemen
 import teka.android.organiks_platform_android.presentation.module_farm_management.forms.create_expenditure.CreateExpenditureForm
 import teka.android.organiks_platform_android.presentation.module_invoice.create_invoice.CreateInvoiceScreen
 import teka.android.organiks_platform_android.presentation.module_fruits.list_screen.FruitRecordsListScreen
+import teka.android.organiks_platform_android.presentation.module_fruits.weighing.WeighingForm
 import teka.android.organiks_platform_android.presentation.module_invoice.invoice_list_screen.InvoiceListScreen
 import teka.android.organiks_platform_android.presentation.module_invoice.pdf_viewer.PDFViewerScreen
 import teka.android.organiks_platform_android.ui.animations.scaleIntoContainer
@@ -372,6 +373,29 @@ fun MainNavGraph(
             )
         ){
             CreateInvoiceScreen(
+                navController = navController
+            )
+        }
+
+        composable(
+            route = AppScreens.WeighingFormScreen.route,
+            enterTransition = {
+                scaleIntoContainer()
+            },
+            exitTransition = {
+                scaleOutOfContainer(direction = AnimatedContentTransitionScope.SlideDirection.Right)
+            },
+            popEnterTransition = {
+                scaleIntoContainer(direction = AnimatedContentTransitionScope.SlideDirection.Left)
+            },
+            popExitTransition = {
+                scaleOutOfContainer()
+            },
+            arguments = listOf(
+                navArgument("fruitCollectionId") { type = NavType.StringType },
+            )
+        ){
+            WeighingForm(
                 navController = navController
             )
         }

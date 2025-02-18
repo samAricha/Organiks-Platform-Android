@@ -10,6 +10,7 @@ import teka.android.organiks_platform_android.data.room.FruitCollectionDao
 import teka.android.organiks_platform_android.data.room.InvoiceDao
 import teka.android.organiks_platform_android.data.room.MilkCollectionDao
 import teka.android.organiks_platform_android.data.room.ProductionCategoryDao
+import teka.android.organiks_platform_android.data.room.WeightsDao
 import teka.android.organiks_platform_android.data.room.entities.CustomerEntity
 import teka.android.organiks_platform_android.data.room.entities.EggCollection
 import teka.android.organiks_platform_android.data.room.entities.EggType
@@ -19,11 +20,13 @@ import teka.android.organiks_platform_android.data.room.entities.FruitCollection
 import teka.android.organiks_platform_android.data.room.entities.InvoiceEntity
 import teka.android.organiks_platform_android.data.room.entities.MilkCollection
 import teka.android.organiks_platform_android.data.room.entities.ProductionCategory
+import teka.android.organiks_platform_android.data.room.entities.WeighingEntity
 
 class DbRepository(
     private val eggTypeDao: EggTypeDao,
     private val eggCollectionDao: EggCollectionDao,
     private val fruitCollectionDao: FruitCollectionDao,
+    private val weightsDao: WeightsDao,
     private val customerDao: CustomerDao,
     private val invoiceDao: InvoiceDao,
     private val farmDao: FarmDao,
@@ -39,6 +42,7 @@ class DbRepository(
     val getEggCollections = eggCollectionDao.getAllEggCollections()
     val getMilkCollection = milkCollectionDao.getAllMilkCollections()
     val getFruitCollections = fruitCollectionDao.getAllFruitCollections()
+    val getWeights = weightsDao.getAllWeights()
     val getCustomers = customerDao.getAllCustomers()
     val getAllInvoices = invoiceDao.getAllInvoices()
     val getAllExpenses = expenditureDao.getAllExpenses()
@@ -89,6 +93,17 @@ class DbRepository(
     }
     fun getFruitCollectionByUUId(uuid: String): Flow<FruitCollectionEntity> {
         return fruitCollectionDao.getFruitCollectionByUUId(uuid)
+    }
+    
+    //<<<<<<<<<< WEIGHTS >>>>>>>>
+    suspend fun insertWeight(weight: WeighingEntity){
+        weightsDao.insert(weight)
+    }
+    suspend fun updateWeight(weighingEntity: WeighingEntity){
+        weightsDao.update(weighingEntity = weighingEntity)
+    }
+    fun getWeightsByFruitCollectionId(uuid: String): Flow<WeighingEntity> {
+        return weightsDao.getWeightsByFruitCollectionId(uuid)
     }
 
     //<<<<<<<<<< CUSTOMER COLLECTIONS >>>>>>>>

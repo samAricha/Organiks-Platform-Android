@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -49,12 +48,12 @@ fun FruitRecordsListScreen(
     navController: NavController,
     viewModel: FruitRecordsListViewModel = hiltViewModel()
 ) {
-    val gateLogTabUIState = viewModel.customerListUIState.collectAsState().value
+    val fruitRecordsListUIState = viewModel.customerListUIState.collectAsState().value
 
-    val gatelogSearchQuery = gateLogTabUIState.fruitSearchQuery
-    val fruitList = gateLogTabUIState.fruitRecordsList
-    val showDatePickerDialog = gateLogTabUIState.showDatePickerDialog
-    val isFetchingGateLogs = gateLogTabUIState.isFetchingFruits
+    val gatelogSearchQuery = fruitRecordsListUIState.fruitSearchQuery
+    val fruitList = fruitRecordsListUIState.fruitRecordsList
+    val showDatePickerDialog = fruitRecordsListUIState.showDatePickerDialog
+    val isFetchingFruits = fruitRecordsListUIState.isFetchingFruits
 
 
 
@@ -121,7 +120,7 @@ fun FruitRecordsListScreen(
             }
         }
 
-        if (fruitList.isEmpty() && !isFetchingGateLogs) {
+        if (fruitList.isEmpty() && !isFetchingFruits) {
             Box(modifier = Modifier.fillMaxSize()) {
                 Column(
                     modifier = Modifier
@@ -149,7 +148,7 @@ fun FruitRecordsListScreen(
             }
         }
 
-        if (isFetchingGateLogs) {
+        if (isFetchingFruits) {
             LoadingScreen()
         }
 

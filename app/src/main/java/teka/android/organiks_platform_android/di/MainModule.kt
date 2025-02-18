@@ -93,6 +93,7 @@ object MainModule {
             invoiceDao = database.invoiceDao(),
             farmDao = database.farmDao(),
             expenditureDao = database.expenditureDao(),
+            weightsDao = database.weightsDao(),
         )
     }
 

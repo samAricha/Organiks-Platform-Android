@@ -102,10 +102,9 @@ data class WeighingEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val uuid: String = generateUniqueId(),
-    val qty: String,
-    val fruitTypeId: String,
-    val date: Long,
-    val time: String,
+    val weight: String,
+    val binNumber: String,
+    val fruitCollectionId: String,
     var isBackedUp: Boolean = false,
     val createdAt: Long = System.currentTimeMillis()
 ) {
@@ -116,7 +115,7 @@ data class WeighingEntity(
     }
 
     val searchableString: String
-        get() = "${fruitTypeId} ${qty}"
+        get() = "${weight} ${fruitCollectionId}"
 }
 
 @Entity(tableName = "customer_table")
